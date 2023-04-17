@@ -104,6 +104,7 @@ export default function Home() {
     borderRadius: 10,
     padding: '40px 64px',
     margin: '40px auto',
+    fontWeight: 400,
     h3:{
       fontSize: 32,
       lineHeight: '42px',
@@ -114,7 +115,9 @@ export default function Home() {
       fontSize:16,
       lineHeight: '20px',
       color:'#5F6D7E',
-      margin:'10px 0'
+      // margin:'10px 0',
+      fontWeight:400,
+      padding:0
     },
     '.contentleft':{
       width:568,
@@ -144,7 +147,7 @@ export default function Home() {
     
   }));
   return (
-    <Layout>
+    <>
 
       <EipsBanner>
         <EipsTitle variant="h2">We scale EIPs by being the “layer 2”</EipsTitle>
@@ -204,7 +207,7 @@ export default function Home() {
 
         </div>
       </EipsContentBlock>
-    </Layout>
+    </>
   )
 }
 const introList = [

@@ -36,11 +36,7 @@
   "devDependencies": {
     "@svgr/webpack": "^7.0.0",
     "@types/node": "18.15.11",
-    "prettier": "^2.8.7",
-    "typescript": "5.0.3"
+    "prettier": "^2.8.7"
   }
 }
-{
- 
- 
-}
+

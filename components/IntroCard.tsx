@@ -12,10 +12,10 @@ const IntroCard = ({ intro }: { intro?: EipWayIntro }, { key }: { key?: number }
         padding:32
        },
        '.MuiCardActions-root':{
-        padding:'0 32px',
+        padding:'10px 32px',
         a:{
             fontSize:15,
-            fontWeight:500,
+            fontWeight:600,
             color:'#437EF7'
         }
        }
@@ -34,7 +34,7 @@ const IntroCard = ({ intro }: { intro?: EipWayIntro }, { key }: { key?: number }
   const IntroTitle = styled('h5')(({ theme }) => ({
     fontSize: 17,
     height:30,
-    padding:'20px 0',
+    padding:'16px 0 0 0',
     lineHeight:'30px',
     textAlign:'left',
     color:'#272D37',
@@ -42,14 +42,19 @@ const IntroCard = ({ intro }: { intro?: EipWayIntro }, { key }: { key?: number }
   }));
   const IntroDesc = styled('p')(({ theme }) => ({
     width:'100%',
+
     fontSize: 16,
-    height:30,
-    padding:'20px 0',
+
+    // height:30,
+    fontWeight:400,
+    padding:'10px 0 0 0 ',
     lineHeight:'24px',
     textAlign:'left',
     color:'#5F6D7E',
     
+    
   }));
+  
     const meta = {
 
         ...intro,
@@ -74,7 +79,7 @@ const IntroCard = ({ intro }: { intro?: EipWayIntro }, { key }: { key?: number }
             </CardActionArea>
             {meta.action && meta.actionLink && (
                 <CardActions>
-                    <Link href={meta.actionLink}> {meta.action} <EastIcon sx={{fontSize:'14px'}} /></Link>
+                    <Link  href={meta.actionLink}> {meta.action} <EastIcon sx={{fontSize:'14px'}} /></Link>
 
 
                 </CardActions>
