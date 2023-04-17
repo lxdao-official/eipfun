@@ -9,7 +9,6 @@ export type EipType = {
 };
 export type EipWayIntro = {
   intro: string;
- 
   title: string;
   image: string;
   action?: string;
@@ -20,5 +19,4 @@ export type PartnerType = {
   name: string;
   logo: string;
   link: string;
- 
 };
