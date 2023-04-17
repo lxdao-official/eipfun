@@ -11,7 +11,7 @@ import IntroCard from '../components/IntroCard';
 import { EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
-import { Button, TextField } from '@mui/material';
+import { Button, ButtonProps, TextField, TextFieldProps } from '@mui/material';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -104,6 +104,18 @@ export default function Home() {
     borderRadius: 10,
     padding: '40px 64px',
     margin: '40px auto',
+    h3:{
+      fontSize: 32,
+      lineHeight: '42px',
+      color:'#272D37',
+      fontWeight:600,
+    },
+    p:{
+      fontSize:16,
+      lineHeight: '20px',
+      color:'#5F6D7E',
+      margin:'10px 0'
+    },
     '.contentleft':{
       width:568,
       maxWidth:568,
@@ -115,6 +127,21 @@ export default function Home() {
       flex:1,
       textAlign:'right',
     }      
+  }));
+  const SubInput = styled(TextField)<TextFieldProps>(({ theme }) => ({
+    
+    background: '#fff',
+   
+    '.MuiInputBase-root':{
+      borderTopRightRadius:0,
+      borderBottomRightRadius:0,
+    }
+  }));
+  const SubButton = styled(Button)<ButtonProps>(({ theme }) => ({
+      height: 40,
+      borderTopLeftRadius:0,
+      borderBottomLeftRadius:0,
+    
   }));
   return (
     <Layout>
@@ -154,15 +181,14 @@ export default function Home() {
         <div className='contentleft'>
           <h3>Not miss a beat of EIPs update? </h3>
           <p>Subscribe EIPs Fun to receive the latest updates of EIPs Good for Buidlers to follow up. </p>
-          <EipsLink href="#">View all <EastIcon /></EipsLink>
+          <EipsLink href="#">View all <EastIcon sx={{width:14,marginLeft:'10px'}} /></EipsLink>
         </div>
         <div className='contentRight'>
-          <TextField
+          <SubInput
             placeholder='Enter your email'
             size="small"
-           
           />
-          <Button variant="contained" size="medium">Submit</Button>
+          <SubButton variant="contained" size="medium">Submit</SubButton>
 
         </div>
       </EipsContentBlock>
@@ -174,7 +200,7 @@ export default function Home() {
         <div className='contentRight'>
 
           <Button variant="outlined" size="medium">Join Us</Button>
-          <Button variant="contained" size="medium">Donate</Button>
+          <Button sx={{marginLeft:5}} variant="contained" size="medium">Donate</Button>
 
         </div>
       </EipsContentBlock>

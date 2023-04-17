@@ -74,7 +74,7 @@ const IntroCard = ({ intro }: { intro?: EipWayIntro }, { key }: { key?: number }
             </CardActionArea>
             {meta.action && meta.actionLink && (
                 <CardActions>
-                    <Link href={meta.actionLink}> {meta.action} <EastIcon sx={{fontSize:'1em'}} /></Link>
+                    <Link href={meta.actionLink}> {meta.action} <EastIcon sx={{fontSize:'14px'}} /></Link>
 
 
                 </CardActions>

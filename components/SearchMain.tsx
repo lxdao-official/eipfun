@@ -21,23 +21,26 @@ export default function SearchHeader() {
     const SearchMain = styled('div')(({ theme }) => ({
         width: 860,
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'top',
         padding: '20px 0',
         justifyContent: 'space-around',
         margin: '60px auto 0 auto',
     }));
     const SearchButton = styled(Button)<ButtonProps>(({ theme }) => ({
         width: 141,
-        height: 58,
-        lineHeight:58
+        height: 56,
+        lineHeight:'56px'
        
     }));
     const EIPsSearch = styled(TextField)<TextFieldProps>(({ theme }) => ({
         width: 707,
         height: 58,
-        lineHeight:58,
-        backgroundColor: '#fff',
-        overflow:'hidden'
+        lineHeight:'58px',
+        // backgroundColor: '#fff',
+        overflow:'hidden',
+        '.MuiInputBase-root':{
+            backgroundColor: '#fff',
+        }
     }));
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState<readonly Film[]>([]);
