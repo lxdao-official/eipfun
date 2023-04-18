@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { Container, Box } from '@mui/material';
 import { Title, FooterItem as FooterItemList } from './footerComponent';
-import Logo from 'public/logo.svg'
+import Logo from 'public/logo.svg';
 
 const FooterBox = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -81,7 +81,10 @@ export default function Footer() {
         </FooterItem>
       </Container>
       <Container maxWidth="lg" sx={{ textAlign: 'center' }}>
-        <Box sx={{ height: '60px', paddingBottom: '16px' }}> <Logo /></Box>
+        <Box sx={{ height: '60px', paddingBottom: '16px' }}>
+          {' '}
+          <Logo />
+        </Box>
         <Box sx={{ height: '24px', lineHeight: '24px' }}>
           &copy; {new Date().getFullYear()} EIP.Fun. All Rights Reserved.
         </Box>

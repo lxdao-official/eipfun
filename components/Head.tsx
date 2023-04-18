@@ -3,13 +3,11 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { MetaProps } from '../types/layout';
 
-
 const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
   const router = useRouter();
   const meta = {
     title: 'EIPs-FUN',
-    description:
-      'EIPs-FUN',
+    description: 'EIPs-FUN',
     type: 'website',
     ...customMeta,
   };
