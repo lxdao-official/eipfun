@@ -12,7 +12,7 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Link from 'next/link';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#f7f7f7',
     color: '#2e343f',
@@ -23,7 +23,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
   // '&:nth-of-type(odd)': {
   //   backgroundColor: theme.palette.action.hover,
   // },

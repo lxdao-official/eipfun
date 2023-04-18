@@ -3,13 +3,13 @@ import { Container, Box } from '@mui/material';
 import { Title, FooterItem as FooterItemList } from './footerComponent';
 import Logo from 'public/logo.svg';
 
-const FooterBox = styled(Box)(({ theme }) => ({
+const FooterBox = styled(Box)(() => ({
   width: '100%',
   background: '#f8f9fb',
   padding: '64px 0',
 }));
 
-const FooterItem = styled(Box)(({ theme }) => ({
+const FooterItem = styled(Box)(() => ({
   flex: 1,
 }));
 
