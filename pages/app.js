@@ -7,8 +7,11 @@ const components = {
     </div>
   ),
 };
-export default (props) => (
+const Apps =(props) => (
   <MDXProvider components={components}>
     <main {...props} />
   </MDXProvider>
 );
+Apps.displayName = 'MyApp';
+export default Apps;
+
