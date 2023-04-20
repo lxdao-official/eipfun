@@ -30,8 +30,29 @@ const StyledTableRow = styled(TableRow)(() => ({
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
+    borderRight: '1px solid #f7f7f7',
   },
 }));
+
+const ButtonWrap = styled(Box)({
+  margin: '6px 0',
+  paddingBottom: '24px',
+});
+
+const TypeButton = styled(Button)(() => {
+  return {
+    marginRight: '16px',
+    borderColor: 'transparent',
+    color: '#272D37',
+    background: '#F7F7F8',
+    '&:hover': {
+      color: '#437EF7',
+    },
+    '&.active': {
+      color: '#437EF7',
+    },
+  };
+});
 
 function createData(
   number: number,
@@ -70,38 +91,66 @@ const rows = [
   ),
 ];
 
+const typeArr = [
+  'All',
+  'Final',
+  'Last Call',
+  'Draft',
+  'Stagnant',
+  'Withdrawn',
+  'Review',
+];
+
+const statusArr = [
+  'Living',
+  'Final',
+  'Last Call',
+  'Review',
+  'Draft',
+  'Stagnant',
+  'Withdrawn',
+];
+
 export default function Eips() {
   return (
     <>
-      <Box sx={{ height: '300px', background: 'lightGreen' }}></Box>
+      <Box sx={{ height: '1px', background: '#EAEBF0' }}></Box>
       <Container maxWidth="lg">
-        <Box>Eips</Box>
-        <Box sx={{ margin: '6px 10px' }}>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Living
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Final
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Last Call
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Review
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Draft
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Stagnant
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Withdrawn
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Review
-          </Button>
+        <Box
+          sx={{
+            lineHeight: '40px',
+            padding: '32px 0 34px',
+            fontSize: '32px',
+            fontWeight: '700',
+            color: '#2E343F',
+          }}
+        >
+          Eips
         </Box>
+
+        <ButtonWrap>
+          {typeArr.map((item) => (
+            <TypeButton
+              className={item === 'All' ? 'active' : ''}
+              variant="outlined"
+              key={item}
+            >
+              {item}
+            </TypeButton>
+          ))}
+        </ButtonWrap>
+
+        <ButtonWrap>
+          {statusArr.map((item) => (
+            <TypeButton
+              className={item === 'Living' ? 'active' : ''}
+              variant="outlined"
+              key={item}
+            >
+              {item}
+            </TypeButton>
+          ))}
+        </ButtonWrap>
 
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="table">
@@ -113,6 +162,7 @@ export default function Eips() {
                 <StyledTableCell align="right">Author</StyledTableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {rows.map((row) => (
                 <StyledTableRow key={row.number}>
@@ -131,7 +181,12 @@ export default function Eips() {
         </TableContainer>
 
         <Stack spacing={2} alignItems={'center'} sx={{ margin: '16px 0 20px' }}>
-          <Pagination count={10} color="primary" />
+          <Pagination
+            count={10}
+            showFirstButton
+            showLastButton
+            color="primary"
+          />
         </Stack>
       </Container>
     </>
