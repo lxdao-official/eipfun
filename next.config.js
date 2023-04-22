@@ -13,7 +13,7 @@ const withMDX = require('@next/mdx')({
 });
 const nextConfig = {
   reactStrictMode: true,
-  
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
