@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
@@ -11,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Link from 'next/link';
+import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,68 +52,114 @@ const TypeButton = styled(Button)(() => {
     },
     '&.active': {
       color: '#437EF7',
+      background: '#F5FAFF',
     },
   };
 });
 
-function createData(
-  number: number,
-  status: string,
-  title: string,
-  author: string
-) {
-  return { number, status, title, author };
-}
-
-const rows = [
-  createData(
-    2,
-    'living',
-    'Homestead Hard-fork Changes',
-    'Vitalik Buterin (@vbuterin)'
-  ),
-  createData(
-    5,
-    'living',
-    'Gas Usage for `RETURN` and `CALL*`',
-    'Christian Reitwiessner <c@ethdev.com>'
-  ),
-  createData(7, 'living', 'DELEGATECALL', 'Vitalik Buterin (@vbuterin)'),
-  createData(
-    100,
-    'living',
-    'Change difficulty adjustment to target mean block time including uncles',
-    'Vitalik Buterin (@vbuterin)'
-  ),
-  createData(
-    140,
-    'living',
-    'REVERT instruction',
-    'Alex Beregszaszi (@axic), Nikolai Mushegian <nikolai@nexusdev.us>'
-  ),
-];
-
-const typeArr = [
-  'All',
-  'Final',
-  'Last Call',
-  'Draft',
-  'Stagnant',
-  'Withdrawn',
-  'Review',
-];
+const categorysArr = ['All', 'Core', 'Networking', 'Interface', 'ERC'];
+const typeArr = ['Standards_Track', 'Meta', 'Informationl'];
 
 const statusArr = [
   'Living',
   'Final',
-  'Last Call',
+  'Last_Call',
   'Review',
   'Draft',
   'Stagnant',
   'Withdrawn',
+  'Idea',
 ];
 
-export default function Eips() {
+type IProps = {
+  data: {
+    id: number;
+    eip: number;
+    title: string;
+    author: string;
+    status: string;
+    type: string;
+  }[];
+  pagination: {
+    total: number;
+    current: number;
+    per_page: number;
+  };
+};
+
+function Eips({ data, pagination }: IProps) {
+  const [total, setTotal] = useState(pagination.total);
+  const [current, setCurrent] = useState(0);
+  const [dataArr, setDataArr] = useState(data);
+
+  const [active, setActive] = useState('All');
+  const [activeSecond, setActiveSecond] = useState('');
+
+  useEffect(() => {
+    getPageData({
+      page: 0,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, activeSecond]);
+
+  const getPageData = ({
+    type = typeArr.includes(active) ? active : undefined,
+    category = categorysArr.includes(active) && active !== 'All'
+      ? active
+      : undefined,
+    status = statusArr.includes(activeSecond) && activeSecond !== 'All'
+      ? activeSecond
+      : undefined,
+    page,
+  }: {
+    type?: string;
+    category?: string;
+    status?: string;
+    page?: number;
+  }) => {
+    axios
+      .get('https://api-dev.eips.fun/eips/list', {
+        params: {
+          type,
+          category,
+          status,
+          page,
+          per_page: 20,
+        },
+      })
+      .then((res) => {
+        if (res.data.data && res.data.pagination) {
+          setTotal(res.data.pagination.total);
+          setCurrent(res.data.pagination.current + 1);
+          setDataArr(res.data.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleClickType = (value: string, status = 'first') => {
+    if (status === 'first') {
+      setActive(value);
+      if (value === 'All') {
+        setActiveSecond('');
+      }
+    } else {
+      setActiveSecond(value);
+    }
+  };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrent(page);
+    getPageData({
+      page: page - 1,
+    });
+  };
+
   return (
     <>
       <Box sx={{ height: '1px', background: '#EAEBF0' }}></Box>
@@ -129,13 +177,24 @@ export default function Eips() {
         </Box>
 
         <ButtonWrap>
-          {typeArr.map((item) => (
+          {categorysArr.map((item) => (
             <TypeButton
-              className={item === 'All' ? 'active' : ''}
+              className={item === active ? 'active' : ''}
               variant="outlined"
               key={item}
+              onClick={() => handleClickType(item)}
             >
               {item}
+            </TypeButton>
+          ))}
+          {typeArr.map((item) => (
+            <TypeButton
+              className={item === active ? 'active' : ''}
+              variant="outlined"
+              key={item}
+              onClick={() => handleClickType(item)}
+            >
+              {item.replace('_', ' ')}
             </TypeButton>
           ))}
         </ButtonWrap>
@@ -143,11 +202,12 @@ export default function Eips() {
         <ButtonWrap>
           {statusArr.map((item) => (
             <TypeButton
-              className={item === 'Living' ? 'active' : ''}
+              className={item === activeSecond ? 'active' : ''}
               variant="outlined"
               key={item}
+              onClick={() => handleClickType(item, 'status')}
             >
-              {item}
+              {item.replace('_', ' ')}
             </TypeButton>
           ))}
         </ButtonWrap>
@@ -164,10 +224,15 @@ export default function Eips() {
             </TableHead>
 
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.number}>
+              {dataArr.map((row) => (
+                <StyledTableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
-                    <Link href="./eips/eip1">{row.number}</Link>
+                    <Link
+                      style={{ textDecoration: 'underline', color: '#437EF7' }}
+                      href="./eips/eip-1"
+                    >
+                      {row.eip}
+                    </Link>
                   </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
                     {row.status}
@@ -182,7 +247,9 @@ export default function Eips() {
 
         <Stack spacing={2} alignItems={'center'} sx={{ margin: '16px 0 20px' }}>
           <Pagination
-            count={10}
+            onChange={handlePageChange}
+            count={total || 0}
+            page={current || 1}
             showFirstButton
             showLastButton
             color="primary"
@@ -192,3 +259,15 @@ export default function Eips() {
     </>
   );
 }
+
+Eips.getInitialProps = async () => {
+  let res;
+  try {
+    res = await axios.get('https://api-dev.eips.fun/eips/list');
+  } catch (e) {}
+  if (res && res.status === 200 && res.data && res.data.pagination) {
+    return { data: res.data.data, pagination: res.data.pagination };
+  }
+};
+
+export default Eips;
