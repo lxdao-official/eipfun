@@ -4,42 +4,42 @@ import { Title, FooterItem as FooterItemList } from './footerComponent';
 import Logo from 'public/logo.svg';
 import LogoS from 'public/images/logo_s.svg';
 
-const FooterBox = styled(Box)(({ theme }) => ({
+const FooterBox = styled(Box)(() => ({
   width: '100%',
   background: '#f8f9fb',
   padding: '64px 0',
 }));
 
-const FooterItem = styled(Box)(({ theme }) => ({
+const FooterItem = styled(Box)(() => ({
   flex: 1,
 }));
 
 type footerItem = {
   con: string;
+  conZh: string;
   href: string;
 };
 
 const footerList1: footerItem[] = [
-  { con: 'Features', href: '/' },
-  { con: 'Solutions', href: '/' },
-  { con: 'Integrations', href: '/' },
-  { con: 'Enterprise', href: '/' },
-  { con: 'Solutions', href: '/' },
+  { con: 'Features', conZh: '特性', href: '/' },
+  { con: 'Solutions', conZh: '解决方案', href: '/' },
+  { con: 'Integrations', conZh: '集成', href: '/' },
+  { con: 'Enterprise', conZh: '企业', href: '/' },
 ];
 
 const footerList2: footerItem[] = [
-  { con: 'Partners', href: '/' },
-  { con: 'Community', href: '/' },
-  { con: 'Developers', href: '/' },
-  { con: 'App', href: '/' },
-  { con: 'Blog', href: '/' },
+  { con: 'Partners', conZh: '合作伙伴', href: '/' },
+  { con: 'Community', conZh: '社区', href: '/' },
+  { con: 'Developers', conZh: '开发者', href: '/' },
+  { con: 'App', conZh: 'App', href: '/' },
+  { con: 'Blog', conZh: '博客', href: '/' },
 ];
 
 const footerList3: footerItem[] = [
-  { con: 'About us', href: '/' },
-  { con: 'News', href: '/' },
-  { con: 'Leadership', href: '/' },
-  { con: 'Media Kit', href: '/' },
+  { con: 'About us', conZh: '关于我们', href: '/' },
+  { con: 'News', conZh: '新闻', href: '/' },
+  { con: 'Leadership', conZh: '领导', href: '/' },
+  { con: 'Media Kit', conZh: '媒体工具包', href: '/' },
 ];
 
 export default function Footer() {

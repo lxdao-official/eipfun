@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import useGetLang from '../hooks/useGetLang';
 
 type IPropsTitle = {
   children: React.ReactNode;
@@ -38,15 +39,16 @@ const A = styled.a`
 `;
 
 type IPropsItem = {
-  data: { con: string; href: string }[];
+  data: { con: string; conZh: string; href: string }[];
 };
 
 export function FooterItem({ data }: IPropsItem) {
+  const lang = useGetLang();
   return (
     <FooterItemWrap>
       {data.map((item) => (
         <Li key={item.con}>
-          <A href={item.href}>{item.con}</A>
+          <A href={item.href}>{lang === 'en' ? item.con : item.conZh}</A>
         </Li>
       ))}
     </FooterItemWrap>
