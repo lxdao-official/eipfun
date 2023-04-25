@@ -12,6 +12,7 @@ import { EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
 import { Button, ButtonProps, TextField, TextFieldProps } from '@mui/material';
+import EmailSubscribe from '../components/EmailSubscribe';
 
 
 export default function Home() {
@@ -134,19 +135,8 @@ export default function Home() {
       textAlign: 'right',
     },
   }));
-  const SubInput = styled(TextField)<TextFieldProps>(({ theme }) => ({
-    background: '#fff',
+  
 
-    '.MuiInputBase-root': {
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-  }));
-  const SubButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    height: 40,
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-  }));
   return (
     <>
       <EipsBanner>
@@ -196,22 +186,7 @@ export default function Home() {
         </EipsPartnerList>
       </EipsContent>
       <EipsContentBlock>
-        <div className="contentleft">
-          <h3>Not miss a beat of EIPs update? </h3>
-          <p>
-            Subscribe EIPs Fun to receive the latest updates of EIPs Good for
-            Buidlers to follow up.{' '}
-          </p>
-          <EipsLink href="#">
-            View all <EastIcon sx={{ width: 14, marginLeft: '10px' }} />
-          </EipsLink>
-        </div>
-        <div className="contentRight">
-          <SubInput placeholder="Enter your email" size="small" />
-          <SubButton variant="contained" size="medium">
-            Submit
-          </SubButton>
-        </div>
+        <EmailSubscribe />
       </EipsContentBlock>
       <EipsContentBlock>
         <div className="contentleft">
