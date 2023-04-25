@@ -13,12 +13,14 @@ import {
 import EastIcon from '@mui/icons-material/East';
 import Snackbar from '@mui/material/Snackbar';
 import { useForm, SubmitHandler } from 'react-hook-form';
+
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR;
 
 type FormValues = {
   email: string;
 };
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
