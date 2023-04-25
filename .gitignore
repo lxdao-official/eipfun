@@ -36,3 +36,6 @@ yarn-error.log*
 .vscode/settings.json
 
 .idea/
+
+#ETH-EIPs
+ETH-EIPs/*
