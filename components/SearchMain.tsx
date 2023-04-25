@@ -4,7 +4,9 @@ import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, ButtonProps, InputAdornment, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
+import ReactLoading from 'react-loading';
+import parse from 'autosuggest-highlight/parse';
+import match from 'autosuggest-highlight/match';
 interface Film {
   title: string;
   year: number;
@@ -25,13 +27,19 @@ export default function SearchHeader() {
     justifyContent: 'space-around',
     margin: '60px auto 0 auto',
   }));
-  const SearchButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    width: 141,
-    height: 56,
-    lineHeight: '56px',
+  const SearchOption = styled('li')(({ theme }) => ({
+    padding: '10px 0!important',
+    borderBottom: '1px solid #f3f3f3',
+  }));
+  const SearchLoading = styled('div')(({ theme }) => ({
+    textAlign: 'center',
+    margin: '10px auto',
+    div: {
+      margin: '0 auto',
+    },
   }));
   const EIPsSearch = styled(TextField)<TextFieldProps>(({ theme }) => ({
-    width: 707,
+    width: 850,
     height: 58,
     lineHeight: '58px',
     // backgroundColor: '#fff',
@@ -40,9 +48,8 @@ export default function SearchHeader() {
       backgroundColor: '#fff',
     },
   }));
-  const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState<readonly Film[]>([]);
-  const loading = open && options.length === 0;
+  const loading = options.length === 0;
 
   React.useEffect(() => {
     let active = true;
@@ -52,7 +59,7 @@ export default function SearchHeader() {
     }
 
     (async () => {
-      await sleep(1e3); // For demo purposes.
+      await sleep(10); // For demo purposes.
 
       if (active) {
         setOptions([...topFilms]);
@@ -64,29 +71,50 @@ export default function SearchHeader() {
     };
   }, [loading]);
 
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
+  // React.useEffect(() => {
+  //   if (!open) {
+  //     setOptions([]);
+  //   }
+  // }, [open]);
 
   return (
     <SearchMain>
       <Autocomplete
         id="search-header"
-        open={open}
         disableClearable
-        onClose={() => {
-          setOpen(false);
-        }}
-        onInputChange={(event, value) => {
-          if (value.length > 2) {
-            setOpen(true);
-          }
-        }}
+        // getOptionLabel={(option) => option.title}
         options={options.map((option) => option.title)}
         autoSelect={false}
-        freeSolo
+        // freeSolo
+        noOptionsText={
+          'no results found, please try another keyword'
+        }
+
+        loading={true}
+        loadingText={
+          <SearchLoading>
+            <ReactLoading type="spin" color="#C4C4C4" height={20} width={20} />
+          </SearchLoading>
+        }
+        renderOption={(props, option, { inputValue }) => {
+          const matches = match(option, inputValue, { insideWords: true });
+          const parts = parse(option, matches);
+
+          return (
+            <SearchOption {...props}>
+              {parts.map((part, index) => (
+                <span
+                  key={index}
+                  style={{
+                    color: part.highlight ? '#0276FE' : '#2E343F',
+                  }}
+                >
+                  {part.text}
+                </span>
+              ))}
+            </SearchOption>
+          );
+        }}
         renderInput={(params) => (
           <EIPsSearch
             placeholder="Search EIPs by number/word..."
@@ -95,13 +123,15 @@ export default function SearchHeader() {
             InputProps={{
               type: 'search',
               ...params.InputProps,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
             }}
           />
         )}
       />
-      <SearchButton variant="contained" size="large">
-        Search
-      </SearchButton>
     </SearchMain>
   );
 }
