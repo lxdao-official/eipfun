@@ -13,7 +13,6 @@ import { useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
 import { Button, ButtonProps, TextField, TextFieldProps } from '@mui/material';
 
-const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
@@ -78,18 +77,25 @@ export default function Home() {
     width: 1280,
     maxWidth: 1280,
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-around',
     margin: '60px auto 20px auto',
   }));
+  const EipsPartnerList = styled('div')(({ theme }) => ({
+    width: 1280,
+    maxWidth: 1280,
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    margin: '60px auto 20px auto',
+  }));
   const PartnerCard = styled('div')(({ theme }) => ({
-    width: 292,
-    maxWidth: 292,
-    height: 144,
+    width: 200,
+    maxWidth: 200,
+    height: 100,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: '#F8F9FB',
   }));
   const EipsContentBlock = styled('div')(({ theme }) => ({
     width: 1152,
@@ -173,7 +179,7 @@ export default function Home() {
       </EipsContent>
       <EipsContent>
         <h3>Supporters and Partners</h3>
-        <EipsCardList>
+        <EipsPartnerList>
           {partners.length > 0 &&
             partnerList.map((item) => (
               <PartnerCard key={item.name}>
@@ -187,7 +193,7 @@ export default function Home() {
                 </EipsLink>
               </PartnerCard>
             ))}
-        </EipsCardList>
+        </EipsPartnerList>
       </EipsContent>
       <EipsContentBlock>
         <div className="contentleft">
