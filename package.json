@@ -30,7 +30,8 @@
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.2.4",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "download-git-repo": "^3.0.2"
   },
   "devDependencies": {
     "@svgr/webpack": "^7.0.0",
