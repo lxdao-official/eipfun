@@ -9,7 +9,7 @@ import {
   PageTitle,
   PageDescribe,
 } from './eip-style.tsx';
-import Eip1 from '../../data/eip-1.md';
+import Eip1 from '../../ETH-EIPs/EIPS/eip-1.md';
 
 <Eip1 />
 
@@ -65,7 +65,7 @@ return (
           <Box sx={{lineHeight: '30px', fontSize: '22px', fontWeight: '600', color: '#272d37', padding: '48px 0 24px'}}>Original</Box>
 
           <Box sx={{position: 'relative', border: '1px solid #f5f5f5', borderRadius: '6px', padding: '24px 32px 38px', marginBottom: '48px'}}>
-            <Box sx={{height: show? 'auto' : '150px', overflow: 'hidden'}}>
+            <Box sx={{height: show? 'auto' : '526px', overflow: 'hidden'}}>
               {children}
             </Box>
             <Box sx={{marginTop: '30px', textAlign: 'center'}}><Button variant="contained" onClick={handleShow}>{show ? 'Put away' : 'View More'}</Button></Box>
