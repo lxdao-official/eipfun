@@ -25,7 +25,7 @@ export default function handler(req, res) {
   deleteFolder(paths);
 
   download(
-    'direct:https://github.com/ethereum/EIPs.git#main',
+    'direct:https://github.com/ethereum/EIPs.git',
     'ETH-EIPs',
     { clone: true },
     (err) => {
