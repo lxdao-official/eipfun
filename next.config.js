@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
@@ -10,17 +11,36 @@ const withMDX = require('@next/mdx')({
     // providerImportSource: '@mdx-js/react',
   },
 });
-
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configure pageExtensions to include md and mdx
-  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-  // Optionally, add any other Next.js config below
   reactStrictMode: true,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-};
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  webpack(config) {
+    // Grab the existing rule that handles SVG imports
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.('.svg'),
+    )
 
-// Merge MDX config with Next.js config
-module.exports = withMDX(nextConfig);
+    config.module.rules.push(
+      // Reapply the existing rule, but only for svg imports ending in ?url
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/i,
+        resourceQuery: /url/, // *.svg?url
+      },
+      // Convert all other *.svg imports to React components
+      {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        resourceQuery: { not: /url/ }, // exclude if *.svg?url
+        use: ['@svgr/webpack'],
+      },
+
+    )
+
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
+    fileLoaderRule.exclude = /\.svg$/i
+
+    return config
+}}
+
+module.exports = withMDX(nextConfig)
