@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run clone:EIPs && next build",
+    "clone:EIPs": "node scripts/downloadEips",
     "start": "next start",
     "lint": "next lint"
   },
