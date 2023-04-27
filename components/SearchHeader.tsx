@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
-const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR;
+const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR||'https://api-dev.eips.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   width: 850,
