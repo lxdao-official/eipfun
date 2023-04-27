@@ -1,136 +1,175 @@
 import * as React from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
-import CircularProgress from '@mui/material/CircularProgress';
 import { InputAdornment, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import ReactLoading from 'react-loading';
+import { useRouter } from 'next/router';
 
-interface Film {
-  title: string;
-  year: number;
+import { useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import useDebounce from '../hooks/useDebounce';
+const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR;
+
+const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
+  width: 850,
+  height: 58,
+  lineHeight: '58px',
+  // backgroundColor: '#fff',
+  overflow: 'hidden',
+  '.MuiInputBase-root': {
+    backgroundColor: '#fff',
+  },
+}));
+const SearchOption = styled('li')(({}) => ({
+  padding: '5px 20px!important',
+  borderBottom: '1px solid #f3f3f3',
+  width: '100%',
+  color: '#2E343F',
+  margin: 0,
+  fontSize:14,
+  b: {
+    color: '#437EF7',
+  },
+  
+}));
+const SearchLoading = styled('div')(({}) => ({
+  textAlign: 'center',
+  margin: '0 auto',
+  div: {
+    margin: '0 auto',
+  },
+}));
+
+type EipCommonResult = {
+  eip: string;
+  title?: TrustedHTML;
+  ts_headline?: TrustedHTML;
+  rank?: number;
+};
+type EipResult = {
+  eip: string;
+  title: TrustedHTML;
+};
+type EipTitleResult = {
+  eip: string;
+  ts_headline: TrustedHTML;
+  rank: number;
+  title?: TrustedHTML;
+};
+type EipContentResult = {
+  eip: string;
+  ts_headline: TrustedHTML;
+  title: TrustedHTML;
+  rank: number;
+};
+interface ResultList {
+  eip_list?: Array<EipResult>;
+  title_list?: Array<EipTitleResult>;
+  content_list?: Array<EipContentResult>;
 }
-
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
+interface AxiosResponse {
+  data: {
+    data?: ResultList;
+  };
 }
+function useSearch(searchText: string) {
+  let url = `${ADDR}/eips/search?content=${searchText}`;
 
-export default function SearchHeader() {
-  const [open, setOpen] = React.useState(false);
-  const [options, setOptions] = React.useState<readonly Film[]>([]);
-  const loading = open && options.length === 0;
-
-  React.useEffect(() => {
-    let active = true;
-
-    if (!loading) {
-      return undefined;
-    }
-
-    (async () => {
-      await sleep(1e3); // For demo purposes.
-
-      if (active) {
-        setOptions([...topFilms]);
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
-
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
-
-  return (
-    <Autocomplete
-      id="search-header"
-      sx={{ width: 460, height: 46 }}
-      open={open}
-      disableClearable
-      onClose={() => {
-        setOpen(false);
-      }}
-      onInputChange={(event, value) => {
-        if (value.length > 2) {
-          setOpen(true);
+  return useQuery(
+    ['todos', { searchText }],
+    () => {
+      return axios.get(url).then((res: AxiosResponse) => {
+        console.log(res.data.data);
+        let optionsList: EipCommonResult[] = [];
+        if (res.data.data?.eip_list) {
+          optionsList = res.data.data.eip_list;
         }
-      }}
-      options={options.map((option) => option.title)}
-      autoSelect={false}
-      freeSolo
-      renderInput={(params) => (
-        <TextField
-          placeholder="by number or key words"
-          {...params}
-          size="small"
-          InputProps={{
-            type: 'search',
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      )}
-    />
+        if (res.data.data?.content_list) {
+          optionsList = optionsList.concat(res.data.data?.content_list);
+        }
+        if (res.data.data?.title_list) {
+          res.data.data?.title_list.map((item) => {
+            item.title = item.ts_headline;
+          });
+          optionsList = optionsList.concat(res.data.data?.title_list);
+        }
+        return optionsList.slice(0, 20);
+      });
+    },
+    {
+      enabled: searchText.length > 0,
+    }
+    // { keepPreviousData: true, staleTime: 5 * 60 * 1000 }
   );
 }
+export default function SearchHeader() {
+  const [inputValue, setInputValue] = useState<string>('');
+  const debouncedSearch = useDebounce(inputValue, 500);
+  const router = useRouter();
 
-// Top films as rated by IMDb users. http://www.imdb.com/chart/top
-const topFilms = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  {
-    title: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-  { title: 'The Good, the Bad and the Ugly', year: 1966 },
-  { title: 'Fight Club', year: 1999 },
-  {
-    title: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001,
-  },
-  {
-    title: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980,
-  },
-  { title: 'Forrest Gump', year: 1994 },
-  { title: 'Inception', year: 2010 },
-  {
-    title: 'The Lord of the Rings: The Two Towers',
-    year: 2002,
-  },
-  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { title: 'Goodfellas', year: 1990 },
-  { title: 'The Matrix', year: 1999 },
-  { title: 'Seven Samurai', year: 1954 },
-  {
-    title: 'Star Wars: Episode IV - A New Hope',
-    year: 1977,
-  },
-  { title: 'City of God', year: 2002 },
-  { title: 'Se7en', year: 1995 },
-  { title: 'The Silence of the Lambs', year: 1991 },
-  { title: "It's a Wonderful Life", year: 1946 },
-  { title: 'Life Is Beautiful', year: 1997 },
-  { title: 'The Usual Suspects', year: 1995 },
-  { title: 'Léon: The Professional', year: 1994 },
-  { title: 'Spirited Away', year: 2001 },
-  { title: 'Saving Private Ryan', year: 1998 },
-  { title: 'Once Upon a Time in the West', year: 1968 },
-  { title: 'American History X', year: 1998 },
-  { title: 'Interstellar', year: 2014 },
-];
+  const {
+    isFetching,
+    isError,
+    data: options,
+    error,
+  } = useSearch(debouncedSearch);
+
+  return (
+      <Autocomplete
+        id="search-header"
+        sx={{ width: 460, height: 46 }}
+        disableClearable
+        options={options || []}
+        onInputChange={(e, value) => {
+          setInputValue(value);
+        }}
+        getOptionLabel={(option: any) =>
+          typeof option === 'string' ? option : option.title
+        }
+        filterOptions={(x) => x}
+        // value={inputValue}
+        autoSelect={false}
+        // freeSolo
+        autoComplete={false}
+        // noOptionsText={`No results for "${inputValue} "`}
+        loading={isFetching}
+        loadingText={
+          <SearchLoading>
+            <ReactLoading type="spin" color="#C4C4C4" height={20} width={20} />
+          </SearchLoading>
+        }
+        renderOption={(props, option: any) => {
+          return (
+            <SearchOption
+              {...props}
+              onClick={() => {
+                router.push(`/eip/${option.eip}`);
+              }}
+            >
+                EIP:<b>{option.eip}</b> -{' '}
+                <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
+            </SearchOption>
+          );
+        }}
+        freeSolo
+        renderInput={(params) => (
+          <TextField
+            placeholder="Search EIPs by number/word..."
+            {...params}
+            size="small"
+            InputProps={{
+              type: 'search',
+              ...params.InputProps,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        )}
+      />
+  );
+}
