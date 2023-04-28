@@ -162,7 +162,7 @@ export default function SearchHeader() {
             <SearchOption
               {...props}
               onClick={() => {
-                router.push(`/eip/${option.eip}`);
+                router.push(`/eips/${option.eip}`);
               }}
             >
               <h3>
