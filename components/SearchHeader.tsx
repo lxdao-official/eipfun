@@ -148,7 +148,9 @@ export default function SearchHeader() {
                 router.push(`/eips/eip-${option.eip}`);
               }}
             >
-                EIP:<b>{option.eip}</b> -{' '}
+              <h3>
+                EIP: {option.rank?option.eip:(<b>{option.eip}</b>)} -{' '}
+              </h3>
                 <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
             </SearchOption>
           );
