@@ -1,0 +1,135 @@
+import React, { useState } from 'react';
+import { Container, Box, Link, Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
+import {
+  Line,
+  Banner,
+  BannerText,
+  PageTitle,
+  PageDescribe,
+} from '../../components/eip-style.ts';
+import Eip from '../../ETH-EIPs/EIPS/eip-927.md';
+
+import { eip927 as EipData } from '../../data/eips';
+
+<Eip />
+
+export default ({ children }) => {
+  const [show, setShow] = useState(false);
+  const handleShow = () => {
+    setShow(state => !state);
+  };
+
+console.log(EipData);
+
+return (
+
+  <>
+    <Line />
+    <Container maxWidth="lg">
+      <Box>
+        EIPs &gt; <Link sx={{ height: '88px', lineHeight: '88px', textDecoration: 'none'}} href="#">EIPs {EipData.eip}</Link>
+      </Box>
+
+      <Banner><BannerText>ERC {EipData.eip}</BannerText></Banner>
+
+      <PageTitle>{EipData.title}</PageTitle>
+
+      {EipData.description && <PageDescribe>{EipData.description}</PageDescribe>}
+
+      <Box sx={{paddingBottom:'34px' }}>
+        <Button>{EipData.status}</Button>
+        <Button>Standards track - ERC</Button>
+      </Box>
+
+      <Box sx={{paddingBottom: '32px'}}>Created: <span>{EipData.created}</span> Last Call Deadline: <span>February 09th, 2020</span> </Box>
+
+      <Box sx={{paddingBottom: '32px'}}>
+        Requires: <Link sx={{textDecoration: 'none'}}>EIP-191</Link>
+      </Box>
+
+      <Box sx={{paddingBottom: '32px'}}>
+      {EipData.author.includes(', ') ? EipData.author.split(', ').map(item => (item)) : EipData.author}
+        {/* Vitalik Buterin (<Link sx={{textDecoration: 'none'}}>@vbuterin</Link>),  Yoav Weiss(<Link sx={{textDecoration: 'none'}}>@@yoavw</Link>),  Kristof Gazso (<Link sx={{textDecoration: 'none'}}>@kristofgazso</Link>), Namra Patel (<Link sx={{textDecoration: 'none'}}>@namrapatel</Link>), Dror Tirosh (<Link sx={{textDecoration: 'none'}}>@drortirosh</Link>), Shahaf Nacson (<Link sx={{textDecoration: 'none'}}>@shahafn</Link>), Tjaden Hess (<Link sx={{textDecoration: 'none'}}>@tjade273</Link>) */}
+      </Box>
+
+      <Box sx={{padding: '32px 0 24px'}}>
+         <Button variant="contained" startIcon={<MarkChatUnreadIcon />} sx={{marginRight: '20px'}} size="large">Discussions</Button>
+         <Button variant="outlined" size="large">Original link</Button>
+      </Box>
+
+      <Box sx={{display: 'flex'}}>
+        <Box sx={{width: '840px', marginRight: '24px'}}>
+          <Box sx={{lineHeight: '30px', fontSize: '22px', fontWeight: '500', paddingBottom: '24px'}}>1 min read <b style={{fontSize: '14px', color: '#5F6D7E', fontWeight: 'normal'}}>by chatGPT-4</b></Box>
+          <Box sx={{padding: '24px 32px 38px', border: "1px solid #F5F5F5", borderRadius: "6px"}}>
+            <h3 style={{lineHeight: '20px', paddingBottom: '20px'}}><span style={{color: '#437EF7', fontSize: '14px', padding: '0 12px', background: '#F5FAFF'}}>By ChatGPT-4</span></h3>
+            <div style={{fontSize: '16px', lineHeight: '24px', color: '#5F6D7E'}}>Here is a simple text description, the number of words is controlled at the same height.Here is a simple text description, the number of words is controlled at the same height.Here is a simple text description, the number of words is controlled at the same height.Here is a simple text description, the number of words is controlled at the same height.</div>
+          </Box>
+
+          <Box sx={{lineHeight: '30px', fontSize: '22px', fontWeight: '600', color: '#272d37', padding: '48px 0 24px'}}>Original</Box>
+
+          <Box sx={{position: 'relative', border: '1px solid #f5f5f5', borderRadius: '6px', padding: '24px 32px 38px', marginBottom: '48px'}}>
+            <Box sx={{height: show? 'auto' : '526px', overflow: 'hidden'}}>
+              {children}
+            </Box>
+            <Box sx={{marginTop: '30px', textAlign: 'center'}}><Button variant="contained" onClick={handleShow}>{show ? 'Put away' : 'View More'}</Button></Box>
+          </Box>
+
+          <Box
+            sx={{
+              lineHeight: '30px',
+              fontSize: '22px',
+              fontWeight: '500',
+              paddingBottom: '24px',
+            }}
+          >
+            Quick read {' '}
+            <b style={{ fontSize: '14px', color: '#5F6D7E', fontWeight: 'normal' }}>
+              by Analyst
+            </b>
+          </Box>
+
+          <Box sx={{display: 'flex'}}>
+              <Box sx={{width: '404px', marginBottom: '52px', marginRight: '32px'}}>
+                <div style={{height: '84px', borderRadius: '6px'}}>
+                  <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src="/images/intro_5.jpg" alt="img" />
+                </div>
+                <div style={{fontSize: '18px', lineHeight: '30px', fontWeight: '600', padding: '16px 0'}}>Organize your digital assets with a new methodology and there.</div>
+
+                <div> <Link href="#" sx={{textDecoration: 'none'}}>Learn more →</Link></div>
+              </Box>
+
+               <Box sx={{width: '404px', marginBottom: '52px'}}>
+                <div style={{height: '84px', borderRadius: '6px'}}>
+                  <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src="/images/intro_5.jpg" alt="img" />
+                </div>
+                <div style={{fontSize: '18px', lineHeight: '30px', fontWeight: '600', padding: '16px 0'}}>Organize your digital assets with a new methodology and there.</div>
+                <div> <Link href="#" sx={{textDecoration: 'none'}}>Learn more →</Link></div>
+              </Box>
+          </Box>
+        </Box>
+        <Box sx={{flex: 1}}>
+            <Box sx={{height: 'auto', padding: '24px 24px 0', border: '1px solid #eaebf0', borderRadius: '10px'}}>
+              <h3 style={{paddingBottom: '24px', fontSize: '18px', lineHeight: '28px'}}>Adopted by projects</h3>
+              <Box sx={{height: '100px', background: '#f3f3f3'}}>
+                <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src="/images/intro_5.jpg" alt="img" />
+              </Box>
+              <Box sx={{fontSize: '16px', lineHeight: '30px', color: '#272d37', padding: '16px 0'}}>Project 1</Box>
+
+              <Box sx={{height: '100px', background: '#f3f3f3'}}>
+                <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src="/images/intro_5.jpg" alt="img" />
+              </Box>
+              <Box sx={{fontSize: '16px', lineHeight: '30px', color: '#272d37', padding: '16px 0'}}>Project 2</Box>
+
+              <Box sx={{height: '100px', background: '#f3f3f3'}}>
+                <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src="/images/intro_5.jpg" alt="img" />
+              </Box>
+              <Box sx={{fontSize: '16px', lineHeight: '30px', color: '#272d37', padding: '16px 0'}}>Project 3</Box>
+            </Box>
+        </Box>
+      </Box>
+    </Container>
+
+  </>
+)};

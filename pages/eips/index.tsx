@@ -229,7 +229,7 @@ function Eips({ data, pagination }: IProps) {
                   <StyledTableCell component="th" scope="row">
                     <Link
                       style={{ textDecoration: 'underline', color: '#437EF7' }}
-                      href="./eips/eip-1"
+                      href={`./eips/eip-${row.eip}`}
                     >
                       {row.eip}
                     </Link>

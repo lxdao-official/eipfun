@@ -9,9 +9,11 @@ import {
   PageTitle,
   PageDescribe,
 } from '../../components/eip-style.ts';
-import Eip1 from '../../ETH-EIPs/EIPS/eip-1.md';
+import Eip from '../../ETH-EIPs/EIPS/eip-1.md';
 
-<Eip1 />
+import { eip1 as EipData } from '../../data/eips';
+
+<Eip />
 
 export default ({ children }) => {
   const [show, setShow] = useState(false);
@@ -19,34 +21,37 @@ export default ({ children }) => {
     setShow(state => !state);
   };
 
+console.log(EipData);
+
 return (
 
   <>
     <Line />
     <Container maxWidth="lg">
       <Box>
-        EIPs &gt; <Link sx={{ height: '88px', lineHeight: '88px', textDecoration: 'none'}} href="#">EIPs 4337</Link>
+        EIPs &gt; <Link sx={{ height: '88px', lineHeight: '88px', textDecoration: 'none'}} href="#">EIPs {EipData.eip}</Link>
       </Box>
 
-      <Banner><BannerText>ERC 4337</BannerText></Banner>
+      <Banner><BannerText>ERC {EipData.eip}</BannerText></Banner>
 
-      <PageTitle>Account Abstraction Using Alt Mempool</PageTitle>
+      <PageTitle>{EipData.title}</PageTitle>
 
-      <PageDescribe>An account abstraction proposal which completely avoids consensus-layer protocol changes, instead relying on higher-layer infrastructure.</PageDescribe>
+      {EipData.description && <PageDescribe>{EipData.description}</PageDescribe>}
 
       <Box sx={{paddingBottom:'34px' }}>
-        <Button>Draft</Button>
+        <Button>{EipData.status}</Button>
         <Button>Standards track - ERC</Button>
       </Box>
 
-      <Box sx={{paddingBottom: '32px'}}>Created: <span>February 09th, 2019</span> Last Call Deadline: <span>February 09th, 2020</span> </Box>
+      <Box sx={{paddingBottom: '32px'}}>Created: <span>{EipData.created}</span> Last Call Deadline: <span>February 09th, 2020</span> </Box>
 
       <Box sx={{paddingBottom: '32px'}}>
         Requires: <Link sx={{textDecoration: 'none'}}>EIP-191</Link>
       </Box>
 
       <Box sx={{paddingBottom: '32px'}}>
-        Vitalik Buterin (<Link sx={{textDecoration: 'none'}}>@vbuterin</Link>),  Yoav Weiss(<Link sx={{textDecoration: 'none'}}>@@yoavw</Link>),  Kristof Gazso (<Link sx={{textDecoration: 'none'}}>@kristofgazso</Link>), Namra Patel (<Link sx={{textDecoration: 'none'}}>@namrapatel</Link>), Dror Tirosh (<Link sx={{textDecoration: 'none'}}>@drortirosh</Link>), Shahaf Nacson (<Link sx={{textDecoration: 'none'}}>@shahafn</Link>), Tjaden Hess (<Link sx={{textDecoration: 'none'}}>@tjade273</Link>)
+      {EipData.author.includes(', ') ? EipData.author.split(', ').map(item => (item)) : EipData.author}
+        {/* Vitalik Buterin (<Link sx={{textDecoration: 'none'}}>@vbuterin</Link>),  Yoav Weiss(<Link sx={{textDecoration: 'none'}}>@@yoavw</Link>),  Kristof Gazso (<Link sx={{textDecoration: 'none'}}>@kristofgazso</Link>), Namra Patel (<Link sx={{textDecoration: 'none'}}>@namrapatel</Link>), Dror Tirosh (<Link sx={{textDecoration: 'none'}}>@drortirosh</Link>), Shahaf Nacson (<Link sx={{textDecoration: 'none'}}>@shahafn</Link>), Tjaden Hess (<Link sx={{textDecoration: 'none'}}>@tjade273</Link>) */}
       </Box>
 
       <Box sx={{padding: '32px 0 24px'}}>
