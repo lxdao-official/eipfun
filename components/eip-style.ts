@@ -41,3 +41,17 @@ export const PageDescribe = styled(Box)({
   lineHeight: '24px',
   paddingBottom: '18px',
 });
+
+export const EipsSearchWrap = styled('div')(() => ({
+  width: 1152,
+  maxWidth: 1152,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: '#F8F9FB',
+  borderRadius: 10,
+  padding: '40px 64px',
+  margin: '40px auto',
+  fontWeight: 400,
+})
+);

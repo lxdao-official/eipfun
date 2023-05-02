@@ -8,7 +8,9 @@ import {
   BannerText,
   PageTitle,
   PageDescribe,
+  EipsSearchWrap,
 } from '../../components/eip-style.ts';
+import EmailSubscribe from '../../components/EmailSubscribe';
 import Eip from '../../ETH-EIPs/EIPS/eip-1996.md';
 
 import { eip1996 as EipData } from '../../data/eips';
@@ -20,8 +22,6 @@ export default ({ children }) => {
   const handleShow = () => {
     setShow(state => !state);
   };
-
-console.log(EipData);
 
 return (
 
@@ -43,11 +43,14 @@ return (
         <Button>Standards track - ERC</Button>
       </Box>
 
-      <Box sx={{paddingBottom: '32px'}}>Created: <span>{EipData.created}</span> Last Call Deadline: <span>February 09th, 2020</span> </Box>
-
       <Box sx={{paddingBottom: '32px'}}>
-        Requires: <Link sx={{textDecoration: 'none'}}>EIP-191</Link>
+        Created: <span>{EipData.created}</span>
+        {EipData['last-call-deadline'] ? (<>Last Call Deadline: <span>{EipData['last-call-deadline']}</span></>) : null}
       </Box>
+
+      {EipData.requires && EipData.requires > 0 && (<Box sx={{paddingBottom: '32px'}}>
+        Requires: <Link sx={{textDecoration: 'none'}}>EIP-191</Link>
+      </Box>)}
 
       <Box sx={{paddingBottom: '32px'}}>
       {EipData.author.includes(', ') ? EipData.author.split(', ').map(item => (item)) : EipData.author}
@@ -55,8 +58,8 @@ return (
       </Box>
 
       <Box sx={{padding: '32px 0 24px'}}>
-         <Button variant="contained" startIcon={<MarkChatUnreadIcon />} sx={{marginRight: '20px'}} size="large">Discussions</Button>
-         <Button variant="outlined" size="large">Original link</Button>
+         { EipData['discussions-to'] && (<Button variant="contained" startIcon={<MarkChatUnreadIcon />} sx={{marginRight: '20px'}} size="large" href={EipData['discussions-to']}>Discussions</Button>)}
+         <Button variant="outlined" size="large" href={`https://eips.ethereum.org/EIPS/eip-${EipData.eip}`}>Original link</Button>
       </Box>
 
       <Box sx={{display: 'flex'}}>
@@ -76,7 +79,7 @@ return (
             <Box sx={{marginTop: '30px', textAlign: 'center'}}><Button variant="contained" onClick={handleShow}>{show ? 'Put away' : 'View More'}</Button></Box>
           </Box>
 
-          <Box
+          {/*<Box
             sx={{
               lineHeight: '30px',
               fontSize: '22px',
@@ -107,9 +110,10 @@ return (
                 <div style={{fontSize: '18px', lineHeight: '30px', fontWeight: '600', padding: '16px 0'}}>Organize your digital assets with a new methodology and there.</div>
                 <div> <Link href="#" sx={{textDecoration: 'none'}}>Learn more →</Link></div>
               </Box>
-          </Box>
+          </Box>*/}
         </Box>
-        <Box sx={{flex: 1}}>
+
+        {/*<Box sx={{flex: 1}}>
             <Box sx={{height: 'auto', padding: '24px 24px 0', border: '1px solid #eaebf0', borderRadius: '10px'}}>
               <h3 style={{paddingBottom: '24px', fontSize: '18px', lineHeight: '28px'}}>Adopted by projects</h3>
               <Box sx={{height: '100px', background: '#f3f3f3'}}>
@@ -127,8 +131,12 @@ return (
               </Box>
               <Box sx={{fontSize: '16px', lineHeight: '30px', color: '#272d37', padding: '16px 0'}}>Project 3</Box>
             </Box>
-        </Box>
+        </Box>*/}
       </Box>
+
+       <EipsSearchWrap>
+        <EmailSubscribe />
+      </EipsSearchWrap>
     </Container>
 
   </>
