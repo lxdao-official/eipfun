@@ -12,16 +12,7 @@ import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR||'https://api-dev.eips.fun';
 
-const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
-  width: 850,
-  height: 58,
-  lineHeight: '58px',
-  // backgroundColor: '#fff',
-  overflow: 'hidden',
-  '.MuiInputBase-root': {
-    backgroundColor: '#fff',
-  },
-}));
+
 const SearchOption = styled('li')(({}) => ({
   padding: '5px 20px!important',
   borderBottom: '1px solid #f3f3f3',

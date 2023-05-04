@@ -36,6 +36,7 @@ const Navigation = (): JSX.Element => {
   const NavLeft = styled('div')(() => ({
     display: 'flex',
     alignItems: 'center',
+    // paddingRight:15
   }));
   const NavRight = styled('div')(() => ({
     display: 'flex',
@@ -66,8 +67,8 @@ const Navigation = (): JSX.Element => {
         <Link href="/">
           <Logo />
         </Link>
-        <EipHeaderLink href="/">Home</EipHeaderLink>
-        <EipHeaderLink href="/eips">EIPs</EipHeaderLink>
+        <EipHeaderLink sx={{marginLeft:'30px'}} href="/">Home</EipHeaderLink>
+        <EipHeaderLink sx={{marginRight:'30px'}} href="/eips">EIPs</EipHeaderLink>
         <SearchHeader />
       </NavLeft>
       <NavRight>

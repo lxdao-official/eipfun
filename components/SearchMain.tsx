@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
-const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR||'https://api-dev.eips.fun';
+const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   width: 850,
@@ -140,7 +140,9 @@ export default function SearchHeader() {
         disableClearable
         options={options || []}
         onInputChange={(e, value) => {
-          setInputValue(value);
+          if (value.length > 0) {
+            setInputValue(value);
+          }
         }}
         getOptionLabel={(option: any) =>
           typeof option === 'string' ? option : option.title
@@ -150,7 +152,9 @@ export default function SearchHeader() {
         autoSelect={false}
         // freeSolo
         autoComplete={false}
-        noOptionsText={`No results for "${inputValue} "`}
+        noOptionsText={`No results for "${inputValue}"`}
+        // noOptions={<>No results for "${inputValue}</>}
+   
         loading={isFetching}
         loadingText={
           <SearchLoading>
@@ -166,7 +170,7 @@ export default function SearchHeader() {
               }}
             >
               <h3>
-                EIP: {option.rank?option.eip:(<b>{option.eip}</b>)} -{' '}
+                EIP: {option.rank ? option.eip : <b>{option.eip}</b>} -{' '}
                 <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
               </h3>
               {option.ts_headline && (

@@ -39,6 +39,7 @@ export default function Home() {
     fontSize: 52,
     lineHeight: '60px',
     fontWeight: 700,
+    paddingTop:60
   }));
   const EipsDesc = styled('h3')(({ theme }) => ({
     width: '100%',
@@ -48,6 +49,7 @@ export default function Home() {
     lineHeight: '22px',
     fontWeight: 400,
     marginTop: 20,
+    paddingTop:20
   }));
   const EipsLink = styled(Link)<LinkProps>(({ theme }) => ({
     // color: theme.palette.primary.main,
@@ -140,15 +142,14 @@ export default function Home() {
   return (
     <>
       <EipsBanner>
-        <EipsTitle variant="h2">We scale EIPs by being the “layer 2”</EipsTitle>
-        <EipsTitle variant="h2">
+        <EipsTitle variant="h2">Serve EIP builders, scale Ethereum.</EipsTitle>
+        {/* <EipsTitle variant="h2">
           {' '}
           of <EipsLink href="#">eips.ethereum.org</EipsLink>
-        </EipsTitle>
+        </EipsTitle> */}
 
         <EipsDesc>
-          EIPs.fun is run by the contributors, for the contributor, and owned by
-          the contributors.
+        EIPs.fun is run by the contributors, for the contributor, and owned by the contributors.
         </EipsDesc>
         <SearchMain />
       </EipsBanner>
