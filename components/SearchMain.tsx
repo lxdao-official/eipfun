@@ -152,7 +152,7 @@ export default function SearchHeader() {
         autoSelect={false}
         // freeSolo
         autoComplete={false}
-        noOptionsText={`No results for "${inputValue}"`}
+        noOptionsText={inputValue&&`No results for "${inputValue}"`}
         // noOptions={<>No results for "${inputValue}</>}
    
         loading={isFetching}

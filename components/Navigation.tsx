@@ -1,6 +1,6 @@
 import Link, { LinkProps } from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import Logo from 'public/logo.svg';
 import LanguageIcon from '@mui/icons-material/Language';
 import TelegramIcon from '@mui/icons-material/Telegram';
@@ -11,7 +11,7 @@ import SearchHeader from './SearchHeader';
 const Navigation = (): JSX.Element => {
   const [langText, setLangText] = useState<string>();
   const router = useRouter();
-
+console.log( router.asPath)
   useEffect(() => {
     if (router.pathname.includes('zh')) {
       setLangText('EN');
@@ -31,11 +31,18 @@ const Navigation = (): JSX.Element => {
   }));
   const EipHeaderLink = styled(Link)<LinkProps>(() => ({
     margin: '0px 20px',
+   fontWeight:600
   }));
 
   const NavLeft = styled('div')(() => ({
     display: 'flex',
     alignItems: 'center',
+    '.current':{
+      color:'#437EF7!important'
+    },
+    "a:hover":{
+      color:'#437EF7!important'
+    }
     // paddingRight:15
   }));
   const NavRight = styled('div')(() => ({
@@ -67,8 +74,8 @@ const Navigation = (): JSX.Element => {
         <Link href="/">
           <Logo />
         </Link>
-        <EipHeaderLink sx={{marginLeft:'30px'}} href="/">Home</EipHeaderLink>
-        <EipHeaderLink sx={{marginRight:'30px'}} href="/eips">EIPs</EipHeaderLink>
+        <EipHeaderLink sx={{marginLeft:'30px'}} className={ (router.asPath==='/')?'current':''} href="/">Home</EipHeaderLink>
+        <EipHeaderLink sx={{marginRight:'30px'}} className={ (router.asPath==='/eips')?'current':''} href="/eips">EIPs</EipHeaderLink>
         <SearchHeader />
       </NavLeft>
       <NavRight>
