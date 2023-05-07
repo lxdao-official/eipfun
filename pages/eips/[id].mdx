@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button } from '@mui/material';
 
 import { visuallyHidden } from '@mui/utils';
-// import { styled } from '@mui/material/styles';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
 import {
   Line,
@@ -14,7 +13,6 @@ import {
   EipsSearchWrap,
 } from '../../components/eip-style';
 import EmailSubscribe from '../../components/EmailSubscribe';
-// import Eip from '../../ETH-EIPs/EIPS/eip-101.md';
 
 import fs from 'fs';
 import { eip101 as EipData } from '../../data/eips.js';
@@ -176,7 +174,7 @@ return (
                 marginBottom: '48px',
               }}
             >
-              <Box sx={[{ height: show ? 'auto' : '526px', overflow: 'hidden', } ]}>
+              <Box sx={[{ height: show ? 'auto' : '526px', overflow: 'hidden', '& h2': { display: 'none'} } ]}>
                 <Box sx={visuallyHidden}>{jsxData}</Box>
                 <EIPDetails />
               </Box>
@@ -258,12 +256,11 @@ export async function getServerSideProps(context) {
   // const compiled = await compile(con.toString(), {
   //   providerImportSource: '@mdx-js/react',
   // });
-
-return {
-props: {
-meta,
-jsxData: con.toString(),
-id: id,
-}, // will be passed to the page component as props
-};
+  return {
+    props: {
+      meta,
+      jsxData: con.toString(),
+      id: id,
+    },
+  };
 }
