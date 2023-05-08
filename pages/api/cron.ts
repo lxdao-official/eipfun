@@ -1,4 +1,3 @@
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 const fs = require('fs');
 const download = require('download-git-repo');
@@ -28,7 +27,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   download(
     'direct:https://github.com/ethereum/EIPs.git',
-    'etp-eips',
+    'eth-eips',
     { clone: true },
     (err: Error | undefined) => {
       console.log(err ? 'clone error' : 'clone success');
