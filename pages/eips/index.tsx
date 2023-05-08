@@ -162,7 +162,7 @@ function Eips({ data, pagination }: IProps) {
 
   return (
     <>
-      <Box sx={{ height: '1px', background: '#EAEBF0' }}></Box>
+      <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg">
         <Box
           sx={{
@@ -218,6 +218,7 @@ function Eips({ data, pagination }: IProps) {
               <TableRow>
                 <StyledTableCell>Number</StyledTableCell>
                 <StyledTableCell>Status</StyledTableCell>
+                <StyledTableCell>Type</StyledTableCell>
                 <StyledTableCell>Title</StyledTableCell>
                 <StyledTableCell align="right">Author</StyledTableCell>
               </TableRow>
@@ -236,6 +237,9 @@ function Eips({ data, pagination }: IProps) {
                   </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
                     {row.status}
+                  </StyledTableCell>
+                  <StyledTableCell component="th" scope="row">
+                    {row.type}
                   </StyledTableCell>
                   <StyledTableCell>{row.title}</StyledTableCell>
                   <StyledTableCell align="right">{row.author}</StyledTableCell>

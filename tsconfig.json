@@ -12,9 +12,22 @@
     "incremental": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/eips/*": ["eips/*"],
+      "@/original-eips/*": ["original-eips/*"],
+      "@/utils/*": ["utils/*"],
+      "@/hooks/*": ["hooks/*"]
+    },
     "isolatedModules": true,
     "jsx": "preserve"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "ETH-EIPs/**/*.ts", "public/assets/**/*.ts"]
+  "exclude": [
+    "node_modules",
+    "ETH-EIPs/**/*.ts",
+    "original-eips/**/*.ts",
+    "public/assets/**/*.ts"
+  ]
 }
