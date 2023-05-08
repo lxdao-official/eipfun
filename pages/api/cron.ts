@@ -1,10 +1,12 @@
+
+import type { NextApiRequest, NextApiResponse } from 'next';
 const fs = require('fs');
 const download = require('download-git-repo');
 
-function deleteFolder(filePath) {
+function deleteFolder(filePath: string) {
   if (fs.existsSync(filePath)) {
     const files = fs.readdirSync(filePath);
-    files.forEach((file) => {
+    files.forEach((file: string[]) => {
       const nextFilePath = `${filePath}/${file}`;
       const states = fs.statSync(nextFilePath);
       if (states.isDirectory()) {
@@ -19,7 +21,7 @@ function deleteFolder(filePath) {
   }
 }
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const paths = './eth-eips/';
   console.log('delete cache');
   deleteFolder(paths);
@@ -28,7 +30,7 @@ export default function handler(req, res) {
     'direct:https://github.com/ethereum/EIPs.git',
     'etp-eips',
     { clone: true },
-    (err) => {
+    (err: Error | undefined) => {
       console.log(err ? 'clone error' : 'clone success');
     }
   );
