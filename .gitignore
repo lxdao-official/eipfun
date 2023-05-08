@@ -39,3 +39,4 @@ yarn-error.log*
 
 #ETH-EIPs
 ETH-EIPs/*
+eth-eips/*

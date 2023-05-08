@@ -20,13 +20,13 @@ function deleteFolder(filePath) {
 }
 
 export default function handler(req, res) {
-  const paths = './ETH-EIPs/';
+  const paths = './eth-eips/';
   console.log('delete cache');
   deleteFolder(paths);
 
   download(
     'direct:https://github.com/ethereum/EIPs.git',
-    'ETH-EIPs',
+    'etp-eips',
     { clone: true },
     (err) => {
       console.log(err ? 'clone error' : 'clone success');

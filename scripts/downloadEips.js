@@ -19,13 +19,13 @@ function deleteFolder(filePath) {
   }
 }
 
-const paths = './ETH-EIPs/';
+const paths = './eth-eips/';
 
 ~(async function () {
   deleteFolder(paths);
   download(
     'direct:https://github.com/ethereum/EIPs.git',
-    'ETH-EIPs',
+    'eth-eips',
     { clone: true },
     (err) => {
       if (err) {
