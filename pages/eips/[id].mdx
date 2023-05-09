@@ -19,7 +19,7 @@ export default function EIPDetails({ children, meta, id, jsxData }) {
   const handleShow = () => {
     setShow((state) => !state);
   };
-  const EIPDetail = dynamic(() => import(`@/original-eips/eips/${id}.md`));
+  const EIPDetail = dynamic(() => import(`../../public/original-eips/${id}.md`));
 
 return (<>
 
@@ -236,7 +236,7 @@ export async function getServerSideProps(context) {
   let id = context.params.id;
   let originalEIP;
   try {
-    originalEIP = await readFile(`./original-eips/eips/${id}.md`, 'utf8');
+    originalEIP = await readFile(`./public/original-eips/${id}.md`, 'utf8');
   } catch (e) {
     console.log(e);
   }
@@ -246,7 +246,7 @@ export async function getServerSideProps(context) {
   }
   meta = formatMeta(meta);
   try {
-    let comEIP = await readFile(`./eips/en/${id}.md`, 'utf8');
+    let comEIP = await readFile(`./public/docs/en/${id}.md`, 'utf8');
     Object.assign(meta, formatComEIP(comEIP));
   } catch (e) {
     console.log(e);

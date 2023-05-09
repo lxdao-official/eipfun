@@ -15,8 +15,6 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"],
-      "@/eips/*": ["eips/*"],
-      "@/original-eips/*": ["original-eips/*"],
       "@/utils/*": ["utils/*"],
       "@/hooks/*": ["hooks/*"]
     },
