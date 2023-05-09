@@ -6,8 +6,8 @@ import { MetaProps } from '../types/layout';
 const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
   const router = useRouter();
   const meta = {
-    title: 'EIPs-FUN',
-    description: 'EIPs-FUN',
+    title: 'EIPs.Fun - Serve EIP builders, scale Ethereum.',
+    description: 'EIPs.fun is run by the contributors, for the contributor, and owned by the contributors.',
     type: 'website',
     ...customMeta,
   };
@@ -17,7 +17,7 @@ const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
       <title>{meta.title}</title>
       <meta content={meta.description} name="description" />
       <meta property="og:type" content={meta.type} />
-      <meta property="og:site_name" content="Hunter Chang - Website" />
+      <meta property="og:site_name" content="EIPs.Fun - Website" />
       <meta property="og:description" content={meta.description} />
       <meta property="og:title" content={meta.title} />
       <meta name="twitter:card" content="summary_large_image" />

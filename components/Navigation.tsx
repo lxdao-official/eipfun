@@ -11,7 +11,6 @@ import SearchHeader from './SearchHeader';
 const Navigation = (): JSX.Element => {
   const [langText, setLangText] = useState<string>();
   const router = useRouter();
-console.log( router.asPath)
   useEffect(() => {
     if (router.pathname.includes('zh')) {
       setLangText('EN');
@@ -30,7 +29,7 @@ console.log( router.asPath)
     margin: '0px auto',
   }));
   const EipHeaderLink = styled(Link)<LinkProps>(() => ({
-    margin: '0px 20px',
+    margin: '0px 15px',
    fontWeight:600
   }));
 
@@ -51,7 +50,7 @@ console.log( router.asPath)
   }));
   const EipHeaderButton = styled('div')(() => ({
     height: 46,
-    padding: '0 15px',
+    padding: '0 12px',
     background: '#F8F9FB',
     borderRadius: 25,
     display: 'flex',
@@ -75,7 +74,7 @@ console.log( router.asPath)
           <Logo />
         </Link>
         <EipHeaderLink sx={{marginLeft:'30px'}} className={ (router.asPath==='/')?'current':''} href="/">Home</EipHeaderLink>
-        <EipHeaderLink sx={{marginRight:'30px'}} className={ (router.asPath==='/eips')?'current':''} href="/eips">EIPs</EipHeaderLink>
+        <EipHeaderLink sx={{marginRight:'30px',padding:'0 20px'}} className={ (router.asPath==='/eips')?'current':''} href="/eips">EIPs</EipHeaderLink>
         <SearchHeader />
       </NavLeft>
       <NavRight>
