@@ -237,7 +237,10 @@ export async function getServerSideProps(context) {
   let id = context.params.id;
   let originalEIP;
   try {
-    originalEIP = await readFile(`./public/original-eips/${id}.md`, 'utf8');
+    originalEIP = await readFile(
+      path.join(process.cwd(), 'public', 'original-eips', `${id}.md`),
+      'utf8'
+    );
   } catch (e) {
     console.log(e);
   }
