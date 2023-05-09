@@ -12,7 +12,7 @@ import {
 } from '@/components/eip-style';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP } from '@/utils/str';
-import fs from 'fs';
+import { readFile, } from 'node:fs/promises';
 
 export default function EIPDetails({ children, meta, id, jsxData }) {
   const [show, setShow] = useState(false);
@@ -81,9 +81,9 @@ return (<>
     <Box pt={4} pb={3}>
       {meta['discussions-to'] && (
         <Button
+          sx={{marginRight: '16px'}}
           variant="contained"
           startIcon={<MarkChatUnreadIcon />}
-          mr={2}
           size="large"
           href={meta['discussions-to']}
         >
@@ -234,12 +234,22 @@ return (<>
 
 export async function getServerSideProps(context) {
   let id = context.params.id;
-  let originalEIP = fs.readFileSync(`./original-eips/eips/${id}.md`, 'utf8');
-  let [, meta, ...con] = originalEIP.split('---');
+  let originalEIP;
+  try {
+    originalEIP = await readFile(`./original-eips/eips/${id}.md`, 'utf8');
+  } catch (e) {
+    console.log(e);
+  }
+  let meta, con;
+  if (originalEIP) {
+    [, meta, ...con] = originalEIP.split('---');
+  }
   meta = formatMeta(meta);
-  if (fs.existsSync(`./eips/en/${id}.md`)) {
-    let comEIP = fs.readFileSync(`./eips/en/${id}.md`, 'utf8');
+  try {
+    let comEIP = await readFile(`./eips/en/${id}.md`, 'utf8');
     Object.assign(meta, formatComEIP(comEIP));
+  } catch (e) {
+    console.log(e);
   }
   return {
     props: {
