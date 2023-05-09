@@ -13,6 +13,7 @@ import {
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP } from '@/utils/str';
 import { readFile, } from 'node:fs/promises';
+import path from 'path';
 
 export default function EIPDetails({ children, meta, id, jsxData }) {
   const [show, setShow] = useState(false);
@@ -246,7 +247,10 @@ export async function getServerSideProps(context) {
   }
   meta = formatMeta(meta);
   try {
-    let comEIP = await readFile(`./public/content/${id}.md`, 'utf8');
+    let comEIP = await readFile(
+      path.join(process.cwd(), 'public', 'content', 'en', `${id}.md`),
+      'utf8'
+    );
     Object.assign(meta, formatComEIP(comEIP));
   } catch (e) {
     console.log(e);
