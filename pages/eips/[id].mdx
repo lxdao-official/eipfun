@@ -200,7 +200,7 @@ return (<>
         </Box>
 
         <Box sx={{display: 'flex'}}>
-          {meta['extended resources'].map(item => (<Box sx={{width: '404px', marginBottom: '52px'}} mr={4}>
+          {meta['extended resources'].map(item => (<Box sx={{width: '404px', marginBottom: '52px'}} mr={4} key={item.title}>
             <div style={{height: '84px', borderRadius: '6px'}}>
               <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src={item.imgSrc} alt={item.alt} />
             </div>
@@ -215,7 +215,7 @@ return (<>
             <h3 style={{paddingBottom: '24px', fontSize: '18px', lineHeight: '28px'}}>Adopted by projects</h3>
 
             {meta.projects.map(item => (<>
-              <Box sx={{height: '100px', background: '#f3f3f3'}}>
+              <Box sx={{height: '100px', background: '#f3f3f3'}}  key={item.title}>
                 <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src={item.imgSrc} alt={item.alt} />
               </Box>
               <Box sx={{fontSize: '16px', lineHeight: '30px', color: '#272d37', padding: '16px 0'}}>{item.title}</Box>
@@ -246,7 +246,7 @@ export async function getServerSideProps(context) {
   }
   meta = formatMeta(meta);
   try {
-    let comEIP = await readFile(`./public/docs/en/${id}.md`, 'utf8');
+    let comEIP = await readFile(`./docs/en/${id}.md`, 'utf8');
     Object.assign(meta, formatComEIP(comEIP));
   } catch (e) {
     console.log(e);
