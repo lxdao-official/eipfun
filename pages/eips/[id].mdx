@@ -251,7 +251,7 @@ export async function getServerSideProps(context) {
   meta = formatMeta(meta);
   try {
     let comEIP = await readFile(
-      path.join(process.cwd(), 'public', 'content', 'en', `${id}.md`),
+      path.join(process.cwd(), 'content', 'en', `${id}.md`),
       'utf8'
     );
     Object.assign(meta, formatComEIP(comEIP));
