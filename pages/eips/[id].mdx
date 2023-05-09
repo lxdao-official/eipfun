@@ -246,7 +246,7 @@ export async function getServerSideProps(context) {
   }
   meta = formatMeta(meta);
   try {
-    let comEIP = await readFile(`./public/content/en/${id}.md`, 'utf8');
+    let comEIP = await readFile(`./public/content/${id}.md`, 'utf8');
     Object.assign(meta, formatComEIP(comEIP));
   } catch (e) {
     console.log(e);
