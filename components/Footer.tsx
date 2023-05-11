@@ -1,18 +1,10 @@
-import { styled } from '@mui/material/styles';
-import { Container, Box } from '@mui/material';
-import { Title, FooterItem as FooterItemList } from './footerComponent';
+import { Container, Grid, Box, Typography, Link, Icon } from '@mui/material';
+import useGetLang from '@/hooks/useGetLang';
 import Logo from 'public/logo.svg';
 import LogoS from 'public/images/logo_s.svg';
-
-const FooterBox = styled(Box)(() => ({
-  width: '100%',
-  background: '#f8f9fb',
-  padding: '64px 0',
-}));
-
-const FooterItem = styled(Box)(() => ({
-  flex: 1,
-}));
+import Telegram from 'public/images/telegram.svg';
+import Twitter from 'public/images/twitter.svg';
+import Discord from 'public/images/discord.svg';
 
 type footerItem = {
   con: string;
@@ -43,53 +35,116 @@ const footerList3: footerItem[] = [
 ];
 
 export default function Footer() {
+  const lang = useGetLang();
+
   return (
-    <FooterBox>
-      <Container maxWidth="lg" sx={{ display: 'flex' }}>
-        <Box sx={{ width: '480px' }}>
-          <Box
-            sx={{ fontWeight: 'bold', fontSize: '20px', paddingBottom: '20px' }}
-          >
-            <Logo />
-          </Box>
-          <Box
-            sx={{
-              width: '240px',
-              paddingBottom: '16px',
-              fontSize: '16px',
-              color: '#5F6D7E',
-            }}
-          >
-            We scale EIPs by being the “layer 2” of eips.ethereum.org
-          </Box>
-          <Box sx={{ height: '60px' }}>
-            <span>icon1 </span>
-            <span>icon2 </span>
-            <span>icon3 </span>
-          </Box>
-        </Box>
-        <FooterItem>
-          <Title>Products</Title>
-          <FooterItemList data={footerList1} />
-        </FooterItem>
-        <FooterItem>
-          <Title>Resources</Title>
-          <FooterItemList data={footerList2} />
-        </FooterItem>
-        <FooterItem>
-          <Title>Company</Title>
-          <FooterItemList data={footerList3} />
-        </FooterItem>
-      </Container>
-      <Container maxWidth="lg" sx={{ textAlign: 'center' }}>
-        <Box sx={{ height: '60px', paddingBottom: '16px' }}>
-          {' '}
+    <Box bgcolor={'#f8f9fb'} py={8}>
+      <Container maxWidth="lg">
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4} lg={4} mb={[2, 2, 0, 0, 0]}>
+            <Box pb={2.5}>
+              <Logo />
+            </Box>
+
+            <Typography component={Box} pb={2} variant="body1">
+              Serve EIP builders, scale Ethereum.
+            </Typography>
+
+            <Box>
+              <Link href="#" color={'#101828'} mr={1.5}>
+                <Icon
+                  sx={{
+                    display: 'inline-block',
+                    width: '48px',
+                    height: '48px',
+                    lineHeight: '48px',
+                    textAlign: 'center',
+                    borderRadius: '50%',
+                    bgcolor: '#fff',
+                  }}
+                >
+                  <Telegram />
+                </Icon>
+              </Link>
+              <Link href="#" color={'#101828'} mr={1.5}>
+                <Icon
+                  sx={{
+                    display: 'inline-block',
+                    width: '48px',
+                    height: '48px',
+                    lineHeight: '48px',
+                    textAlign: 'center',
+                    borderRadius: '50%',
+                    bgcolor: '#fff',
+                  }}
+                >
+                  <Twitter />
+                </Icon>
+              </Link>
+              <Link href="#" color={'#101828'}>
+                <Icon
+                  sx={{
+                    display: 'inline-block',
+                    width: '48px',
+                    height: '48px',
+                    lineHeight: '48px',
+                    textAlign: 'center',
+                    borderRadius: '50%',
+                    bgcolor: '#fff',
+                  }}
+                >
+                  <Discord />
+                </Icon>
+              </Link>
+            </Box>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={2.5} lg={2.5}>
+            <Typography variant="h6">Products</Typography>
+            <Box pb={7.25}>
+              {footerList1.map((item) => (
+                <Box key={item.con} height={30} sx={{ lineHeight: '30px' }}>
+                  <Link href={item.href} underline="hover" color="inherit">
+                    {lang === 'en' ? item.con : item.conZh}
+                  </Link>
+                </Box>
+              ))}
+            </Box>
+          </Grid>
+          <Grid item xs={4} sm={4} md={2.5} lg={2.5}>
+            <Typography variant="h6">Resources</Typography>
+            <Box pb={7.25}>
+              {footerList2.map((item) => (
+                <Box key={item.con} height={30} sx={{ lineHeight: '30px' }}>
+                  <Link href={item.href} underline="hover" color="inherit">
+                    {lang === 'en' ? item.con : item.conZh}
+                  </Link>
+                </Box>
+              ))}
+            </Box>
+          </Grid>
+          <Grid item xs={4} sm={4} md={2.5} lg={2.5}>
+            <Typography variant="h6">Company</Typography>
+            <Box pb={7.25}>
+              {footerList3.map((item) => (
+                <Box height={30} key={item.con} sx={{ lineHeight: '30px' }}>
+                  <Link href={item.href} underline="hover" color="inherit">
+                    {lang === 'en' ? item.con : item.conZh}
+                  </Link>
+                </Box>
+              ))}
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Typography component={Box} height={60} mb={2} align="center">
           <LogoS />
-        </Box>
-        <Box sx={{ height: '24px', lineHeight: '24px' }}>
+        </Typography>
+
+        <Typography component={Box} variant="subtitle2" align="center">
           &copy; {new Date().getFullYear()} EIP.Fun. All Rights Reserved.
-        </Box>
+        </Typography>
       </Container>
-    </FooterBox>
+    </Box>
   );
 }
