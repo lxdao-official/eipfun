@@ -13,7 +13,7 @@ import useDebounce from '../hooks/useDebounce';
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
-  width: 850,
+  maxWidth: 850,
   height: 58,
   lineHeight: '58px',
   // backgroundColor: '#fff',
@@ -21,6 +21,7 @@ const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   '.MuiInputBase-root': {
     backgroundColor: '#fff',
   },
+ 
 }));
 const SearchOption = styled('li')(({}) => ({
   flexDirection: 'column',
@@ -52,12 +53,14 @@ const SearchLoading = styled('div')(({}) => ({
   },
 }));
 const SearchMain = styled('div')(({}) => ({
-  width: 860,
   display: 'flex',
   alignItems: 'top',
   padding: '20px 0',
   justifyContent: 'space-around',
   margin: '60px auto 0 auto',
+  '.MuiAutocomplete-root ':{
+    width: '80%',
+  }
 }));
 type EipCommonResult = {
   eip: string;
@@ -103,14 +106,15 @@ function useSearch(searchText: string) {
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
         }
-        if (res.data.data?.content_list) {
-          optionsList = optionsList.concat(res.data.data?.content_list);
-        }
+       
         if (res.data.data?.title_list) {
           res.data.data?.title_list.map((item) => {
             item.title = item.ts_headline;
           });
           optionsList = optionsList.concat(res.data.data?.title_list);
+        }
+        if (res.data.data?.content_list) {
+          optionsList = optionsList.concat(res.data.data?.content_list);
         }
         return optionsList.slice(0, 20);
       });

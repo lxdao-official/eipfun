@@ -1,12 +1,12 @@
-import Link, { LinkProps } from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { Router, useRouter } from 'next/router';
 import Logo from 'public/logo.svg';
 import LanguageIcon from '@mui/icons-material/Language';
 import TelegramIcon from '@mui/icons-material/Telegram';
 // import Container, { ContainerProps } from '@mui/material/Container';
-import { styled } from '@mui/material';
+import { Box, Button, Link, styled } from '@mui/material';
 import SearchHeader from './SearchHeader';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
 const Navigation = (): JSX.Element => {
   const [langText, setLangText] = useState<string>();
@@ -20,34 +20,18 @@ const Navigation = (): JSX.Element => {
   }, [router]);
 
   const EipHeader = styled('div')(() => ({
-    width: 1440,
+    // width: 1440,
     maxWidth: 1440,
     display: 'flex',
     alignItems: 'center',
     padding: '20px 0',
     justifyContent: 'space-around',
     margin: '0px auto',
-  }));
-  const EipHeaderLink = styled(Link)<LinkProps>(() => ({
-    margin: '0px 15px',
-   fontWeight:600
+    '.current': {
+      color: '#437EF7',
+    },
   }));
 
-  const NavLeft = styled('div')(() => ({
-    display: 'flex',
-    alignItems: 'center',
-    '.current':{
-      color:'#437EF7!important'
-    },
-    "a:hover":{
-      color:'#437EF7!important'
-    }
-    // paddingRight:15
-  }));
-  const NavRight = styled('div')(() => ({
-    display: 'flex',
-    alignItems: 'center',
-  }));
   const EipHeaderButton = styled('div')(() => ({
     height: 46,
     padding: '0 12px',
@@ -58,7 +42,16 @@ const Navigation = (): JSX.Element => {
     margin: '0 20px',
     cursor: 'pointer',
   }));
-
+  const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      background: '#F8F9FB',
+      transform: 'matrix(1, 0, 0, 1, 0, 0)',
+      color: '#000',
+      fontSize: 14,
+    },
+  }));
   const toggleLang = () => {
     if (langText === 'EN') {
       router.replace(router.pathname.substring(3));
@@ -69,23 +62,43 @@ const Navigation = (): JSX.Element => {
 
   return (
     <EipHeader>
-      <NavLeft>
+      <Box display={'flex'} alignItems={'center'}>
         <Link href="/">
           <Logo />
         </Link>
-        <EipHeaderLink sx={{marginLeft:'30px'}} className={ (router.asPath==='/')?'current':''} href="/">Home</EipHeaderLink>
-        <EipHeaderLink sx={{marginRight:'30px',padding:'0 20px'}} className={ (router.asPath==='/eips')?'current':''} href="/eips">EIPs</EipHeaderLink>
+        <Link
+          sx={{ margin: '0 15px 0 30px' }}
+          fontWeight={600}
+          className={router.asPath === '/' ? 'current' : ''}
+          href="/"
+          color="inherit"
+          underline="hover"
+        >
+          Home
+        </Link>
+        <Link
+          color="inherit"
+          sx={{ margin: '0 30px 0 15px', padding: '0 20px' }}
+          fontWeight={600}
+          underline="hover"
+          className={router.asPath === '/eips' ? 'current' : ''}
+          href="/eips"
+        >
+          EIPs
+        </Link>
         <SearchHeader />
-      </NavLeft>
-      <NavRight>
+      </Box>
+      <Box display={'flex'} alignItems={'center'}>
         <EipHeaderButton>
-          <TelegramIcon />
+          <LightTooltip title="Join community">
+            <TelegramIcon />
+          </LightTooltip>
         </EipHeaderButton>
 
         <EipHeaderButton onClick={toggleLang}>
           <LanguageIcon /> {langText}
         </EipHeaderButton>
-      </NavRight>
+      </Box>
     </EipHeader>
   );
 };

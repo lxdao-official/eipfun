@@ -7,6 +7,7 @@ export const theme = createTheme({
       textTransform: "none"
     }
   },
+ 
   palette: {
     primary: {
       light: '#757ce8',
