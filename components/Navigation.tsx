@@ -4,7 +4,7 @@ import Logo from 'public/logo.svg';
 import LanguageIcon from '@mui/icons-material/Language';
 import TelegramIcon from '@mui/icons-material/Telegram';
 // import Container, { ContainerProps } from '@mui/material/Container';
-import { Link, styled } from '@mui/material';
+import { Box, Button, Link, styled } from '@mui/material';
 import SearchHeader from './SearchHeader';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
@@ -27,24 +27,11 @@ const Navigation = (): JSX.Element => {
     padding: '20px 0',
     justifyContent: 'space-around',
     margin: '0px auto',
-  }));
-
-
-  const NavLeft = styled('div')(() => ({
-    display: 'flex',
-    alignItems: 'center',
     '.current': {
-      color: '#437EF7!important',
+      color: '#437EF7',
     },
-    'a:hover': {
-      color: '#437EF7!important',
-    },
-    // paddingRight:15
   }));
-  const NavRight = styled('div')(() => ({
-    display: 'flex',
-    alignItems: 'center',
-  }));
+
   const EipHeaderButton = styled('div')(() => ({
     height: 46,
     padding: '0 12px',
@@ -61,7 +48,7 @@ const Navigation = (): JSX.Element => {
     [`& .${tooltipClasses.tooltip}`]: {
       background: '#F8F9FB',
       transform: 'matrix(1, 0, 0, 1, 0, 0)',
-      color:'#000',
+      color: '#000',
       fontSize: 14,
     },
   }));
@@ -75,7 +62,7 @@ const Navigation = (): JSX.Element => {
 
   return (
     <EipHeader>
-      <NavLeft>
+      <Box display={'flex'} alignItems={'center'}>
         <Link href="/">
           <Logo />
         </Link>
@@ -90,7 +77,7 @@ const Navigation = (): JSX.Element => {
           Home
         </Link>
         <Link
-        color="inherit"
+          color="inherit"
           sx={{ margin: '0 30px 0 15px', padding: '0 20px' }}
           fontWeight={600}
           underline="hover"
@@ -100,8 +87,8 @@ const Navigation = (): JSX.Element => {
           EIPs
         </Link>
         <SearchHeader />
-      </NavLeft>
-      <NavRight>
+      </Box>
+      <Box display={'flex'} alignItems={'center'}>
         <EipHeaderButton>
           <LightTooltip title="Join community">
             <TelegramIcon />
@@ -111,7 +98,7 @@ const Navigation = (): JSX.Element => {
         <EipHeaderButton onClick={toggleLang}>
           <LanguageIcon /> {langText}
         </EipHeaderButton>
-      </NavRight>
+      </Box>
     </EipHeader>
   );
 };

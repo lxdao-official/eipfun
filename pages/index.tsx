@@ -50,7 +50,7 @@ export default function Home() {
       color: '#5F6D7E',
       fontSize: 16,
       lineHeight: '24px',
-      width: 800,
+      maxWidth: 800,
       margin: '10px auto',
     },
   }));
@@ -58,9 +58,11 @@ export default function Home() {
     // width: 1280,
     maxWidth: 1280,
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'flex-start',
     justifyContent: 'space-around',
-    margin: '60px auto 20px auto',
+    margin: '20px auto 20px auto',
+    
   }));
   const EipsPartnerList = styled('div')(({ theme }) => ({
     // width: 1280,
@@ -69,6 +71,9 @@ export default function Home() {
     alignItems: 'flex-start',
     justifyContent: 'center',
     margin: '60px auto 20px auto',
+    i:{
+      width: 218,
+    }
   }));
 
   const EipsContentBlock = styled('div')(() => ({
@@ -97,12 +102,10 @@ export default function Home() {
       padding: 0,
     },
     '.contentleft': {
-      width: 568,
       maxWidth: 568,
       flex: 1,
     },
     '.contentRight': {
-      width: 440,
       maxWidth: 440,
       flex: 1,
       textAlign: 'right',
@@ -111,7 +114,7 @@ export default function Home() {
 
   return (
     <>
-      <Container maxWidth="lg" fixed={true}>
+      <Container maxWidth={false} sx={{maxWidth:'1440px',padding:0}} fixed={true}>
         <EipsBanner>
           <Typography
             variant="h2"
@@ -150,6 +153,11 @@ export default function Home() {
             {eipsWay.length > 0 &&
               eipsWay.map((item) => (
                 <IntroCard key={item.title} intro={item} />
+              ))}
+              {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
+               {eipsWay.length > 0 &&
+              eipsWay.map(() => (
+                <i></i>
               ))}
           </EipsCardList>
         </EipsContent>
