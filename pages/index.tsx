@@ -1,25 +1,28 @@
-import Head from 'next/head';
 import Image from 'next/image';
-import { Inter } from '@next/font/google';
-import styles from '../styles/Home.module.css';
-import Layout from '../components/Layout';
+
 import styled from '@emotion/styled';
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import Link, { LinkProps } from 'next/link';
 import SearchMain from '../components/SearchMain';
 import IntroCard from '../components/IntroCard';
 import { EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
-import { Button, ButtonProps, TextField, TextFieldProps } from '@mui/material';
+import {
+  Link,
+  Box,
+  Button,
+  ButtonProps,
+  TextField,
+  TextFieldProps,
+  Container,
+} from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
-
 
 export default function Home() {
   const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
   const [partners, setPartners] = useState<PartnerType[]>(partnerList);
   const EipsBanner = styled('div')(({ theme }) => ({
-    width: 1440,
+    // width: 1440,
     maxWidth: 1440,
     height: 620,
     backgroundImage: 'url(/images/banner.png)',
@@ -32,33 +35,8 @@ export default function Home() {
     position: 'relative',
   }));
 
-  const EipsTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
-    width: '100%',
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 52,
-    lineHeight: '60px',
-    fontWeight: 700,
-    paddingTop:60
-  }));
-  const EipsDesc = styled('h3')(({ theme }) => ({
-    width: '100%',
-    textAlign: 'center',
-    color: '#5F6D7E',
-    fontSize: 18,
-    lineHeight: '22px',
-    fontWeight: 400,
-    marginTop: 20,
-    paddingTop:20
-  }));
-  const EipsLink = styled(Link)<LinkProps>(({ theme }) => ({
-    // color: theme.palette.primary.main,
-    color: '#437EF7',
-    display: 'inline-flex',
-    alignItems: 'center',
-  }));
   const EipsContent = styled('div')(({ theme }) => ({
-    width: 1440,
+    // width: 1440,
     margin: '64px auto ',
     textAlign: 'center',
     h3: {
@@ -77,7 +55,7 @@ export default function Home() {
     },
   }));
   const EipsCardList = styled('div')(({ theme }) => ({
-    width: 1280,
+    // width: 1280,
     maxWidth: 1280,
     display: 'flex',
     alignItems: 'flex-start',
@@ -85,23 +63,16 @@ export default function Home() {
     margin: '60px auto 20px auto',
   }));
   const EipsPartnerList = styled('div')(({ theme }) => ({
-    width: 1280,
+    // width: 1280,
     maxWidth: 1280,
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'center',
     margin: '60px auto 20px auto',
   }));
-  const PartnerCard = styled('div')(({ theme }) => ({
-    width: 200,
-    maxWidth: 200,
-    height: 100,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-  const EipsContentBlock = styled('div')(({ theme }) => ({
-    width: 1152,
+
+  const EipsContentBlock = styled('div')(() => ({
+    // width: 1152,
     maxWidth: 1152,
     display: 'flex',
     alignItems: 'center',
@@ -137,75 +108,101 @@ export default function Home() {
       textAlign: 'right',
     },
   }));
-  
 
   return (
     <>
-      <EipsBanner>
-        <EipsTitle variant="h2">Serve EIP builders, scale Ethereum.</EipsTitle>
-        {/* <EipsTitle variant="h2">
-          {' '}
-          of <EipsLink href="#">eips.ethereum.org</EipsLink>
-        </EipsTitle> */}
-
-        <EipsDesc>
-        EIPs.fun is run by the contributors, for the contributor, and owned by the contributors.
-        </EipsDesc>
-        <SearchMain />
-      </EipsBanner>
-      <EipsContent>
-        <h3>What is EIPs? </h3>
-        <p className="intro">
-          It is short for Ethereum Improvement Proposals, they are standards for
-          the Ethereum platform, including core protocol specifications, client
-          APIs, and contract standards.
-        </p>
-      </EipsContent>
-      <EipsContent>
-        <h3>How EIPs work?</h3>
-        <EipsCardList>
-          {eipsWay.length > 0 &&
-            eipsWay.map((item) => <IntroCard key={item.title} intro={item} />)}
-        </EipsCardList>
-      </EipsContent>
-      <EipsContent>
-        <h3>Supporters and Partners</h3>
-        <EipsPartnerList>
-          {partners.length > 0 &&
-            partnerList.map((item) => (
-              <PartnerCard key={item.name}>
-                <EipsLink href={item.link}>
-                  <Image
-                    src={item.logo}
-                    alt={item.name}
-                    width={144}
-                    height={40}
-                  />
-                </EipsLink>
-              </PartnerCard>
-            ))}
-        </EipsPartnerList>
-      </EipsContent>
-      <EipsContentBlock>
-        <EmailSubscribe />
-      </EipsContentBlock>
-      <EipsContentBlock>
-        <div className="contentleft">
-          <h3>How EIPs Fun works? </h3>
-          <p>
-            This is an open source and public goods.Running by a EIPs Fun DAO.
-            xxx Donation means a lot for us, please donate.
-          </p>
-        </div>
-        <div className="contentRight">
-          <Button variant="outlined" size="medium">
-            Join Us
-          </Button>
-          <Button sx={{ marginLeft: 5 }} variant="contained" size="medium">
-            Donate
-          </Button>
-        </div>
-      </EipsContentBlock>
+      <Container maxWidth="lg" fixed={true}>
+        <EipsBanner>
+          <Typography
+            variant="h2"
+            textAlign="center"
+            color="#fff"
+            fontSize="52px"
+            lineHeight="60px"
+            marginTop="60px"
+          >
+            Serve EIP builders, scale Ethereum.
+          </Typography>
+          <Typography
+            variant="h3"
+            textAlign="center"
+            color="#5F6D7E"
+            fontSize="18px"
+            lineHeight="22px"
+            marginTop="40px"
+          >
+            EIPs.fun is run by the contributors, for the contributor, and owned
+            by the contributors.
+          </Typography>
+          <SearchMain />
+        </EipsBanner>
+        <EipsContent>
+          <Typography variant="h3">What is EIPs? </Typography>
+          <Typography className="intro">
+            It is short for Ethereum Improvement Proposals, they are standards
+            for the Ethereum platform, including core protocol specifications,
+            client APIs, and contract standards.
+          </Typography>
+        </EipsContent>
+        <EipsContent>
+          <Typography variant="h3">How EIPs work?</Typography>
+          <EipsCardList>
+            {eipsWay.length > 0 &&
+              eipsWay.map((item) => (
+                <IntroCard key={item.title} intro={item} />
+              ))}
+          </EipsCardList>
+        </EipsContent>
+        <EipsContent>
+          <Typography variant="h3">Supporters and Partners</Typography>
+          <EipsPartnerList>
+            {partners.length > 0 &&
+              partnerList.map((item) => (
+                <Box
+                  key={item.name}
+                  width={'200px'}
+                  height={'100px'}
+                  display={'flex'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                >
+                  <Link href={item.link}>
+                    <Image
+                      src={item.logo}
+                      alt={item.name}
+                      width={144}
+                      height={40}
+                    />
+                  </Link>
+                </Box>
+              ))}
+          </EipsPartnerList>
+        </EipsContent>
+        <EipsContentBlock>
+          <EmailSubscribe />
+        </EipsContentBlock>
+        <EipsContentBlock>
+          <Box className="contentleft">
+            <Typography variant="h3">How EIPs Fun works?</Typography>
+            <Typography
+              variant="body1"
+              marginBottom={'10px'}
+              marginTop={'10px'}
+            >
+              This is an open source and public goods.Running by a EIPs Fun DAO.
+              xxx Donation means a lot for us, please donate.
+            </Typography>
+          </Box>
+          <Box className="contentRight">
+            <Button variant="outlined" size="medium">
+              Join Us
+            </Button>
+            <Button variant="contained" sx={{ marginLeft: 5 }} size="medium">
+              Donate
+            </Button>
+          </Box>
+        </EipsContentBlock>
+      </Container>
     </>
   );
 }
