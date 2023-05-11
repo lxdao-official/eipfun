@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Link } from '@mui/material';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -11,7 +11,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import Link from 'next/link';
 import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(() => ({
@@ -160,6 +159,40 @@ function Eips({ data, pagination }: IProps) {
     });
   };
 
+  const fomatLink = (str: string) => {
+    if (str.includes('<')) {
+      let [name, linkText] = str.split('<');
+      let link;
+      linkText = linkText.replace('>', '');
+      link = 'mailto:' + linkText;
+      return (
+        <>
+          {name}(
+          <Link underline="hover" href={link}>
+            {linkText}
+          </Link>
+          )
+        </>
+      );
+    } else if (str.includes('(')) {
+      let [name, linkText] = str.split('(');
+      let link;
+      linkText = linkText.replace(')', '');
+      link = 'https://github.com/' + linkText.replace('@', '');
+      return (
+        <>
+          {name}(
+          <Link underline="hover" href={link}>
+            {linkText}
+          </Link>
+          )
+        </>
+      );
+    } else {
+      return str;
+    }
+  };
+
   return (
     <>
       <Box borderTop={1} borderColor="#EAEBF0" />
@@ -216,11 +249,13 @@ function Eips({ data, pagination }: IProps) {
           <Table sx={{ minWidth: 700 }} aria-label="table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Number</StyledTableCell>
-                <StyledTableCell>Status</StyledTableCell>
-                <StyledTableCell>Type</StyledTableCell>
-                <StyledTableCell>Title</StyledTableCell>
-                <StyledTableCell align="right">Author</StyledTableCell>
+                <StyledTableCell width={0.125}>Number</StyledTableCell>
+                <StyledTableCell width={0.0833}>Status</StyledTableCell>
+                <StyledTableCell width={0.0833}>Type</StyledTableCell>
+                <StyledTableCell width={0.375}>Title</StyledTableCell>
+                <StyledTableCell width={0.3333} align="right">
+                  Author
+                </StyledTableCell>
               </TableRow>
             </TableHead>
 
@@ -239,10 +274,19 @@ function Eips({ data, pagination }: IProps) {
                     {row.status}
                   </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
-                    {row.type}
+                    {row.type.replace('_', ' ')}
                   </StyledTableCell>
                   <StyledTableCell>{row.title}</StyledTableCell>
-                  <StyledTableCell align="right">{row.author}</StyledTableCell>
+                  <StyledTableCell>
+                    {row?.author?.includes(', ')
+                      ? row.author.split(', ').map((item, i) => (
+                          <React.Fragment key={item}>
+                            {i !== 0 ? ', ' : ''}
+                            {fomatLink(item)}
+                          </React.Fragment>
+                        ))
+                      : fomatLink(row.author)}
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
