@@ -90,9 +90,9 @@ return (<>
       ) : null}
     </Box>
 
-    {meta.requires && meta.requires > 0 && (
+    {meta.requires && meta.requires?.length > 0 && meta.requires != 0 && (
       <Box pb={4}>
-        Requires: <Link underline="none">EIP-{meta.requires}</Link>
+      Requires: {meta.requires.includes(', ') ? meta.requires.split(', ').map((item, i) => (<>{i !== 0 ? ', ' : ''}<Link underline="none" href={`./eips/eip-${item}`}>EIP-{item}</Link></>)) : (<Link underline="none"  href={`./eips/eip-${meta.requires}`}>EIP-{meta.requires}</Link>)}
       </Box>
     )}
 
