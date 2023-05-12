@@ -21,7 +21,6 @@ const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   '.MuiInputBase-root': {
     backgroundColor: '#fff',
   },
- 
 }));
 const SearchOption = styled('li')(({}) => ({
   flexDirection: 'column',
@@ -58,9 +57,9 @@ const SearchMain = styled('div')(({}) => ({
   padding: '20px 0',
   justifyContent: 'space-around',
   margin: '60px auto 0 auto',
-  '.MuiAutocomplete-root ':{
+  '.MuiAutocomplete-root ': {
     width: '80%',
-  }
+  },
 }));
 type EipCommonResult = {
   eip: string;
@@ -101,21 +100,35 @@ function useSearch(searchText: string) {
     ['todos', { searchText }],
     () => {
       return axios.get(url).then((res: AxiosResponse) => {
-        console.log(res.data.data);
         let optionsList: EipCommonResult[] = [];
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
         }
-       
-        if (res.data.data?.title_list) {
-          res.data.data?.title_list.map((item) => {
-            item.title = item.ts_headline;
-          });
-          optionsList = optionsList.concat(res.data.data?.title_list);
+        let titleList = res.data.data?.title_list;
+        let contentList = res.data.data?.content_list;
+
+        // if (res.data.data?.title_list) {
+        //   res.data.data?.title_list.map((item) => {
+        //     item.title = item.ts_headline;
+        //   });
+        //   optionsList = optionsList.concat(res.data.data?.title_list);
+        // }
+        // if (res.data.data?.content_list) {
+        //   optionsList = optionsList.concat(res.data.data?.content_list);
+        // }
+        let combined: EipCommonResult[] = [];
+        if (titleList && contentList) {
+          optionsList = contentList.reduce((acc, cur) => {
+            const target = acc.find((e) => e.eip === cur.eip);
+            if (target) {
+              Object.assign(target, cur);
+            } else {
+              acc.push(cur);
+            }
+            return acc;
+          }, titleList);
         }
-        if (res.data.data?.content_list) {
-          optionsList = optionsList.concat(res.data.data?.content_list);
-        }
+        console.log(combined)
         return optionsList.slice(0, 20);
       });
     },
@@ -156,9 +169,9 @@ export default function SearchHeader() {
         autoSelect={false}
         // freeSolo
         autoComplete={false}
-        noOptionsText={inputValue&&`No results for "${inputValue}"`}
+        noOptionsText={inputValue && `No results for "${inputValue}"`}
         // noOptions={<>No results for "${inputValue}</>}
-   
+
         loading={isFetching}
         loadingText={
           <SearchLoading>

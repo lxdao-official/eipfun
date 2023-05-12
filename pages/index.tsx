@@ -6,14 +6,10 @@ import SearchMain from '../components/SearchMain';
 import IntroCard from '../components/IntroCard';
 import { EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
-import EastIcon from '@mui/icons-material/East';
 import {
   Link,
   Box,
   Button,
-  ButtonProps,
-  TextField,
-  TextFieldProps,
   Container,
 } from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
@@ -156,8 +152,8 @@ export default function Home() {
               ))}
               {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
                {eipsWay.length > 0 &&
-              eipsWay.map(() => (
-                <i></i>
+              eipsWay.map((item,index) => (
+                <i key={index+Math.random()}></i>
               ))}
           </EipsCardList>
         </EipsContent>
