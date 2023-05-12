@@ -149,7 +149,7 @@ export default function SearchHeader() {
         freeSolo
         renderInput={(params) => (
           <TextField
-            placeholder="Search EIPs by number/word..."
+            placeholder="Search EIPs by number/word"
             {...params}
             size="small"
             InputProps={{

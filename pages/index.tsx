@@ -21,13 +21,16 @@ export default function Home() {
     // width: 1440,
     maxWidth: 1440,
     height: 620,
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
     backgroundImage: 'url(/images/banner.png)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     margin: '0px auto',
     textAlign: 'center',
     color: '#fff',
-    paddingTop: 120,
+    // paddingTop: 120,
     position: 'relative',
   }));
 
@@ -122,7 +125,7 @@ export default function Home() {
           >
             Serve EIP builders, scale Ethereum.
           </Typography>
-          <Typography
+          {/* <Typography
             variant="h3"
             textAlign="center"
             color="#5F6D7E"
@@ -132,7 +135,7 @@ export default function Home() {
           >
             EIPs.fun is run by the contributors, for the contributor, and owned
             by the contributors.
-          </Typography>
+          </Typography> */}
           <SearchMain />
         </EipsBanner>
         <EipsContent>
