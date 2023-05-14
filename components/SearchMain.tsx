@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
 import { useRouter } from 'next/router';
 
-import { useMemo, useState } from 'react';
+import {  useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
@@ -142,9 +142,7 @@ export default function SearchHeader() {
 
   const {
     isFetching,
-    isError,
     data: options,
-    error,
   } = useSearch(debouncedSearch);
 
   return (

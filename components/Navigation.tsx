@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Router, useRouter } from 'next/router';
+import {useRouter } from 'next/router';
 import Logo from 'public/logo.svg';
 import LanguageIcon from '@mui/icons-material/Language';
 import TelegramIcon from '@mui/icons-material/Telegram';
 // import Container, { ContainerProps } from '@mui/material/Container';
-import { Box, Button, Link, styled } from '@mui/material';
+import { Box, Link, styled } from '@mui/material';
 import SearchHeader from './SearchHeader';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
@@ -44,7 +44,7 @@ const Navigation = (): JSX.Element => {
   }));
   const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
+  ))(() => ({
     [`& .${tooltipClasses.tooltip}`]: {
       background: '#F8F9FB',
       transform: 'matrix(1, 0, 0, 1, 0, 0)',
@@ -67,7 +67,7 @@ const Navigation = (): JSX.Element => {
           <Logo />
         </Link>
         <Link
-          sx={{ margin: '0 15px 0 30px' }}
+          sx={{ margin: '0 5px 0 30px' }}
           fontWeight={600}
           className={router.asPath === '/' ? 'current' : ''}
           href="/"
@@ -78,7 +78,7 @@ const Navigation = (): JSX.Element => {
         </Link>
         <Link
           color="inherit"
-          sx={{ margin: '0 30px 0 15px', padding: '0 20px' }}
+          sx={{ margin: '0 30px 0 5px', padding: '0 20px' }}
           fontWeight={600}
           underline="hover"
           className={router.asPath === '/eips' ? 'current' : ''}

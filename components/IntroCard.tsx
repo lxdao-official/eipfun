@@ -2,14 +2,12 @@ import React from 'react';
 import { EipWayIntro } from '../types/eips';
 import {
   Box,
-
   Link,
   Typography,
 } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
 const IntroCard = (
   { intro }: { intro?: EipWayIntro },
-  { key }: { key?: number }
 ): JSX.Element => {
   const meta = {
     ...intro,

@@ -3,7 +3,6 @@ import axios from 'axios';
 import {
   Link,
   Box,
-  Button,
   TextField,
   TextFieldProps,
   Typography,
@@ -28,7 +27,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 ) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-const SubInput = styled(TextField)<TextFieldProps>(({ theme }) => ({
+const SubInput = styled(TextField)<TextFieldProps>(() => ({
   background: '#fff',
 
   '.MuiInputBase-root': {
@@ -59,7 +58,7 @@ const EmailSubscribe = (): JSX.Element => {
       })
       .catch((err) => {
         setSubmitLoading(false)
-
+        setErrorMessage(err.message);
         setAlertErrorOpen(true);
       });
   };
@@ -78,7 +77,7 @@ const EmailSubscribe = (): JSX.Element => {
   return (
     <>
       <Box className="contentleft">
-        <Typography variant="h3">Not miss a beat of EIPs' update? </Typography>
+        <Typography variant="h3">Not miss a beat of EIPs&rsquo; update? </Typography>
         <Typography variant="body1" marginBottom={'10px'} marginTop={'10px'}>
           Subscribe EIPs Fun to receive the latest updates of EIPs Good for
           Buidlers to follow up.

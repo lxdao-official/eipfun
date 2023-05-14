@@ -5,8 +5,6 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { theme } from '../theme';
 import {
-  useQuery,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";

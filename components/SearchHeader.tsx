@@ -1,19 +1,19 @@
 import * as React from 'react';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
-import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import { InputAdornment, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
 import { useRouter } from 'next/router';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR||'https://api-dev.eips.fun';
 
 
-const SearchOption = styled('li')(({}) => ({
+const SearchOption = styled('li')(() => ({
   padding: '5px 20px!important',
   borderBottom: '1px solid #f3f3f3',
   width: '100%',
@@ -25,7 +25,7 @@ const SearchOption = styled('li')(({}) => ({
   },
   
 }));
-const SearchLoading = styled('div')(({}) => ({
+const SearchLoading = styled('div')(() => ({
   textAlign: 'center',
   margin: '0 auto',
   div: {
@@ -102,9 +102,7 @@ export default function SearchHeader() {
 
   const {
     isFetching,
-    isError,
     data: options,
-    error,
   } = useSearch(debouncedSearch);
 
   return (

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import styled from '@emotion/styled';
-import Typography, { TypographyProps } from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
 import SearchMain from '../components/SearchMain';
 import IntroCard from '../components/IntroCard';
 import { EipWayIntro, PartnerType } from '../types/eips';
@@ -17,7 +17,7 @@ import EmailSubscribe from '../components/EmailSubscribe';
 export default function Home() {
   const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
   const [partners, setPartners] = useState<PartnerType[]>(partnerList);
-  const EipsBanner = styled('div')(({ theme }) => ({
+  const EipsBanner = styled('div')(() => ({
     // width: 1440,
     maxWidth: 1440,
     height: 620,
@@ -34,7 +34,7 @@ export default function Home() {
     position: 'relative',
   }));
 
-  const EipsContent = styled('div')(({ theme }) => ({
+  const EipsContent = styled('div')(() => ({
     // width: 1440,
     margin: '64px auto ',
     textAlign: 'center',
@@ -53,7 +53,7 @@ export default function Home() {
       margin: '10px auto',
     },
   }));
-  const EipsCardList = styled('div')(({ theme }) => ({
+  const EipsCardList = styled('div')(() => ({
     // width: 1280,
     maxWidth: 1280,
     display: 'flex',
@@ -63,7 +63,7 @@ export default function Home() {
     margin: '20px auto 20px auto',
     
   }));
-  const EipsPartnerList = styled('div')(({ theme }) => ({
+  const EipsPartnerList = styled('div')(() => ({
     // width: 1280,
     maxWidth: 1280,
     display: 'flex',
@@ -161,7 +161,7 @@ export default function Home() {
           </EipsCardList>
         </EipsContent>
         <EipsContent>
-          <Typography variant="h3">Supporters and Partners</Typography>
+          <Typography variant="h3">Supporters & Partners</Typography>
           <EipsPartnerList>
             {partners.length > 0 &&
               partnerList.map((item) => (

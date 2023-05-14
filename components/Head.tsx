@@ -1,10 +1,8 @@
 import NextHead from 'next/head';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { MetaProps } from '../types/layout';
 
 const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
-  const router = useRouter();
   const meta = {
     title: 'EIPs.Fun - Serve EIP builders, scale Ethereum.',
     description: 'EIPs.fun is run by the contributors, for the contributor, and owned by the contributors.',
