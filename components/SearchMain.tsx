@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { InputAdornment, styled } from '@mui/material';
+import { Box, InputAdornment, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
 import { useRouter } from 'next/router';
@@ -45,13 +45,7 @@ const SearchOption = styled('li')(({}) => ({
     color: '#437EF7',
   },
 }));
-const SearchLoading = styled('div')(({}) => ({
-  textAlign: 'center',
-  margin: '10px auto',
-  div: {
-    margin: '0 auto',
-  },
-}));
+
 const SearchMain = styled('div')(({}) => ({
   display: 'flex',
   alignItems: 'top',
@@ -119,6 +113,7 @@ function useSearch(searchText: string) {
         }
         // let titleList = res.data.data?.title_list;
         // let contentList = res.data.data?.content_list;
+       
         // if (titleList && contentList) {
         //   optionsList = contentList.reduce((acc, cur) => {
         //     const target = acc.find((e) => e.eip === cur.eip);
@@ -130,7 +125,7 @@ function useSearch(searchText: string) {
         //     return acc;
         //   }, titleList);
         // }
-        console.log(optionsList)
+        // console.log(optionsList)
         return optionsList.slice(0, 20);
       });
     },
@@ -142,7 +137,7 @@ function useSearch(searchText: string) {
 }
 export default function SearchHeader() {
   const [inputValue, setInputValue] = useState<string>('');
-  const debouncedSearch = useDebounce(inputValue, 500);
+  const debouncedSearch = useDebounce(inputValue,200);
   const router = useRouter();
 
   const {
@@ -159,9 +154,7 @@ export default function SearchHeader() {
         disableClearable
         options={options || []}
         onInputChange={(e, value) => {
-          if (value.length > 0) {
             setInputValue(value);
-          }
         }}
         clearOnBlur
         clearOnEscape
@@ -169,21 +162,18 @@ export default function SearchHeader() {
           typeof option === 'string' ? option : option.title
         }
         filterOptions={(x) => x}
-        // value={inputValue}
         autoSelect={false}
-        // freeSolo
-        disableListWrap
+        freeSolo={inputValue?.length? false :true}
         autoComplete={false}
         noOptionsText={inputValue && `No results for "${inputValue}"`}
-        // noOptions={<>No results for "${inputValue}</>}
-
         loading={isFetching}
         loadingText={
-          <SearchLoading>
-            <ReactLoading type="spin" color="#C4C4C4" height={20} width={20} />
-          </SearchLoading>
+          <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+            <ReactLoading  type="spin" color="#C4C4C4" height={20} width={20} />
+          </Box>
         }
         renderOption={(props, option: any) => {
+          
           return (
             <SearchOption
               {...props}

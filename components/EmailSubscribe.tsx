@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import axios from 'axios';
-
 import {
   Link,
   Box,
   Button,
-  ButtonProps,
   TextField,
   TextFieldProps,
   Typography,
   styled,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+
 import EastIcon from '@mui/icons-material/East';
 import Snackbar from '@mui/material/Snackbar';
 import { useForm, SubmitHandler } from 'react-hook-form';
-
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR;
@@ -40,14 +39,17 @@ const SubInput = styled(TextField)<TextFieldProps>(({ theme }) => ({
 const EmailSubscribe = (): JSX.Element => {
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const [alertErrorOpen, setAlertErrorOpen] = useState<boolean>(false);
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+
   const [errorMessage, setErrorMessage] = useState<string>('');
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     let sendData = { address: data.email };
+    setSubmitLoading(true)
     axios
       .post(`${ADDR}/email/subscribe`, sendData)
       .then((res) => {
-        console.log(res);
+        setSubmitLoading(false)
         if (res.data && res.data.data) {
           setAlertOpen(true);
         } else {
@@ -56,6 +58,8 @@ const EmailSubscribe = (): JSX.Element => {
         }
       })
       .catch((err) => {
+        setSubmitLoading(false)
+
         setAlertErrorOpen(true);
       });
   };
@@ -74,7 +78,7 @@ const EmailSubscribe = (): JSX.Element => {
   return (
     <>
       <Box className="contentleft">
-        <Typography variant="h3">Not miss a beat of EIPs update? </Typography>
+        <Typography variant="h3">Not miss a beat of EIPs' update? </Typography>
         <Typography variant="body1" marginBottom={'10px'} marginTop={'10px'}>
           Subscribe EIPs Fun to receive the latest updates of EIPs Good for
           Buidlers to follow up.
@@ -91,26 +95,43 @@ const EmailSubscribe = (): JSX.Element => {
             placeholder="Enter your email"
             size="small"
           />
-          <Button
+          <LoadingButton
+            size="medium"
+            type="submit"
+            loading={submitLoading}
+            loadingPosition="start"
             variant="contained"
+            startIcon={<SubscriptionsIcon />}
             sx={{
               borderTopLeftRadius: 0,
               borderBottomLeftRadius: 0,
               height: 40,
             }}
+          >
+            <span>Submit</span>
+          </LoadingButton>
+          {/* <Button
+            variant="contained"
+           
             size="medium"
             type="submit"
           >
             Submit
-          </Button>
+          </Button> */}
         </form>
       </Box>
-      <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           Subscribed
         </Alert>
       </Snackbar>
       <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={alertErrorOpen}
         autoHideDuration={6000}
         onClose={handleClose}

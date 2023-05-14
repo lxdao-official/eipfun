@@ -220,10 +220,10 @@ const introList = [
     intro: 'Clone the repository, write your idea, commit and push a PR',
     action: 'Propose now',
     index: 1,
-    actionLink: '/eips/new',
+    actionLink: 'https://github.com/ethereum/EIPs',
   },
   {
-    title: 'review & feedback',
+    title: 'Review & feedback',
     image: '/images/intro_2.jpg',
     intro:
       'Once review is done, any editor assigns an EIP number and merges the PR',
@@ -259,14 +259,5 @@ const partnerList = [
     logo: '/images/plancker.svg',
     link: 'https://plancker.org/',
   },
-  {
-    name: 'Plancker1',
-    logo: '/images/plancker.svg',
-    link: 'https://plancker.org/',
-  },
-  {
-    name: 'Plancker3',
-    logo: '/images/plancker.svg',
-    link: 'https://plancker.org/',
-  },
+ 
 ];

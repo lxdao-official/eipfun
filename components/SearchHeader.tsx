@@ -122,10 +122,11 @@ export default function SearchHeader() {
         filterOptions={(x) => x}
         // value={inputValue}
         autoSelect={false}
-        // freeSolo
+       
+        loading={inputValue.length>0||isFetching}
+        freeSolo={inputValue?.length ? false : true}
         autoComplete={false}
-        // noOptionsText={`No results for "${inputValue} "`}
-        loading={isFetching}
+        noOptionsText={inputValue && `No results for "${inputValue}"`}
         loadingText={
           <SearchLoading>
             <ReactLoading type="spin" color="#C4C4C4" height={20} width={20} />
@@ -146,7 +147,7 @@ export default function SearchHeader() {
             </SearchOption>
           );
         }}
-        freeSolo
+        
         renderInput={(params) => (
           <TextField
             placeholder="Search EIPs by number/word"
