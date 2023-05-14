@@ -7,8 +7,9 @@ export function formatMeta(meta: string): EIPHeader {
 
   meta.split("\n").forEach((item) => {
     if (item && item.includes(": ")) {
-      const [k, v] = item.split(": ");
-      metaObj[k] = v;
+      let tmpItem = item.replace(': ', '----');
+      const [k, v] = tmpItem.split("----");
+      metaObj[k] = v.replaceAll('"', '');
     }
   });
 
@@ -26,12 +27,7 @@ export function formatComEIP(str: string): EIPHeader {
   const [, meta, ...con] = str.split("---");
   const metaObj: EIPHeader = {};
 
-  meta.split("\n").forEach((item) => {
-    if (item && item.includes(": ")) {
-      const [k, v] = item.split(": ");
-      metaObj[k] = v;
-    }
-  });
+  Object.assign(metaObj, formatMeta(meta))
 
   con
     .toString()
