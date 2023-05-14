@@ -44,11 +44,11 @@ const EmailSubscribe = (): JSX.Element => {
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     let sendData = { address: data.email };
-    setSubmitLoading(true)
+    setSubmitLoading(true);
     axios
       .post(`${ADDR}/email/subscribe`, sendData)
       .then((res) => {
-        setSubmitLoading(false)
+        setSubmitLoading(false);
         if (res.data && res.data.data) {
           setAlertOpen(true);
         } else {
@@ -57,7 +57,7 @@ const EmailSubscribe = (): JSX.Element => {
         }
       })
       .catch((err) => {
-        setSubmitLoading(false)
+        setSubmitLoading(false);
         setErrorMessage(err.message);
         setAlertErrorOpen(true);
       });
@@ -77,7 +77,9 @@ const EmailSubscribe = (): JSX.Element => {
   return (
     <>
       <Box className="contentleft">
-        <Typography variant="h3">Not miss a beat of EIPs&rsquo; update? </Typography>
+        <Typography variant="h3">
+          Not miss a beat of EIPs&rsquo; update?{' '}
+        </Typography>
         <Typography variant="body1" marginBottom={'10px'} marginTop={'10px'}>
           Subscribe EIPs Fun to receive the latest updates of EIPs Good for
           Buidlers to follow up.
@@ -123,14 +125,23 @@ const EmailSubscribe = (): JSX.Element => {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        // anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        sx={{ height: '100%' }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           Subscribed
         </Alert>
       </Snackbar>
       <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+         sx={{ height: '100%' }}
+         anchorOrigin={{
+           vertical: 'top',
+           horizontal: 'center',
+         }}
         open={alertErrorOpen}
         autoHideDuration={6000}
         onClose={handleClose}
