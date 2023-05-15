@@ -50,7 +50,7 @@ const TypeButton = styled(Button)(() => {
 });
 
 const categorysArr = ['All', 'Core', 'Networking', 'Interface', 'ERC'];
-const typeArr = ['Meta', 'Informationl'];
+const typeArr = ['Meta', 'Informational'];
 
 const statusArr = [
   'All',
