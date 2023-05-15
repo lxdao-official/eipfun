@@ -1,5 +1,5 @@
 ---
-title: Hello
+title: 中文 哈喽
 slug: home
 ---
 

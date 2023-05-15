@@ -7,10 +7,12 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import { Box, Link, styled } from '@mui/material';
 import SearchHeader from './SearchHeader';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import useGetLang from '@/hooks/useGetLang';
 
 const Navigation = (): JSX.Element => {
   const [langText, setLangText] = useState<string>();
   const router = useRouter();
+  const isEn = useGetLang() === 'en';
   useEffect(() => {
     if (router.pathname.includes('zh')) {
       setLangText('EN');
@@ -54,7 +56,7 @@ const Navigation = (): JSX.Element => {
   }));
   const toggleLang = () => {
     if (langText === 'EN') {
-      router.replace(router.pathname.substring(3));
+      router.replace(router.pathname.substring(3) || '/');
     } else {
       router.replace('/zh' + router.pathname);
     }
@@ -63,14 +65,14 @@ const Navigation = (): JSX.Element => {
   return (
     <EipHeader>
       <Box display={'flex'} alignItems={'center'}>
-        <Link href="/">
+        <Link href={isEn ? '/' : '/zh'}>
           <Logo />
         </Link>
         <Link
           sx={{ margin: '0 5px 0 30px' }}
           fontWeight={600}
           className={router.asPath === '/' ? 'current' : ''}
-          href="/"
+          href={isEn ? '/' : '/zh'}
           color="inherit"
           underline="hover"
         >
@@ -82,7 +84,7 @@ const Navigation = (): JSX.Element => {
           fontWeight={600}
           underline="hover"
           className={router.asPath === '/eips' ? 'current' : ''}
-          href="/eips"
+          href={isEn ? '/eips' : '/zh/eips'}
         >
           EIPs
         </Link>

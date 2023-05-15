@@ -26,9 +26,6 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 const StyledTableRow = styled(TableRow)(() => ({
-  // '&:nth-of-type(odd)': {
-  //   backgroundColor: theme.palette.action.hover,
-  // },
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
@@ -53,9 +50,10 @@ const TypeButton = styled(Button)(() => {
 });
 
 const categorysArr = ['All', 'Core', 'Networking', 'Interface', 'ERC'];
-const typeArr = ['Standards_Track', 'Meta', 'Informationl'];
+const typeArr = ['Meta', 'Informationl'];
 
 const statusArr = [
+  'All',
   'Living',
   'Final',
   'Last_Call',
@@ -74,6 +72,7 @@ type IProps = {
     author: string;
     status: string;
     type: string;
+    category?: string;
   }[];
   pagination: {
     total: number;
@@ -88,7 +87,7 @@ function Eips({ data, pagination }: IProps) {
   const [dataArr, setDataArr] = useState(data);
 
   const [active, setActive] = useState('All');
-  const [activeSecond, setActiveSecond] = useState('');
+  const [activeSecond, setActiveSecond] = useState('All');
 
   useEffect(() => {
     getPageData({
@@ -138,7 +137,7 @@ function Eips({ data, pagination }: IProps) {
     if (status === 'first') {
       setActive(value);
       if (value === 'All') {
-        setActiveSecond('');
+        setActiveSecond('All');
       }
     } else {
       setActiveSecond(value);
@@ -237,11 +236,17 @@ function Eips({ data, pagination }: IProps) {
           <Table sx={{ minWidth: 700 }} aria-label="table">
             <TableHead>
               <TableRow>
-                <StyledTableCell width={0.125}>Number</StyledTableCell>
-                <StyledTableCell width={0.0833}>Status</StyledTableCell>
-                <StyledTableCell width={0.0833}>Type</StyledTableCell>
-                <StyledTableCell width={0.375}>Title</StyledTableCell>
-                <StyledTableCell width={0.3333}>Author</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.125' }}>
+                  Number
+                </StyledTableCell>
+                <StyledTableCell sx={{ width: '0.0833' }}>
+                  Status
+                </StyledTableCell>
+                <StyledTableCell sx={{ width: '0.0833' }}>Type</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.375' }}>Title</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.3333' }}>
+                  Author
+                </StyledTableCell>
               </TableRow>
             </TableHead>
 
@@ -261,6 +266,7 @@ function Eips({ data, pagination }: IProps) {
                   </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
                     {row.type.replace('_', ' ')}
+                    {row.category ? ': ' + row.category : ''}
                   </StyledTableCell>
                   <StyledTableCell>{row.title}</StyledTableCell>
                   <StyledTableCell>
