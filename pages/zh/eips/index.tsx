@@ -288,7 +288,7 @@ function Eips({ data, pagination }: IProps) {
         <Stack spacing={2} alignItems={'center'} sx={{ margin: '16px 0 20px' }}>
           <Pagination
             onChange={handlePageChange}
-            count={total || 0}
+            count={Math.ceil(total / 20) || 0}
             page={current || 1}
             showFirstButton
             showLastButton
