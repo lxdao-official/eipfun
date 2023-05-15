@@ -71,7 +71,7 @@ const Navigation = (): JSX.Element => {
         <Link
           sx={{ margin: '0 5px 0 30px' }}
           fontWeight={600}
-          className={router.asPath === '/' ? 'current' : ''}
+          className={['/', '/zh'].includes(router.asPath) ? 'current' : ''}
           href={isEn ? '/' : '/zh'}
           color="inherit"
           underline="hover"
@@ -83,7 +83,7 @@ const Navigation = (): JSX.Element => {
           sx={{ margin: '0 30px 0 5px', padding: '0 20px' }}
           fontWeight={600}
           underline="hover"
-          className={router.asPath === '/eips' ? 'current' : ''}
+          className={router.asPath.includes('/eips') ? 'current' : ''}
           href={isEn ? '/eips' : '/zh/eips'}
         >
           EIPs
