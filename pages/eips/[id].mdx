@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
-import { EipsSearchWrap } from '@/components/eip-style';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP } from '@/utils/str';
 import { readFile, } from 'node:fs/promises';
@@ -208,9 +207,9 @@ return (<>
       </>)}
     </Box>
 
-    <EipsSearchWrap>
+    <Box display='flex' alignItems="center" justifyContent="space-between" borderRadius="10px" px={4} py={5} my={5} sx={{background: '#F8F9FB'}}>
       <EmailSubscribe />
-    </EipsSearchWrap>
+    </Box>
 
   </Container>
 </>);

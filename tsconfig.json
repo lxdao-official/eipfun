@@ -16,6 +16,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/utils/*": ["utils/*"],
+      "@/types/*": ["types/*"],
       "@/hooks/*": ["hooks/*"]
     },
     "isolatedModules": true,

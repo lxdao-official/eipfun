@@ -1,4 +1,5 @@
-import { Box, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Link, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -10,12 +11,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import Link from 'next/link';
+import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#f7f7f7',
     color: '#2e343f',
+    fontWeight: 'bold',
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -24,106 +26,259 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 const StyledTableRow = styled(TableRow)(() => ({
-  // '&:nth-of-type(odd)': {
-  //   backgroundColor: theme.palette.action.hover,
-  // },
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
+    borderRight: '1px solid #f7f7f7',
   },
 }));
 
-function createData(
-  number: number,
-  status: string,
-  title: string,
-  author: string
-) {
-  return { number, status, title, author };
-}
+const TypeButton = styled(Button)(() => {
+  return {
+    marginRight: '16px',
+    borderColor: 'transparent',
+    color: '#272D37',
+    background: '#F7F7F8',
+    '&:hover': {
+      color: '#437EF7',
+    },
+    '&.active': {
+      color: '#437EF7',
+      background: '#F5FAFF',
+    },
+  };
+});
 
-const rows = [
-  createData(
-    2,
-    'living',
-    'Homestead Hard-fork Changes',
-    'Vitalik Buterin (@vbuterin)'
-  ),
-  createData(
-    5,
-    'living',
-    'Gas Usage for `RETURN` and `CALL*`',
-    'Christian Reitwiessner <c@ethdev.com>'
-  ),
-  createData(7, 'living', 'DELEGATECALL', 'Vitalik Buterin (@vbuterin)'),
-  createData(
-    100,
-    'living',
-    'Change difficulty adjustment to target mean block time including uncles',
-    'Vitalik Buterin (@vbuterin)'
-  ),
-  createData(
-    140,
-    'living',
-    'REVERT instruction',
-    'Alex Beregszaszi (@axic), Nikolai Mushegian <nikolai@nexusdev.us>'
-  ),
+const categorysArr = ['All', 'Core', 'Networking', 'Interface', 'ERC'];
+const typeArr = ['Meta', 'Informationl'];
+
+const statusArr = [
+  'All',
+  'Living',
+  'Final',
+  'Last_Call',
+  'Review',
+  'Draft',
+  'Stagnant',
+  'Withdrawn',
+  'Idea',
 ];
 
-export default function Eips() {
+type IProps = {
+  data: {
+    id: number;
+    eip: number;
+    title: string;
+    author: string;
+    status: string;
+    type: string;
+    category?: string;
+  }[];
+  pagination: {
+    total: number;
+    current: number;
+    per_page: number;
+  };
+};
+
+function Eips({ data, pagination }: IProps) {
+  const [total, setTotal] = useState(pagination.total);
+  const [current, setCurrent] = useState(0);
+  const [dataArr, setDataArr] = useState(data);
+
+  const [active, setActive] = useState('All');
+  const [activeSecond, setActiveSecond] = useState('All');
+
+  useEffect(() => {
+    getPageData({
+      page: 0,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, activeSecond]);
+
+  const getPageData = ({
+    type = typeArr.includes(active) ? active : undefined,
+    category = categorysArr.includes(active) && active !== 'All'
+      ? active
+      : undefined,
+    status = statusArr.includes(activeSecond) && activeSecond !== 'All'
+      ? activeSecond
+      : undefined,
+    page,
+  }: {
+    type?: string;
+    category?: string;
+    status?: string;
+    page?: number;
+  }) => {
+    axios
+      .get('https://api-dev.eips.fun/eips/list', {
+        params: {
+          type,
+          category,
+          status,
+          page,
+          per_page: 20,
+        },
+      })
+      .then((res) => {
+        if (res.data.data && res.data.pagination) {
+          setTotal(res.data.pagination.total);
+          setCurrent(res.data.pagination.current + 1);
+          setDataArr(res.data.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleClickType = (value: string, status = 'first') => {
+    if (status === 'first') {
+      setActive(value);
+      if (value === 'All') {
+        setActiveSecond('All');
+      }
+    } else {
+      setActiveSecond(value);
+    }
+  };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrent(page);
+    getPageData({
+      page: page - 1,
+    });
+  };
+
+  const fomatLink = (str: string) => {
+    if (str.includes('<')) {
+      let [name, linkText] = str.split('<');
+      let link;
+      linkText = linkText.replace('>', '');
+      link = 'mailto:' + linkText;
+      return (
+        <>
+          {name}(
+          <Link underline="hover" href={link}>
+            {linkText}
+          </Link>
+          )
+        </>
+      );
+    } else if (str.includes('(')) {
+      let [name, linkText] = str.split('(');
+      let link;
+      linkText = linkText.replace(')', '');
+      link = 'https://github.com/' + linkText.replace('@', '');
+      return (
+        <>
+          {name}(
+          <Link underline="hover" href={link}>
+            {linkText}
+          </Link>
+          )
+        </>
+      );
+    } else {
+      return str;
+    }
+  };
+
   return (
     <>
-      <Box sx={{ height: '300px', background: 'lightGreen' }}></Box>
+      <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg">
-        <Box>Eips</Box>
-        <Box sx={{ margin: '6px 10px' }}>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Living
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Final
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Last Call
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Review
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Draft
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Stagnant
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Withdrawn
-          </Button>
-          <Button sx={{ marginRight: '10px' }} variant="outlined">
-            Review
-          </Button>
+        <Typography color="#2E343F" py={4} variant="h4" fontWeight="bold">
+          EIPs
+        </Typography>
+
+        <Box pb={3} my={0.75}>
+          {categorysArr.map((item) => (
+            <TypeButton
+              className={item === active ? 'active' : ''}
+              variant="outlined"
+              key={item}
+              onClick={() => handleClickType(item)}
+            >
+              {item}
+            </TypeButton>
+          ))}
+          {typeArr.map((item) => (
+            <TypeButton
+              className={item === active ? 'active' : ''}
+              variant="outlined"
+              key={item}
+              onClick={() => handleClickType(item)}
+            >
+              {item.replace('_', ' ')}
+            </TypeButton>
+          ))}
+        </Box>
+
+        <Box pb={3} my={0.75}>
+          {statusArr.map((item) => (
+            <TypeButton
+              className={item === activeSecond ? 'active' : ''}
+              variant="outlined"
+              key={item}
+              onClick={() => handleClickType(item, 'status')}
+            >
+              {item.replace('_', ' ')}
+            </TypeButton>
+          ))}
         </Box>
 
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Number</StyledTableCell>
-                <StyledTableCell>Status</StyledTableCell>
-                <StyledTableCell>Title</StyledTableCell>
-                <StyledTableCell align="right">Author</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.125' }}>
+                  Number
+                </StyledTableCell>
+                <StyledTableCell sx={{ width: '0.0833' }}>
+                  Status
+                </StyledTableCell>
+                <StyledTableCell sx={{ width: '0.0833' }}>Type</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.375' }}>Title</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.3333' }}>
+                  Author
+                </StyledTableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.number}>
+              {dataArr.map((row) => (
+                <StyledTableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
-                    <Link href="./eips/eip1">{row.number}</Link>
+                    <Link
+                      style={{ textDecoration: 'underline', color: '#437EF7' }}
+                      href={`./eips/eip-${row.eip}`}
+                    >
+                      {row.eip}
+                    </Link>
                   </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
                     {row.status}
                   </StyledTableCell>
+                  <StyledTableCell component="th" scope="row">
+                    {row.type.replace('_', ' ')}
+                    {row.category ? ': ' + row.category : ''}
+                  </StyledTableCell>
                   <StyledTableCell>{row.title}</StyledTableCell>
-                  <StyledTableCell align="right">{row.author}</StyledTableCell>
+                  <StyledTableCell>
+                    {row?.author?.includes(', ')
+                      ? row.author.split(', ').map((item, i) => (
+                          <React.Fragment key={item}>
+                            {i !== 0 ? ', ' : ''}
+                            {fomatLink(item)}
+                          </React.Fragment>
+                        ))
+                      : fomatLink(row.author)}
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -131,9 +286,28 @@ export default function Eips() {
         </TableContainer>
 
         <Stack spacing={2} alignItems={'center'} sx={{ margin: '16px 0 20px' }}>
-          <Pagination count={10} color="primary" />
+          <Pagination
+            onChange={handlePageChange}
+            count={total || 0}
+            page={current || 1}
+            showFirstButton
+            showLastButton
+            color="primary"
+          />
         </Stack>
       </Container>
     </>
   );
 }
+
+Eips.getInitialProps = async () => {
+  let res;
+  try {
+    res = await axios.get('https://api-dev.eips.fun/eips/list');
+  } catch (e) {}
+  if (res && res.status === 200 && res.data && res.data.pagination) {
+    return { data: res.data.data, pagination: res.data.pagination };
+  }
+};
+
+export default Eips;

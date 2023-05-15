@@ -6,12 +6,7 @@ import SearchMain from '../components/SearchMain';
 import IntroCard from '../components/IntroCard';
 import { EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
-import {
-  Link,
-  Box,
-  Button,
-  Container,
-} from '@mui/material';
+import { Link, Box, Button, Container } from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
 
 export default function Home() {
@@ -21,9 +16,9 @@ export default function Home() {
     // width: 1440,
     maxWidth: 1440,
     height: 620,
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     backgroundImage: 'url(/images/banner.png)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
@@ -61,7 +56,6 @@ export default function Home() {
     alignItems: 'flex-start',
     justifyContent: 'space-around',
     margin: '20px auto 20px auto',
-    
   }));
   const EipsPartnerList = styled('div')(() => ({
     // width: 1280,
@@ -70,9 +64,9 @@ export default function Home() {
     alignItems: 'flex-start',
     justifyContent: 'center',
     margin: '60px auto 20px auto',
-    i:{
+    i: {
       width: 218,
-    }
+    },
   }));
 
   const EipsContentBlock = styled('div')(() => ({
@@ -113,7 +107,11 @@ export default function Home() {
 
   return (
     <>
-      <Container maxWidth={false} sx={{maxWidth:'1440px',padding:0}} fixed={true}>
+      <Container
+        maxWidth={false}
+        sx={{ maxWidth: '1440px', padding: 0 }}
+        fixed={true}
+      >
         <EipsBanner>
           <Typography
             variant="h2"
@@ -153,11 +151,9 @@ export default function Home() {
               eipsWay.map((item) => (
                 <IntroCard key={item.title} intro={item} />
               ))}
-              {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
-               {eipsWay.length > 0 &&
-              eipsWay.map((item,index) => (
-                <i key={index+Math.random()}></i>
-              ))}
+            {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
+            {eipsWay.length > 0 &&
+              eipsWay.map((item, index) => <i key={index + Math.random()}></i>)}
           </EipsCardList>
         </EipsContent>
         <EipsContent>
@@ -259,5 +255,4 @@ const partnerList = [
     logo: '/images/plancker.svg',
     link: 'https://plancker.org/',
   },
- 
 ];
