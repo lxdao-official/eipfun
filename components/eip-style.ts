@@ -11,5 +11,4 @@ export const EipsSearchWrap = styled('div')(() => ({
   padding: '40px 64px',
   margin: '40px auto',
   fontWeight: 400,
-})
-);
+}));

@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
 import { useRouter } from 'next/router';
 
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
@@ -18,7 +18,7 @@ const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   lineHeight: '58px',
   // backgroundColor: '#fff',
   overflow: 'hidden',
- 
+
   '.MuiInputBase-root': {
     backgroundColor: '#fff',
   },
@@ -100,7 +100,6 @@ function useSearch(searchText: string) {
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
         }
-       
 
         if (res.data.data?.title_list) {
           res.data.data?.title_list.map((item) => {
@@ -113,7 +112,7 @@ function useSearch(searchText: string) {
         }
         // let titleList = res.data.data?.title_list;
         // let contentList = res.data.data?.content_list;
-       
+
         // if (titleList && contentList) {
         //   optionsList = contentList.reduce((acc, cur) => {
         //     const target = acc.find((e) => e.eip === cur.eip);
@@ -137,13 +136,10 @@ function useSearch(searchText: string) {
 }
 export default function SearchHeader() {
   const [inputValue, setInputValue] = useState<string>('');
-  const debouncedSearch = useDebounce(inputValue,200);
+  const debouncedSearch = useDebounce(inputValue, 200);
   const router = useRouter();
 
-  const {
-    isFetching,
-    data: options,
-  } = useSearch(debouncedSearch);
+  const { isFetching, data: options } = useSearch(debouncedSearch);
 
   return (
     <SearchMain>
@@ -152,7 +148,7 @@ export default function SearchHeader() {
         disableClearable
         options={options || []}
         onInputChange={(e, value) => {
-            setInputValue(value);
+          setInputValue(value);
         }}
         clearOnBlur
         clearOnEscape
@@ -161,17 +157,16 @@ export default function SearchHeader() {
         }
         filterOptions={(x) => x}
         autoSelect={false}
-        freeSolo={inputValue?.length? false :true}
+        freeSolo={inputValue?.length ? false : true}
         autoComplete={false}
         noOptionsText={inputValue && `No results for "${inputValue}"`}
         loading={isFetching}
         loadingText={
           <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-            <ReactLoading  type="spin" color="#C4C4C4" height={20} width={20} />
+            <ReactLoading type="spin" color="#C4C4C4" height={20} width={20} />
           </Box>
         }
         renderOption={(props, option: any) => {
-          
           return (
             <SearchOption
               {...props}

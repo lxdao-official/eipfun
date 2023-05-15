@@ -10,8 +10,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
-const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR||'https://api-dev.eips.fun';
-
+const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const SearchOption = styled('li')(() => ({
   padding: '5px 20px!important',
@@ -19,11 +18,10 @@ const SearchOption = styled('li')(() => ({
   width: '100%',
   color: '#2E343F',
   margin: 0,
-  fontSize:14,
+  fontSize: 14,
   b: {
     color: '#437EF7',
   },
-  
 }));
 const SearchLoading = styled('div')(() => ({
   textAlign: 'center',
@@ -100,68 +98,61 @@ export default function SearchHeader() {
   const debouncedSearch = useDebounce(inputValue, 500);
   const router = useRouter();
 
-  const {
-    isFetching,
-    data: options,
-  } = useSearch(debouncedSearch);
+  const { isFetching, data: options } = useSearch(debouncedSearch);
 
   return (
-      <Autocomplete
-        id="search-header"
-        sx={{ width: 460, height: 46 }}
-        disableClearable
-        options={options || []}
-        onInputChange={(e, value) => {
-          setInputValue(value);
-        }}
-        getOptionLabel={(option: any) =>
-          typeof option === 'string' ? option : option.title
-        }
-        filterOptions={(x) => x}
-        // value={inputValue}
-        autoSelect={false}
-       
-        loading={inputValue.length>0||isFetching}
-        freeSolo={inputValue?.length ? false : true}
-        autoComplete={false}
-        noOptionsText={inputValue && `No results for "${inputValue}"`}
-        loadingText={
-          <SearchLoading>
-            <ReactLoading type="spin" color="#C4C4C4" height={20} width={20} />
-          </SearchLoading>
-        }
-        renderOption={(props, option: any) => {
-          return (
-            <SearchOption
-              {...props}
-              onClick={() => {
-                router.push(`/eips/eip-${option.eip}`);
-              }}
-            >
-              <h3>
-                EIP: {option.rank?option.eip:(<b>{option.eip}</b>)} -{' '}
-              </h3>
-                <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
-            </SearchOption>
-          );
-        }}
-        
-        renderInput={(params) => (
-          <TextField
-            placeholder="Search EIPs by number/word"
-            {...params}
-            size="small"
-            InputProps={{
-              type: 'search',
-              ...params.InputProps,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
+    <Autocomplete
+      id="search-header"
+      sx={{ width: 460, height: 46 }}
+      disableClearable
+      options={options || []}
+      onInputChange={(e, value) => {
+        setInputValue(value);
+      }}
+      getOptionLabel={(option: any) =>
+        typeof option === 'string' ? option : option.title
+      }
+      filterOptions={(x) => x}
+      // value={inputValue}
+      autoSelect={false}
+      loading={inputValue.length > 0 || isFetching}
+      freeSolo={inputValue?.length ? false : true}
+      autoComplete={false}
+      noOptionsText={inputValue && `No results for "${inputValue}"`}
+      loadingText={
+        <SearchLoading>
+          <ReactLoading type="spin" color="#C4C4C4" height={20} width={20} />
+        </SearchLoading>
+      }
+      renderOption={(props, option: any) => {
+        return (
+          <SearchOption
+            {...props}
+            onClick={() => {
+              router.push(`/eips/eip-${option.eip}`);
             }}
-          />
-        )}
-      />
+          >
+            <h3>EIP: {option.rank ? option.eip : <b>{option.eip}</b>} - </h3>
+            <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
+          </SearchOption>
+        );
+      }}
+      renderInput={(params) => (
+        <TextField
+          placeholder="Search EIPs by number/word"
+          {...params}
+          size="small"
+          InputProps={{
+            type: 'search',
+            ...params.InputProps,
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
+    />
   );
 }

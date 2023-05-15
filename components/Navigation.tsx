@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import Logo from 'public/logo.svg';
 import LanguageIcon from '@mui/icons-material/Language';
 import TelegramIcon from '@mui/icons-material/Telegram';

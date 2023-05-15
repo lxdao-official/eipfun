@@ -4,10 +4,10 @@ export const theme = createTheme({
   typography: {
     fontFamily: 'Inter',
     button: {
-      textTransform: "none"
-    }
+      textTransform: 'none',
+    },
   },
- 
+
   palette: {
     primary: {
       light: '#757ce8',

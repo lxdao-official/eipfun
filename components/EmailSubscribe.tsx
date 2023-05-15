@@ -137,11 +137,11 @@ const EmailSubscribe = (): JSX.Element => {
         </Alert>
       </Snackbar>
       <Snackbar
-         sx={{ height: '100%' }}
-         anchorOrigin={{
-           vertical: 'top',
-           horizontal: 'center',
-         }}
+        sx={{ height: '100%' }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
         open={alertErrorOpen}
         autoHideDuration={3000}
         onClose={handleClose}
