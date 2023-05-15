@@ -71,7 +71,7 @@ key="description"
         <Box py={4}>
           EIPs &gt;{' '}
           <Link underline="none" href="#">
-            ERC {meta.eip}
+            EIP-{meta.eip}
           </Link>
         </Box>
 
@@ -89,7 +89,7 @@ key="description"
             right={50}
             bottom={56}
           >
-            ERC {meta.eip}
+            EIP-{meta.eip}
           </Box>
         </Box>
 
@@ -152,7 +152,7 @@ key="description"
         </Box>
 
         {meta.requires && meta.requires?.length > 0 && meta.requires != 0 && (
-          <Box pb={4}>
+          <Box  pb={4} sx={{fontSize: '14px'}}>
             Requires:{' '}
             {meta.requires.includes(', ') ? (
               meta.requires.split(', ').map((item, i) => (
@@ -171,7 +171,7 @@ key="description"
           </Box>
         )}
 
-        <Box pb={4} display="flex">
+        <Typography pb={4} display="flex" variant="subtitle2" component={Box}>
           {meta?.author?.includes(', ')
             ? meta.author.split(', ').map((item, i) => (
                 <React.Fragment key={item}>
@@ -180,7 +180,7 @@ key="description"
                 </React.Fragment>
               ))
             : fomatLink(meta.author)}
-        </Box>
+        </Typography>
 
         <Box pt={4} pb={3}>
           {meta['discussions-to'] && (
@@ -277,7 +277,7 @@ key="description"
               </Box>
               <Box mt={4} sx={{ textAlign: 'center' }}>
                 <Button variant="contained" onClick={handleShow}>
-                  {show ? 'Put away' : 'View More'}
+                  {show ? 'Show Less' : 'View More'}
                 </Button>
               </Box>
             </Box>

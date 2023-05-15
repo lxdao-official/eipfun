@@ -56,13 +56,13 @@ return (<>
     <Box py={4}>
       EIPs &gt;{' '}
       <Link underline='none' href="#">
-        ERC {meta.eip}
+        EIP-{meta.eip}
       </Link>
     </Box>
 
     <Box sx={{position: 'relative', background: "#333 url('/images/eip_details_bg.png') no-repeat top left"}} height="310px" borderRadius={1}>
       <Box sx={{position: 'absolute', color: '#fff', fontSize: '80px' }} right={50} bottom={56}>
-        ERC {meta.eip}
+        EIP-{meta.eip}
       </Box>
     </Box>
 
@@ -95,13 +95,13 @@ return (<>
       </Box>
     )}
 
-    <Box pb={4} display='flex'>
+    <Typography pb={4} display="flex" variant="subtitle2" component={Box}>
       {meta?.author?.includes(', ')
         ? meta.author.split(', ').map((item, i) => (<React.Fragment key={item}>
              {i !== 0 ? ', ' : '' }{fomatLink(item)}
           </React.Fragment>))
         : fomatLink(meta.author)}
-    </Box>
+    </Typography>
 
     <Box pt={4} pb={3}>
       {meta['discussions-to'] && (
@@ -165,7 +165,7 @@ return (<>
           </Box>
           <Box mt={4} sx={{textAlign: 'center'}}>
             <Button variant="contained" onClick={handleShow}>
-              {show ? 'Put away' : 'View More'}
+              {show ? 'Show Less' : 'View More'}
             </Button>
           </Box>
         </Box>
