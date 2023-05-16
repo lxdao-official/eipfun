@@ -5,13 +5,23 @@ import { Container, Box, Link, Button, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
 import EmailSubscribe from '@/components/EmailSubscribe';
+import Toc from 'react-toc';
 import { formatMeta, formatComEIP } from '@/utils/str';
 import { readFile, } from 'node:fs/promises';
 import path from 'path';
 
 export default function EIPDetails({ children, meta, id, jsxData }) {
   const [show, setShow] = useState(false);
-  // const matches = useMediaQuery('(max-width:576px)', { noSsr: true });
+  // const matches = useMediaQuery('(max-width:576px)', { noSsr: true });  React.useEffect(() => {
+  React.useEffect(() => {
+    
+    setTimeout(() => {
+      const hs = document.querySelectorAll('.markdown-body h4, .markdown-body h3, .markdown-body h2')
+      hs.forEach(item => {
+        item.id = item.innerHTML
+      })
+    }, 200);
+  }, [])
   const handleShow = () => {
     setShow((state) => !state);
     if (show) {
@@ -57,6 +67,7 @@ return (
       }
       key="description"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css" integrity="sha512-Ya9H+OPj8NgcQk34nCrbehaA0atbzGdZCI2uCbqVRELgnlrh8vQ2INMnkadVMSniC54HChLIh5htabVuKJww8g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </Head>
 
   <Box borderTop={1} borderColor="#EAEBF0" />
@@ -166,7 +177,7 @@ return (
           borderRadius={1.5}
           mb={6}
         >
-          <Box sx={[{ height: show ? 'auto' : '526px', overflow: 'hidden', '& h2,& hr': { display: 'none'} } ]}>
+          <Box sx={[{ height: show ? 'auto' : '526px', overflow: 'hidden', '& h2:first-of-type,& hr': { display: 'none'} } ]} className="markdown-body">
             <Box sx={visuallyHidden}>{jsxData}</Box>
             <EIPDetail />
           </Box>
@@ -175,6 +186,9 @@ return (
               {show ? 'Show Less' : 'View More'}
             </Button>
           </Box>
+        </Box>
+        <Box position="fixed" left={0} top={0} sx={visuallyHidden}>
+          <Toc markdownText={jsxData} />
         </Box>
 
         {meta['extended resources']?.length > 0 && (<>

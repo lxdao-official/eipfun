@@ -69,6 +69,7 @@ return (
     }
     key="description"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css" integrity="sha512-Ya9H+OPj8NgcQk34nCrbehaA0atbzGdZCI2uCbqVRELgnlrh8vQ2INMnkadVMSniC54HChLIh5htabVuKJww8g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </Head>
   
   <Box borderTop={1} borderColor="#EAEBF0" />
@@ -275,9 +276,10 @@ return (
               {
                 height: show ? 'auto' : '526px',
                 overflow: 'hidden',
-                '& h2,& hr': { display: 'none' },
+                '& h2:first-of-type,& hr': { display: 'none' },
               },
             ]}
+            className="markdown-body"
           >
             <Box sx={visuallyHidden}>{jsxData}</Box>
             <EIPDetail />
