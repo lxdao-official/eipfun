@@ -40,18 +40,24 @@ export default function EIPDetails({ children, meta, id, jsxData }) {
       return str;
     }
   }
+  const TITLE = `EIP-${meta.eip}: ${meta.title} | EIPs Fun-Serve EIP builders, scale Ethereum`;
 
-return (<>
+return (
 
-<Head>
-  <title>{meta.title}</title>
-  <meta property="og:title" content={meta.title} key="title" />
-  <meta
-    property="og:description"
-    content={meta.abstract || meta.description}
-    key="description"
-  />
-</Head>
+<>
+  <Head>
+    <title>{TITLE}</title>
+    <meta property="og:title" content={TITLE} key="title" />
+    <meta
+      property="og:description"
+      content={
+        (meta.abstract ? meta.abstract : '') +
+        (meta.description ? meta.description : '') +
+        (meta.summary ? meta.summary : '')
+      }
+      key="description"
+    />
+  </Head>
 
   <Box borderTop={1} borderColor="#EAEBF0" />
   
@@ -74,8 +80,6 @@ return (<>
     {(meta.abstract || meta.description) && (
       <Typography pt={2} component={Box} variant='body1' color="#5F6D7E">{meta.abstract || meta.description}</Typography>
     )}
-
-
 
     <Box pb={4} pt={2}>
       <Typography display='inline-block' component="span" variant="body2" color="#FFC700" borderRadius="5px" px={1} mr={2} style={{ background: '#FFFAE9'}}>{meta.status}</Typography>
