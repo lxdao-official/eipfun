@@ -1,4 +1,4 @@
-import { Container, Grid, Box, Typography, Link, Icon } from '@mui/material';
+import { Container, Box, Typography, Link, Icon } from '@mui/material';
 import useGetLang from '@/hooks/useGetLang';
 import Logo from 'public/logo.svg';
 import LogoS from 'public/images/logo_s.svg';
