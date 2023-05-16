@@ -13,36 +13,32 @@ type footerItem = {
 };
 
 const footerList1: footerItem[] = [
-  { con: 'Features', conZh: '特性', href: '/' },
-  { con: 'Solutions', conZh: '解决方案', href: '/' },
-  { con: 'Integrations', conZh: '集成', href: '/' },
-  { con: 'Enterprise', conZh: '企业', href: '/' },
+  {
+    con: 'Github',
+    conZh: 'Github',
+    href: 'https://github.com/lxdao-official/eipsfun',
+  },
+  { con: 'Community', conZh: '社区', href: '/' },
 ];
 
 const footerList2: footerItem[] = [
-  { con: 'Partners', conZh: '合作伙伴', href: '/' },
-  { con: 'Community', conZh: '社区', href: '/' },
-  { con: 'Developers', conZh: '开发者', href: '/' },
-  { con: 'App', conZh: 'App', href: '/' },
-  { con: 'Blog', conZh: '博客', href: '/' },
-];
-
-const footerList3: footerItem[] = [
-  { con: 'About us', conZh: '关于我们', href: '/' },
-  { con: 'News', conZh: '新闻', href: '/' },
-  { con: 'Leadership', conZh: '领导', href: '/' },
-  { con: 'Media Kit', conZh: '媒体工具包', href: '/' },
+  { con: 'LXDAO', conZh: '合作伙伴', href: 'https://lxdao.io' },
+  { con: 'PlanckerDAO', conZh: '社区', href: '/' },
 ];
 
 export default function Footer() {
   const lang = useGetLang();
 
   return (
-    <Box bgcolor={'#f8f9fb'} py={8}>
+    <Box bgcolor={'#f8f9fb'} py={[5, 5, 8, 8]}>
       <Container maxWidth="lg">
-        <Grid container>
-          <Grid item xs={12} sm={12} md={4} lg={4} mb={[2, 2, 0, 0, 0]}>
-            <Box pb={2.5}>
+        <Box>
+          <Box
+            sx={{ float: 'left' }}
+            width={[1, 1, 0.5, 0.5]}
+            mb={[4, 4, 0, 0, 0]}
+          >
+            <Box pb={2}>
               <Logo />
             </Box>
 
@@ -97,45 +93,36 @@ export default function Footer() {
                 </Icon>
               </Link>
             </Box>
-          </Grid>
+          </Box>
 
-          <Grid item xs={4} sm={4} md={2.5} lg={2.5}>
-            <Typography variant="h6">Products</Typography>
-            <Box pb={7.25}>
-              {footerList1.map((item) => (
-                <Box key={item.con} height={30} sx={{ lineHeight: '30px' }}>
-                  <Link href={item.href} underline="hover" color="inherit">
-                    {lang === 'en' ? item.con : item.conZh}
-                  </Link>
-                </Box>
-              ))}
+          <Box sx={{ float: 'right' }} width={[1, 1, 320, 390]}>
+            <Box display="inline-block" width={[0.5, 0.5, 150, 290]}>
+              <Typography variant="h6">Products</Typography>
+              <Box pb={7.25} pt={2}>
+                {footerList1.map((item) => (
+                  <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
+                    <Link href={item.href} underline="hover" color="inherit">
+                      {lang === 'en' ? item.con : item.conZh}
+                    </Link>
+                  </Box>
+                ))}
+              </Box>
             </Box>
-          </Grid>
-          <Grid item xs={4} sm={4} md={2.5} lg={2.5}>
-            <Typography variant="h6">Resources</Typography>
-            <Box pb={7.25}>
-              {footerList2.map((item) => (
-                <Box key={item.con} height={30} sx={{ lineHeight: '30px' }}>
-                  <Link href={item.href} underline="hover" color="inherit">
-                    {lang === 'en' ? item.con : item.conZh}
-                  </Link>
-                </Box>
-              ))}
+            <Box display="inline-block" width={[0.5, 0.5, 170, 100]}>
+              <Typography variant="h6">Resources</Typography>
+              <Box pb={7.25} pt={2}>
+                {footerList2.map((item) => (
+                  <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
+                    <Link href={item.href} underline="hover" color="inherit">
+                      {lang === 'en' ? item.con : item.conZh}
+                    </Link>
+                  </Box>
+                ))}
+              </Box>
             </Box>
-          </Grid>
-          <Grid item xs={4} sm={4} md={2.5} lg={2.5}>
-            <Typography variant="h6">Company</Typography>
-            <Box pb={7.25}>
-              {footerList3.map((item) => (
-                <Box height={30} key={item.con} sx={{ lineHeight: '30px' }}>
-                  <Link href={item.href} underline="hover" color="inherit">
-                    {lang === 'en' ? item.con : item.conZh}
-                  </Link>
-                </Box>
-              ))}
-            </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
+        <Box sx={{ display: 'table', clear: 'both' }}></Box>
 
         <Typography component={Box} height={60} mb={2} align="center">
           <LogoS />
