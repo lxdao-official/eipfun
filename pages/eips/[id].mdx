@@ -14,6 +14,9 @@ export default function EIPDetails({ children, meta, id, jsxData }) {
   // const matches = useMediaQuery('(max-width:576px)', { noSsr: true });
   const handleShow = () => {
     setShow((state) => !state);
+    if (show) {
+      window.scrollTo({top: document.querySelector('#original').offsetTop, behavior: 'smooth'})
+    }
   };
   const EIPDetail = dynamic(() => import(`../../public/original-eips/${id}.md`));
   const fomatLink = (str) => {
@@ -91,7 +94,7 @@ return (<>
 
     {meta.requires && meta.requires?.length > 0 && meta.requires != 0 && (
       <Box pb={4}>
-      Requires: {meta.requires.includes(', ') ? meta.requires.split(', ').map((item, i) => (<>{i !== 0 ? ', ' : ''}<Link underline="none" href={`./eips/eip-${item}`}>EIP-{item}</Link></>)) : (<Link underline="none"  href={`./eips/eip-${meta.requires}`}>EIP-{meta.requires}</Link>)}
+      Requires: {meta.requires.includes(', ') ? meta.requires.split(', ').map((item, i) => (<React.Fragment key={item}>{i !== 0 ? ', ' : ''}<Link underline="none" href={`./eips/eip-${item}`}>EIP-{item}</Link></React.Fragment>)) : (<Link underline="none"  href={`./eips/eip-${meta.requires}`}>EIP-{meta.requires}</Link>)}
       </Box>
     )}
 
@@ -147,7 +150,7 @@ return (<>
           <Typography color="#5F6D7E" variant="body1">{meta.chatgpt4}</Typography>
         </Box>
 
-        <Typography pt={6} pb={3} variant='h6' fontSize="22px" fontWeight='bold'>Original</Typography>
+        <Typography id="original" pt={6} pb={3} variant='h6' fontSize="22px" fontWeight='bold'>Original</Typography>
 
         <Box
           position='relative'

@@ -14,10 +14,11 @@ export default function EIPDetails({ children, meta, id, jsxData }) {
   // const matches = useMediaQuery('(max-width:576px)', { noSsr: true });
   const handleShow = () => {
     setShow((state) => !state);
+    if (show) {
+      window.scrollTo({top: document.querySelector('#original').offsetTop, behavior: 'smooth'})
+    }
   };
-  const EIPDetail = dynamic(
-    () => import(`../../../public/original-eips/${id}.md`)
-  );
+  const EIPDetail = dynamic(() => import(`../../../public/original-eips/${id}.md`));
   const fomatLink = (str) => {
     if (str.includes('<')) {
       let [name, linkText] = str.split('<');
@@ -156,12 +157,12 @@ key="description"
             Requires:{' '}
             {meta.requires.includes(', ') ? (
               meta.requires.split(', ').map((item, i) => (
-                <>
+                <React.Fragment key={item}>
                   {i !== 0 ? ', ' : ''}
                   <Link underline="none" href={`./eips/eip-${item}`}>
                     EIP-{item}
                   </Link>
-                </>
+                </React.Fragment>
               ))
             ) : (
               <Link underline="none" href={`./eips/eip-${meta.requires}`}>
@@ -244,6 +245,7 @@ key="description"
             </Box>
 
             <Typography
+              id="original"
               pt={6}
               pb={3}
               variant="h6"
