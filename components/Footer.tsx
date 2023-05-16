@@ -47,7 +47,12 @@ export default function Footer() {
             </Typography>
 
             <Box>
-              <Link href="#" color={'#101828'} mr={1.5}>
+              <Link
+                href="https://t.eips.fun/"
+                target="_blank"
+                color={'#101828'}
+                mr={1.5}
+              >
                 <Icon
                   sx={{
                     display: 'inline-block',
