@@ -2,16 +2,16 @@ import Image from 'next/image';
 
 import styled from '@emotion/styled';
 import Typography from '@mui/material/Typography';
-import SearchMain from '@/components/SearchMain';
-import IntroCard from '@/components/IntroCard';
-import { EipWayIntro, PartnerType } from '@/types/eips';
+import SearchMain from '../../components/SearchMain';
+import { EipWayIntro, PartnerType } from '../../types/eips';
 import { useState } from 'react';
 import { Link, Box, Button, Container } from '@mui/material';
-import EmailSubscribe from '@/components/EmailSubscribe';
+import EmailSubscribe from '../../components/EmailSubscribe';
+import EastIcon from '@mui/icons-material/East';
 
 export default function Home() {
-  const [eipsWay] = useState<EipWayIntro[]>(introList);
-  const [partners] = useState<PartnerType[]>(partnerList);
+  const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
+  const [partners, setPartners] = useState<PartnerType[]>(partnerList);
   const EipsBanner = styled('div')(() => ({
     // width: 1440,
     maxWidth: 1440,
@@ -33,20 +33,6 @@ export default function Home() {
     // width: 1440,
     margin: '64px auto ',
     textAlign: 'center',
-    h3: {
-      color: '#272D37',
-      fontSize: 32,
-      lineHeight: '40px',
-      fontWeight: 700,
-      letterSpacing: ' -0.02em',
-    },
-    'p.intro': {
-      color: '#5F6D7E',
-      fontSize: 16,
-      lineHeight: '24px',
-      maxWidth: 800,
-      margin: '10px auto',
-    },
   }));
   const EipsCardList = styled('div')(() => ({
     // width: 1280,
@@ -113,14 +99,7 @@ export default function Home() {
         fixed={true}
       >
         <EipsBanner>
-          <Typography
-            variant="h2"
-            textAlign="center"
-            color="#fff"
-            fontSize="52px"
-            lineHeight="60px"
-            marginTop="60px"
-          >
+          <Typography variant="h1" textAlign="center" color="#fff">
             Serve EIP builders, scale Ethereum.
           </Typography>
           {/* <Typography
@@ -136,28 +115,79 @@ export default function Home() {
           </Typography> */}
           <SearchMain />
         </EipsBanner>
-        <EipsContent>
-          <Typography variant="h3">What is EIPs? </Typography>
-          <Typography className="intro">
+        <Box>
+          <Typography variant="h2" textAlign={'center'} marginTop={'64px'}>
+            What is EIPs?{' '}
+          </Typography>
+          <Typography variant="body2" width={'100%'} textAlign={'center'}>
             It is short for Ethereum Improvement Proposals, they are standards
-            for the Ethereum platform, including core protocol specifications,
+            for the Ethereum platform, including <br /> core protocol specifications,
             client APIs, and contract standards.
           </Typography>
-        </EipsContent>
-        <EipsContent>
-          <Typography variant="h3">How EIPs work?</Typography>
+        </Box>
+        <Box>
+          <Typography variant="h2">How EIPs work?</Typography>
           <EipsCardList>
             {eipsWay.length > 0 &&
-              eipsWay.map((item) => (
-                <IntroCard key={item.title} intro={item} />
+              eipsWay.map((item, index) => (
+                <Box
+                  flex={0}
+                  maxWidth={218}
+                  minWidth={218}
+                  width={218}
+                  textAlign={'center'}
+                  padding={'20px 0'}
+                  key={index}
+                >
+                  <Box
+                    display={'inline-flex'}
+                    width={48}
+                    height={48}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    bgcolor={'#F5FAFF'}
+                    borderRadius={'5px'}
+                    color={'#437EF7'}
+                    fontSize={24}
+                  >
+                    {item.index}
+                  </Box>
+                  <Typography
+                    variant={'h4'}
+                    padding={'16px 0 0 0'}
+                    color={'#272D37'}
+                  >
+                    {item.title}
+                  </Typography>
+                  <Typography
+                    variant={'body2'}
+                    padding={'5px 0'}
+                    width={'100%'}
+                  >
+                    {item.intro}
+                  </Typography>
+
+                  {item.action && item.actionLink && (
+                    <Link
+                      fontWeight={700}
+                      underline="hover"
+                      fontSize={15}
+                      marginTop={10}
+                      href={item.actionLink}
+                    >
+                      {' '}
+                      {item.action} <EastIcon sx={{ fontSize: '14px' }} />
+                    </Link>
+                  )}
+                </Box>
               ))}
             {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
             {eipsWay.length > 0 &&
               eipsWay.map((item, index) => <i key={index + Math.random()}></i>)}
           </EipsCardList>
-        </EipsContent>
-        <EipsContent>
-          <Typography variant="h3">Supporters & Partners</Typography>
+        </Box>
+        <Box>
+          <Typography variant="h2">Supporters & Partners</Typography>
           <EipsPartnerList>
             {partners.length > 0 &&
               partnerList.map((item) => (
@@ -180,7 +210,7 @@ export default function Home() {
                 </Box>
               ))}
           </EipsPartnerList>
-        </EipsContent>
+        </Box>
         <EipsContentBlock>
           <EmailSubscribe />
         </EipsContentBlock>
@@ -189,18 +219,23 @@ export default function Home() {
             <Typography variant="h3">How EIPs Fun works?</Typography>
             <Typography
               variant="body1"
-              marginBottom={'10px'}
-              marginTop={'10px'}
+      
+           
             >
               This is an open source and public goods.Running by a EIPs Fun DAO.
               xxx Donation means a lot for us, please donate.
             </Typography>
           </Box>
           <Box className="contentRight">
-            <Button variant="outlined" size="medium">
+            <Button variant="outlined" href="https://t.eips.fun/" size="medium">
               Join Us
             </Button>
-            <Button variant="contained" sx={{ marginLeft: 5 }} size="medium">
+            <Button
+              variant="contained"
+              href="https://app.safe.global/home?safe=eth:0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
+              sx={{ marginLeft: 5 }}
+              size="medium"
+            >
               Donate
             </Button>
           </Box>

@@ -175,7 +175,7 @@ export default function SearchHeader() {
               }}
             >
               <h3>
-                EIP: {option.rank ? option.eip : <b>{option.eip}</b>} -{' '}
+                EIP-{option.rank ? option.eip : <b>-{option.eip}</b>}
                 <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
               </h3>
               {option.ts_headline && (

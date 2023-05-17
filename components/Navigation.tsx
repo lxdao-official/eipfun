@@ -91,11 +91,9 @@ const Navigation = (): JSX.Element => {
         <SearchHeader />
       </Box>
       <Box display={'flex'} alignItems={'center'}>
-        <EipHeaderButton>
           <LightTooltip title="Join community">
-            <TelegramIcon />
+            <Link  component="button" href="https://t.eips.fun/"><TelegramIcon /></Link>
           </LightTooltip>
-        </EipHeaderButton>
 
         <EipHeaderButton onClick={toggleLang}>
           <LanguageIcon /> {langText}
