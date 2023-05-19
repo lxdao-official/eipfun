@@ -1,18 +1,10 @@
-import { styled } from '@mui/material/styles';
-import { Container, Box } from '@mui/material';
-import { Title, FooterItem as FooterItemList } from './footerComponent';
+import { Container, Box, Typography, Link, Icon } from '@mui/material';
+import useGetLang from '@/hooks/useGetLang';
 import Logo from 'public/logo.svg';
 import LogoS from 'public/images/logo_s.svg';
-
-const FooterBox = styled(Box)(() => ({
-  width: '100%',
-  background: '#f8f9fb',
-  padding: '64px 0',
-}));
-
-const FooterItem = styled(Box)(() => ({
-  flex: 1,
-}));
+import Telegram from 'public/images/telegram.svg';
+import Twitter from 'public/images/twitter.svg';
+import Discord from 'public/images/discord.svg';
 
 type footerItem = {
   con: string;
@@ -21,75 +13,130 @@ type footerItem = {
 };
 
 const footerList1: footerItem[] = [
-  { con: 'Features', conZh: '特性', href: '/' },
-  { con: 'Solutions', conZh: '解决方案', href: '/' },
-  { con: 'Integrations', conZh: '集成', href: '/' },
-  { con: 'Enterprise', conZh: '企业', href: '/' },
+  {
+    con: 'Github',
+    conZh: 'Github',
+    href: 'https://github.com/lxdao-official/eipsfun',
+  },
+  { con: 'Community', conZh: '社区', href: '/' },
 ];
 
 const footerList2: footerItem[] = [
-  { con: 'Partners', conZh: '合作伙伴', href: '/' },
-  { con: 'Community', conZh: '社区', href: '/' },
-  { con: 'Developers', conZh: '开发者', href: '/' },
-  { con: 'App', conZh: 'App', href: '/' },
-  { con: 'Blog', conZh: '博客', href: '/' },
-];
-
-const footerList3: footerItem[] = [
-  { con: 'About us', conZh: '关于我们', href: '/' },
-  { con: 'News', conZh: '新闻', href: '/' },
-  { con: 'Leadership', conZh: '领导', href: '/' },
-  { con: 'Media Kit', conZh: '媒体工具包', href: '/' },
+  { con: 'LXDAO', conZh: '合作伙伴', href: 'https://lxdao.io' },
+  { con: 'PlanckerDAO', conZh: '社区', href: '/' },
 ];
 
 export default function Footer() {
+  const lang = useGetLang();
+
   return (
-    <FooterBox>
-      <Container maxWidth="lg" sx={{ display: 'flex' }}>
-        <Box sx={{ width: '480px' }}>
+    <Box bgcolor={'#f8f9fb'} py={[5, 5, 8, 8]}>
+      <Container maxWidth="lg">
+        <Box>
           <Box
-            sx={{ fontWeight: 'bold', fontSize: '20px', paddingBottom: '20px' }}
+            sx={{ float: 'left' }}
+            width={[1, 1, 0.5, 0.5]}
+            mb={[4, 4, 0, 0, 0]}
           >
-            <Logo />
+            <Box pb={2}>
+              <Logo />
+            </Box>
+
+            <Typography component={Box} pb={2} variant="body1">
+              Serve EIP builders, scale Ethereum.
+            </Typography>
+
+            <Box>
+              <Link
+                href="https://t.eips.fun/"
+                target="_blank"
+                color={'#101828'}
+                mr={1.5}
+              >
+                <Icon
+                  sx={{
+                    display: 'inline-block',
+                    width: '48px',
+                    height: '48px',
+                    lineHeight: '48px',
+                    textAlign: 'center',
+                    borderRadius: '50%',
+                    bgcolor: '#fff',
+                  }}
+                >
+                  <Telegram />
+                </Icon>
+              </Link>
+              <Link href="#" color={'#101828'} mr={1.5}>
+                <Icon
+                  sx={{
+                    display: 'inline-block',
+                    width: '48px',
+                    height: '48px',
+                    lineHeight: '48px',
+                    textAlign: 'center',
+                    borderRadius: '50%',
+                    bgcolor: '#fff',
+                  }}
+                >
+                  <Twitter />
+                </Icon>
+              </Link>
+              <Link href="#" color={'#101828'}>
+                <Icon
+                  sx={{
+                    display: 'inline-block',
+                    width: '48px',
+                    height: '48px',
+                    lineHeight: '48px',
+                    textAlign: 'center',
+                    borderRadius: '50%',
+                    bgcolor: '#fff',
+                  }}
+                >
+                  <Discord />
+                </Icon>
+              </Link>
+            </Box>
           </Box>
-          <Box
-            sx={{
-              width: '240px',
-              paddingBottom: '16px',
-              fontSize: '16px',
-              color: '#5F6D7E',
-            }}
-          >
-            We scale EIPs by being the “layer 2” of eips.ethereum.org
-          </Box>
-          <Box sx={{ height: '60px' }}>
-            <span>icon1 </span>
-            <span>icon2 </span>
-            <span>icon3 </span>
+
+          <Box sx={{ float: 'right' }} width={[1, 1, 320, 390]}>
+            <Box display="inline-block" width={[0.5, 0.5, 150, 290]}>
+              <Typography variant="h6">Products</Typography>
+              <Box pb={7.25} pt={2}>
+                {footerList1.map((item) => (
+                  <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
+                    <Link href={item.href} underline="hover" color="inherit">
+                      {lang === 'en' ? item.con : item.conZh}
+                    </Link>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+            <Box display="inline-block" width={[0.5, 0.5, 170, 100]}>
+              <Typography variant="h6">Resources</Typography>
+              <Box pb={7.25} pt={2}>
+                {footerList2.map((item) => (
+                  <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
+                    <Link href={item.href} underline="hover" color="inherit">
+                      {lang === 'en' ? item.con : item.conZh}
+                    </Link>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
           </Box>
         </Box>
-        <FooterItem>
-          <Title>Products</Title>
-          <FooterItemList data={footerList1} />
-        </FooterItem>
-        <FooterItem>
-          <Title>Resources</Title>
-          <FooterItemList data={footerList2} />
-        </FooterItem>
-        <FooterItem>
-          <Title>Company</Title>
-          <FooterItemList data={footerList3} />
-        </FooterItem>
-      </Container>
-      <Container maxWidth="lg" sx={{ textAlign: 'center' }}>
-        <Box sx={{ height: '60px', paddingBottom: '16px' }}>
-          {' '}
+        <Box sx={{ display: 'table', clear: 'both' }}></Box>
+
+        <Typography component={Box} height={60} mb={2} align="center">
           <LogoS />
-        </Box>
-        <Box sx={{ height: '24px', lineHeight: '24px' }}>
+        </Typography>
+
+        <Typography component={Box} variant="subtitle2" align="center">
           &copy; {new Date().getFullYear()} EIP.Fun. All Rights Reserved.
-        </Box>
+        </Typography>
       </Container>
-    </FooterBox>
+    </Box>
   );
 }

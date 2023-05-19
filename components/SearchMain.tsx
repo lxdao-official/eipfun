@@ -1,123 +1,192 @@
 import * as React from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete';
-import CircularProgress from '@mui/material/CircularProgress';
-import { Button, ButtonProps, InputAdornment, styled } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Box, InputAdornment, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
-import parse from 'autosuggest-highlight/parse';
-import match from 'autosuggest-highlight/match';
-interface Film {
-  title: string;
-  year: number;
+import { useRouter } from 'next/router';
+
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import useDebounce from '../hooks/useDebounce';
+const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
+
+const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
+  maxWidth: 850,
+  height: 58,
+  lineHeight: '58px',
+  // backgroundColor: '#fff',
+  overflow: 'hidden',
+
+  '.MuiInputBase-root': {
+    backgroundColor: '#fff',
+  },
+}));
+const SearchOption = styled('li')(({}) => ({
+  flexDirection: 'column',
+  padding: '20px!important',
+  borderBottom: '1px solid #f3f3f3',
+  width: '100%',
+  color: '#2E343F',
+  margin: 0,
+  h3: {
+    width: '100%',
+    fontSize: 18,
+    fontWeight: 600,
+    margin: 0,
+  },
+  p: {
+    width: '100%',
+    fontSize: 12,
+    margin: 0,
+  },
+  b: {
+    color: '#437EF7',
+  },
+}));
+
+const SearchMain = styled('div')(({}) => ({
+  display: 'flex',
+  alignItems: 'top',
+  padding: '20px 0',
+  justifyContent: 'space-around',
+  margin: '60px auto 0 auto',
+  width: '100%',
+  '.MuiAutocomplete-root ': {
+    width: '80%',
+  },
+}));
+type EipCommonResult = {
+  eip: string;
+  title?: TrustedHTML;
+  ts_headline?: TrustedHTML;
+  rank?: number;
+};
+type EipResult = {
+  eip: string;
+  title: TrustedHTML;
+};
+type EipTitleResult = {
+  eip: string;
+  ts_headline: TrustedHTML;
+  rank: number;
+  title?: TrustedHTML;
+};
+type EipContentResult = {
+  eip: string;
+  ts_headline: TrustedHTML;
+  title: TrustedHTML;
+  rank: number;
+};
+interface ResultList {
+  eip_list?: Array<EipResult>;
+  title_list?: Array<EipTitleResult>;
+  content_list?: Array<EipContentResult>;
 }
-
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
+interface AxiosResponse {
+  data: {
+    data?: ResultList;
+  };
 }
+function useSearch(searchText: string) {
+  let url = `${ADDR}/eips/search?content=${searchText}`;
 
-export default function SearchHeader() {
-  const SearchMain = styled('div')(({ theme }) => ({
-    width: 860,
-    display: 'flex',
-    alignItems: 'top',
-    padding: '20px 0',
-    justifyContent: 'space-around',
-    margin: '60px auto 0 auto',
-  }));
-  const SearchOption = styled('li')(({ theme }) => ({
-    padding: '10px 0!important',
-    borderBottom: '1px solid #f3f3f3',
-  }));
-  const SearchLoading = styled('div')(({ theme }) => ({
-    textAlign: 'center',
-    margin: '10px auto',
-    div: {
-      margin: '0 auto',
+  return useQuery(
+    ['todos', { searchText }],
+    () => {
+      return axios.get(url).then((res: AxiosResponse) => {
+        let optionsList: EipCommonResult[] = [];
+        if (res.data.data?.eip_list) {
+          optionsList = res.data.data.eip_list;
+        }
+
+        if (res.data.data?.title_list) {
+          res.data.data?.title_list.map((item) => {
+            item.title = item.ts_headline;
+          });
+          optionsList = optionsList.concat(res.data.data?.title_list);
+        }
+        if (res.data.data?.content_list) {
+          optionsList = optionsList.concat(res.data.data?.content_list);
+        }
+        // let titleList = res.data.data?.title_list;
+        // let contentList = res.data.data?.content_list;
+
+        // if (titleList && contentList) {
+        //   optionsList = contentList.reduce((acc, cur) => {
+        //     const target = acc.find((e) => e.eip === cur.eip);
+        //     if (target) {
+        //       Object.assign(target, cur);
+        //     } else {
+        //       acc.push(cur);
+        //     }
+        //     return acc;
+        //   }, titleList);
+        // }
+        // console.log(optionsList)
+        return optionsList.slice(0, 20);
+      });
     },
-  }));
-  const EIPsSearch = styled(TextField)<TextFieldProps>(({ theme }) => ({
-    width: 850,
-    height: 58,
-    lineHeight: '58px',
-    // backgroundColor: '#fff',
-    overflow: 'hidden',
-    '.MuiInputBase-root': {
-      backgroundColor: '#fff',
-    },
-  }));
-  const [options, setOptions] = React.useState<readonly Film[]>([]);
-  const loading = options.length === 0;
-
-  React.useEffect(() => {
-    let active = true;
-
-    if (!loading) {
-      return undefined;
+    {
+      enabled: searchText.length > 0,
     }
+    // { keepPreviousData: true, staleTime: 5 * 60 * 1000 }
+  );
+}
+export default function SearchHeader() {
+  const [inputValue, setInputValue] = useState<string>('');
+  const debouncedSearch = useDebounce(inputValue, 200);
+  const router = useRouter();
 
-    (async () => {
-      await sleep(10); // For demo purposes.
-
-      if (active) {
-        setOptions([...topFilms]);
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
-
-  // React.useEffect(() => {
-  //   if (!open) {
-  //     setOptions([]);
-  //   }
-  // }, [open]);
+  const { isFetching, data: options } = useSearch(debouncedSearch);
 
   return (
     <SearchMain>
       <Autocomplete
-        id="search-header"
+        id="search-main"
         disableClearable
-        // getOptionLabel={(option) => option.title}
-        options={options.map((option) => option.title)}
+        options={options || []}
+        onInputChange={(e, value) => {
+          setInputValue(value);
+        }}
+        clearOnBlur
+        clearOnEscape
+        getOptionLabel={(option: any) =>
+          typeof option === 'string' ? option : option.title
+        }
+        filterOptions={(x) => x}
         autoSelect={false}
-        // freeSolo
-        noOptionsText={
-          'no results found, please try another keyword'
-        }
-
-        loading={true}
+        freeSolo={inputValue?.length ? false : true}
+        autoComplete={false}
+        noOptionsText={inputValue && `No results for "${inputValue}"`}
+        loading={isFetching}
         loadingText={
-          <SearchLoading>
+          <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
             <ReactLoading type="spin" color="#C4C4C4" height={20} width={20} />
-          </SearchLoading>
+          </Box>
         }
-        renderOption={(props, option, { inputValue }) => {
-          const matches = match(option, inputValue, { insideWords: true });
-          const parts = parse(option, matches);
-
+        renderOption={(props, option: any) => {
           return (
-            <SearchOption {...props}>
-              {parts.map((part, index) => (
-                <span
-                  key={index}
-                  style={{
-                    color: part.highlight ? '#0276FE' : '#2E343F',
-                  }}
-                >
-                  {part.text}
-                </span>
-              ))}
+            <SearchOption
+              {...props}
+              onClick={() => {
+                router.push(`/eips/eip-${option.eip}`);
+              }}
+            >
+              <h3>
+                EIP-{option.rank ? option.eip : <b>-{option.eip}</b>}
+                <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
+              </h3>
+              {option.ts_headline && (
+                <p dangerouslySetInnerHTML={{ __html: option.ts_headline }}></p>
+              )}
             </SearchOption>
           );
         }}
         renderInput={(params) => (
           <EIPsSearch
-            placeholder="Search EIPs by number/word..."
+            placeholder="Search EIPs by number/word"
             {...params}
             size="medium"
             InputProps={{
@@ -135,54 +204,3 @@ export default function SearchHeader() {
     </SearchMain>
   );
 }
-
-// Top films as rated by IMDb users. http://www.imdb.com/chart/top
-const topFilms = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  {
-    title: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-  { title: 'The Good, the Bad and the Ugly', year: 1966 },
-  { title: 'Fight Club', year: 1999 },
-  {
-    title: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001,
-  },
-  {
-    title: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980,
-  },
-  { title: 'Forrest Gump', year: 1994 },
-  { title: 'Inception', year: 2010 },
-  {
-    title: 'The Lord of the Rings: The Two Towers',
-    year: 2002,
-  },
-  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { title: 'Goodfellas', year: 1990 },
-  { title: 'The Matrix', year: 1999 },
-  { title: 'Seven Samurai', year: 1954 },
-  {
-    title: 'Star Wars: Episode IV - A New Hope',
-    year: 1977,
-  },
-  { title: 'City of God', year: 2002 },
-  { title: 'Se7en', year: 1995 },
-  { title: 'The Silence of the Lambs', year: 1991 },
-  { title: "It's a Wonderful Life", year: 1946 },
-  { title: 'Life Is Beautiful', year: 1997 },
-  { title: 'The Usual Suspects', year: 1995 },
-  { title: 'Léon: The Professional', year: 1994 },
-  { title: 'Spirited Away', year: 2001 },
-  { title: 'Saving Private Ryan', year: 1998 },
-  { title: 'Once Upon a Time in the West', year: 1968 },
-  { title: 'American History X', year: 1998 },
-  { title: 'Interstellar', year: 2014 },
-];

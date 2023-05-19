@@ -1,105 +1,20 @@
-import Head from 'next/head';
 import Image from 'next/image';
-import { Inter } from '@next/font/google';
-import styles from '../styles/Home.module.css';
-import Layout from '../components/Layout';
 import styled from '@emotion/styled';
-import Typography, { TypographyProps } from '@mui/material/Typography';
-import Link, { LinkProps } from 'next/link';
+import Typography from '@mui/material/Typography';
 import SearchMain from '../components/SearchMain';
-import IntroCard from '../components/IntroCard';
 import { EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
-import EastIcon from '@mui/icons-material/East';
-import { Button, ButtonProps, TextField, TextFieldProps } from '@mui/material';
+import { Link, Box, Button, Container } from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
-
+import EastIcon from '@mui/icons-material/East';
 
 export default function Home() {
   const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
   const [partners, setPartners] = useState<PartnerType[]>(partnerList);
-  const EipsBanner = styled('div')(({ theme }) => ({
-    width: 1440,
-    maxWidth: 1440,
-    height: 620,
-    backgroundImage: 'url(/images/banner.png)',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    margin: '0px auto',
-    textAlign: 'center',
-    color: '#fff',
-    paddingTop: 120,
-    position: 'relative',
-  }));
 
-  const EipsTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
-    width: '100%',
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 52,
-    lineHeight: '60px',
-    fontWeight: 700,
-  }));
-  const EipsDesc = styled('h3')(({ theme }) => ({
-    width: '100%',
-    textAlign: 'center',
-    color: '#5F6D7E',
-    fontSize: 18,
-    lineHeight: '22px',
-    fontWeight: 400,
-    marginTop: 20,
-  }));
-  const EipsLink = styled(Link)<LinkProps>(({ theme }) => ({
-    // color: theme.palette.primary.main,
-    color: '#437EF7',
-    display: 'inline-flex',
-    alignItems: 'center',
-  }));
-  const EipsContent = styled('div')(({ theme }) => ({
-    width: 1440,
-    margin: '64px auto ',
-    textAlign: 'center',
-    h3: {
-      color: '#272D37',
-      fontSize: 32,
-      lineHeight: '40px',
-      fontWeight: 700,
-      letterSpacing: ' -0.02em',
-    },
-    'p.intro': {
-      color: '#5F6D7E',
-      fontSize: 16,
-      lineHeight: '24px',
-      width: 800,
-      margin: '10px auto',
-    },
-  }));
-  const EipsCardList = styled('div')(({ theme }) => ({
-    width: 1280,
-    maxWidth: 1280,
-    display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'space-around',
-    margin: '60px auto 20px auto',
-  }));
-  const EipsPartnerList = styled('div')(({ theme }) => ({
-    width: 1280,
-    maxWidth: 1280,
-    display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    margin: '60px auto 20px auto',
-  }));
-  const PartnerCard = styled('div')(({ theme }) => ({
-    width: 200,
-    maxWidth: 200,
-    height: 100,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-  const EipsContentBlock = styled('div')(({ theme }) => ({
-    width: 1152,
+
+  const EipsContentBlock = styled('div')(() => ({
+    // width: 1152,
     maxWidth: 1152,
     display: 'flex',
     alignItems: 'center',
@@ -109,102 +24,180 @@ export default function Home() {
     padding: '40px 64px',
     margin: '40px auto',
     fontWeight: 400,
-    h3: {
-      fontSize: 32,
-      lineHeight: '42px',
-      color: '#272D37',
-      fontWeight: 600,
-    },
-    p: {
-      fontSize: 16,
-      lineHeight: '20px',
-      color: '#5F6D7E',
-      // margin:'10px 0',
-      fontWeight: 400,
-      padding: 0,
-    },
+  
     '.contentleft': {
-      width: 568,
       maxWidth: 568,
       flex: 1,
     },
     '.contentRight': {
-      width: 440,
       maxWidth: 440,
       flex: 1,
       textAlign: 'right',
     },
   }));
-  
 
   return (
     <>
-      <EipsBanner>
-        <EipsTitle variant="h2">We scale EIPs by being the “layer 2”</EipsTitle>
-        <EipsTitle variant="h2">
-          {' '}
-          of <EipsLink href="#">eips.ethereum.org</EipsLink>
-        </EipsTitle>
+      <Container
+        maxWidth={false}
+        sx={{ maxWidth: '1440px', padding: 0 }}
+        fixed={true}
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          textAlign="center"
+          margin="0 auto"
+          height="620px"
+          sx={{
+            backgroundImage: 'url(/images/banner.png)',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <Typography variant="h1" textAlign="center" color="#fff">
+            Serve EIP builders, scale Ethereum.
+          </Typography>
+          <SearchMain />
+        </Box>
+        <Box padding="64px 0">
+          <Typography variant="h2" textAlign="center">
+            What is EIPs?
+          </Typography>
+          <Typography
+            variant="body2"
+            maxWidth="800px"
+            textAlign="center"
+            margin="16px auto 0 auto"
+          >
+            It is short for Ethereum Improvement Proposals, they are standards
+            for the Ethereum platform, including core protocol specifications,
+            client APIs, and contract standards.
+          </Typography>
+        </Box>
+        <Box padding="64px 0">
+          <Typography variant="h2" textAlign="center">
+            How EIPs work?
+          </Typography>
+          <Box
+            maxWidth="lg"
+            display="flex"
+            flexWrap="wrap"
+            alignItems="flex-start"
+            justifyContent="space-around"
+            margin="20px auto 20px auto"
+          >
+            {eipsWay.length > 0 &&
+              eipsWay.map((item, index) => (
+                <Box
+                  flex={0}
+                  minWidth="18%"
+                  textAlign={'center'}
+                  padding={'20px 0'}
+                  key={index}
+                >
+                  <Box
+                    display={'inline-flex'}
+                    width={48}
+                    height={48}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    bgcolor={'#F5FAFF'}
+                    borderRadius={'5px'}
+                    color={'#437EF7'}
+                    fontSize={24}
+                  >
+                    {item.index}
+                  </Box>
+                  <Typography variant={'h4'}>{item.title}</Typography>
+                  <Typography
+                    variant={'body2'}
+                    padding={'5px 0'}
+                    width={'100%'}
+                  >
+                    {item.intro}
+                  </Typography>
 
-        <EipsDesc>
-          EIPs.fun is run by the contributors, for the contributor, and owned by
-          the contributors.
-        </EipsDesc>
-        <SearchMain />
-      </EipsBanner>
-      <EipsContent>
-        <h3>What is EIPs? </h3>
-        <p className="intro">
-          It is short for Ethereum Improvement Proposals, they are standards for
-          the Ethereum platform, including core protocol specifications, client
-          APIs, and contract standards.
-        </p>
-      </EipsContent>
-      <EipsContent>
-        <h3>How EIPs work?</h3>
-        <EipsCardList>
-          {eipsWay.length > 0 &&
-            eipsWay.map((item) => <IntroCard key={item.title} intro={item} />)}
-        </EipsCardList>
-      </EipsContent>
-      <EipsContent>
-        <h3>Supporters and Partners</h3>
-        <EipsPartnerList>
-          {partners.length > 0 &&
-            partnerList.map((item) => (
-              <PartnerCard key={item.name}>
-                <EipsLink href={item.link}>
-                  <Image
-                    src={item.logo}
-                    alt={item.name}
-                    width={144}
-                    height={40}
-                  />
-                </EipsLink>
-              </PartnerCard>
-            ))}
-        </EipsPartnerList>
-      </EipsContent>
-      <EipsContentBlock>
-        <EmailSubscribe />
-      </EipsContentBlock>
-      <EipsContentBlock>
-        <div className="contentleft">
-          <h3>How EIPs Fun works? </h3>
-          <p>
-            This is an open source and public goods.Running by a EIPs Fun DAO.
-            xxx Donation means a lot for us, please donate.
-          </p>
-        </div>
-        <div className="contentRight">
-          <Button variant="outlined" size="medium">
-            Join Us
-          </Button>
-          <Button sx={{ marginLeft: 5 }} variant="contained" size="medium">
-            Donate
-          </Button>
-        </div>
-      </EipsContentBlock>
+                  {item.action && item.actionLink && (
+                    <Link
+                      fontWeight={700}
+                      underline="hover"
+                      fontSize={15}
+                      marginTop={10}
+                      href={item.actionLink}
+                    >
+                      {' '}
+                      {item.action} <EastIcon sx={{ fontSize: '14px' }} />
+                    </Link>
+                  )}
+                </Box>
+              ))}
+            {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
+            {eipsWay.length > 0 &&
+              eipsWay.map((item, index) => (
+                <Box width="218px" key={index + Math.random()}></Box>
+              ))}
+          </Box>
+        </Box>
+        <Box padding="64px 0">
+          <Typography variant="h2" textAlign="center">
+            Supporters & Partners
+          </Typography>
+          <Box
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="center"
+            margin="60px auto 20px auto"
+          >
+            {partners.length > 0 &&
+              partnerList.map((item) => (
+                <Box
+                  key={item.name}
+                  width="20%"
+                  height="40px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Link href={item.link}>
+                    <Image
+                      src={item.logo}
+                      alt={item.name}
+                      width={144}
+                      height={40}
+                    />
+                  </Link>
+                </Box>
+              ))}
+          </Box>
+        </Box>
+        <EipsContentBlock>
+          <EmailSubscribe />
+        </EipsContentBlock>
+        <EipsContentBlock>
+          <Box className="contentleft">
+            <Typography variant="h3">How EIPs Fun works?</Typography>
+            <Typography variant="body1">
+              This is an open source and public goods.Running by a EIPs Fun DAO.
+              xxx Donation means a lot for us, please donate.
+            </Typography>
+          </Box>
+          <Box className="contentRight">
+            <Button variant="outlined" href="https://t.eips.fun/" size="medium">
+              Join Us
+            </Button>
+            <Button
+              variant="contained"
+              href="https://app.safe.global/home?safe=eth:0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
+              sx={{ marginLeft: 5 }}
+              size="medium"
+            >
+              Donate
+            </Button>
+          </Box>
+        </EipsContentBlock>
+      </Container>
     </>
   );
 }
@@ -215,10 +208,10 @@ const introList = [
     intro: 'Clone the repository, write your idea, commit and push a PR',
     action: 'Propose now',
     index: 1,
-    actionLink: '/eips/new',
+    actionLink: 'https://github.com/ethereum/EIPs',
   },
   {
-    title: 'review & feedback',
+    title: 'Review & feedback',
     image: '/images/intro_2.jpg',
     intro:
       'Once review is done, any editor assigns an EIP number and merges the PR',
@@ -251,16 +244,6 @@ const partnerList = [
   { name: 'LXDao', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
   {
     name: 'Plancker',
-    logo: '/images/plancker.svg',
-    link: 'https://plancker.org/',
-  },
-  {
-    name: 'Plancker1',
-    logo: '/images/plancker.svg',
-    link: 'https://plancker.org/',
-  },
-  {
-    name: 'Plancker3',
     logo: '/images/plancker.svg',
     link: 'https://plancker.org/',
   },

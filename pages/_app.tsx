@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { theme } from '../theme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -21,11 +22,13 @@ export default function App({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         ></link>
       </Head>
-      <ThemeProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
+      <QueryClientProvider client={new QueryClient()}>
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   );
 }

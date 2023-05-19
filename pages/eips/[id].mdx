@@ -1,0 +1,279 @@
+import React, { useState } from 'react';
+import Head from 'next/head'
+import dynamic from 'next/dynamic';
+import { Container, Box, Link, Button, Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
+import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
+import EmailSubscribe from '@/components/EmailSubscribe';
+import Toc from 'react-toc';
+import { formatMeta, formatComEIP } from '@/utils/str';
+import { readFile, } from 'node:fs/promises';
+import path from 'path';
+
+export default function EIPDetails({ children, meta, id, jsxData }) {
+  const [show, setShow] = useState(false);
+  // const matches = useMediaQuery('(max-width:576px)', { noSsr: true });  React.useEffect(() => {
+  React.useEffect(() => {
+    
+    setTimeout(() => {
+      const hs = document.querySelectorAll('.markdown-body h4, .markdown-body h3, .markdown-body h2')
+      hs.forEach(item => {
+        item.id = item.innerHTML
+      })
+    }, 200);
+  }, [])
+  const handleShow = () => {
+    setShow((state) => !state);
+    if (show) {
+      window.scrollTo({top: document.querySelector('#original').offsetTop, behavior: 'smooth'})
+    }
+  };
+  const EIPDetail = dynamic(() => import(`../../public/original-eips/${id}.md`));
+  const fomatLink = (str) => {
+    if (str.includes('<')) {
+      let [name, linkText] =  str.split('<');
+      let link;
+      linkText = linkText.replace('>', '');
+      link = 'mailto:' + linkText;
+      return <>
+        {name}(<Link underline="hover" href={link}>{linkText}</Link>)
+      </>;
+    } else if (str.includes('(')) {
+      let [name, linkText] =  str.split('(');
+      let link;
+      linkText = linkText.replace(')', '');
+      link= 'https://github.com/' + linkText.replace('@', '');
+      return <>
+        {name}(<Link underline="hover" href={link}>{linkText}</Link>)
+      </>;
+    } else { 
+      return str;
+    }
+  }
+  const TITLE = `EIP-${meta.eip}: ${meta.title} | EIPs Fun-Serve EIP builders, scale Ethereum`;
+
+return (
+
+<>
+  <Head>
+    <title>{TITLE}</title>
+    <meta property="og:title" content={TITLE} key="title" />
+    <meta
+      property="og:description"
+      content={
+        (meta.abstract ? meta.abstract : '') +
+        (meta.description ? meta.description : '') +
+        (meta.summary ? meta.summary : '')
+      }
+      key="description"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css" integrity="sha512-Ya9H+OPj8NgcQk34nCrbehaA0atbzGdZCI2uCbqVRELgnlrh8vQ2INMnkadVMSniC54HChLIh5htabVuKJww8g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </Head>
+
+  <Box borderTop={1} borderColor="#EAEBF0" />
+  
+  <Container maxWidth="lg">
+    <Box py={4}>
+      EIPs &gt;{' '}
+      <Link underline='none' href="#">
+        EIP-{meta.eip}
+      </Link>
+    </Box>
+
+    <Box sx={{position: 'relative', background: "#333 url('/images/eip_details_bg.png') no-repeat top left"}} height="310px" borderRadius={1}>
+      <Box sx={{position: 'absolute', color: '#fff', fontSize: '80px' }} right={50} bottom={56}>
+        EIP-{meta.eip}
+      </Box>
+    </Box>
+
+    <Typography variant="h4" fontSize={40} fontWeight='bold' pt={4}>{meta.title}</Typography>
+
+    {(meta.abstract || meta.description) && (
+      <Typography pt={2} component={Box} variant='body1' color="#5F6D7E">{meta.abstract || meta.description}</Typography>
+    )}
+
+    <Box pb={4} pt={2}>
+      <Typography display='inline-block' component="span" variant="body2" color="#FFC700" borderRadius="5px" px={1} mr={2} style={{ background: '#FFFAE9'}}>{meta.status}</Typography>
+      <Typography  display='inline-block' component="span" variant="body2" color="#437EF7" borderRadius="5px" px={1} mr={2} style={{ background: '#F5FAFF'}}> Standards track - ERC</Typography>
+    </Box>
+
+    <Box pb={4}>
+      <Typography fontWeight='bold' component="span">Created: </Typography> <Typography component="span" variant="string" fontWeight="normal">{meta.created}</Typography>
+      {meta['last-call-deadline'] ? (
+        <>
+          <Typography fontWeight='bold' component="span"> Last Call Deadline: </Typography>
+          <Typography component="span" variant="string" fontWeight="normal">{meta['last-call-deadline']}</Typography>
+        </>
+      ) : null}
+    </Box>
+
+    {meta.requires && meta.requires?.length > 0 && meta.requires != 0 && (
+      <Box pb={4}>
+      Requires: {meta.requires.includes(', ') ? meta.requires.split(', ').map((item, i) => (<React.Fragment key={item}>{i !== 0 ? ', ' : ''}<Link underline="none" href={`./eips/eip-${item}`}>EIP-{item}</Link></React.Fragment>)) : (<Link underline="none"  href={`./eips/eip-${meta.requires}`}>EIP-{meta.requires}</Link>)}
+      </Box>
+    )}
+
+    <Typography pb={4} display="flex" variant="subtitle2" component={Box}>
+      {meta?.author?.includes(', ')
+        ? meta.author.split(', ').map((item, i) => (<React.Fragment key={item}>
+             {i !== 0 ? ', ' : '' }{fomatLink(item)}
+          </React.Fragment>))
+        : fomatLink(meta.author)}
+    </Typography>
+
+    <Box pt={4} pb={3}>
+      {meta['discussions-to'] && (
+        <Button
+          mr={2}
+          variant="contained"
+          startIcon={<MarkChatUnreadIcon />}
+          size="large"
+          href={meta['discussions-to']}
+        >
+          Discussions
+        </Button>
+      )}
+
+      <Button
+        variant="outlined"
+        size="large"
+        href={`https://eips.ethereum.org/EIPS/eip-${meta.eip}`}
+      >
+        Original link
+      </Button>
+    </Box>
+
+    <Box display='flex'>
+      <Box width={840} mr={3}>
+        <Box pb={3}>
+          <Typography fontSize={22} component="span" variant="h6">1 min read</Typography>
+          <Typography component="span" variant="body2" color="#5F6D7E"> by chatGPT-4</Typography>
+        </Box>
+
+        <Box
+          px={4}
+          pt={3}
+          pb={5}
+          border={1}
+          borderColor="#F5F5F5"
+          borderRadius="6px"
+        >
+          <Box pb={2.5}>
+            <Typography sx={{background: '#F5FAFF'}} display="inline-block" px={1.5} component='span' variant="subtitle2" color="#437EF7" fontWeight="bold">By ChatGPT-4</Typography>
+          </Box>
+
+          <Typography color="#5F6D7E" variant="body1">{meta.chatgpt4}</Typography>
+        </Box>
+
+        <Typography id="original" pt={6} pb={3} variant='h6' fontSize="22px" fontWeight='bold'>Original</Typography>
+
+        <Box
+          position='relative'
+          px={4}
+          pt={3}
+          pb={5}
+          border={1}
+          borderColor="#f5f5f5"
+          borderRadius={1.5}
+          mb={6}
+        >
+          <Box sx={[{ height: show ? 'auto' : '526px', overflow: 'hidden', '& h2:first-of-type,& hr': { display: 'none'} } ]} className="markdown-body">
+            <Box sx={visuallyHidden}>{jsxData}</Box>
+            <EIPDetail />
+          </Box>
+          <Box mt={4} sx={{textAlign: 'center'}}>
+            <Button variant="contained" onClick={handleShow}>
+              {show ? 'Show Less' : 'View More'}
+            </Button>
+          </Box>
+        </Box>
+        <Box position="fixed" left={0} top={0} sx={visuallyHidden}>
+          <Toc markdownText={jsxData} />
+        </Box>
+
+        {meta['extended resources']?.length > 0 && (<>
+          <Box pb={3}>
+            <Typography variant="h5" component="span">Quick read</Typography>
+            <Typography color="#5F6D7E" variant="body2" component="span"> by Analyst</Typography>
+          </Box>
+
+          <Box display="flex">
+            {meta['extended resources'].map(item => (<Box width={404} mb={6.5} mr={4} key={item.title}>
+              <Box height={84} borderRadius="6px">
+                <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src={item.imgSrc} alt={item.alt} />
+              </Box>
+              <Typography component={Box} variant="h6" py={2} fontWeight="bold" fontSize={18} lineHeight={'30px'}>{item.title}</Typography>
+              <Box>
+                <Link href={item.link} underline="none">Learn more →</Link>
+              </Box>
+            </Box>))}
+          </Box>
+        </>)}
+      </Box>
+
+      {meta.projects?.length > 0 && (<>
+        <Box sx={{flex: 1}}>
+          <Box pt={3} px={3} border={1} borderColor="#eaebf0" borderRadius={'10px'}>
+            <Typography fontWeight="bold" variant="h6" pb={3}>Adopted by projects</Typography>
+
+            {meta.projects.map(item => (
+              <Link href={item.link} key={item.title} underline="hover">
+              <Box height={100}>
+                <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src={item.imgSrc} alt={item.alt} />
+              </Box>
+              <Typography py={2} color="#272d37" variant="subtitle1">{item.title}</Typography>
+            </Link>))}
+          </Box>
+        </Box>
+      </>)}
+    </Box>
+
+    <Box display='flex' alignItems="center" justifyContent="space-between" borderRadius="10px" px={4} py={5} my={5} sx={{background: '#F8F9FB'}}>
+      <EmailSubscribe />
+    </Box>
+
+  </Container>
+</>);
+}
+
+export async function getServerSideProps(context) {
+  let id = context.params.id;
+  let originalEIP;
+  try {
+    originalEIP = await readFile(
+      path.join(process.cwd(), 'public', 'original-eips', `${id}.md`),
+      'utf8'
+    );
+  } catch (e) {
+    console.log(e);
+    if (e.errno === -2) {
+      return {
+        redirect: {
+          destination: '/404',
+          permanent: false,
+        },
+      };
+    }
+  }
+  let meta, con;
+  if (originalEIP) {
+    [, meta, ...con] = originalEIP.split('---');
+  }
+  meta = formatMeta(meta);
+  try {
+    let comEIP = await readFile(
+      path.join(process.cwd(), 'content', 'en', `${id}.md`),
+      'utf8'
+    );
+    Object.assign(meta, formatComEIP(comEIP));
+  } catch (e) {
+    console.log(e);
+  }
+  return {
+    props: {
+      meta,
+      jsxData: con.toString(),
+      id: id,
+    },
+  };
+}
