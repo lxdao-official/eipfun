@@ -34,16 +34,6 @@ const Navigation = (): JSX.Element => {
     },
   }));
 
-  const EipHeaderButton = styled('div')(() => ({
-    height: 46,
-    padding: '0 12px',
-    background: '#F8F9FB',
-    borderRadius: 25,
-    display: 'flex',
-    alignItems: 'center',
-    margin: '0 20px',
-    cursor: 'pointer',
-  }));
   const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(() => ({
@@ -108,17 +98,18 @@ const Navigation = (): JSX.Element => {
         </LightTooltip>
 
         <Link
-         height="46px"
-         bgcolor="#F8F9FB"
-         borderRadius="25px"
-         display="flex"
-         alignItems="center"
-         margin="0 20px"
-         padding="0 12px"
-         color="inherit"
-         underline="none"
-         href="#"
-          onClick={toggleLang}>
+          height="46px"
+          bgcolor="#F8F9FB"
+          borderRadius="25px"
+          display="flex"
+          alignItems="center"
+          margin="0 20px"
+          padding="0 12px"
+          color="inherit"
+          underline="none"
+          sx={{'cursor':'pointer'}}
+          onClick={toggleLang}
+        >
           <LanguageIcon /> {langText}
         </Link>
       </Box>

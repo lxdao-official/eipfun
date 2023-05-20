@@ -28,6 +28,13 @@ export const theme = createTheme({
       color:'#272D37',
       marginTop:'14px'
     },
+    h5:{
+      fontSize: '16px',
+      lineHeight: '20px',
+      fontWeight:600,
+      color:'#272D37',
+      
+    },
     body1: {
       fontSize: '16px',
       lineHeight: '19px',
@@ -41,7 +48,13 @@ export const theme = createTheme({
       color:'#5F6D7E',
       marginTop:'16px'
     },
-   
+    body2: {
+      fontSize: '12px',
+      lineHeight: '16px',
+      fontWeight:400,
+      color:'#5F6D7E',
+      marginTop:'16px'
+    },
   },
 
   palette: {

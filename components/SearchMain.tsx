@@ -99,33 +99,29 @@ function useSearch(searchText: string) {
         let optionsList: EipCommonResult[] = [];
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
-        }
+          
+        } else {
+         
+          if(res.data.data?.title_list ) {
+            optionsList = optionsList.concat(res.data.data.title_list)
+          }
+          if(res.data.data?.content_list ) {
+            optionsList = optionsList.concat(res.data.data.content_list)
+          }
+          
+          optionsList = optionsList.reduce((obj:EipCommonResult[], item:EipCommonResult) => {  
+            let find = obj.find((i:EipCommonResult) => i.eip&&( i.eip === item.eip))  
+            //如果没有title则使用ts_headline
+            item.title = item.title? item.title : item.ts_headline
 
-        if (res.data.data?.title_list) {
-          res.data.data?.title_list.map((item) => {
-            item.title = item.ts_headline;
-          });
-          optionsList = optionsList.concat(res.data.data?.title_list);
+            console.log(item)
+            //取出重复并使用content_list的title和ts_headline
+            find ? (find.title = item.title,find.ts_headline = item.ts_headline):(obj.push(item))  
+            return obj  
+          }, [])
         }
-        if (res.data.data?.content_list) {
-          optionsList = optionsList.concat(res.data.data?.content_list);
-        }
-        // let titleList = res.data.data?.title_list;
-        // let contentList = res.data.data?.content_list;
-
-        // if (titleList && contentList) {
-        //   optionsList = contentList.reduce((acc, cur) => {
-        //     const target = acc.find((e) => e.eip === cur.eip);
-        //     if (target) {
-        //       Object.assign(target, cur);
-        //     } else {
-        //       acc.push(cur);
-        //     }
-        //     return acc;
-        //   }, titleList);
-        // }
-        // console.log(optionsList)
         return optionsList.slice(0, 20);
+        
       });
     },
     {
@@ -175,7 +171,7 @@ export default function SearchHeader() {
               }}
             >
               <h3>
-                EIP-{option.rank ? option.eip : <b>-{option.eip}</b>}
+                EIP-{option.rank ? option.eip + ': ' : <b>- {option.eip} </b>}
                 <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
               </h3>
               {option.ts_headline && (

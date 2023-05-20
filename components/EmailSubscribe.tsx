@@ -29,6 +29,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 const SubInput = styled(TextField)<TextFieldProps>(() => ({
   background: '#fff',
+
   '.MuiInputBase-root': {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
