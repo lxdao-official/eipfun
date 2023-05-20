@@ -31,8 +31,7 @@ export default function Footer() {
 
   return (
     <Box bgcolor={'#f8f9fb'} py={[5, 5, 8, 8]}>
-      <Container maxWidth="lg">
-        <Box>
+        <Box maxWidth="1280px" margin='0 auto'>
           <Box
             sx={{ float: 'left' }}
             width={[1, 1, 0.5, 0.5]}
@@ -136,7 +135,6 @@ export default function Footer() {
         <Typography component={Box} variant="subtitle2" align="center">
           &copy; {new Date().getFullYear()} EIP.Fun. All Rights Reserved.
         </Typography>
-      </Container>
     </Box>
   );
 }

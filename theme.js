@@ -48,7 +48,7 @@ export const theme = createTheme({
       color:'#5F6D7E',
       marginTop:'16px'
     },
-    body2: {
+    body3: {
       fontSize: '12px',
       lineHeight: '16px',
       fontWeight:400,
@@ -69,6 +69,32 @@ export const theme = createTheme({
       main: '#f44336',
       dark: '#ba000d',
       contrastText: '#000',
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontWeight: 600,
+        
+        },
+      },
+    },
+    MuiButtonOutlined:{
+      styleOverrides: {
+        root: {
+          border: '1px solid #DAE0E6',
+        },
+      }
+    }
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
     },
   },
 });

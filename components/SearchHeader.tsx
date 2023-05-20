@@ -19,13 +19,19 @@ const SearchOption = styled('li')(() => ({
   width: '100%',
   color: '#2E343F',
   margin: 0,
-  fontSize: 12,
+ 
   h5:{
     textAlign:'left'
   },
   b: {
     color: '#437EF7',
+
   },
+  p:{
+    width:'100%',
+    fontSize: '12px',
+    textAlign:'left'
+  }
  
 }));
 const SearchLoading = styled('div')(() => ({

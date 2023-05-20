@@ -14,6 +14,8 @@ const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   maxWidth: 850,
+  width:'80%',
+  flex:0,
   height: 58,
   lineHeight: '58px',
   // backgroundColor: '#fff',
@@ -21,6 +23,8 @@ const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
 
   '.MuiInputBase-root': {
     backgroundColor: '#fff',
+    padding:'9px',
+    paddingRight:'9px!important'
   },
 }));
 const SearchOption = styled('li')(({}) => ({
@@ -32,14 +36,11 @@ const SearchOption = styled('li')(({}) => ({
   margin: 0,
   h3: {
     width: '100%',
-    fontSize: 18,
-    fontWeight: 600,
     margin: 0,
   },
   p: {
     width: '100%',
-    fontSize: 12,
-    margin: 0,
+    margin: '5px 0',
   },
   b: {
     color: '#437EF7',
@@ -93,7 +94,7 @@ function useSearch(searchText: string) {
   let url = `${ADDR}/eips/search?content=${searchText}`;
 
   return useQuery(
-    ['todos', { searchText }],
+    ['SeatchMain', { searchText }],
     () => {
       return axios.get(url).then((res: AxiosResponse) => {
         let optionsList: EipCommonResult[] = [];
@@ -140,6 +141,7 @@ export default function SearchHeader() {
   return (
     <SearchMain>
       <Autocomplete
+      
         id="search-main"
         disableClearable
         options={options || []}
@@ -190,7 +192,7 @@ export default function SearchHeader() {
               ...params.InputProps,
               endAdornment: (
                 <InputAdornment position="end">
-                  <SearchIcon />
+                  <SearchIcon  sx={{color:'#919BA7'}} />
                 </InputAdornment>
               ),
             }}

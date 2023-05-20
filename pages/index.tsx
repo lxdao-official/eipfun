@@ -24,7 +24,7 @@ export default function Home() {
     padding: '40px 64px',
     margin: '40px auto',
     fontWeight: 400,
-  
+
     '.contentleft': {
       maxWidth: 568,
       flex: 1,
@@ -40,7 +40,7 @@ export default function Home() {
     <>
       <Container
         maxWidth={false}
-        sx={{ maxWidth: '1440px', padding: 0 }}
+        sx={{ maxWidth: '100%' }}
         fixed={true}
       >
         <Box
@@ -50,6 +50,7 @@ export default function Home() {
           textAlign="center"
           margin="0 auto"
           height="620px"
+          width={'100%'}
           sx={{
             backgroundImage: 'url(/images/banner.png)',
             backgroundSize: 'cover',
@@ -59,7 +60,10 @@ export default function Home() {
           <Typography variant="h1" textAlign="center" color="#fff">
             Serve EIP builders, scale Ethereum.
           </Typography>
-          <SearchMain />
+          <Box maxWidth='lg' margin="0 auto" width='100%'>
+            <SearchMain />
+          </Box>
+          
         </Box>
         <Box padding="64px 0">
           <Typography variant="h2" textAlign="center">
@@ -190,7 +194,7 @@ export default function Home() {
             <Button
               variant="contained"
               href="https://app.safe.global/home?safe=eth:0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
-              sx={{ marginLeft: 5 }}
+              sx={{ marginLeft: '15px' }}
               size="medium"
             >
               Donate

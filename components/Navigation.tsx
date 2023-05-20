@@ -23,7 +23,7 @@ const Navigation = (): JSX.Element => {
 
   const EipHeader = styled('div')(() => ({
     // width: 1440,
-    maxWidth: 1440,
+    maxWidth: 1280,
     display: 'flex',
     alignItems: 'center',
     padding: '20px 0',
