@@ -42,8 +42,3 @@ button {
   padding: 0.5rem 1rem;
   font-weight: bold;
 }
-
-.MuiContainer-root {
-  padding: 0;
-  max-width:100%;
-}

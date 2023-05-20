@@ -1,0 +1,18 @@
+.eipEnmu {
+  font-size: 16px;
+}
+
+.iconArrow {
+  position: relative;
+  padding-right: 24px;
+}
+.iconArrow::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: table;
+  width: 24px;
+  height: 24px;
+  background: url('/images/eip_details_arrow.png') center center no-repeat;
+}
