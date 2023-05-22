@@ -10,7 +10,8 @@ export const theme = createTheme({
     h1: {
       fontSize: '46px',
       lineHeight: '60px',
-      textAlign:'center'
+      textAlign:'center',
+      fontWeight: 700,
     },
     h2:{
       fontSize: '32px',
@@ -26,7 +27,7 @@ export const theme = createTheme({
       lineHeight: '30px',
       fontWeight:600,
       color:'#272D37',
-      marginTop:'14px'
+      marginTop:'10px'
     },
     h5:{
       fontSize: '16px',
@@ -46,7 +47,7 @@ export const theme = createTheme({
       lineHeight: '24px',
       fontWeight:400,
       color:'#5F6D7E',
-      marginTop:'16px'
+      marginTop:'10px'
     },
     body3: {
       fontSize: '12px',

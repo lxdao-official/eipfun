@@ -97,28 +97,28 @@ export default function Home() {
                 <Box
                   flex={0}
                   minWidth="18%"
-                  textAlign={'center'}
-                  padding={'20px 0'}
+                  textAlign='center'
+                  padding='20px 0'
                   key={index}
                 >
                   <Box
-                    display={'inline-flex'}
+                    display='inline-flex'
                     width={48}
                     height={48}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    bgcolor={'#F5FAFF'}
-                    borderRadius={'5px'}
-                    color={'#437EF7'}
-                    fontSize={24}
+                    alignItems='center'
+                    justifyContent='center'
+                    bgcolor='#F5FAFF'
+                    borderRadius='5px'
+                    color='#437EF7'
+                    fontSize='24px'
                   >
                     {item.index}
                   </Box>
                   <Typography variant={'h4'}>{item.title}</Typography>
                   <Typography
-                    variant={'body2'}
-                    padding={'5px 0'}
-                    width={'100%'}
+                    variant='body2'
+                    padding='0'
+                    width='100%'
                   >
                     {item.intro}
                   </Typography>
