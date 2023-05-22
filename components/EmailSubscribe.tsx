@@ -12,7 +12,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import EastIcon from '@mui/icons-material/East';
 import Snackbar from '@mui/material/Snackbar';
-import { useForm, SubmitHandler } from 'react-hook-form';
+// import { useForm, SubmitHandler } from 'react-hook-form';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
@@ -39,51 +39,51 @@ const SubInput = styled(TextField)<TextFieldProps>(({theme}) => ({
   
 }));
 const EmailSubscribe = (): JSX.Element => {
-  const [alertOpen, setAlertOpen] = useState<boolean>(false);
-  const [alertErrorOpen, setAlertErrorOpen] = useState<boolean>(false);
-  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+  // const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  // const [alertErrorOpen, setAlertErrorOpen] = useState<boolean>(false);
+  // const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const { register, handleSubmit } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    let sendData = { address: data.email };
-    setSubmitLoading(true);
-    axios
-      .post(`${ADDR}/email/subscribe`, sendData)
-      .then((res) => {
-        setSubmitLoading(false);
-        if (res.data && res.data.data) {
-          setAlertOpen(true);
-        } else {
-          setErrorMessage(res.data.message);
-          setAlertErrorOpen(true);
-        }
-      })
-      .catch((err) => {
-        setSubmitLoading(false);
-        setErrorMessage(err.message);
-        setAlertErrorOpen(true);
-      });
-  };
+  // const [errorMessage, setErrorMessage] = useState<string>('');
+  // const { register, handleSubmit } = useForm<FormValues>();
+  // const onSubmit: SubmitHandler<FormValues> = (data) => {
+  //   let sendData = { address: data.email };
+  //   setSubmitLoading(true);
+  //   axios
+  //     .post(`${ADDR}/email/subscribe`, sendData)
+  //     .then((res) => {
+  //       setSubmitLoading(false);
+  //       if (res.data && res.data.data) {
+  //         setAlertOpen(true);
+  //       } else {
+  //         setErrorMessage(res.data.message);
+  //         setAlertErrorOpen(true);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setSubmitLoading(false);
+  //       setErrorMessage(err.message);
+  //       setAlertErrorOpen(true);
+  //     });
+  // };
 
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+  // const handleClose = (
+  //   event?: React.SyntheticEvent | Event,
+  //   reason?: string
+  // ) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
 
-    setAlertOpen(false);
-    setAlertErrorOpen(false);
-  };
+  //   setAlertOpen(false);
+  //   setAlertErrorOpen(false);
+  // };
   return (
     <>
       <Box className="contentleft">
         <Typography variant="h3">
-          Not miss a beat of EIPs&rsquo; update?{' '}
+          Not miss a beat of EIPs&rsquo; update?
         </Typography>
-        <Typography variant="body1" marginBottom={'10px'} marginTop={'10px'}>
+        <Typography variant="body1" marginBottom='10px' marginTop='10px'>
           Subscribe EIPs Fun to receive the latest updates of EIPs Good for
           Buidlers to follow up.
         </Typography>
@@ -92,10 +92,11 @@ const EmailSubscribe = (): JSX.Element => {
         </Link>
       </Box>
       <Box className="contentRight">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form action="https://gmail.us11.list-manage.com/subscribe/post?u=d991f001a9a6097d6659412d6&amp;id=8be65ec859&amp;f_id=00a495e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"  target="_blank" >
+        {/* <form onSubmit={handleSubmit(onSubmit)} > */}
           <SubInput
             type="email"
-            {...register('email')}
+            name="EMAIL"
             placeholder="Enter your email"
             size="small"
        
@@ -103,7 +104,7 @@ const EmailSubscribe = (): JSX.Element => {
           <LoadingButton
             size="medium"
             type="submit"
-            loading={submitLoading}
+            // loading={submitLoading}
             loadingPosition="start"
             variant="contained"
             startIcon={<SubscriptionsIcon />}
@@ -125,35 +126,7 @@ const EmailSubscribe = (): JSX.Element => {
           </Button> */}
         </form>
       </Box>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        // anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        sx={{ height: '100%' }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Subscribed
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        sx={{ height: '100%' }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        open={alertErrorOpen}
-        autoHideDuration={3000}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          {errorMessage}
-        </Alert>
-      </Snackbar>
+    
     </>
   );
 };

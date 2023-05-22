@@ -21,8 +21,6 @@ export default function App({ Component, pageProps }: AppProps) {
           href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
           rel="stylesheet"
         ></link>
-        <script id="mcjs" defer  src="https://chimpstatic.com/mcjs-connected/js/users/d991f001a9a6097d6659412d6/fa80469923670671a45faf1bb.js">
-        </script>
       </Head>
       <QueryClientProvider client={new QueryClient()}>
         <ThemeProvider theme={theme}>
