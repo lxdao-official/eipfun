@@ -27,13 +27,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 ) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-const SubInput = styled(TextField)<TextFieldProps>(() => ({
+const SubInput = styled(TextField)<TextFieldProps>(({theme}) => ({
   background: '#fff',
-
   '.MuiInputBase-root': {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
   },
+  [theme.breakpoints.down('md')]: {
+      width: '67%',
+  },
+  
 }));
 const EmailSubscribe = (): JSX.Element => {
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
@@ -95,6 +98,7 @@ const EmailSubscribe = (): JSX.Element => {
             {...register('email')}
             placeholder="Enter your email"
             size="small"
+       
           />
           <LoadingButton
             size="medium"

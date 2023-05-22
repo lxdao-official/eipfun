@@ -1,6 +1,6 @@
 import { Box, Typography, Link, Icon } from '@mui/material';
 import useGetLang from '@/hooks/useGetLang';
-import Logo from 'public/logo.svg';
+import Logo32 from 'public/images/logo32.svg';
 import LogoS from 'public/images/logo_s.svg';
 import Telegram from 'public/images/telegram.svg';
 import Twitter from 'public/images/twitter.svg';
@@ -38,7 +38,7 @@ export default function Footer() {
           mb={[4, 4, 0, 0, 0]}
         >
           <Box pb={2}>
-            <Logo />
+            <Logo32 />
           </Box>
 
           <Typography component={Box} pb={2} variant="body1">

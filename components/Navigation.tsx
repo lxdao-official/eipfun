@@ -21,7 +21,7 @@ const Navigation = (): JSX.Element => {
     }
   }, [router]);
 
-  const EipHeader = styled('div')(() => ({
+  const EipHeader = styled('div')(({ theme }) => ({
     // width: 1440,
     maxWidth: 1280,
     display: 'flex',
@@ -31,6 +31,13 @@ const Navigation = (): JSX.Element => {
     margin: '0px auto',
     '.current': {
       color: '#437EF7',
+    },
+
+    [theme.breakpoints.down('md')]: {
+      '.mobileHidden': {
+        display: 'none',
+        visibility: 'hidden',
+      },
     },
   }));
 
@@ -61,7 +68,11 @@ const Navigation = (): JSX.Element => {
         <Link
           sx={{ margin: '0 5px 0 30px' }}
           fontWeight={600}
-          className={['/', '/zh'].includes(router.asPath) ? 'current' : ''}
+          className={
+            ['/', '/zh'].includes(router.asPath)
+              ? 'current mobileHidden'
+              : 'mobileHidden'
+          }
           href={isEn ? '/' : '/zh'}
           color="inherit"
           underline="hover"
@@ -73,15 +84,37 @@ const Navigation = (): JSX.Element => {
           sx={{ margin: '0 30px 0 5px', padding: '0 20px' }}
           fontWeight={600}
           underline="hover"
-          className={router.asPath.includes('/eips') ? 'current' : ''}
+          className={
+            router.asPath.includes('/eips')
+              ? 'current mobileHidden'
+              : 'mobileHidden'
+          }
           href={isEn ? '/eips' : '/zh/eips'}
         >
           EIPs
         </Link>
-        <SearchHeader />
+        <Box className="mobileHidden">
+          <SearchHeader />
+        </Box>
       </Box>
-      <Box display={'flex'} alignItems={'center'}>
-        <LightTooltip title="Join community">
+      <Box>
+        <Box className="mobileHidden" display={'flex'} alignItems={'center'}>
+          <LightTooltip title="Join community">
+            <Link
+              height="46px"
+              bgcolor="#F8F9FB"
+              borderRadius="25px"
+              display="flex"
+              alignItems="center"
+              margin="0 20px"
+              padding="0 12px"
+              color="inherit"
+              href="https://t.eips.fun/"
+            >
+              <TelegramIcon />
+            </Link>
+          </LightTooltip>
+
           <Link
             height="46px"
             bgcolor="#F8F9FB"
@@ -91,27 +124,13 @@ const Navigation = (): JSX.Element => {
             margin="0 20px"
             padding="0 12px"
             color="inherit"
-            href="https://t.eips.fun/"
+            underline="none"
+            sx={{ cursor: 'pointer' }}
+            onClick={toggleLang}
           >
-            <TelegramIcon />
+            <LanguageIcon /> {langText}
           </Link>
-        </LightTooltip>
-
-        <Link
-          height="46px"
-          bgcolor="#F8F9FB"
-          borderRadius="25px"
-          display="flex"
-          alignItems="center"
-          margin="0 20px"
-          padding="0 12px"
-          color="inherit"
-          underline="none"
-          sx={{'cursor':'pointer'}}
-          onClick={toggleLang}
-        >
-          <LanguageIcon /> {langText}
-        </Link>
+        </Box>
       </Box>
     </EipHeader>
   );

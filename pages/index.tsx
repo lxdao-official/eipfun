@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import styled from '@emotion/styled';
+import {  styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import SearchMain from '../components/SearchMain';
 import { EipWayIntro, PartnerType } from '../types/eips';
@@ -13,7 +13,7 @@ export default function Home() {
   const [partners, setPartners] = useState<PartnerType[]>(partnerList);
 
 
-  const EipsContentBlock = styled('div')(() => ({
+  const EipsContentBlock = styled('div')(( {theme} ) => ({
     // width: 1152,
     maxWidth: 1152,
     display: 'flex',
@@ -24,24 +24,39 @@ export default function Home() {
     padding: '40px 64px',
     margin: '40px auto',
     fontWeight: 400,
-
+    flexWrap: 'wrap',
+    
     '.contentleft': {
-      maxWidth: 568,
+      maxWidth: '568px',
       flex: 1,
     },
     '.contentRight': {
-      maxWidth: 440,
+      maxWidth: '440px',
       flex: 1,
       textAlign: 'right',
     },
+    [theme.breakpoints.down('md')]: {
+      padding: '32px',
+      flexDirection: 'column',
+      '.contentleft': {
+        width:'100%',
+        flex: 1,
+        maxWidth:'100%',
+      },
+      '.contentRight': {
+        width:'100%',
+        flex: 1,
+        maxWidth:'100%',
+        paddingTop:'20px'
+      },
+    },
+
   }));
 
   return (
     <>
-      <Container
-        maxWidth={false}
-        sx={{ maxWidth: '100%' }}
-        fixed={true}
+      <Box
+        sx={{ maxWidth: '100%',padding:'0!important'}}
       >
         <Box
           display="flex"
@@ -96,9 +111,9 @@ export default function Home() {
               eipsWay.map((item, index) => (
                 <Box
                   flex={0}
-                  minWidth="18%"
+                  minWidth="218px"
                   textAlign='center'
-                  padding='20px 0'
+                  padding= '20px 0'
                   key={index}
                 >
                   <Box
@@ -158,7 +173,7 @@ export default function Home() {
               partnerList.map((item) => (
                 <Box
                   key={item.name}
-                  width="20%"
+                  width="218px"
                   height="40px"
                   display="flex"
                   alignItems="center"
@@ -201,7 +216,7 @@ export default function Home() {
             </Button>
           </Box>
         </EipsContentBlock>
-      </Container>
+      </Box>
     </>
   );
 }
