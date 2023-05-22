@@ -4,13 +4,15 @@ import Typography from '@mui/material/Typography';
 import SearchMain from '../components/SearchMain';
 import { EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
-import { Link, Box, Button, Container } from '@mui/material';
+import { Link, Box, Button, Container, useMediaQuery } from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
 import EastIcon from '@mui/icons-material/East';
 
 export default function Home() {
   const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
   const [partners, setPartners] = useState<PartnerType[]>(partnerList);
+  const padWidth = useMediaQuery('(min-width:900px)');
+  const mobileWidth = useMediaQuery('(min-width:400px)');
 
 
   const EipsContentBlock = styled('div')(( {theme} ) => ({
@@ -80,7 +82,9 @@ export default function Home() {
           </Box>
           
         </Box>
-        <Box padding="64px 0">
+        <Box padding="64px 0" sx={{
+          padding: padWidth ? '64px 0' : '32px 0',
+        }}>
           <Typography variant="h2" textAlign="center">
             What is EIPs?
           </Typography>
@@ -95,7 +99,9 @@ export default function Home() {
             client APIs, and contract standards.
           </Typography>
         </Box>
-        <Box padding="64px 0">
+        <Box padding="64px 0" sx={{
+          padding: padWidth ? '64px 0' : '32px 0',
+        }}>
           <Typography variant="h2" textAlign="center">
             How EIPs work?
           </Typography>
@@ -159,7 +165,9 @@ export default function Home() {
               ))}
           </Box>
         </Box>
-        <Box padding="64px 0">
+        <Box padding="64px 0"  sx={{
+          padding: padWidth ? '64px 0' : '32px 0',
+        }}>
           <Typography variant="h2" textAlign="center">
             Supporters & Partners
           </Typography>

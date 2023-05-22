@@ -24,10 +24,11 @@ const Navigation = (): JSX.Element => {
   const EipHeader = styled('div')(({ theme }) => ({
     // width: 1440,
     maxWidth: 1280,
+    width:'90%',
     display: 'flex',
     alignItems: 'center',
     padding: '20px 0',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     margin: '0px auto',
     '.current': {
       color: '#437EF7',
