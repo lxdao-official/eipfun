@@ -3,25 +3,33 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import Toc from 'react-toc';
 import { formatMeta, formatComEIP } from '@/utils/str';
 import { readFile, } from 'node:fs/promises';
 import path from 'path';
+import detials from '@/styles/detials.module.css';
+
+export const flatten = (text, child) => {
+  return typeof child === "string"
+    ? text + child
+    : React.Children.toArray(child.props.children).reduce(flatten, text);
+};
+export const HeadingRenderer = (props) => {
+    var children = React.Children.toArray(props.children);
+    var text = children.reduce(flatten, "");
+    var slug = text.toLowerCase().replace(/[!?\s]/g, "-");
+    
+    return React.createElement(
+        "h" + props.level,
+        { id: slug, className: "eip-toc" },
+        props.children
+    );
+};
 
 export default function EIPDetails({ children, meta, id, jsxData }) {
   const [show, setShow] = useState(false);
-  // const matches = useMediaQuery('(max-width:576px)', { noSsr: true });  React.useEffect(() => {
-  React.useEffect(() => {
-    
-    setTimeout(() => {
-      const hs = document.querySelectorAll('.markdown-body h4, .markdown-body h3, .markdown-body h2')
-      hs.forEach(item => {
-        item.id = item.innerHTML
-      })
-    }, 200);
-  }, [])
+  // const matches = useMediaQuery('(max-width:576px)', { noSsr: true });  React.
   const handleShow = () => {
     setShow((state) => !state);
     if (show) {
@@ -72,48 +80,50 @@ return (
 
   <Box borderTop={1} borderColor="#EAEBF0" />
   
-  <Container maxWidth="lg">
+  <Container maxWidth="lg" sx={{position: "relative"}} >
     <Box py={4}>
-      EIPs &gt;{' '}
-      <Link underline='none' href="#">
+      <Typography display="inline-block" className={detials.iconArrow} component="span" variant="h5" lineHeight="24px">EIPs</Typography>
+      <Link  display="inline-block" underline='none' lineHeight="24px">
         EIP-{meta.eip}
       </Link>
     </Box>
 
-    <Box sx={{position: 'relative', background: "#333 url('/images/eip_details_bg.png') no-repeat top left"}} height="310px" borderRadius={1}>
-      <Box sx={{position: 'absolute', color: '#fff', fontSize: '80px' }} right={50} bottom={56}>
+    <Box sx={{position: 'relative', background: "#272D37 url('/images/eip_details_bg.png') no-repeat top left"}} height={260} borderRadius={1}>
+      <Box sx={{position: 'absolute', fontSize: '80px', color: '#fff' }} right={50} bottom={10}>
         EIP-{meta.eip}
       </Box>
     </Box>
 
-    <Typography variant="h4" fontSize={40} fontWeight='bold' pt={4}>{meta.title}</Typography>
+    <Typography variant="h2" fontSize={40} lineHeight="48px" fontWeight='bold' mt={4}>{meta.title}</Typography>
 
     {(meta.abstract || meta.description) && (
       <Typography pt={2} component={Box} variant='body1' color="#5F6D7E">{meta.abstract || meta.description}</Typography>
     )}
 
     <Box pb={4} pt={2}>
-      <Typography display='inline-block' component="span" variant="body2" color="#FFC700" borderRadius="5px" px={1} mr={2} style={{ background: '#FFFAE9'}}>{meta.status}</Typography>
-      <Typography  display='inline-block' component="span" variant="body2" color="#437EF7" borderRadius="5px" px={1} mr={2} style={{ background: '#F5FAFF'}}> Standards track - ERC</Typography>
+      <Typography display='inline-block' component="span" variant="body2" color="#FFC700" fontSize={14} borderRadius="5px" px={1} mr={2} style={{ background: '#FFFAE9'}}>{meta.status}</Typography>
+
+      <Typography  display='inline-block' component="span" variant="body2" color="#437EF7" fontSize={14} borderRadius="5px" px={1} mr={2} style={{ background: '#F5FAFF'}}>{meta.type}{meta.category ? ' - ' + meta.category : ''}</Typography>
     </Box>
 
     <Box pb={4}>
-      <Typography fontWeight='bold' component="span">Created: </Typography> <Typography component="span" variant="string" fontWeight="normal">{meta.created}</Typography>
+      <Typography fontWeight='bold' fontSize={14} component="span">Created: </Typography>
+      <Typography component="span" fontSize={14} variant="string" fontWeight="normal">{meta.created}</Typography>
       {meta['last-call-deadline'] ? (
         <>
-          <Typography fontWeight='bold' component="span"> Last Call Deadline: </Typography>
-          <Typography component="span" variant="string" fontWeight="normal">{meta['last-call-deadline']}</Typography>
+          <Typography fontWeight='bold' fontSize={14} component="span"> Last Call Deadline: </Typography>
+          <Typography component="span" fontSize={14} variant="string" fontWeight="normal">{meta['last-call-deadline']}</Typography>
         </>
       ) : null}
     </Box>
 
     {meta.requires && meta.requires?.length > 0 && meta.requires != 0 && (
-      <Box pb={4}>
-      Requires: {meta.requires.includes(', ') ? meta.requires.split(', ').map((item, i) => (<React.Fragment key={item}>{i !== 0 ? ', ' : ''}<Link underline="none" href={`./eips/eip-${item}`}>EIP-{item}</Link></React.Fragment>)) : (<Link underline="none"  href={`./eips/eip-${meta.requires}`}>EIP-{meta.requires}</Link>)}
+      <Box pb={4} sx={{fontSize: '14px'}}>
+      Requires: {meta.requires.includes(', ') ? meta.requires.split(', ').map((item, i) => (<React.Fragment key={item}>{i !== 0 ? ', ' : ''}<Link underline="none" href={`/eips/eip-${item}`}>EIP-{item}</Link></React.Fragment>)) : (<Link underline="none"  href={`/eips/eip-${meta.requires}`}>EIP-{meta.requires}</Link>)}
       </Box>
     )}
 
-    <Typography pb={4} display="flex" variant="subtitle2" component={Box}>
+    <Typography mb={4} display="flex" height={46} sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} alignItems="center" variant="subtitle2" component={Box} >
       {meta?.author?.includes(', ')
         ? meta.author.split(', ').map((item, i) => (<React.Fragment key={item}>
              {i !== 0 ? ', ' : '' }{fomatLink(item)}
@@ -122,11 +132,11 @@ return (
     </Typography>
 
     <Box pt={4} pb={3}>
-      {meta['discussions-to'] && (
+      {!meta['discussions-to'] && (
         <Button
-          mr={2}
+          sx={{marginRight: '16px'}}
           variant="contained"
-          startIcon={<MarkChatUnreadIcon />}
+          startIcon={<span style={{display: 'inline-block', width: '22px', height: '22px', background: "url('/images/eip_details_discussions.png') center center no-repeat"}} />}
           size="large"
           href={meta['discussions-to']}
         >
@@ -137,6 +147,9 @@ return (
       <Button
         variant="outlined"
         size="large"
+        sx={{color: '#272D37', borderColor: '#DAE0E6', '&:hover': {
+          color: "#437ef7"
+        }}}
         href={`https://eips.ethereum.org/EIPS/eip-${meta.eip}`}
       >
         Original link
@@ -158,8 +171,8 @@ return (
           borderColor="#F5F5F5"
           borderRadius="6px"
         >
-          <Box pb={2.5}>
-            <Typography sx={{background: '#F5FAFF'}} display="inline-block" px={1.5} component='span' variant="subtitle2" color="#437EF7" fontWeight="bold">By ChatGPT-4</Typography>
+          <Box mb={2.5} pl={5.25}  sx={{background: "url('/images/eip_details_chatgpt.png') left center no-repeat"}} >
+            <Typography sx={{background: '#F5FAFF'}} display="inline-block" px={1.5} component='span' variant="subtitle2" lineHeight="28px" color="#437EF7" fontSize={14} fontWeight="bold">By ChatGPT-4</Typography>
           </Box>
 
           <Typography color="#5F6D7E" variant="body1">{meta.chatgpt4}</Typography>
@@ -179,7 +192,11 @@ return (
         >
           <Box sx={[{ height: show ? 'auto' : '526px', overflow: 'hidden', '& h2:first-of-type,& hr': { display: 'none'} } ]} className="markdown-body">
             <Box sx={visuallyHidden}>{jsxData}</Box>
-            <EIPDetail />
+            <EIPDetail components={{
+                h1: (props) => HeadingRenderer({...props, level: 1}),
+                h2: (props) => HeadingRenderer({...props, level: 2}),
+                h3: (props) => HeadingRenderer({...props, level: 3}),
+              }} />
           </Box>
           <Box mt={4} sx={{textAlign: 'center'}}>
             <Button variant="contained" onClick={handleShow}>
@@ -187,8 +204,8 @@ return (
             </Button>
           </Box>
         </Box>
-        <Box position="fixed" left={0} top={0} sx={visuallyHidden}>
-          <Toc markdownText={jsxData} />
+        <Box position="fixed" left={0} top={200} width={300} display="none">
+          <Toc markdownText={jsxData} lowestHeadingLevel={2} type="row" className={detials.eipEnmu} titleLimit={30} customMatchers={{"`": ""}} />
         </Box>
 
         {meta['extended resources']?.length > 0 && (<>
