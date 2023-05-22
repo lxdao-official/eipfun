@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import {
   Link,
   Box,
@@ -7,26 +6,13 @@ import {
   TextFieldProps,
   Typography,
   styled,
+  Button,
 } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 import EastIcon from '@mui/icons-material/East';
-import Snackbar from '@mui/material/Snackbar';
-// import { useForm, SubmitHandler } from 'react-hook-form';
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR;
-
-type FormValues = {
-  email: string;
-};
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 const SubInput = styled(TextField)<TextFieldProps>(({theme}) => ({
   background: '#fff',
   '.MuiInputBase-root': {
@@ -39,44 +25,7 @@ const SubInput = styled(TextField)<TextFieldProps>(({theme}) => ({
   
 }));
 const EmailSubscribe = (): JSX.Element => {
-  // const [alertOpen, setAlertOpen] = useState<boolean>(false);
-  // const [alertErrorOpen, setAlertErrorOpen] = useState<boolean>(false);
-  // const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
-  // const [errorMessage, setErrorMessage] = useState<string>('');
-  // const { register, handleSubmit } = useForm<FormValues>();
-  // const onSubmit: SubmitHandler<FormValues> = (data) => {
-  //   let sendData = { address: data.email };
-  //   setSubmitLoading(true);
-  //   axios
-  //     .post(`${ADDR}/email/subscribe`, sendData)
-  //     .then((res) => {
-  //       setSubmitLoading(false);
-  //       if (res.data && res.data.data) {
-  //         setAlertOpen(true);
-  //       } else {
-  //         setErrorMessage(res.data.message);
-  //         setAlertErrorOpen(true);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       setSubmitLoading(false);
-  //       setErrorMessage(err.message);
-  //       setAlertErrorOpen(true);
-  //     });
-  // };
-
-  // const handleClose = (
-  //   event?: React.SyntheticEvent | Event,
-  //   reason?: string
-  // ) => {
-  //   if (reason === 'clickaway') {
-  //     return;
-  //   }
-
-  //   setAlertOpen(false);
-  //   setAlertErrorOpen(false);
-  // };
   return (
     <>
       <Box className="contentleft">
@@ -101,29 +50,15 @@ const EmailSubscribe = (): JSX.Element => {
             size="small"
        
           />
-          <LoadingButton
-            size="medium"
-            type="submit"
-            // loading={submitLoading}
-            loadingPosition="start"
-            variant="contained"
-            startIcon={<SubscriptionsIcon />}
-            sx={{
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-              height: 40,
-            }}
-          >
-            <span>Submit</span>
-          </LoadingButton>
-          {/* <Button
+          
+          <Button
             variant="contained"
            
             size="medium"
             type="submit"
           >
             Submit
-          </Button> */}
+          </Button>
         </form>
       </Box>
     
