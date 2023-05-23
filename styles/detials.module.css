@@ -16,3 +16,9 @@
   height: 24px;
   background: url('/images/eip_details_arrow.png') center center no-repeat;
 }
+
+.authorWrap::after {
+  content: ' ';
+  display: table;
+  clear: both;
+}

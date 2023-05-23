@@ -24,7 +24,7 @@ const Navigation = (): JSX.Element => {
   const EipHeader = styled('div')(({ theme }) => ({
     // width: 1440,
     maxWidth: 1280,
-    width:'90%',
+    width: '90%',
     display: 'flex',
     alignItems: 'center',
     padding: '20px 0',
@@ -54,9 +54,9 @@ const Navigation = (): JSX.Element => {
   }));
   const toggleLang = () => {
     if (langText === 'EN') {
-      router.replace(router.pathname.substring(3) || '/');
+      router.replace(router.asPath.substring(3) || '/');
     } else {
-      router.replace('/zh' + router.pathname);
+      router.replace('/zh' + router.asPath);
     }
   };
 

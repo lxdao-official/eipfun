@@ -44,7 +44,7 @@ export default function EIPDetails({ children, meta, id, jsxData }) {
       linkText = linkText.replace('>', '');
       link = 'mailto:' + linkText;
       return <>
-        {name}(<Link underline="hover" href={link}>{linkText}</Link>)
+        {name}{'<'}<Link underline="hover" href={link}>{linkText}</Link>{'>'}
       </>;
     } else if (str.includes('(')) {
       let [name, linkText] =  str.split('(');
@@ -123,11 +123,11 @@ return (
       </Box>
     )}
 
-    <Typography mb={4} display="flex" height={46} sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} alignItems="center" variant="subtitle2" component={Box} >
+    <Typography mb={4} sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} py={0.75} variant="subtitle2" component={Box} className={detials.authorWrap} >
       {meta?.author?.includes(', ')
-        ? meta.author.split(', ').map((item, i) => (<React.Fragment key={item}>
+        ? meta.author.split(', ').map((item, i) => (<span style={{float: 'left', lineHeight: '24px'}} key={item}>
              {i !== 0 ? ', ' : '' }{fomatLink(item)}
-          </React.Fragment>))
+          </span>))
         : fomatLink(meta.author)}
     </Typography>
 
