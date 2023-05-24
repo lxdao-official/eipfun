@@ -17,7 +17,7 @@
   background: url('/images/eip_details_arrow.png') center center no-repeat;
 }
 
-.authorWrap::after {
+.floatWrap::after {
   content: ' ';
   display: table;
   clear: both;

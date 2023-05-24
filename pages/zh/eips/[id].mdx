@@ -69,7 +69,7 @@ return (
     }
     key="description"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css" integrity="sha512-Ya9H+OPj8NgcQk34nCrbehaA0atbzGdZCI2uCbqVRELgnlrh8vQ2INMnkadVMSniC54HChLIh5htabVuKJww8g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css" integrity="sha512-bm684OXnsiNuQSyrxuuwo4PHqr3OzxPpXyhT66DA/fhl73e1JmBxRKGnO/nRwWvOZxJLRCmNH7FII+Yn1JNPmg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </Head>
   
   <Box borderTop={1} borderColor="#EAEBF0" />
@@ -173,7 +173,7 @@ return (
       </Box>
     )}
 
-    <Typography className={detials.authorWrap} variant="subtitle2" sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} py={0.75} variant="subtitle2" component={Box}>
+    <Typography className={detials.floatWrap} variant="subtitle2" sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} py={0.75} variant="subtitle2" component={Box}>
       {meta?.author?.includes(', ')
         ? meta.author.split(', ').map((item, i) => (
             <span style={{float: 'left', lineHeight: '24px'}} key={item}>
@@ -286,9 +286,9 @@ return (
               </Typography>
             </Box>
 
-            <Box display="flex">
+            <Box className={detials.floatWrap}>
               {meta['extended resources'].map((item) => (
-                <Box width={404} mb={6.5} mr={4} key={item.title}>
+                <Box sx={{float: 'left', '&:nth-of-type(2n)': {marginRight: 0}}} width={404} mb={6.5} mr={4} key={item.title}>
                   <Box height={84} borderRadius="6px">
                     <img
                       style={{
