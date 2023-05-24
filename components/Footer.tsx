@@ -31,7 +31,7 @@ export default function Footer() {
 
   return (
     <Box bgcolor={'#f8f9fb'} py={[5, 5, 8, 8]}>
-      <Box maxWidth="1280px" margin="0 auto">
+      <Box maxWidth={1280} width={0.9} margin="0 auto">
         <Box
           sx={{ float: 'left' }}
           width={[1, 1, 0.5, 0.5]}
@@ -101,11 +101,18 @@ export default function Footer() {
 
         <Box sx={{ float: 'right' }} width={[1, 1, 320, 390]}>
           <Box display="inline-block" width={[0.5, 0.5, 150, 290]}>
-            <Typography variant="h6">Products</Typography>
+            <Typography
+              variant="subtitle1"
+              color="#272D37"
+              fontWeight="bold"
+              lineHeight="24px"
+            >
+              Products
+            </Typography>
             <Box pb={7.25} pt={2}>
               {footerList1.map((item) => (
                 <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
-                  <Link href={item.href} underline="hover" color="inherit">
+                  <Link href={item.href} underline="hover" color="#5F6D7E">
                     {lang === 'en' ? item.con : item.conZh}
                   </Link>
                 </Box>
@@ -113,11 +120,18 @@ export default function Footer() {
             </Box>
           </Box>
           <Box display="inline-block" width={[0.5, 0.5, 170, 100]}>
-            <Typography variant="h6">Resources</Typography>
+            <Typography
+              variant="subtitle1"
+              color="#272D37"
+              fontWeight="bold"
+              lineHeight="24px"
+            >
+              Resources
+            </Typography>
             <Box pb={7.25} pt={2}>
               {footerList2.map((item) => (
                 <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
-                  <Link href={item.href} underline="hover" color="inherit">
+                  <Link href={item.href} underline="hover" color="#5F6D7E">
                     {lang === 'en' ? item.con : item.conZh}
                   </Link>
                 </Box>
