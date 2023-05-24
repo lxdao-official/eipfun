@@ -173,7 +173,7 @@ return (
       </Box>
     )}
 
-    <Typography pb={4} className={detials.authorWrap} variant="subtitle2" sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} py={0.75} variant="subtitle2" component={Box}>
+    <Typography className={detials.authorWrap} variant="subtitle2" sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} py={0.75} variant="subtitle2" component={Box}>
       {meta?.author?.includes(', ')
         ? meta.author.split(', ').map((item, i) => (
             <span style={{float: 'left', lineHeight: '24px'}} key={item}>
