@@ -234,17 +234,11 @@ function Eips({ data, pagination }: IProps) {
           <Table sx={{ minWidth: 700 }} aria-label="table">
             <TableHead>
               <TableRow>
-                <StyledTableCell sx={{ width: '0.125' }}>
-                  Number
-                </StyledTableCell>
-                <StyledTableCell sx={{ width: '0.0833' }}>
-                  Status
-                </StyledTableCell>
-                <StyledTableCell sx={{ width: '0.0833' }}>Type</StyledTableCell>
-                <StyledTableCell sx={{ width: '0.375' }}>Title</StyledTableCell>
-                <StyledTableCell sx={{ width: '0.3333' }}>
-                  Author
-                </StyledTableCell>
+                <StyledTableCell sx={{ width: '0.08' }}>Number</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.08' }}>Status</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.22' }}>Type</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.32' }}>Title</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.3' }}>Author</StyledTableCell>
               </TableRow>
             </TableHead>
 
@@ -253,7 +247,7 @@ function Eips({ data, pagination }: IProps) {
                 <StyledTableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
                     <Link
-                      style={{ textDecoration: 'underline', color: '#437EF7' }}
+                      style={{ color: '#437EF7', fontWeight: 'bold' }}
                       href={`./eips/eip-${row.eip}`}
                     >
                       {row.eip}
