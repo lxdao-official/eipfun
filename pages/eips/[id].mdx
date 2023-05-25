@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Head from 'next/head'
+import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
@@ -9,6 +9,7 @@ import { formatMeta, formatComEIP } from '@/utils/str';
 import { readFile } from 'node:fs/promises';
 import path from 'path';
 import detials from '@/styles/detials.module.css';
+import _ from 'lodash';
 
 export const flatten = (text, child) => {
   return typeof child === "string"
@@ -29,7 +30,28 @@ export const HeadingRenderer = (props) => {
 
 export default function EIPDetails({ children, meta, id, jsxData }) {
   const [show, setShow] = useState(false);
-  // const matches = useMediaQuery('(max-width:576px)', { noSsr: true });  React.
+  useEffect(() => {
+    const tocTop = document.querySelector('#details-toc').offsetTop;
+    function watchHeight (event) {
+      const tocElStyle = document.querySelector('#details-toc').style;
+      if (!tocElStyle) {
+        return;
+      }
+      if (tocTop <= window.pageYOffset) {
+        tocElStyle.position = 'fixed';
+        tocElStyle.top = '20%';
+        tocElStyle.padding = '0 10px'
+      } else {
+        tocElStyle.position = 'static';
+        tocElStyle.padding = 0;
+      }
+    }
+    window.addEventListener('scroll', _.throttle(watchHeight, 300));
+    return () => {
+      window.removeEventListener('scroll', _.throttle(watchHeight, 300));
+    };
+  }, [])
+  // const matches = useMediaQuery('(max-width:576px)', { noSsr: true }); React.
   const handleShow = () => {
     setShow((state) => !state);
     if (show) {
@@ -39,22 +61,18 @@ export default function EIPDetails({ children, meta, id, jsxData }) {
   const EIPDetail = dynamic(() => import(`../../public/original-eips/${id}.md`));
   const fomatLink = (str) => {
     if (str.includes('<')) {
-      let [name, linkText] =  str.split('<');
+      let [name, linkText] = str.split('<');
       let link;
       linkText = linkText.replace('>', '');
       link = 'mailto:' + linkText;
-      return <>
-        {name}{'<'}<Link underline="hover" href={link}>{linkText}</Link>{'>'}
-      </>;
+      return <>{name}{'<'}<Link underline="hover" href={link}>{linkText}</Link>{'>'}</>;
     } else if (str.includes('(')) {
-      let [name, linkText] =  str.split('(');
+      let [name, linkText] = str.split('(');
       let link;
       linkText = linkText.replace(')', '');
       link= 'https://github.com/' + linkText.replace('@', '');
-      return <>
-        {name}(<Link underline="hover" href={link}>{linkText}</Link>)
-      </>;
-    } else { 
+      return <>{name}(<Link underline="hover" target="_blank" href={link}>{linkText}</Link>)</>;
+    } else {
       return str;
     }
   }
@@ -80,7 +98,7 @@ return (
 
   <Box borderTop={1} borderColor="#EAEBF0" />
   
-  <Container maxWidth="lg" sx={{position: "relative"}} >
+  <Container maxWidth="lg">
     <Box py={4}>
       <Typography display="inline-block" className={detials.iconArrow} component="span" variant="h5" lineHeight="24px">EIPs</Typography>
       <Link  display="inline-block" underline='none' lineHeight="24px">
@@ -204,9 +222,6 @@ return (
             </Button>
           </Box>
         </Box>
-        <Box position="fixed" left={0} top={200} width={300} display="none">
-          <Toc markdownText={jsxData} lowestHeadingLevel={2} type="row" className={detials.eipEnmu} titleLimit={30} customMatchers={{"`": ""}} />
-        </Box>
 
         {meta['extended resources']?.length > 0 && (<>
           <Box pb={3}>
@@ -228,21 +243,22 @@ return (
         </>)}
       </Box>
 
-      {meta.projects?.length > 0 && (<>
-        <Box sx={{flex: 1}}>
-          <Box pt={3} px={3} border={1} borderColor="#eaebf0" borderRadius={'10px'}>
-            <Typography fontWeight="bold" variant="h6" pb={3}>Adopted by projects</Typography>
+      <Box sx={{flex: 1}}>
+        <Box pt={3} px={3} border={1} borderColor="#eaebf0" borderRadius={'10px'}>
+          {meta.projects?.length > 0 && <Typography fontWeight="bold" variant="h6" pb={3}>Adopted by projects</Typography>}
 
-            {meta.projects.map(item => (
-              <Link href={item.link} key={item.title} underline="hover">
+            {meta.projects?.length > 0 && meta.projects.map(item => (<Link href={item.link} key={item.title} underline="hover">
               <Box height={100}>
                 <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src={item.imgSrc} alt={item.alt} />
               </Box>
               <Typography py={2} color="#272d37" variant="subtitle1">{item.title}</Typography>
             </Link>))}
-          </Box>
+
+            <Box id="details-toc" pt={4} pb={3} borderTop={1} borderColor={meta.projects?.length > 0 ? "#ECECEC" : 'transparent'} sx={{background: '#fff'}} zIndex={2}>
+              <Toc markdownText={jsxData} lowestHeadingLevel={2} highestHeadingLevel={2} type="row" className={detials.eipEnmu} titleLimit={30} customMatchers={{"`": ""}} />
+            </Box>
         </Box>
-      </>)}
+      </Box>
     </Box>
 
     <Box display='flex' alignItems="center" justifyContent="space-between" borderRadius="10px" px={4} py={5} my={5} sx={{background: '#F8F9FB'}}>

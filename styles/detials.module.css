@@ -1,5 +1,9 @@
-.eipEnmu {
-  font-size: 16px;
+.eipEnmu li {
+  line-height: 22px;
+  color: #272d37;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .iconArrow {
