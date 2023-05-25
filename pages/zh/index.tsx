@@ -8,10 +8,11 @@ import { useState } from 'react';
 import { Link, Box, Button, Container } from '@mui/material';
 import EmailSubscribe from '../../components/EmailSubscribe';
 import EastIcon from '@mui/icons-material/East';
+import { Telegram } from '@/common/config';
 
 export default function Home() {
-  const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
-  const [partners, setPartners] = useState<PartnerType[]>(partnerList);
+  const [eipsWay] = useState<EipWayIntro[]>(introList);
+  const [partners] = useState<PartnerType[]>(partnerList);
   const EipsBanner = styled('div')(() => ({
     // width: 1440,
     maxWidth: 1440,
@@ -29,11 +30,11 @@ export default function Home() {
     position: 'relative',
   }));
 
-  const EipsContent = styled('div')(() => ({
-    // width: 1440,
-    margin: '64px auto ',
-    textAlign: 'center',
-  }));
+  // const EipsContent = styled('div')(() => ({
+  //   // width: 1440,
+  //   margin: '64px auto ',
+  //   textAlign: 'center',
+  // }));
   const EipsCardList = styled('div')(() => ({
     // width: 1280,
     maxWidth: 1280,
@@ -121,8 +122,8 @@ export default function Home() {
           </Typography>
           <Typography variant="body2" width={'100%'} textAlign={'center'}>
             It is short for Ethereum Improvement Proposals, they are standards
-            for the Ethereum platform, including <br /> core protocol specifications,
-            client APIs, and contract standards.
+            for the Ethereum platform, including <br /> core protocol
+            specifications, client APIs, and contract standards.
           </Typography>
         </Box>
         <Box>
@@ -217,17 +218,13 @@ export default function Home() {
         <EipsContentBlock>
           <Box className="contentleft">
             <Typography variant="h3">How EIPs Fun works?</Typography>
-            <Typography
-              variant="body1"
-      
-           
-            >
+            <Typography variant="body1">
               This is an open source and public goods.Running by a EIPs Fun DAO.
               xxx Donation means a lot for us, please donate.
             </Typography>
           </Box>
           <Box className="contentRight">
-            <Button variant="outlined" href="https://t.eips.fun/" size="medium">
+            <Button variant="outlined" href={Telegram} size="medium">
               Join Us
             </Button>
             <Button

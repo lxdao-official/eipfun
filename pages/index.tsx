@@ -1,21 +1,21 @@
 import Image from 'next/image';
-import {  styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import SearchMain from '../components/SearchMain';
 import { EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
-import { Link, Box, Button, Container, useMediaQuery } from '@mui/material';
+import { Link, Box, Button, useMediaQuery } from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
 import EastIcon from '@mui/icons-material/East';
+import { Telegram } from '@/common/config';
 
 export default function Home() {
-  const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
-  const [partners, setPartners] = useState<PartnerType[]>(partnerList);
+  const [eipsWay] = useState<EipWayIntro[]>(introList);
+  const [partners] = useState<PartnerType[]>(partnerList);
   const padWidth = useMediaQuery('(min-width:900px)');
-  const mobileWidth = useMediaQuery('(min-width:400px)');
+  // const mobileWidth = useMediaQuery('(min-width:400px)');
 
-
-  const EipsContentBlock = styled('div')(( {theme} ) => ({
+  const EipsContentBlock = styled('div')(({ theme }) => ({
     // width: 1152,
     maxWidth: 1152,
     display: 'flex',
@@ -27,7 +27,7 @@ export default function Home() {
     margin: '40px auto',
     fontWeight: 400,
     flexWrap: 'wrap',
-    
+
     '.contentleft': {
       maxWidth: '568px',
       flex: 1,
@@ -41,25 +41,22 @@ export default function Home() {
       padding: '32px',
       flexDirection: 'column',
       '.contentleft': {
-        width:'100%',
+        width: '100%',
         flex: 1,
-        maxWidth:'100%',
+        maxWidth: '100%',
       },
       '.contentRight': {
-        width:'100%',
+        width: '100%',
         flex: 1,
-        maxWidth:'100%',
-        paddingTop:'20px'
+        maxWidth: '100%',
+        paddingTop: '20px',
       },
     },
-
   }));
 
   return (
     <>
-      <Box
-        sx={{ maxWidth: '100%',padding:'0!important'}}
-      >
+      <Box sx={{ maxWidth: '100%', padding: '0!important' }}>
         <Box
           display="flex"
           flexDirection="column"
@@ -77,14 +74,16 @@ export default function Home() {
           <Typography variant="h1" textAlign="center" color="#fff">
             Serve EIP builders, scale Ethereum.
           </Typography>
-          <Box maxWidth='lg' margin="0 auto" width='100%'>
+          <Box maxWidth="lg" margin="0 auto" width="100%">
             <SearchMain />
           </Box>
-          
         </Box>
-        <Box padding="64px 0" sx={{
-          padding: padWidth ? '64px 0' : '32px 0',
-        }}>
+        <Box
+          padding="64px 0"
+          sx={{
+            padding: padWidth ? '64px 0' : '32px 0',
+          }}
+        >
           <Typography variant="h2" textAlign="center">
             What is EIPs?
           </Typography>
@@ -99,9 +98,12 @@ export default function Home() {
             client APIs, and contract standards.
           </Typography>
         </Box>
-        <Box padding="64px 0" sx={{
-          padding: padWidth ? '64px 0' : '32px 0',
-        }}>
+        <Box
+          padding="64px 0"
+          sx={{
+            padding: padWidth ? '64px 0' : '32px 0',
+          }}
+        >
           <Typography variant="h2" textAlign="center">
             How EIPs work?
           </Typography>
@@ -118,29 +120,25 @@ export default function Home() {
                 <Box
                   flex={0}
                   minWidth="218px"
-                  textAlign='center'
-                  padding= '20px 0'
+                  textAlign="center"
+                  padding="20px 0"
                   key={index}
                 >
                   <Box
-                    display='inline-flex'
+                    display="inline-flex"
                     width={48}
                     height={48}
-                    alignItems='center'
-                    justifyContent='center'
-                    bgcolor='#F5FAFF'
-                    borderRadius='5px'
-                    color='#437EF7'
-                    fontSize='24px'
+                    alignItems="center"
+                    justifyContent="center"
+                    bgcolor="#F5FAFF"
+                    borderRadius="5px"
+                    color="#437EF7"
+                    fontSize="24px"
                   >
                     {item.index}
                   </Box>
                   <Typography variant={'h4'}>{item.title}</Typography>
-                  <Typography
-                    variant='body2'
-                    padding='0'
-                    width='100%'
-                  >
+                  <Typography variant="body2" padding="0" width="100%">
                     {item.intro}
                   </Typography>
 
@@ -165,9 +163,12 @@ export default function Home() {
               ))}
           </Box>
         </Box>
-        <Box padding="64px 0"  sx={{
-          padding: padWidth ? '64px 0' : '32px 0',
-        }}>
+        <Box
+          padding="64px 0"
+          sx={{
+            padding: padWidth ? '64px 0' : '32px 0',
+          }}
+        >
           <Typography variant="h2" textAlign="center">
             Supporters & Partners
           </Typography>
@@ -211,7 +212,7 @@ export default function Home() {
             </Typography>
           </Box>
           <Box className="contentRight">
-            <Button variant="outlined" href="https://t.eips.fun/" size="medium">
+            <Button variant="outlined" href={Telegram} size="medium">
               Join Us
             </Button>
             <Button

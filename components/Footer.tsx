@@ -5,6 +5,7 @@ import LogoS from 'public/images/logo_s.svg';
 import Telegram from 'public/images/telegram.svg';
 import Twitter from 'public/images/twitter.svg';
 import Discord from 'public/images/discord.svg';
+import { Telegram as TelegramLink } from '@/common/config';
 
 type footerItem = {
   con: string;
@@ -47,7 +48,7 @@ export default function Footer() {
 
           <Box>
             <Link
-              href="https://t.eips.fun/"
+              href={TelegramLink}
               target="_blank"
               color={'#101828'}
               mr={1.5}
