@@ -175,7 +175,7 @@ function Eips({ data, pagination }: IProps) {
       return (
         <>
           {name}(
-          <Link underline="hover" href={link}>
+          <Link underline="hover" href={link} target="_blank">
             {linkText}
           </Link>
           )
