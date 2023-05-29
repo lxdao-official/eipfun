@@ -21,7 +21,7 @@ const SearchOption = styled('li')(() => ({
   margin: 0,
  
   h5:{
-    textAlign:'left'
+    textAlign:'left!important'
   },
   b: {
     color: '#437EF7',
