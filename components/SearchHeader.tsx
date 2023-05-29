@@ -19,20 +19,18 @@ const SearchOption = styled('li')(() => ({
   width: '100%',
   color: '#2E343F',
   margin: 0,
- 
-  h5:{
-    textAlign:'left!important'
+
+  h5: {
+    textAlign: 'left!important',
   },
   b: {
     color: '#437EF7',
-
   },
-  p:{
-    width:'100%',
+  p: {
+    width: '100%',
     fontSize: '12px',
-    textAlign:'left'
-  }
- 
+    textAlign: 'left',
+  },
 }));
 const SearchLoading = styled('div')(() => ({
   textAlign: 'center',
@@ -84,29 +82,34 @@ function useSearch(searchText: string) {
         let optionsList: EipCommonResult[] = [];
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
-          
         } else {
-         
-          if(res.data.data?.title_list ) {
-            optionsList = optionsList.concat(res.data.data.title_list)
+          if (res.data.data?.title_list) {
+            optionsList = optionsList.concat(res.data.data.title_list);
           }
-          if(res.data.data?.content_list ) {
-            optionsList = optionsList.concat(res.data.data.content_list)
+          if (res.data.data?.content_list) {
+            optionsList = optionsList.concat(res.data.data.content_list);
           }
-          
-          optionsList = optionsList.reduce((obj:EipCommonResult[], item:EipCommonResult) => {  
-            let find = obj.find((i:EipCommonResult) => i.eip&&( i.eip === item.eip))  
-            //如果没有title则使用ts_headline
-            item.title = item.title? item.title : item.ts_headline
 
-            console.log(item)
-            //取出重复并使用content_list的title和ts_headline
-            find ? (find.title = item.title,find.ts_headline = item.ts_headline):(obj.push(item))  
-            return obj  
-          }, [])
+          optionsList = optionsList.reduce(
+            (obj: EipCommonResult[], item: EipCommonResult) => {
+              let find = obj.find(
+                (i: EipCommonResult) => i.eip && i.eip === item.eip
+              );
+              //如果没有title则使用ts_headline
+              item.title = item.title ? item.title : item.ts_headline;
+
+              console.log(item);
+              //取出重复并使用content_list的title和ts_headline
+              find
+                ? ((find.title = item.title),
+                  (find.ts_headline = item.ts_headline))
+                : obj.push(item);
+              return obj;
+            },
+            []
+          );
         }
         return optionsList.slice(0, 20);
-        
       });
     },
     {
@@ -149,19 +152,20 @@ export default function SearchHeader() {
       renderOption={(props, option: any) => {
         return (
           <SearchOption
-              {...props}
-              onClick={() => {
-                router.push(`/eips/eip-${option.eip}`);
-              }}
-            >
-              <Typography  variant='h5' width='100%'>
-                EIP-{option.rank ? option.eip : <b>{option.eip} </b>  }
-                <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
-              </Typography>
-              {option.ts_headline && (
-                <p  dangerouslySetInnerHTML={{ __html: option.ts_headline }}></p>
-              )}
-            </SearchOption>
+            {...props}
+            onClick={() => {
+              // router.push(`/eips/eip-${option.eip}`);
+              location.href = `/eips/eip-${option.eip}`;
+            }}
+          >
+            <Typography variant="h5" width="100%">
+              EIP-{option.rank ? option.eip : <b>{option.eip} </b>}
+              <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
+            </Typography>
+            {option.ts_headline && (
+              <p dangerouslySetInnerHTML={{ __html: option.ts_headline }}></p>
+            )}
+          </SearchOption>
         );
       }}
       renderInput={(params) => (

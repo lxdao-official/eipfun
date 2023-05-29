@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
+import { link } from 'fs';
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
@@ -169,16 +170,19 @@ export default function SearchHeader() {
             <SearchOption
               {...props}
               onClick={() => {
-                router.push(`/eips/eip-${option.eip}`);
+                location.href=`/eips/eip-${option.eip}`;
               }}
             >
+               
               <h3>
-                EIP-{option.rank ? option.eip + ': ' : <b>- {option.eip} </b>}
+                EIP-{option.rank ? option.eip + ': ' : <b>{option.eip} </b>}
                 <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
+                
               </h3>
               {option.ts_headline && (
                 <p dangerouslySetInnerHTML={{ __html: option.ts_headline }}></p>
               )}
+             
             </SearchOption>
           );
         }}
