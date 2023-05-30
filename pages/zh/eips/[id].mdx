@@ -39,7 +39,7 @@ export default function EIPDetails({ children, meta, id, jsxData }) {
       }
       if (tocTop <= window.pageYOffset) {
         tocElStyle.position = 'fixed';
-        tocElStyle.top = '20%';
+        tocElStyle.top = '15%';
         tocElStyle.padding = '0 10px'
       } else {
         tocElStyle.position = 'static';
@@ -288,6 +288,7 @@ return (
           mb={6}
         >
           <Box
+            position="relative"
             sx={[
               {
                 height: show ? 'auto' : '526px',
@@ -298,6 +299,7 @@ return (
             className="markdown-body"
           >
             <Box sx={visuallyHidden}>{jsxData}</Box>
+            {!show && <Box position="absolute" bottom={0} left={0} width={1} height={160} sx={{background: "linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))"}}></Box>}
             <EIPDetail components={{
                 h1: (props) => HeadingRenderer({...props, level: 1}),
                 h2: (props) => HeadingRenderer({...props, level: 2}),
