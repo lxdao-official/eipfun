@@ -41,7 +41,7 @@ const SearchLoading = styled('div')(() => ({
 }));
 
 type EipCommonResult = {
-  eip: string;
+  eip?: string;
   title?: TrustedHTML;
   ts_headline?: TrustedHTML;
   rank?: number;
@@ -80,6 +80,7 @@ function useSearch(searchText: string) {
     () => {
       return axios.get(url).then((res: AxiosResponse) => {
         let optionsList: EipCommonResult[] = [];
+
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
         } else {
@@ -109,11 +110,14 @@ function useSearch(searchText: string) {
             []
           );
         }
+
+        // return optionsList.length > 0 ? optionsList.slice(0, 20) : null;
         return optionsList.slice(0, 20);
       });
     },
     {
       enabled: searchText.length > 0,
+      retry: false,
     }
     // { keepPreviousData: true, staleTime: 5 * 60 * 1000 }
   );
@@ -121,9 +125,8 @@ function useSearch(searchText: string) {
 export default function SearchHeader() {
   const [inputValue, setInputValue] = useState<string>('');
   const debouncedSearch = useDebounce(inputValue, 500);
-  const router = useRouter();
 
-  const { isFetching, data: options } = useSearch(debouncedSearch);
+  const { isFetching, data: options, isError } = useSearch(debouncedSearch);
 
   return (
     <Autocomplete
@@ -140,7 +143,7 @@ export default function SearchHeader() {
       filterOptions={(x) => x}
       // value={inputValue}
       autoSelect={false}
-      loading={inputValue.length > 0 || isFetching}
+      loading={ isFetching}
       freeSolo={inputValue?.length ? false : true}
       autoComplete={false}
       noOptionsText={inputValue && `No results for "${inputValue}"`}

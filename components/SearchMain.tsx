@@ -128,6 +128,7 @@ function useSearch(searchText: string) {
     },
     {
       enabled: searchText.length > 0,
+      retry:false,
     }
     // { keepPreviousData: true, staleTime: 5 * 60 * 1000 }
   );

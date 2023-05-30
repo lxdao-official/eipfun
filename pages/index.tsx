@@ -205,10 +205,9 @@ export default function Home() {
         </EipsContentBlock>
         <EipsContentBlock>
           <Box className="contentleft">
-            <Typography variant="h3">How EIPs Fun works?</Typography>
+            <Typography variant="h3">Our vision</Typography>
             <Typography variant="body1">
-              This is an open source and public goods.Running by a EIPs Fun DAO.
-              xxx Donation means a lot for us, please donate.
+            EIPs.Fun aims to serve as the "layer 2" of the EIP ecosystem, simplifying and accelerating the adoption of EIPs, and seeking to catalyze the synergy of the EIP ecosystem.
             </Typography>
           </Box>
           <Box className="contentRight">
@@ -239,7 +238,7 @@ const introList = [
     actionLink: 'https://github.com/ethereum/EIPs',
   },
   {
-    title: 'Review & feedback',
+    title: 'Review & Feedback',
     image: '/images/intro_2.jpg',
     intro:
       'Once review is done, any editor assigns an EIP number and merges the PR',
