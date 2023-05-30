@@ -207,7 +207,7 @@ export default function Home() {
           <Box className="contentleft">
             <Typography variant="h3">Our vision</Typography>
             <Typography variant="body1">
-            EIPs.Fun aims to serve as the "layer 2" of the EIP ecosystem, simplifying and accelerating the adoption of EIPs, and seeking to catalyze the synergy of the EIP ecosystem.
+            EIPs.Fun aims to serve as the &quot;layer 2&quot; of the EIP ecosystem, simplifying and accelerating the adoption of EIPs, and seeking to catalyze the synergy of the EIP ecosystem.
             </Typography>
           </Box>
           <Box className="contentRight">
