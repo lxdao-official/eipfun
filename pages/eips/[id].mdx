@@ -121,7 +121,7 @@ return (
     <Box pb={4} pt={2}>
       <Typography display='inline-block' component="span" variant="body2" color="#FFC700" fontSize={14} borderRadius="5px" px={1} mr={2} style={{ background: '#FFFAE9'}}>{meta.status}</Typography>
 
-      <Typography  display='inline-block' component="span" variant="body2" color="#437EF7" fontSize={14} borderRadius="5px" px={1} mr={2} style={{ background: '#F5FAFF'}}>{meta.type}{meta.category ? ' - ' + meta.category : ''}</Typography>
+      <Typography  display='inline-block' component="span" variant="body2" color="#437EF7" fontSize={14} borderRadius="5px" px={1} mr={2} style={{ background: '#F5FAFF'}}>{meta.type}{meta.category ? ': ' + meta.category : ''}</Typography>
     </Box>
 
     <Box pb={4}>
@@ -129,7 +129,7 @@ return (
       <Typography component="span" fontSize={14} variant="string" fontWeight="normal">{meta.created}</Typography>
       {meta['last-call-deadline'] ? (
         <>
-          <Typography fontWeight='bold' fontSize={14} component="span"> Last Call Deadline: </Typography>
+          <Typography fontWeight='bold' fontSize={14} component="span" ml={1}>Last Call Deadline: </Typography>
           <Typography component="span" fontSize={14} variant="string" fontWeight="normal">{meta['last-call-deadline']}</Typography>
         </>
       ) : null}
@@ -137,7 +137,7 @@ return (
 
     {meta.requires && meta.requires?.length > 0 && meta.requires != 0 && (
       <Box pb={4} sx={{fontSize: '14px'}}>
-      Requires: {meta.requires.includes(', ') ? meta.requires.split(', ').map((item, i) => (<React.Fragment key={item}>{i !== 0 ? ', ' : ''}<Link underline="none" href={`/eips/eip-${item}`}>EIP-{item}</Link></React.Fragment>)) : (<Link underline="none"  href={`/eips/eip-${meta.requires}`}>EIP-{meta.requires}</Link>)}
+       <Typography fontWeight='bold' fontSize={14} component="span">Requires: </Typography>{meta.requires.includes(', ') ? meta.requires.split(', ').map((item, i) => (<React.Fragment key={item}>{i !== 0 ? ', ' : ''}<Link underline="none" href={`/eips/eip-${item}`}>EIP-{item}</Link></React.Fragment>)) : (<Link underline="none"  href={`/eips/eip-${meta.requires}`}>EIP-{meta.requires}</Link>)}
       </Box>
     )}
 
@@ -255,8 +255,8 @@ return (
               <Typography py={2} color="#272d37" variant="subtitle1">{item.title}</Typography>
             </Link>))}
 
-            <Box id="details-toc" pt={4} pb={3} borderTop={1} borderColor={meta.projects?.length > 0 ? "#ECECEC" : 'transparent'} sx={{background: '#fff'}} zIndex={2}>
-              <Toc markdownText={jsxData} lowestHeadingLevel={2} highestHeadingLevel={2} type="row" className={detials.eipEnmu} titleLimit={30} customMatchers={{"`": ""}} />
+            <Box id="details-toc" pt={4} pb={3} borderTop={1} borderColor={meta.projects?.length > 0 ? "#ECECEC" : 'transparent'} sx={{background: '#fff', transition: 'all 200ms'}} zIndex={2}>
+              <Toc markdownText={jsxData} lowestHeadingLevel={2} highestHeadingLevel={2} className={detials.eipEnmu} titleLimit={30} customMatchers={{"`": ""}} />
             </Box>
         </Box>
       </Box>
@@ -273,6 +273,9 @@ return (
 export async function getServerSideProps(context) {
   let id = context.params.id;
   let originalEIP;
+  if (id.includes('.md')) {
+    id = id.replace('.md', '');
+  }
   try {
     originalEIP = await readFile(
       path.join(process.cwd(), 'public', 'original-eips', `${id}.md`),
