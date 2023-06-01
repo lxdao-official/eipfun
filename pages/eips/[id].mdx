@@ -17,9 +17,9 @@ export const flatten = (text, child) => {
     : React.Children.toArray(child.props.children).reduce(flatten, text);
 };
 export const HeadingRenderer = (props) => {
-    var children = React.Children.toArray(props.children);
-    var text = children.reduce(flatten, "");
-    var slug = text.toLowerCase().replace(/[!?\s]/g, "-");
+    let children = React.Children.toArray(props.children);
+    let text = children.reduce(flatten, "");
+    let slug = text.toLowerCase().replace(/[!?\s]/g, "-");
     
     return React.createElement(
         "h" + props.level,
@@ -31,19 +31,25 @@ export const HeadingRenderer = (props) => {
 export default function EIPDetails({ children, meta, id, jsxData }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
-    const tocTop = document.querySelector('#details-toc').offsetTop;
+    const originalTop = document.querySelector('#original').offsetTop;
     function watchHeight (event) {
       const tocElStyle = document.querySelector('#details-toc').style;
       if (!tocElStyle) {
         return;
       }
-      if (tocTop <= window.pageYOffset) {
+      if (originalTop < window.pageYOffset) {
         tocElStyle.position = 'fixed';
+        tocElStyle.width = '288px',
+        tocElStyle.padding = '24px'
         tocElStyle.top = '15%';
-        tocElStyle.padding = '0 10px'
+        tocElStyle.border = '1px solid #eaebf0';
+        tocElStyle.borderRadius = '10px';
+        tocElStyle.marginLeft = '-24px';
       } else {
         tocElStyle.position = 'static';
-        tocElStyle.padding = 0;
+        tocElStyle.borderLeftColor = 'transparent';
+        tocElStyle.borderRightColor = 'transparent';
+        tocElStyle.borderBottomColor = 'transparent';
       }
     }
     window.addEventListener('scroll', _.throttle(watchHeight, 300));
@@ -119,7 +125,7 @@ return (
     )}
 
     <Box pb={4} pt={2}>
-      <Typography display='inline-block' component="span" variant="body2" color="#FFC700" fontSize={14} borderRadius="5px" px={1} mr={2} style={{ background: '#FFFAE9'}}>{meta.status}</Typography>
+      <Typography display='inline-block' component="span" variant="body2" color="#FF8A00" fontSize={14} borderRadius="5px" px={1} mr={2} style={{ background: '#FFF1E4'}}>{meta.status}</Typography>
 
       <Typography  display='inline-block' component="span" variant="body2" color="#437EF7" fontSize={14} borderRadius="5px" px={1} mr={2} style={{ background: '#F5FAFF'}}>{meta.type}{meta.category ? ': ' + meta.category : ''}</Typography>
     </Box>
@@ -245,7 +251,7 @@ return (
       </Box>
 
       <Box sx={{flex: 1}}>
-        <Box pt={3} px={3} border={1} borderColor="#eaebf0" borderRadius={'10px'}>
+        <Box pt={meta.projects?.length > 0 ? 3 : 0} px={3} border={1} borderColor="#eaebf0" borderRadius={'10px'}>
           {meta.projects?.length > 0 && <Typography fontWeight="bold" variant="h6" pb={3}>Adopted by projects</Typography>}
 
             {meta.projects?.length > 0 && meta.projects.map(item => (<Link href={item.link} key={item.title} underline="hover">
@@ -255,7 +261,7 @@ return (
               <Typography py={2} color="#272d37" variant="subtitle1">{item.title}</Typography>
             </Link>))}
 
-            <Box id="details-toc" pt={4} pb={3} borderTop={1} borderColor={meta.projects?.length > 0 ? "#ECECEC" : 'transparent'} sx={{background: '#fff', transition: 'all 200ms'}} zIndex={2}>
+            <Box id="details-toc" pt={meta.projects?.length > 0 ? 4 : 3} pb={3} borderTop={1} borderColor={meta.projects?.length > 0 ? "#ECECEC" : 'transparent'} sx={{background: '#fff', transition: 'all 200ms'}} zIndex={2}>
               <Toc markdownText={jsxData} lowestHeadingLevel={2} highestHeadingLevel={2} className={detials.eipEnmu} titleLimit={30} customMatchers={{"`": ""}} />
             </Box>
         </Box>
@@ -275,6 +281,9 @@ export async function getServerSideProps(context) {
   let originalEIP;
   if (id.includes('.md')) {
     id = id.replace('.md', '');
+  }
+  if (id.includes('#')) {
+    id = id.split('#')[0];
   }
   try {
     originalEIP = await readFile(
