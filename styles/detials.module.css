@@ -1,8 +1,13 @@
 .eipEnmu li {
   line-height: 22px;
-  color: #5f6d7e;
   padding: 4px 0;
   font-size: 15px;
+}
+.eipEnmu li a {
+  color: #5f6d7e;
+}
+.sidementActive a {
+  color: #222935 !important;
 }
 
 .iconArrow {
