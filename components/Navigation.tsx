@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Logo from 'public/logo.svg';
 import Menu from 'public/images/menu.svg';
 import Close from 'public/images/close.svg';
-import LanguageIcon from '@mui/icons-material/Language';
+// import LanguageIcon from '@mui/icons-material/Language';
 import TelegramIcon from '@mui/icons-material/Telegram';
 // import Container, { ContainerProps } from '@mui/material/Container';
 import { Box, Link, styled } from '@mui/material';
@@ -13,18 +13,18 @@ import useGetLang from '@/hooks/useGetLang';
 import Drawer from '@mui/material/Drawer';
 
 const Navigation = (): JSX.Element => {
-  const [langText, setLangText] = useState<string>();
+  // const [langText, setLangText] = useState<string>();
   const [drawOpen, setDrawOpen] = useState<boolean>(false);
 
   const router = useRouter();
   const isEn = useGetLang() === 'en';
-  useEffect(() => {
-    if (router.pathname.includes('zh')) {
-      setLangText('EN');
-    } else {
-      setLangText('中文');
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   if (router.pathname.includes('zh')) {
+  //     setLangText('EN');
+  //   } else {
+  //     setLangText('中文');
+  //   }
+  // }, [router]);
 
   const EipHeader = styled(Box)(({ theme }) => ({
     // width: 1440,
@@ -62,13 +62,13 @@ const Navigation = (): JSX.Element => {
       fontSize: 14,
     },
   }));
-  const toggleLang = () => {
-    if (langText === 'EN') {
-      router.replace(router.pathname.substring(3) || '/');
-    } else {
-      router.replace('/zh' + router.pathname);
-    }
-  };
+  // const toggleLang = () => {
+  //   if (langText === 'EN') {
+  //     router.replace(router.pathname.substring(3) || '/');
+  //   } else {
+  //     router.replace('/zh' + router.pathname);
+  //   }
+  // };
 
   return (
     <EipHeader>
@@ -183,7 +183,7 @@ const Navigation = (): JSX.Element => {
                 }}
               />
             </Box>
-            <Box width="100%" height='72px' lineHeight='72px'>
+            <Box width="100%" height="72px" lineHeight="72px">
               <Link
                 fontWeight={600}
                 className={
@@ -196,7 +196,7 @@ const Navigation = (): JSX.Element => {
                 Home
               </Link>
             </Box>
-            <Box width="100%" height='72px' lineHeight='72px'>
+            <Box width="100%" height="72px" lineHeight="72px">
               <Link
                 color="inherit"
                 fontWeight={600}
@@ -208,7 +208,12 @@ const Navigation = (): JSX.Element => {
               </Link>
             </Box>
           </Box>
-          <Box width="100%" display={'flex'} alignItems="flex-end" justifyContent='flex-end'>
+          <Box
+            width="100%"
+            display={'flex'}
+            alignItems="flex-end"
+            justifyContent="flex-end"
+          >
             <Link
               height="46px"
               bgcolor="#F8F9FB"
