@@ -20,3 +20,8 @@ export type PartnerType = {
   logo: string;
   link: string;
 };
+export type AdvisorType = {
+  name: string;
+  head: string;
+  intro: string;
+};

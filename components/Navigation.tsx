@@ -128,7 +128,7 @@ const Navigation = (): JSX.Element => {
             </Link>
           </LightTooltip>
 
-          <Link
+          {/* <Link
             height="46px"
             bgcolor="#F8F9FB"
             borderRadius="25px"
@@ -142,7 +142,7 @@ const Navigation = (): JSX.Element => {
             onClick={toggleLang}
           >
             <LanguageIcon /> {langText}
-          </Link>
+          </Link> */}
         </Box>
         <Box className="mobileShow">
           <Menu
@@ -223,7 +223,7 @@ const Navigation = (): JSX.Element => {
               <TelegramIcon />
             </Link>
 
-            <Link
+            {/* <Link
               height="46px"
               bgcolor="#F8F9FB"
               borderRadius="25px"
@@ -237,7 +237,7 @@ const Navigation = (): JSX.Element => {
               onClick={toggleLang}
             >
               <LanguageIcon /> {langText}
-            </Link>
+            </Link> */}
           </Box>
         </EipHeader>
       </Drawer>

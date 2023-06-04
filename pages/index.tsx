@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import SearchMain from '../components/SearchMain';
-import { EipWayIntro, PartnerType } from '../types/eips';
+import { AdvisorType, EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
 import { Link, Box, Button, useMediaQuery } from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
@@ -12,6 +12,7 @@ import { Telegram } from '@/common/config';
 export default function Home() {
   const [eipsWay] = useState<EipWayIntro[]>(introList);
   const [partners] = useState<PartnerType[]>(partnerList);
+  const [advisors] = useState<AdvisorType[]>(advisorList);
   const padWidth = useMediaQuery('(min-width:900px)');
   // const mobileWidth = useMediaQuery('(min-width:400px)');
 
@@ -200,6 +201,44 @@ export default function Home() {
               ))}
           </Box>
         </Box>
+        <Box
+          padding="64px 0"
+          sx={{
+            padding: padWidth ? '64px 0' : '32px 0',
+          }}
+        >
+          <Typography variant="h2" textAlign="center">
+            Advisors
+          </Typography>
+          <Box
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="center"
+            margin="60px auto 20px auto"
+          >
+            {advisors.length > 0 &&
+              advisors.map((item) => (
+                <Box
+                  key={item.name}
+                  width="218px"
+                  textAlign='center'
+                >
+                  <Image
+                    src={item.head}
+                    alt={item.name}
+                    width={162}
+                    height={162}
+                  />
+                  <Typography variant="h6" textAlign="center">
+                    {item.name}
+                  </Typography>
+                  <Typography variant="body1" textAlign="center">
+                    {item.intro}
+                  </Typography>
+                </Box>
+              ))}
+          </Box>
+        </Box>
         <EipsContentBlock>
           <EmailSubscribe />
         </EipsContentBlock>
@@ -207,7 +246,9 @@ export default function Home() {
           <Box className="contentleft">
             <Typography variant="h3">Our vision</Typography>
             <Typography variant="body2">
-            EIPs.Fun aims to serve as the &quot;layer 2&quot; of the EIP ecosystem, simplifying and accelerating the adoption of EIPs, and seeking to catalyze the synergy of the EIP ecosystem.
+              EIPs.Fun aims to serve as the &quot;layer 2&quot; of the EIP
+              ecosystem, simplifying and accelerating the adoption of EIPs, and
+              seeking to catalyze the synergy of the EIP ecosystem.
             </Typography>
           </Box>
           <Box className="contentRight">
@@ -273,5 +314,12 @@ const partnerList = [
     name: 'Plancker',
     logo: '/images/plancker.svg',
     link: 'https://plancker.org/',
+  },
+];
+const advisorList = [
+  {
+    name: 'Scott Moore',
+    head: '/images/example.png',
+    intro: 'Gitcoin founder',
   },
 ];

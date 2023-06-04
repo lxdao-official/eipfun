@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Link,
   Box,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 
 import EastIcon from '@mui/icons-material/East';
+import Script from 'next/script';
 
 const SubInput = styled(TextField)<TextFieldProps>(({ theme }) => ({
   background: '#fff',
@@ -22,8 +23,26 @@ const SubInput = styled(TextField)<TextFieldProps>(({ theme }) => ({
   },
 }));
 const EmailSubscribe = (): JSX.Element => {
+    useEffect(() => {
+      (window as any).CustomSubstackWidget = {
+          substackUrl: 'xlws2002.substack.com',
+          placeholder: 'example@gmail.com',
+          buttonText: 'Submit',
+          theme: 'custom',
+          colors: {
+            primary: '#437EF7',
+            input: '#fff',
+            email: '#333',
+            text: '#fff',
+          },
+        };;
+       
+        console.log(globalThis)
+    }, []);
   return (
     <>
+      <Script src="https://substackapi.com/widget.js" async></Script>
+
       <Box className="contentleft">
         <Typography variant="h3">
           Not miss a beat of EIPs&rsquo; update?
@@ -37,14 +56,13 @@ const EmailSubscribe = (): JSX.Element => {
         </Link>
       </Box>
       <Box className="contentRight">
-        <form
+        {/* <form
           action="https://gmail.us11.list-manage.com/subscribe/post?u=d991f001a9a6097d6659412d6&id=8be65ec859&f_id=00a495e0f0"
           method="post"
           id="mc-embedded-subscribe-form"
           name="mc-embedded-subscribe-form"
           target="_blank"
         >
-          {/* <form onSubmit={handleSubmit(onSubmit)} > */}
           <SubInput
             type="email"
             name="EMAIL"
@@ -63,7 +81,9 @@ const EmailSubscribe = (): JSX.Element => {
           >
             Submit
           </Button>
-        </form>
+        </form> */}
+        <div id="custom-substack-embed"></div>
+
       </Box>
     </>
   );

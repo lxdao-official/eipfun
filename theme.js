@@ -8,7 +8,7 @@ export const theme = createTheme({
       textTransform: 'none',
     },
     h1: {
-      fontSize: '46px',
+      fontSize: '60px',
       lineHeight: '60px',
       textAlign:'center',
       fontWeight: 700,
@@ -36,6 +36,13 @@ export const theme = createTheme({
       color:'#272D37',
       
     },
+    h6:{
+      fontSize: '21px',
+      lineHeight: '60px',
+      fontWeight:600,
+      color:'#000',
+      
+    },
     body1: {
       fontSize: '16px',
       lineHeight: '19px',
@@ -56,6 +63,7 @@ export const theme = createTheme({
       color:'#5F6D7E',
       marginTop:'16px'
     },
+   
   },
 
   palette: {
