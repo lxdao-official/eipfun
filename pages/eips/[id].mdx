@@ -101,22 +101,22 @@ export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
     }
   }
   const TITLE = `EIP-${meta.eip}: ${meta.title} | EIPs Fun-Serve EIP builders, scale Ethereum`;
-
+  const DESCRIPTION = (meta.abstract ? meta.abstract : '') +
+        (meta.description ? meta.description : '') +
+        (meta.summary ? meta.summary : '');
 return (
 
 <>
   <Head>
     <title>{TITLE}</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EIPs.Fun - Website" />
     <meta property="og:title" content={TITLE} key="title" />
-    <meta
-      property="og:description"
-      content={
-        (meta.abstract ? meta.abstract : '') +
-        (meta.description ? meta.description : '') +
-        (meta.summary ? meta.summary : '')
-      }
-      key="description"
-    />
+    <meta property="og:description" content={DESCRIPTION} key="description" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@huntarosan" />
+    <meta name="twitter:title" content={TITLE} />
+    <meta name="twitter:description" content={DESCRIPTION} />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css" integrity="sha512-bm684OXnsiNuQSyrxuuwo4PHqr3OzxPpXyhT66DA/fhl73e1JmBxRKGnO/nRwWvOZxJLRCmNH7FII+Yn1JNPmg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </Head>
 
@@ -202,7 +202,7 @@ return (
       <Box width={840} mr={3}>
         <Box pb={3}>
           <Typography fontSize={22} component="span" variant="h6">1 min read</Typography>
-          <Typography component="span" variant="body2" color="#5F6D7E"> by chatGPT-4</Typography>
+          {meta.summary ? null : <Typography component="span" variant="body2" color="#5F6D7E"> by chatGPT-4</Typography>}
         </Box>
 
         <Box
@@ -214,10 +214,10 @@ return (
           borderRadius="6px"
         >
           <Box mb={2.5} pl={5.25}  sx={{background: "url('/images/eip_details_chatgpt.png') left center no-repeat"}} >
-            <Typography sx={{background: '#F5FAFF'}} display="inline-block" px={1.5} component='span' variant="subtitle2" lineHeight="28px" color="#437EF7" fontSize={14} fontWeight="bold">By ChatGPT-4</Typography>
+            <Typography sx={{background: '#F5FAFF'}} display="inline-block" px={1.5} component='span' variant="subtitle2" lineHeight="28px" color="#437EF7" fontSize={14} fontWeight="bold">{meta.summary ? ' ' : "By ChatGPT-4"}</Typography>
           </Box>
 
-          <Typography color="#5F6D7E" variant="body1">{meta.chatgpt4}</Typography>
+          <Typography color="#5F6D7E" variant="body1">{meta.summary || meta.chatgpt4}</Typography>
         </Box>
 
         <Typography id="original-tit" pt={6} pb={3} variant='h6' fontSize="22px" fontWeight='bold'>Original</Typography>
