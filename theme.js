@@ -8,9 +8,10 @@ export const theme = createTheme({
       textTransform: 'none',
     },
     h1: {
-      fontSize: '46px',
+      fontSize: '60px',
       lineHeight: '60px',
-      textAlign:'center'
+      textAlign:'center',
+      fontWeight: 700,
     },
     h2:{
       fontSize: '32px',
@@ -26,7 +27,21 @@ export const theme = createTheme({
       lineHeight: '30px',
       fontWeight:600,
       color:'#272D37',
-      marginTop:'14px'
+      marginTop:'10px'
+    },
+    h5:{
+      fontSize: '16px',
+      lineHeight: '20px',
+      fontWeight:600,
+      color:'#272D37',
+      
+    },
+    h6:{
+      fontSize: '21px',
+      lineHeight: '60px',
+      fontWeight:600,
+      color:'#000',
+      
     },
     body1: {
       fontSize: '16px',
@@ -37,6 +52,13 @@ export const theme = createTheme({
     body2: {
       fontSize: '16px',
       lineHeight: '24px',
+      fontWeight:400,
+      color:'#5F6D7E',
+      marginTop:'10px'
+    },
+    body3: {
+      fontSize: '12px',
+      lineHeight: '16px',
       fontWeight:400,
       color:'#5F6D7E',
       marginTop:'16px'
@@ -56,6 +78,32 @@ export const theme = createTheme({
       main: '#f44336',
       dark: '#ba000d',
       contrastText: '#000',
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontWeight: 600,
+        
+        },
+      },
+    },
+    MuiButtonOutlined:{
+      styleOverrides: {
+        root: {
+          border: '1px solid #DAE0E6',
+        },
+      }
+    }
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
     },
   },
 });

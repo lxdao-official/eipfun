@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import axios from 'axios';
+import { sendGet } from '@/network/axios-wrapper';
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -111,21 +111,18 @@ function Eips({ data, pagination }: IProps) {
     status?: string;
     page?: number;
   }) => {
-    axios
-      .get('https://api-dev.eips.fun/eips/list', {
-        params: {
-          type,
-          category,
-          status,
-          page,
-          per_page: 20,
-        },
-      })
+    sendGet('/eips/list', {
+      type,
+      category,
+      status,
+      page,
+      per_page: 20,
+    })
       .then((res) => {
-        if (res.data.data && res.data.pagination) {
-          setTotal(res.data.pagination.total);
-          setCurrent(res.data.pagination.current + 1);
-          setDataArr(res.data.data);
+        if (res.data && res.pagination) {
+          setTotal(res.pagination.total);
+          setCurrent(res.pagination.current + 1);
+          setDataArr(res.data);
         }
       })
       .catch((err) => {
@@ -162,11 +159,12 @@ function Eips({ data, pagination }: IProps) {
       link = 'mailto:' + linkText;
       return (
         <>
-          {name}(
+          {name}
+          {'<'}
           <Link underline="hover" href={link}>
             {linkText}
           </Link>
-          )
+          {'>'}
         </>
       );
     } else if (str.includes('(')) {
@@ -177,7 +175,7 @@ function Eips({ data, pagination }: IProps) {
       return (
         <>
           {name}(
-          <Link underline="hover" href={link}>
+          <Link underline="hover" href={link} target="_blank">
             {linkText}
           </Link>
           )
@@ -236,17 +234,11 @@ function Eips({ data, pagination }: IProps) {
           <Table sx={{ minWidth: 700 }} aria-label="table">
             <TableHead>
               <TableRow>
-                <StyledTableCell sx={{ width: '0.125' }}>
-                  Number
-                </StyledTableCell>
-                <StyledTableCell sx={{ width: '0.0833' }}>
-                  Status
-                </StyledTableCell>
-                <StyledTableCell sx={{ width: '0.0833' }}>Type</StyledTableCell>
-                <StyledTableCell sx={{ width: '0.375' }}>Title</StyledTableCell>
-                <StyledTableCell sx={{ width: '0.3333' }}>
-                  Author
-                </StyledTableCell>
+                <StyledTableCell sx={{ width: '0.08' }}>Number</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.08' }}>Status</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.22' }}>Type</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.32' }}>Title</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.3' }}>Author</StyledTableCell>
               </TableRow>
             </TableHead>
 
@@ -255,7 +247,7 @@ function Eips({ data, pagination }: IProps) {
                 <StyledTableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
                     <Link
-                      style={{ textDecoration: 'underline', color: '#437EF7' }}
+                      style={{ color: '#437EF7', fontWeight: 'bold' }}
                       href={`./eips/eip-${row.eip}`}
                     >
                       {row.eip}
@@ -303,10 +295,10 @@ function Eips({ data, pagination }: IProps) {
 Eips.getInitialProps = async () => {
   let res;
   try {
-    res = await axios.get('https://api-dev.eips.fun/eips/list');
+    res = await sendGet('/eips/list');
   } catch (e) {}
-  if (res && res.status === 200 && res.data && res.data.pagination) {
-    return { data: res.data.data, pagination: res.data.pagination };
+  if (res && res.data && res.pagination) {
+    return { data: res.data, pagination: res.pagination };
   }
 };
 

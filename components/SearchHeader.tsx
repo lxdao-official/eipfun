@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { InputAdornment, styled } from '@mui/material';
+import { InputAdornment, Typography, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
 import { useRouter } from 'next/router';
@@ -13,14 +13,23 @@ import useDebounce from '../hooks/useDebounce';
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const SearchOption = styled('li')(() => ({
-  padding: '5px 20px!important',
+  flexDirection: 'column',
+  padding: '5px 10px!important',
   borderBottom: '1px solid #f3f3f3',
   width: '100%',
   color: '#2E343F',
   margin: 0,
-  fontSize: 14,
+
+  h5: {
+    textAlign: 'left!important',
+  },
   b: {
     color: '#437EF7',
+  },
+  p: {
+    width: '100%',
+    fontSize: '12px',
+    textAlign: 'left',
   },
 }));
 const SearchLoading = styled('div')(() => ({
@@ -32,7 +41,7 @@ const SearchLoading = styled('div')(() => ({
 }));
 
 type EipCommonResult = {
-  eip: string;
+  eip?: string;
   title?: TrustedHTML;
   ts_headline?: TrustedHTML;
   rank?: number;
@@ -67,28 +76,48 @@ function useSearch(searchText: string) {
   let url = `${ADDR}/eips/search?content=${searchText}`;
 
   return useQuery(
-    ['todos', { searchText }],
+    ['SeatchHeader', { searchText }],
     () => {
       return axios.get(url).then((res: AxiosResponse) => {
-        console.log(res.data.data);
         let optionsList: EipCommonResult[] = [];
+
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
+        } else {
+          if (res.data.data?.title_list) {
+            optionsList = optionsList.concat(res.data.data.title_list);
+          }
+          if (res.data.data?.content_list) {
+            optionsList = optionsList.concat(res.data.data.content_list);
+          }
+
+          optionsList = optionsList.reduce(
+            (obj: EipCommonResult[], item: EipCommonResult) => {
+              let find = obj.find(
+                (i: EipCommonResult) => i.eip && i.eip === item.eip
+              );
+              //如果没有title则使用ts_headline
+              item.title = item.title ? item.title : item.ts_headline;
+
+              console.log(item);
+              //取出重复并使用content_list的title和ts_headline
+              find
+                ? ((find.title = item.title),
+                  (find.ts_headline = item.ts_headline))
+                : obj.push(item);
+              return obj;
+            },
+            []
+          );
         }
-        if (res.data.data?.content_list) {
-          optionsList = optionsList.concat(res.data.data?.content_list);
-        }
-        if (res.data.data?.title_list) {
-          res.data.data?.title_list.map((item) => {
-            item.title = item.ts_headline;
-          });
-          optionsList = optionsList.concat(res.data.data?.title_list);
-        }
+
+        // return optionsList.length > 0 ? optionsList.slice(0, 20) : null;
         return optionsList.slice(0, 20);
       });
     },
     {
       enabled: searchText.length > 0,
+      retry: false,
     }
     // { keepPreviousData: true, staleTime: 5 * 60 * 1000 }
   );
@@ -96,9 +125,8 @@ function useSearch(searchText: string) {
 export default function SearchHeader() {
   const [inputValue, setInputValue] = useState<string>('');
   const debouncedSearch = useDebounce(inputValue, 500);
-  const router = useRouter();
 
-  const { isFetching, data: options } = useSearch(debouncedSearch);
+  const { isFetching, data: options, isError } = useSearch(debouncedSearch);
 
   return (
     <Autocomplete
@@ -115,7 +143,7 @@ export default function SearchHeader() {
       filterOptions={(x) => x}
       // value={inputValue}
       autoSelect={false}
-      loading={inputValue.length > 0 || isFetching}
+      loading={ isFetching}
       freeSolo={inputValue?.length ? false : true}
       autoComplete={false}
       noOptionsText={inputValue && `No results for "${inputValue}"`}
@@ -129,11 +157,17 @@ export default function SearchHeader() {
           <SearchOption
             {...props}
             onClick={() => {
-              router.push(`/eips/eip-${option.eip}`);
+              // router.push(`/eips/eip-${option.eip}`);
+              location.href = `/eips/eip-${option.eip}`;
             }}
           >
-            <h3>EIP: {option.rank ? option.eip : <b>{option.eip}</b>} - </h3>
-            <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
+            <Typography variant="h5" width="100%">
+              EIP-{option.rank ? option.eip : <b>{option.eip} </b>}
+              <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
+            </Typography>
+            {option.ts_headline && (
+              <p dangerouslySetInnerHTML={{ __html: option.ts_headline }}></p>
+            )}
           </SearchOption>
         );
       }}

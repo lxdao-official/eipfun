@@ -1,19 +1,22 @@
 import Image from 'next/image';
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import SearchMain from '../components/SearchMain';
-import { EipWayIntro, PartnerType } from '../types/eips';
+import { AdvisorType, EipWayIntro, PartnerType } from '../types/eips';
 import { useState } from 'react';
-import { Link, Box, Button, Container } from '@mui/material';
+import { Link, Box, Button, useMediaQuery } from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
 import EastIcon from '@mui/icons-material/East';
+import { Telegram } from '@/common/config';
 
 export default function Home() {
-  const [eipsWay, setEipsWay] = useState<EipWayIntro[]>(introList);
-  const [partners, setPartners] = useState<PartnerType[]>(partnerList);
+  const [eipsWay] = useState<EipWayIntro[]>(introList);
+  const [partners] = useState<PartnerType[]>(partnerList);
+  const [advisors] = useState<AdvisorType[]>(advisorList);
+  const padWidth = useMediaQuery('(min-width:900px)');
+  // const mobileWidth = useMediaQuery('(min-width:400px)');
 
-
-  const EipsContentBlock = styled('div')(() => ({
+  const EipsContentBlock = styled('div')(({ theme }) => ({
     // width: 1152,
     maxWidth: 1152,
     display: 'flex',
@@ -24,25 +27,37 @@ export default function Home() {
     padding: '40px 64px',
     margin: '40px auto',
     fontWeight: 400,
-  
+    flexWrap: 'wrap',
+
     '.contentleft': {
-      maxWidth: 568,
+      maxWidth: '568px',
       flex: 1,
     },
     '.contentRight': {
-      maxWidth: 440,
+      maxWidth: '440px',
       flex: 1,
       textAlign: 'right',
+    },
+    [theme.breakpoints.down('md')]: {
+      padding: '32px',
+      flexDirection: 'column',
+      '.contentleft': {
+        width: '100%',
+        flex: 1,
+        maxWidth: '100%',
+      },
+      '.contentRight': {
+        width: '100%',
+        flex: 1,
+        maxWidth: '100%',
+        paddingTop: '20px',
+      },
     },
   }));
 
   return (
     <>
-      <Container
-        maxWidth={false}
-        sx={{ maxWidth: '1440px', padding: 0 }}
-        fixed={true}
-      >
+      <Box sx={{ maxWidth: '100%', padding: '0!important' }}>
         <Box
           display="flex"
           flexDirection="column"
@@ -50,6 +65,7 @@ export default function Home() {
           textAlign="center"
           margin="0 auto"
           height="620px"
+          width={'100%'}
           sx={{
             backgroundImage: 'url(/images/banner.png)',
             backgroundSize: 'cover',
@@ -59,9 +75,16 @@ export default function Home() {
           <Typography variant="h1" textAlign="center" color="#fff">
             Serve EIP builders, scale Ethereum.
           </Typography>
-          <SearchMain />
+          <Box maxWidth="lg" margin="0 auto" width="100%">
+            <SearchMain />
+          </Box>
         </Box>
-        <Box padding="64px 0">
+        <Box
+          padding="64px 0"
+          sx={{
+            padding: padWidth ? '64px 0' : '32px 0',
+          }}
+        >
           <Typography variant="h2" textAlign="center">
             What is EIPs?
           </Typography>
@@ -76,7 +99,12 @@ export default function Home() {
             client APIs, and contract standards.
           </Typography>
         </Box>
-        <Box padding="64px 0">
+        <Box
+          padding="64px 0"
+          sx={{
+            padding: padWidth ? '64px 0' : '32px 0',
+          }}
+        >
           <Typography variant="h2" textAlign="center">
             How EIPs work?
           </Typography>
@@ -92,30 +120,26 @@ export default function Home() {
               eipsWay.map((item, index) => (
                 <Box
                   flex={0}
-                  minWidth="18%"
-                  textAlign={'center'}
-                  padding={'20px 0'}
+                  minWidth="218px"
+                  textAlign="center"
+                  padding="20px 0"
                   key={index}
                 >
                   <Box
-                    display={'inline-flex'}
+                    display="inline-flex"
                     width={48}
                     height={48}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    bgcolor={'#F5FAFF'}
-                    borderRadius={'5px'}
-                    color={'#437EF7'}
-                    fontSize={24}
+                    alignItems="center"
+                    justifyContent="center"
+                    bgcolor="#F5FAFF"
+                    borderRadius="5px"
+                    color="#437EF7"
+                    fontSize="24px"
                   >
                     {item.index}
                   </Box>
                   <Typography variant={'h4'}>{item.title}</Typography>
-                  <Typography
-                    variant={'body2'}
-                    padding={'5px 0'}
-                    width={'100%'}
-                  >
+                  <Typography variant="body2" padding="0" width="100%">
                     {item.intro}
                   </Typography>
 
@@ -140,7 +164,12 @@ export default function Home() {
               ))}
           </Box>
         </Box>
-        <Box padding="64px 0">
+        <Box
+          padding="64px 0"
+          sx={{
+            padding: padWidth ? '64px 0' : '32px 0',
+          }}
+        >
           <Typography variant="h2" textAlign="center">
             Supporters & Partners
           </Typography>
@@ -154,7 +183,7 @@ export default function Home() {
               partnerList.map((item) => (
                 <Box
                   key={item.name}
-                  width="20%"
+                  width="218px"
                   height="40px"
                   display="flex"
                   alignItems="center"
@@ -172,32 +201,71 @@ export default function Home() {
               ))}
           </Box>
         </Box>
+        <Box
+          padding="64px 0"
+          sx={{
+            padding: padWidth ? '64px 0' : '32px 0',
+          }}
+        >
+          <Typography variant="h2" textAlign="center">
+            Advisors
+          </Typography>
+          <Box
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="center"
+            margin="60px auto 20px auto"
+          >
+            {advisors.length > 0 &&
+              advisors.map((item) => (
+                <Box
+                  key={item.name}
+                  width="218px"
+                  textAlign='center'
+                >
+                  <Image
+                    src={item.head}
+                    alt={item.name}
+                    width={162}
+                    height={162}
+                  />
+                  <Typography variant="h6" textAlign="center">
+                    {item.name}
+                  </Typography>
+                  <Typography variant="body1" textAlign="center">
+                    {item.intro}
+                  </Typography>
+                </Box>
+              ))}
+          </Box>
+        </Box>
         <EipsContentBlock>
           <EmailSubscribe />
         </EipsContentBlock>
         <EipsContentBlock>
           <Box className="contentleft">
-            <Typography variant="h3">How EIPs Fun works?</Typography>
-            <Typography variant="body1">
-              This is an open source and public goods.Running by a EIPs Fun DAO.
-              xxx Donation means a lot for us, please donate.
+            <Typography variant="h3">Our vision</Typography>
+            <Typography variant="body2">
+              EIPs.Fun aims to serve as the &quot;layer 2&quot; of the EIP
+              ecosystem, simplifying and accelerating the adoption of EIPs, and
+              seeking to catalyze the synergy of the EIP ecosystem.
             </Typography>
           </Box>
           <Box className="contentRight">
-            <Button variant="outlined" href="https://t.eips.fun/" size="medium">
+            <Button variant="outlined" href={Telegram} size="medium">
               Join Us
             </Button>
             <Button
               variant="contained"
               href="https://app.safe.global/home?safe=eth:0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
-              sx={{ marginLeft: 5 }}
+              sx={{ marginLeft: '15px' }}
               size="medium"
             >
               Donate
             </Button>
           </Box>
         </EipsContentBlock>
-      </Container>
+      </Box>
     </>
   );
 }
@@ -211,7 +279,7 @@ const introList = [
     actionLink: 'https://github.com/ethereum/EIPs',
   },
   {
-    title: 'Review & feedback',
+    title: 'Review & Feedback',
     image: '/images/intro_2.jpg',
     intro:
       'Once review is done, any editor assigns an EIP number and merges the PR',
@@ -246,5 +314,12 @@ const partnerList = [
     name: 'Plancker',
     logo: '/images/plancker.svg',
     link: 'https://plancker.org/',
+  },
+];
+const advisorList = [
+  {
+    name: 'Scott Moore',
+    head: '/images/example.png',
+    intro: 'Gitcoin founder',
   },
 ];

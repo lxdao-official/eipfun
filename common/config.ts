@@ -1,0 +1,1 @@
+export const Telegram = 'https://t.eips.fun'

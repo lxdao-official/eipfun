@@ -14,7 +14,10 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
+      "@/common/*": ["common/*"],
       "@/components/*": ["components/*"],
+      "@/styles/*": ["styles/*"],
+      "@/network/*": ["network/*"],
       "@/utils/*": ["utils/*"],
       "@/types/*": ["types/*"],
       "@/hooks/*": ["hooks/*"]
