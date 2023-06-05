@@ -31,58 +31,48 @@ export const HeadingRenderer = (props) => {
 export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
   const [show, setShow] = useState(false);
   const [menuIndex, setMenuIndex] = useState(0);
+  const [tocFixed, setTocFixed] = useState(false);
+  const [offsets, setOffsets] = useState([]);
   useEffect(() => {
-    const originalTop = document.querySelector('#original').offsetTop;
-    function watchHeight (event) {
-      const tocElStyle = document.querySelector('#details-toc').style;
-      if (tocElStyle) {
-        if (originalTop < window.pageYOffset) {
-          tocElStyle.position = 'fixed';
-          tocElStyle.width = '288px',
-          tocElStyle.padding = '24px'
-          tocElStyle.top = '10%';
-          tocElStyle.border = '1px solid #eaebf0';
-          tocElStyle.borderRadius = '10px';
-          tocElStyle.marginLeft = '-24px';
-        } else {
-          tocElStyle.position = 'static';
-          tocElStyle.borderLeftColor = 'transparent';
-          tocElStyle.borderRightColor = 'transparent';
-          tocElStyle.borderBottomColor = 'transparent';
-        }
-      }
+    setTimeout(() => {
+      const originalTop = document.querySelector('#original').offsetTop;
       const offsets = [];
       document.querySelectorAll('.eip-toc').forEach((item, i) => {
         if (i !== 0) {
           offsets.push(item.offsetTop + originalTop) ;
         }
       })
-      if (window.pageYOffset > offsets[0] || window.pageYOffset < offsets[offsets.length - 1]) {
-        for (let i = 1, l =offsets.length; i < l; i++) {
-          if (offsets[i-1] < window.pageYOffset && offsets[i] > window.pageYOffset) {
-            setMenuIndex(i-1);
-            return;
-          }
-        }
-      } else if (window.pageYOffset >= offsets[offsets.length - 1]) {
-        setMenuIndex(offsets.length - 1);
+      setOffsets(offsets)
+    }, 200);
+  }, [])
+  useEffect(() => {
+    function watchHeight(event)  {
+      const originalTop = document.querySelector('#original').offsetTop;
+      if (originalTop <= window.pageYOffset) {
+        setTocFixed(true)
       } else {
-        setMenuIndex(0);
+        setTocFixed(false);
       }
+      if (window.pageYOffset <= offsets[0]) {
+        return setMenuIndex(0);
+      }
+      if (window.pageYOffset >= offsets[offsets.length - 1]) {
+        return setMenuIndex(offsets.length - 1);
+      }
+      setMenuIndex( offsets.findIndex((item, i, arr) => (window.pageYOffset >= item) && (window.pageYOffset < arr[i+1]) ));
     }
-    window.addEventListener('scroll', _.throttle(watchHeight, 200));
+    window.addEventListener('scroll', _.throttle(watchHeight, 400));
     return () => {
-      window.removeEventListener('scroll', _.throttle(watchHeight, 200));
+      window.removeEventListener('scroll', _.throttle(watchHeight, 400));
     };
-  }, []);
-  // const matches = useMediaQuery('(max-width:576px)', { noSsr: true }); React.
+  }, [offsets]);
+  const EIPDetail = dynamic(() => import(`../../public/original-eips/${id}.md`));
   const handleShow = () => {
     setShow((state) => !state);
     if (show) {
       window.scrollTo({top: document.querySelector('#original-tit').offsetTop, behavior: 'smooth'});
     }
   };
-  const EIPDetail = dynamic(() => import(`../../public/original-eips/${id}.md`));
   const fomatLink = (str) => {
     if (str.includes('<')) {
       let [name, linkText] = str.split('<');
@@ -101,9 +91,7 @@ export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
     }
   }
   const TITLE = `EIP-${meta.eip}: ${meta.title} | EIPs Fun-Serve EIP builders, scale Ethereum`;
-  const DESCRIPTION = (meta.abstract ? meta.abstract : '') +
-        (meta.description ? meta.description : '') +
-        (meta.summary ? meta.summary : '');
+  const DESCRIPTION = (meta.abstract ? meta.abstract : '') + (meta.description ? meta.description : '') + (meta.summary ? meta.summary : '');
 return (
 
 <>
@@ -130,8 +118,8 @@ return (
       </Link>
     </Box>
 
-    <Box sx={{position: 'relative', background: "#272D37 url('/images/eip_details_bg.png') no-repeat top left"}} height={260} borderRadius={1}>
-      <Box sx={{position: 'absolute', fontSize: '80px', color: '#fff' }} right={50} bottom={10}>
+    <Box sx={{position: 'relative', background: "#272D37 url('/images/eip_details_bg.png') no-repeat top left/contain"}} height={[120, 120, 260, 260]} borderRadius={1}>
+      <Box sx={(theme) => ({position: 'absolute', fontSize: '80px', color: '#fff', [theme.breakpoints.down('md')]: {fontSize: '40px'}})} right={50} bottom={10}>
         EIP-{meta.eip}
       </Box>
     </Box>
@@ -165,7 +153,7 @@ return (
       </Box>
     )}
 
-    <Typography sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} py={0.75} variant="subtitle2" component={Box} className={detials.floatWrap} >
+    <Typography sx={(theme) => ({[theme.breakpoints.up('md')]: { background: "url('/images/eip_details_author.png') no-repeat left center", paddingLeft: '40px'}})} py={0.75} variant="subtitle2" component={Box} className={detials.floatWrap} >
       {meta?.author?.includes(', ')
         ? meta.author.split(', ').map((item, i) => (<span style={{float: 'left', lineHeight: '24px'}} key={item}>
              {i !== 0 ? ', ' : '' }{fomatLink(item)}
@@ -198,8 +186,8 @@ return (
       </Button>
     </Box>
 
-    <Box display='flex'>
-      <Box width={840} mr={3}>
+    <Box className={detials.floatWrap}>
+      <Box sx={{float: 'left'}} width={[1, 1, 0.72, 830]}>
         <Box pb={3}>
           <Typography fontSize={22} component="span" variant="h6">1 min read</Typography>
           {meta.summary ? null : <Typography component="span" variant="body2" color="#5F6D7E"> by chatGPT-4</Typography>}
@@ -255,7 +243,7 @@ return (
           </Box>
 
           <Box className={detials.floatWrap}>
-            {meta['extended resources'].map(item => (<Box sx={{float: 'left', '&:nth-of-type(2n)': {marginRight: 0}}} width={404} mb={6.5} mr={4} key={item.title}>
+            {meta['extended resources'].map(item => (<Box sx={{float: 'left', '&:nth-of-type(2n)': {marginRight: 0}}} width={[1, 1, 398, 398]} mb={6.5} mr={4} key={item.title}>
               <Box height={84} borderRadius="6px">
                 <img style={{display: 'block', width: '100%', height: '100%', border: 'none'}} src={item.imgSrc} alt={item.alt} />
               </Box>
@@ -268,7 +256,7 @@ return (
         </>)}
       </Box>
 
-      <Box sx={{flex: 1}}>
+      <Box sx={{float: 'right'}} width={[1, 1, 0.26, 300]}>
         <Box pt={meta.projects?.length > 0 ? 3 : 0} px={3} border={1} borderColor="#eaebf0" borderRadius={'10px'}>
           {meta.projects?.length > 0 && <Typography fontWeight="bold" variant="h6" pb={3}>Adopted by projects</Typography>}
 
@@ -279,7 +267,7 @@ return (
               <Typography py={2} color="#272d37" variant="subtitle1">{item.title}</Typography>
             </Link>))}
 
-            <Box id="details-toc" pt={meta.projects?.length > 0 ? 4 : 3} pb={3} borderTop={1} borderColor={meta.projects?.length > 0 ? "#ECECEC" : 'transparent'} sx={{background: '#fff', transition: 'all 200ms'}} zIndex={2}>
+            <Box id="details-toc" className={tocFixed ? detials.tocFixed : detials.toc}  sx={(theme) => ({background: '#fff', transition: 'all 200ms',[theme.breakpoints.down('md')]: { left: '10000px'} })} pt={meta.projects?.length > 0 ? 4 : 3} pb={3} borderTop={1} borderColor={meta.projects?.length > 0 ? "#ECECEC" : 'transparent'} zIndex={2}>
               <ul id="sideMenu" className={detials.eipEnmu}>
                 {sideMenu.map((item, i) => (<li key={item} className={i === menuIndex ? detials.sidementActive : ''} ><Link href={'#' + createLink(item)} underline='hover'>{item}</Link></li>))}
               </ul>
