@@ -36,6 +36,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 const TypeButton = styled(Button)(() => {
   return {
     marginRight: '16px',
+    marginTop: '6px',
+    marginBottom: '6px',
     borderColor: 'transparent',
     color: '#272D37',
     background: '#F7F7F8',
@@ -194,7 +196,7 @@ function Eips({ data, pagination }: IProps) {
           EIPs
         </Typography>
 
-        <Box pb={3} my={0.75}>
+        <Box pb={3}>
           {categorysArr.map((item) => (
             <TypeButton
               className={item === active ? 'active' : ''}
@@ -217,7 +219,7 @@ function Eips({ data, pagination }: IProps) {
           ))}
         </Box>
 
-        <Box pb={3} my={0.75}>
+        <Box pb={3}>
           {statusArr.map((item) => (
             <TypeButton
               className={item === activeSecond ? 'active' : ''}
