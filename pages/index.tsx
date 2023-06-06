@@ -223,12 +223,15 @@ export default function Home() {
                   width="218px"
                   textAlign='center'
                 >
+                
                   <Image
                     src={item.head}
                     alt={item.name}
                     width={162}
                     height={162}
+                    style={{ borderRadius: '10px' }}
                   />
+                  
                   <Typography variant="h6" textAlign="center">
                     {item.name}
                   </Typography>
@@ -317,9 +320,16 @@ const partnerList = [
   },
 ];
 const advisorList = [
+  // {
+  //   name: 'Scott Moore',
+  //   head: '/images/Scott.png',
+  //   intro: 'Co-founder of Gitcoin, steward of ensdomains and Optimism foundation',
+  //   desc: 'Gitcoin founder',
+  // },
   {
-    name: 'Scott Moore',
-    head: '/images/example.png',
-    intro: 'Gitcoin founder',
+    name: '5660.eth',
+    head: '/images/5660.jpg',
+    intro: 'Author of EIP6105, EIP6147',
+    desc: 'Author of EIP6105, EIP6147',
   },
 ];

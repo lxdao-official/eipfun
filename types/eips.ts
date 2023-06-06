@@ -24,4 +24,5 @@ export type AdvisorType = {
   name: string;
   head: string;
   intro: string;
+  desc: string;
 };
