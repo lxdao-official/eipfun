@@ -46,7 +46,7 @@ export function formatComEIP(str: string): EIPHeader {
 
       let [k, ...v] = item.split('\n\n');
       k = k.trim().toLowerCase();
-      let vStr = v.toString().trim();
+      let vStr = v.join('<br /><br />').trim();
 
       if (vStr.includes('- ')) {
         let tmpArr: Project[] = [];
