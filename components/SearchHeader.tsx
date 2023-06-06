@@ -162,7 +162,7 @@ export default function SearchHeader() {
             }}
           >
             <Typography variant="h5" width="100%">
-              EIP-{option.rank ? option.eip : <b>{option.eip} </b>}
+              EIP-{option.rank ? option.eip : <b>{option.eip} </b>}&nbsp;
               <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
             </Typography>
             {option.ts_headline && (
