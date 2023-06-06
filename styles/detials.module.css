@@ -30,3 +30,20 @@
   display: table;
   clear: both;
 }
+
+.toc {
+  position: 'static';
+  border-left-color: 'transparent';
+  border-right-color: 'transparent';
+  border-bottom-color: 'transparent';
+}
+
+.tocFixed {
+  position: fixed;
+  width: 288px;
+  padding: 24px;
+  top: 10%;
+  border: 1px solid #eaebf0;
+  border-radius: 10px;
+  margin-left: -24px;
+}

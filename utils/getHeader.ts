@@ -5,6 +5,11 @@ export const createLink = (string: string): string => {
 }
 
 export function getHeader(mdText: string): string[] {
+  const codeBlockRegex = new RegExp(
+    '((````[a-z]*\n[\\s\\S]*?\n````)|(```[a-z]*=\n[\\s\\S]*?\n```)|(~~~[a-z]*\n[\\s\\S]*?\n~~~))',
+    'gms',
+  )
+  mdText = mdText.replace(codeBlockRegex, '');
   const headingRegex = new RegExp(
     `^#{1,2}\\s.+(\\n|\\r|\\r\\n)`,
     'gm',
