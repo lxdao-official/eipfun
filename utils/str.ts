@@ -24,10 +24,16 @@ type Project = {
 };
 
 export function formatComEIP(str: string): EIPHeader {
-  const [, meta, ...con] = str.split('---');
+  let meta, con;
   const metaObj: EIPHeader = {};
-
-  Object.assign(metaObj, formatMeta(meta));
+  if (str.includes('---')) {
+    [, meta, ...con] = str.split('---');
+  } else {
+    con = str;
+  }
+  if (meta) {
+    Object.assign(metaObj, formatMeta(meta));
+  }
 
   con
     .toString()

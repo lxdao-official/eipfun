@@ -253,6 +253,7 @@ function Eips({ data, pagination }: IProps) {
                         color: '#437EF7',
                         fontWeight: 'bold',
                       }}
+                      target="_blank"
                       href={`./eips/eip-${row.eip}`}
                     >
                       {row.eip}
