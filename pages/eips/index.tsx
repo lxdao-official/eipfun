@@ -125,6 +125,7 @@ function Eips({ data, pagination }: IProps) {
           setTotal(res.pagination.total);
           setCurrent(res.pagination.current + 1);
           setDataArr(res.data);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       })
       .catch((err) => {
