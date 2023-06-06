@@ -5,7 +5,11 @@ import LogoS from 'public/images/logo_s.svg';
 import Telegram from 'public/images/telegram.svg';
 import Twitter from 'public/images/twitter.svg';
 import Discord from 'public/images/discord.svg';
-import { Telegram as TelegramLink } from '@/common/config';
+import {
+  Telegram as TelegramLink,
+  Discord as DiscordLink,
+  Twitter as TwitterLink,
+} from '@/common/config';
 
 type footerItem = {
   con: string;
@@ -19,12 +23,12 @@ const footerList1: footerItem[] = [
     conZh: 'Github',
     href: 'https://github.com/lxdao-official/eipsfun',
   },
-  { con: 'Community', conZh: '社区', href: '/' },
+  { con: 'Community', conZh: '社区', href: TelegramLink },
 ];
 
 const footerList2: footerItem[] = [
   { con: 'LXDAO', conZh: '合作伙伴', href: 'https://lxdao.io' },
-  { con: 'PlanckerDAO', conZh: '社区', href: '/' },
+  { con: 'PlanckerDAO', conZh: '社区', href: 'https://www.plancker.org' },
 ];
 
 export default function Footer() {
@@ -67,7 +71,7 @@ export default function Footer() {
                 <Telegram />
               </Icon>
             </Link>
-            <Link href="#" color={'#101828'} mr={1.5}>
+            <Link href={TwitterLink} target="_blank" color={'#101828'} mr={1.5}>
               <Icon
                 sx={{
                   display: 'inline-block',
@@ -82,7 +86,7 @@ export default function Footer() {
                 <Twitter />
               </Icon>
             </Link>
-            <Link href="#" color={'#101828'}>
+            <Link href={DiscordLink} target="_blank" color={'#101828'}>
               <Icon
                 sx={{
                   display: 'inline-block',
