@@ -22,7 +22,7 @@
   display: table;
   width: 24px;
   height: 24px;
-  background: url('/images/eip_details_arrow.png') center center no-repeat;
+  background: url('/images/eip_details_arrow.png') no-repeat center center/8px;
 }
 
 .floatWrap::after {
