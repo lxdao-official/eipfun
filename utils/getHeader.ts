@@ -13,11 +13,20 @@ export function getHeader(mdText: string): string[] {
   const headingRegex = new RegExp(
     `^#{1,2}\\s.+(\\n|\\r|\\r\\n)`,
     'gm',
-  )
+  );
+  const headingRegex3 = new RegExp(
+    `^###\\s.+(\\n|\\r|\\r\\n)`,
+    'gm',
+  );
   let result = mdText.match(headingRegex)
   let menuArr: string[] = [];
   if (result?.length) {
     result.forEach(item => {
+      menuArr.push(item.replace(/^#+\s/, '').trimEnd());
+    });
+  } else {
+    result = mdText.match(headingRegex3);
+    result?.forEach(item => {
       menuArr.push(item.replace(/^#+\s/, '').trimEnd())
     })
   }
