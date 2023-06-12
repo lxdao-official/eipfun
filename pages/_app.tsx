@@ -6,8 +6,7 @@ import type { AppProps } from 'next/app';
 import { theme } from '../theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
-import Script from 'next/script';
-import { useEffect } from 'react';
+
 
 export default function App({ Component, pageProps }: AppProps) {
 
