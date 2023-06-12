@@ -8,9 +8,11 @@ import { getHeader, createLink } from '@/utils/getHeader';
 import { readFile } from 'node:fs/promises';
 import ReactMarkdown from 'react-markdown';
 import path from 'path';
+import tocbot from 'tocbot';
 import detials from '@/styles/detials.module.css';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
+import Affix from '@/components/Affix';
 import _ from 'lodash';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
@@ -38,8 +40,6 @@ export default function EIPDetails({
   console.log('mdStrData: ', mdStrData);
   const [show, setShow] = useState(false);
   const [menuIndex, setMenuIndex] = useState(0);
-  const [tocFixed, setTocFixed] = useState(false);
-  const [offsets, setOffsets] = useState([]);
 
   // useEffect(() => {
   //   setTimeout(() => {
@@ -80,6 +80,22 @@ export default function EIPDetails({
   //     window.removeEventListener('scroll', _.throttle(watchHeight, 400));
   //   };
   // }, [offsets]);
+
+  useEffect(() => {
+    tocbot.init({
+      // Where to render the table of contents.
+      tocSelector: '.js-toc',
+      // Where to grab the headings to build the table of contents.
+      contentSelector: '.js-toc-content',
+      // Which headings to grab inside of the contentSelector element.
+      headingSelector: 'h1, h2, h3, h4',
+      hasInnerContainers: false,
+    });
+
+    setInterval(() => {
+      tocbot.refresh();
+    }, 20000);
+  }, []);
 
   const handleShow = () => {
     setShow((state) => !state);
@@ -155,6 +171,10 @@ export default function EIPDetails({
           integrity="sha512-bm684OXnsiNuQSyrxuuwo4PHqr3OzxPpXyhT66DA/fhl73e1JmBxRKGnO/nRwWvOZxJLRCmNH7FII+Yn1JNPmg=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css"
         />
       </Head>
 
@@ -448,18 +468,31 @@ export default function EIPDetails({
               <Box
                 sx={[
                   {
-                    height: show ? 'auto' : '526px',
-                    overflow: 'hidden',
-                    '& h2:first-of-type,& hr': { display: 'none' },
+                    // height: show ? 'auto' : '526px',
+                    // overflow: 'hidden',
                   },
                 ]}
-                className="markdown-body"
+                className="markdown-body js-toc-content"
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                   components={{
-                    code({ node, inline, className, children, ...props }) {
+                    h2: ({ node, children, ...props }) => {
+                      return (
+                        <h2 {...props} id={children}>
+                          {children}
+                        </h2>
+                      );
+                    },
+                    h3: ({ node, children, ...props }) => {
+                      return (
+                        <h3 {...props} id={children}>
+                          {children}
+                        </h3>
+                      );
+                    },
+                    code: ({ node, inline, className, children, ...props }) => {
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
@@ -583,35 +616,9 @@ export default function EIPDetails({
                 ))}
             </Box>
             <Box>
-              <Box
-                id="details-toc"
-                className={tocFixed ? detials.tocFixed : detials.toc}
-                sx={(theme) => ({
-                  background: '#fff',
-                  transition: 'all 200ms',
-                  [theme.breakpoints.down('md')]: { left: '10000px' },
-                })}
-                pt={meta.projects?.length > 0 ? 4 : 3}
-                pb={3}
-                borderTop={1}
-                borderColor={
-                  meta.projects?.length > 0 ? '#ECECEC' : 'transparent'
-                }
-                zIndex={2}
-              >
-                <ul id="sideMenu" className={detials.eipEnmu}>
-                  {sideMenu.map((item, i) => (
-                    <li
-                      key={item}
-                      className={i === menuIndex ? detials.sidementActive : ''}
-                    >
-                      <Link href={'#' + createLink(item)} underline="hover">
-                        {item}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </Box>
+              <Affix top={0}>
+                <Box className="js-toc" border="1px solid #ECECEC"></Box>
+              </Affix>
             </Box>
           </Box>
         </Box>

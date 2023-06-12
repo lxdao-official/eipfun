@@ -42,6 +42,7 @@ specifiers:
   rehype-raw: ^6.1.1
   remark-gfm: ^3.0.1
   styled-components: ^5.3.9
+  tocbot: ^4.21.0
   typescript: 5.0.4
 
 dependencies:
@@ -82,6 +83,7 @@ dependencies:
   rehype-raw: 6.1.1
   remark-gfm: 3.0.1
   styled-components: 5.3.11_react-dom@18.2.0+react@18.2.0
+  tocbot: 4.21.0
   typescript: 5.0.4
 
 devDependencies:
@@ -6605,6 +6607,10 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
+    dev: false
+
+  /tocbot/4.21.0:
+    resolution: {integrity: sha512-vXk8htr8mIl3hc2s2mDkaPTBfqmqZA2o0x7eXbxUibdrpEIPdpM0L9hH/RvEvlgSM+ZTgS34sGipk5+VrLJCLA==}
     dev: false
 
   /trim-lines/3.0.1:

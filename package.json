@@ -47,6 +47,7 @@
     "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",
     "styled-components": "^5.3.9",
+    "tocbot": "^4.21.0",
     "typescript": "5.0.4"
   },
   "devDependencies": {
