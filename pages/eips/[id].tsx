@@ -463,11 +463,14 @@ export default function EIPDetails({
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
-                          {...props}
-                          children={String(children).replace(/\n$/, '')}
                           language={match[1]}
                           PreTag="div"
-                        />
+                          customStyle={{
+                            background: 'transparent',
+                          }}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
                       ) : (
                         <code {...props} className={className}>
                           {children}
@@ -478,19 +481,6 @@ export default function EIPDetails({
                 >
                   {mdStrData}
                 </ReactMarkdown>
-                {!show && (
-                  <Box
-                    position="absolute"
-                    bottom={0}
-                    left={0}
-                    width={1}
-                    height={160}
-                    sx={{
-                      background:
-                        'linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))',
-                    }}
-                  ></Box>
-                )}
               </Box>
               <Box mt={4} sx={{ textAlign: 'center' }}>
                 <Button variant="contained" onClick={handleShow}>
