@@ -33,16 +33,12 @@ ul {
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-ul {
-  padding: 0;
-  list-style: none;
-}
-
 button {
   padding: 0.5rem 1rem;
   font-weight: bold;
 }
-#custom-substack-embed{
+
+#custom-substack-embed {
   text-align: left;
   float: right;
 }

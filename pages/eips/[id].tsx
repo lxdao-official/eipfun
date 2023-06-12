@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 import EmailSubscribe from '@/components/EmailSubscribe';
-import { formatMeta, formatComEIP } from '@/utils/str';
+import { formatMeta, formatComEIP, EIPHeader } from '@/utils/str';
 import { getHeader, createLink } from '@/utils/getHeader';
 import { readFile } from 'node:fs/promises';
+import ReactMarkdown from 'react-markdown';
 import path from 'path';
 import detials from '@/styles/detials.module.css';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 import _ from 'lodash';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
-export const flatten = (text, child) => {
-  return typeof child === 'string'
-    ? text + child
-    : React.Children.toArray(child.props.children).reduce(flatten, text);
-};
+import { flatten } from '@/utils/index';
+
 export const HeadingRenderer = (props) => {
   let children = React.Children.toArray(props.children);
   let text = children.reduce(flatten, '');
@@ -28,57 +28,58 @@ export const HeadingRenderer = (props) => {
   );
 };
 
-export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
-  console.log('jsxData: ', jsxData);
+export default function EIPDetails({
+  children,
+  meta,
+  id,
+  mdStrData,
+  sideMenu,
+}) {
+  console.log('mdStrData: ', mdStrData);
   const [show, setShow] = useState(false);
   const [menuIndex, setMenuIndex] = useState(0);
   const [tocFixed, setTocFixed] = useState(false);
   const [offsets, setOffsets] = useState([]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const originalTop = document.querySelector('#original').offsetTop;
-      const offsets = [];
-      document.querySelectorAll('.eip-toc').forEach((item, i) => {
-        if (i !== 0) {
-          offsets.push(item.offsetTop + originalTop);
-        }
-      });
-      setOffsets(offsets);
-    }, 200);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const originalTop = document.querySelector('#original').offsetTop;
+  //     const offsets = [];
+  //     document.querySelectorAll('.eip-toc').forEach((item, i) => {
+  //       if (i !== 0) {
+  //         offsets.push(item.offsetTop + originalTop);
+  //       }
+  //     });
+  //     setOffsets(offsets);
+  //   }, 200);
+  // }, []);
 
-  useEffect(() => {
-    function watchHeight(event) {
-      const originalTop = document.querySelector('#original').offsetTop;
-      if (originalTop <= window.pageYOffset) {
-        setTocFixed(true);
-      } else {
-        setTocFixed(false);
-      }
-      if (window.pageYOffset <= offsets[0]) {
-        return setMenuIndex(0);
-      }
-      if (window.pageYOffset >= offsets[offsets.length - 1]) {
-        return setMenuIndex(offsets.length - 1);
-      }
-      setMenuIndex(
-        offsets.findIndex(
-          (item, i, arr) =>
-            window.pageYOffset >= item && window.pageYOffset < arr[i + 1]
-        )
-      );
-    }
-    window.addEventListener('scroll', _.throttle(watchHeight, 400));
-    return () => {
-      window.removeEventListener('scroll', _.throttle(watchHeight, 400));
-    };
-  }, [offsets]);
-
-  const EIPDetail = dynamic(
-    () => import(`../../public/original-eips/${id}.md`)
-  );
-  console.log('EIPDetail: ', EIPDetail);
+  // useEffect(() => {
+  //   function watchHeight(event) {
+  //     const originalTop = document.querySelector('#original').offsetTop;
+  //     if (originalTop <= window.pageYOffset) {
+  //       setTocFixed(true);
+  //     } else {
+  //       setTocFixed(false);
+  //     }
+  //     if (window.pageYOffset <= offsets[0]) {
+  //       return setMenuIndex(0);
+  //     }
+  //     if (window.pageYOffset >= offsets[offsets.length - 1]) {
+  //       return setMenuIndex(offsets.length - 1);
+  //     }
+  //     setMenuIndex(
+  //       offsets.findIndex(
+  //         (item, i, arr) =>
+  //           window.pageYOffset >= item && window.pageYOffset < arr[i + 1]
+  //       )
+  //     );
+  //   }
+  //   window.addEventListener('scroll', _.throttle(watchHeight, 400));
+  //   return () => {
+  //     window.removeEventListener('scroll', _.throttle(watchHeight, 400));
+  //   };
+  // }, [offsets]);
 
   const handleShow = () => {
     setShow((state) => !state);
@@ -90,7 +91,7 @@ export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
     }
   };
 
-  const fomatLink = (str) => {
+  const formatLink = (str) => {
     if (str.includes('<')) {
       let [name, linkText] = str.split('<');
       let link;
@@ -319,10 +320,10 @@ export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
             ? meta.author.split(', ').map((item, i) => (
                 <span style={{ float: 'left', lineHeight: '24px' }} key={item}>
                   {i !== 0 ? ', ' : ''}
-                  {fomatLink(item)}
+                  {formatLink(item)}
                 </span>
               ))
-            : fomatLink(meta.author)}
+            : formatLink(meta.author)}
         </Typography>
 
         <Box pt={4} pb={3}>
@@ -454,7 +455,29 @@ export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
                 ]}
                 className="markdown-body"
               >
-                <Box sx={visuallyHidden}>{jsxData}</Box>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                  components={{
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || '');
+                      return !inline && match ? (
+                        <SyntaxHighlighter
+                          {...props}
+                          children={String(children).replace(/\n$/, '')}
+                          language={match[1]}
+                          PreTag="div"
+                        />
+                      ) : (
+                        <code {...props} className={className}>
+                          {children}
+                        </code>
+                      );
+                    },
+                  }}
+                >
+                  {mdStrData}
+                </ReactMarkdown>
                 {!show && (
                   <Box
                     position="absolute"
@@ -468,12 +491,6 @@ export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
                     }}
                   ></Box>
                 )}
-                <EIPDetail
-                  components={{
-                    h1: (props) => HeadingRenderer({ ...props, level: 1 }),
-                    h2: (props) => HeadingRenderer({ ...props, level: 2 }),
-                  }}
-                />
               </Box>
               <Box mt={4} sx={{ textAlign: 'center' }}>
                 <Button variant="contained" onClick={handleShow}>
@@ -627,7 +644,6 @@ export default function EIPDetails({ children, meta, id, jsxData, sideMenu }) {
 }
 
 export async function getServerSideProps(context) {
-  console.log('context: ', context.params);
   let id = context.params.id;
   let originalEIP;
   if (id.includes('.md')) {
@@ -641,7 +657,7 @@ export async function getServerSideProps(context) {
       path.join(process.cwd(), 'public', 'original-eips', `${id}.md`),
       'utf8'
     );
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
     if (e.errno === -2) {
       return {
@@ -652,12 +668,20 @@ export async function getServerSideProps(context) {
       };
     }
   }
-  let meta, con, sideMenu;
-  if (originalEIP) {
-    [, meta, ...con] = originalEIP.split('---');
+
+  if (!originalEIP) {
+    return {
+      redirect: {
+        destination: '/404',
+        permanent: false,
+      },
+    };
   }
-  meta = formatMeta(meta);
-  sideMenu = getHeader(con.toString());
+
+  const [, metaStr, ...con] = originalEIP.split('---');
+
+  const meta: EIPHeader = formatMeta(metaStr);
+  const sideMenu = getHeader(con.toString());
   try {
     let comEIP = await readFile(
       path.join(process.cwd(), 'content', 'en', `${id}.md`),
@@ -667,10 +691,11 @@ export async function getServerSideProps(context) {
   } catch (e) {
     console.log(e);
   }
+
   return {
     props: {
       meta,
-      jsxData: con.toString(),
+      mdStrData: con.toString(),
       id: id,
       sideMenu,
     },

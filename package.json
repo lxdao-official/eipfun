@@ -40,15 +40,20 @@
     "react-hook-form": "^7.43.9",
     "react-loader-spinner": "^5.3.4",
     "react-loading": "^2.0.3",
+    "react-markdown": "^8.0.7",
     "react-query": "^3.39.3",
+    "react-syntax-highlighter": "^15.5.0",
     "react-toc": "^3.1.0",
+    "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",
     "styled-components": "^5.3.9",
     "typescript": "5.0.4"
   },
   "devDependencies": {
     "@svgr/webpack": "^7.0.0",
+    "@types/lodash": "^4.14.195",
     "@types/node": "18.15.11",
+    "@types/react-syntax-highlighter": "^15.5.7",
     "prettier": "^2.8.7"
   }
 }

@@ -1,4 +1,4 @@
-type EIPHeader = {
+export type EIPHeader = {
   [key: string]: string | Project[];
 };
 
