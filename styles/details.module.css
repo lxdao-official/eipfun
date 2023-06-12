@@ -1,3 +1,7 @@
+.eipMenu {
+  padding: 0;
+  list-style: none;
+}
 .eipMenu li a {
   color: #5f6d7e;
 }
@@ -28,9 +32,7 @@
 
 .toc {
   position: 'static';
-  border-left-color: 'transparent';
-  border-right-color: 'transparent';
-  border-bottom-color: 'transparent';
+  display: none;
 }
 
 .tocFixed {
@@ -40,5 +42,5 @@
   top: 10%;
   border: 1px solid #eaebf0;
   border-radius: 10px;
-  margin-left: -24px;
+  list-style: none;
 }

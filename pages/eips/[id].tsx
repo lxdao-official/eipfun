@@ -75,21 +75,21 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
   //   function watchHeight() {
   //     const originalTop = (document.querySelector('#original') as HTMLElement)
   //       .offsetTop;
-  //     if (originalTop <= window.pageYOffset) {
+  //     if (originalTop <= window.scrollY) {
   //       setTocFixed(true);
   //     } else {
   //       setTocFixed(false);
   //     }
-  //     if (window.pageYOffset <= offsets[0]) {
+  //     if (window.scrollY <= offsets[0]) {
   //       return setMenuIndex(0);
   //     }
-  //     if (window.pageYOffset >= offsets[offsets.length - 1]) {
+  //     if (window.scrollY >= offsets[offsets.length - 1]) {
   //       return setMenuIndex(offsets.length - 1);
   //     }
   //     setMenuIndex(
   //       offsets.findIndex(
   //         (item, i, arr) =>
-  //           window.pageYOffset >= item && window.pageYOffset < arr[i + 1]
+  //           window.scrollY >= item && window.scrollY < arr[i + 1]
   //       )
   //     );
   //   }
@@ -171,6 +171,8 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css"
           integrity="sha512-bm684OXnsiNuQSyrxuuwo4PHqr3OzxPpXyhT66DA/fhl73e1JmBxRKGnO/nRwWvOZxJLRCmNH7FII+Yn1JNPmg=="
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
         />
       </Head>
 
@@ -452,13 +454,11 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
               sx={{ boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)' }}
             >
               <Box
-                sx={[
-                  {
-                    height: show ? 'auto' : '526px',
-                    overflow: 'hidden',
-                    '& h2:first-of-type,& hr': { display: 'none' },
-                  },
-                ]}
+                sx={{
+                  height: show ? 'auto' : '526px',
+                  overflow: 'hidden',
+                  '& hr': { display: 'none' },
+                }}
                 position="relative"
                 className="markdown-body"
               >
@@ -466,7 +466,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                   components={{
-                    code({ node, inline, className, children, ...props }) {
+                    code({ inline, className, children, ...props }) {
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
@@ -484,12 +484,9 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
                         </code>
                       );
                     },
-                    h1: ({ node, ...props }) =>
-                      HeadingRenderer({ ...props, level: 1 }),
-                    h2: ({ node, ...props }) =>
-                      HeadingRenderer({ ...props, level: 2 }),
-                    h3: ({ node, ...props }) =>
-                      HeadingRenderer({ ...props, level: 3 }),
+                    h1: (props) => HeadingRenderer({ ...props, level: 1 }),
+                    h2: (props) => HeadingRenderer({ ...props, level: 2 }),
+                    h3: (props) => HeadingRenderer({ ...props, level: 3 }),
                   }}
                 >
                   {mdStrData}
