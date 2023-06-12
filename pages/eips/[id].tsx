@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP, EIPHeader } from '@/utils/str';
@@ -8,7 +9,7 @@ import { getHeader, createLink } from '@/utils/getHeader';
 import { readFile } from 'node:fs/promises';
 import ReactMarkdown from 'react-markdown';
 import path from 'path';
-import detials from '@/styles/detials.module.css';
+import details from '@/styles/details.module.css';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import _ from 'lodash';
@@ -16,38 +17,54 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 import { flatten } from '@/utils/index';
 
-export const HeadingRenderer = (props) => {
-  let children = React.Children.toArray(props.children);
-  let text = children.reduce(flatten, '');
+type HIProps = {
+  level: number;
+  children?: React.ReactNode;
+};
+
+export const HeadingRenderer: React.FC<HIProps> = ({ level, children }) => {
+  let reactChildren = React.Children.toArray(children);
+  let text = reactChildren.reduce(flatten, '');
   let slug = text.toLowerCase().replace(/[!?\s]/g, '-');
 
   return React.createElement(
-    'h' + props.level,
+    'h' + level,
     { id: slug, className: 'eip-toc' },
-    props.children
+    children
   );
 };
 
-export default function EIPDetails({
-  children,
-  meta,
-  id,
-  mdStrData,
-  sideMenu,
-}) {
+type EIProps = {
+  meta: {
+    'extended resources'?: {
+      title: string;
+      imgSrc: string;
+      alt: string;
+      link: string;
+    }[];
+    projects?: { link: string; title: string; imgSrc: string; alt: string }[];
+    [propName: string]: any;
+  };
+  id: string;
+  mdStrData: string;
+  sideMenu: string[];
+};
+
+export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
   console.log('mdStrData: ', mdStrData);
   const [show, setShow] = useState(false);
   const [menuIndex, setMenuIndex] = useState(0);
   const [tocFixed, setTocFixed] = useState(false);
-  const [offsets, setOffsets] = useState([]);
+  const [offsets, setOffsets] = useState<number[]>([]);
 
   // useEffect(() => {
   //   setTimeout(() => {
-  //     const originalTop = document.querySelector('#original').offsetTop;
-  //     const offsets = [];
+  //     const originalTop = (document.querySelector('#original') as HTMLElement)
+  //       .offsetTop;
+  //     const offsets: number[] = [];
   //     document.querySelectorAll('.eip-toc').forEach((item, i) => {
   //       if (i !== 0) {
-  //         offsets.push(item.offsetTop + originalTop);
+  //         offsets.push((item as HTMLElement).offsetTop + originalTop);
   //       }
   //     });
   //     setOffsets(offsets);
@@ -55,8 +72,9 @@ export default function EIPDetails({
   // }, []);
 
   // useEffect(() => {
-  //   function watchHeight(event) {
-  //     const originalTop = document.querySelector('#original').offsetTop;
+  //   function watchHeight() {
+  //     const originalTop = (document.querySelector('#original') as HTMLElement)
+  //       .offsetTop;
   //     if (originalTop <= window.pageYOffset) {
   //       setTocFixed(true);
   //     } else {
@@ -85,13 +103,13 @@ export default function EIPDetails({
     setShow((state) => !state);
     if (show) {
       window.scrollTo({
-        top: document.querySelector('#original-tit').offsetTop,
+        top: (document.querySelector('#original-tit') as any).offsetTop,
         behavior: 'smooth',
       });
     }
   };
 
-  const formatLink = (str) => {
+  const formatLink = (str: string) => {
     if (str.includes('<')) {
       let [name, linkText] = str.split('<');
       let link;
@@ -153,8 +171,6 @@ export default function EIPDetails({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css"
           integrity="sha512-bm684OXnsiNuQSyrxuuwo4PHqr3OzxPpXyhT66DA/fhl73e1JmBxRKGnO/nRwWvOZxJLRCmNH7FII+Yn1JNPmg=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"
         />
       </Head>
 
@@ -163,7 +179,7 @@ export default function EIPDetails({
         <Box py={4}>
           <Typography
             display="inline-block"
-            className={detials.iconArrow}
+            className={details.iconArrow}
             component="span"
             variant="h5"
             lineHeight="24px"
@@ -251,12 +267,7 @@ export default function EIPDetails({
           <Typography fontWeight="bold" fontSize={14} component="span">
             Created:{' '}
           </Typography>
-          <Typography
-            component="span"
-            fontSize={14}
-            variant="string"
-            fontWeight="normal"
-          >
+          <Typography component="span" fontSize={14} fontWeight="normal">
             {meta.created}
           </Typography>
           {meta['last-call-deadline'] ? (
@@ -269,12 +280,7 @@ export default function EIPDetails({
               >
                 Last Call Deadline:{' '}
               </Typography>
-              <Typography
-                component="span"
-                fontSize={14}
-                variant="string"
-                fontWeight="normal"
-              >
+              <Typography component="span" fontSize={14} fontWeight="normal">
                 {meta['last-call-deadline']}
               </Typography>
             </>
@@ -286,8 +292,8 @@ export default function EIPDetails({
             <Typography fontWeight="bold" fontSize={14} component="span">
               Requires:{' '}
             </Typography>
-            {meta.requires.includes(', ') ? (
-              meta.requires.split(', ').map((item, i) => (
+            {meta.requires && meta.requires.includes(', ') ? (
+              meta.requires.split(', ').map((item: string, i: number) => (
                 <React.Fragment key={item}>
                   {i !== 0 ? ', ' : ''}
                   <Link underline="none" href={`/eips/eip-${item}`}>
@@ -314,10 +320,10 @@ export default function EIPDetails({
           py={0.75}
           variant="subtitle2"
           component={Box}
-          className={detials.floatWrap}
+          className={details.floatWrap}
         >
           {meta?.author?.includes(', ')
-            ? meta.author.split(', ').map((item, i) => (
+            ? meta.author.split(', ').map((item: string, i: number) => (
                 <span style={{ float: 'left', lineHeight: '24px' }} key={item}>
                   {i !== 0 ? ', ' : ''}
                   {formatLink(item)}
@@ -365,7 +371,7 @@ export default function EIPDetails({
           </Button>
         </Box>
 
-        <Box className={detials.floatWrap}>
+        <Box className={details.floatWrap}>
           <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 830]}>
             <Box pb={3}>
               <Typography fontSize={22} component="span" variant="h6">
@@ -453,6 +459,7 @@ export default function EIPDetails({
                     '& h2:first-of-type,& hr': { display: 'none' },
                   },
                 ]}
+                position="relative"
                 className="markdown-body"
               >
                 <ReactMarkdown
@@ -463,17 +470,26 @@ export default function EIPDetails({
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
-                          {...props}
-                          children={String(children).replace(/\n$/, '')}
                           language={match[1]}
                           PreTag="div"
-                        />
+                          customStyle={{
+                            background: 'transparent',
+                          }}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
                       ) : (
                         <code {...props} className={className}>
                           {children}
                         </code>
                       );
                     },
+                    h1: ({ node, ...props }) =>
+                      HeadingRenderer({ ...props, level: 1 }),
+                    h2: ({ node, ...props }) =>
+                      HeadingRenderer({ ...props, level: 2 }),
+                    h3: ({ node, ...props }) =>
+                      HeadingRenderer({ ...props, level: 3 }),
                   }}
                 >
                   {mdStrData}
@@ -489,7 +505,7 @@ export default function EIPDetails({
                       background:
                         'linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))',
                     }}
-                  ></Box>
+                  />
                 )}
               </Box>
               <Box mt={4} sx={{ textAlign: 'center' }}>
@@ -499,80 +515,83 @@ export default function EIPDetails({
               </Box>
             </Box>
 
-            {meta['extended resources']?.length > 0 && (
-              <>
-                <Box pb={3}>
-                  <Typography variant="h5" component="span">
-                    Quick read
-                  </Typography>
-                  <Typography color="#5F6D7E" variant="body2" component="span">
-                    {' '}
-                    by Analyst
-                  </Typography>
-                </Box>
-
-                <Box className={detials.floatWrap}>
-                  {meta['extended resources'].map((item) => (
-                    <Box
-                      sx={{
-                        float: 'left',
-                        '&:nth-of-type(2n)': { marginRight: 0 },
-                      }}
-                      width={[1, 1, 398, 398]}
-                      mb={6.5}
-                      mr={4}
-                      key={item.title}
+            {meta['extended resources'] &&
+              meta['extended resources']!.length > 0 && (
+                <>
+                  <Box pb={3}>
+                    <Typography variant="h5" component="span">
+                      Quick read
+                    </Typography>
+                    <Typography
+                      color="#5F6D7E"
+                      variant="body2"
+                      component="span"
                     >
-                      <Box height={84} borderRadius="6px">
-                        <img
-                          style={{
-                            display: 'block',
-                            width: '100%',
-                            height: '100%',
-                            border: 'none',
-                          }}
-                          src={item.imgSrc}
-                          alt={item.alt}
-                        />
-                      </Box>
-                      <Typography
-                        component={Box}
-                        variant="h6"
-                        py={2}
-                        fontWeight="bold"
-                        fontSize={18}
-                        lineHeight={'30px'}
+                      {' '}
+                      by Analyst
+                    </Typography>
+                  </Box>
+
+                  <Box className={details.floatWrap}>
+                    {meta['extended resources'].map((item) => (
+                      <Box
+                        sx={{
+                          float: 'left',
+                          '&:nth-of-type(2n)': { marginRight: 0 },
+                        }}
+                        width={[1, 1, 398, 398]}
+                        mb={6.5}
+                        mr={4}
+                        key={item.title}
                       >
-                        {item.title}
-                      </Typography>
-                      <Box>
-                        <Link href={item.link} underline="none">
-                          Learn more →
-                        </Link>
+                        <Box height={84} borderRadius="6px">
+                          <img
+                            style={{
+                              display: 'block',
+                              width: '100%',
+                              height: '100%',
+                              border: 'none',
+                            }}
+                            src={item.imgSrc}
+                            alt={item.alt}
+                          />
+                        </Box>
+                        <Typography
+                          component={Box}
+                          variant="h6"
+                          py={2}
+                          fontWeight="bold"
+                          fontSize={18}
+                          lineHeight={'30px'}
+                        >
+                          {item.title}
+                        </Typography>
+                        <Box>
+                          <Link href={item.link} underline="none">
+                            Learn more →
+                          </Link>
+                        </Box>
                       </Box>
-                    </Box>
-                  ))}
-                </Box>
-              </>
-            )}
+                    ))}
+                  </Box>
+                </>
+              )}
           </Box>
 
           <Box sx={{ float: 'right' }} width={[1, 1, 0.26, 300]}>
-            <Box
-              pt={meta.projects?.length > 0 ? 3 : 0}
-              px={3}
-              border={1}
-              borderColor="#eaebf0"
-              borderRadius={'10px'}
-            >
-              {meta.projects?.length > 0 && (
+            {meta?.projects && meta.projects.length > 0 && (
+              <Box
+                pt={3}
+                px={3}
+                border={1}
+                borderColor="#eaebf0"
+                borderRadius={'10px'}
+              >
                 <Typography fontWeight="bold" variant="h6" pb={3}>
                   Adopted by projects
                 </Typography>
-              )}
 
-              {meta.projects?.length > 0 &&
-                meta.projects.map((item) => (
+                {meta.projects?.map((item) => (
                   <Link href={item.link} key={item.title} underline="hover">
                     <Box height={100}>
                       <img
@@ -591,29 +610,28 @@ export default function EIPDetails({
                     </Typography>
                   </Link>
                 ))}
-            </Box>
+              </Box>
+            )}
+
             <Box>
               <Box
                 id="details-toc"
-                className={tocFixed ? detials.tocFixed : detials.toc}
+                className={tocFixed ? details.tocFixed : details.toc}
                 sx={(theme) => ({
                   background: '#fff',
                   transition: 'all 200ms',
                   [theme.breakpoints.down('md')]: { left: '10000px' },
                 })}
-                pt={meta.projects?.length > 0 ? 4 : 3}
                 pb={3}
                 borderTop={1}
-                borderColor={
-                  meta.projects?.length > 0 ? '#ECECEC' : 'transparent'
-                }
+                borderColor="#ECECEC"
                 zIndex={2}
               >
-                <ul id="sideMenu" className={detials.eipEnmu}>
+                <ul id="sideMenu" className={details.eipMenu}>
                   {sideMenu.map((item, i) => (
                     <li
                       key={item}
-                      className={i === menuIndex ? detials.sidementActive : ''}
+                      className={i === menuIndex ? details.sideMenuActive : ''}
                     >
                       <Link href={'#' + createLink(item)} underline="hover">
                         {item}
@@ -643,7 +661,13 @@ export default function EIPDetails({
   );
 }
 
-export async function getServerSideProps(context) {
+type IContent = {
+  params: {
+    id: string;
+  };
+};
+
+export async function getServerSideProps(context: IContent) {
   let id = context.params.id;
   let originalEIP;
   if (id.includes('.md')) {
@@ -696,7 +720,6 @@ export async function getServerSideProps(context) {
     props: {
       meta,
       mdStrData: con.toString(),
-      id: id,
       sideMenu,
     },
   };

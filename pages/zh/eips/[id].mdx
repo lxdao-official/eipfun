@@ -8,7 +8,7 @@ import Toc from 'react-toc';
 import { formatMeta, formatComEIP } from '@/utils/str';
 import { readFile } from 'node:fs/promises';
 import path from 'path';
-import detials from '@/styles/detials.module.css';
+import details from '@/styles/details.module.css';
 import _ from 'lodash';
 
 export const flatten = (text, child) => {
@@ -109,7 +109,7 @@ return (
 
   <Container maxWidth="lg">
     <Box py={4}>
-      <Typography display="inline-block" className={detials.iconArrow} component="span" variant="h5" lineHeight="24px">EIPs</Typography>
+      <Typography display="inline-block" className={details.iconArrow} component="span" variant="h5" lineHeight="24px">EIPs</Typography>
       <Link  display="inline-block" underline='none' lineHeight="24px">
         EIP-{meta.eip}
       </Link>
@@ -206,7 +206,7 @@ return (
       </Box>
     )}
 
-    <Typography className={detials.floatWrap} variant="subtitle2" sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} py={0.75} variant="subtitle2" component={Box}>
+    <Typography className={details.floatWrap} variant="subtitle2" sx={{background: "url('/images/eip_details_author.png') no-repeat left center"}} pl={5.125} py={0.75} variant="subtitle2" component={Box}>
       {meta?.author?.includes(', ')
         ? meta.author.split(', ').map((item, i) => (
             <span style={{float: 'left', lineHeight: '24px'}} key={item}>
@@ -325,7 +325,7 @@ return (
               </Typography>
             </Box>
 
-            <Box className={detials.floatWrap}>
+            <Box className={details.floatWrap}>
               {meta['extended resources'].map((item) => (
                 <Box sx={{float: 'left', '&:nth-of-type(2n)': {marginRight: 0}}} width={404} mb={6.5} mr={4} key={item.title}>
                   <Box height={84} borderRadius="6px">
@@ -382,7 +382,7 @@ return (
           ))}
 
             <Box id="details-toc" pt={4} pb={3} borderTop={1} borderColor={meta.projects?.length > 0 ? "#ECECEC" : 'transparent'} sx={{background: '#fff'}} zIndex={2}>
-              <Toc markdownText={jsxData} lowestHeadingLevel={2} highestHeadingLevel={2} type="row" className={detials.eipEnmu} titleLimit={30} customMatchers={{"`": ""}} />
+              <Toc markdownText={jsxData} lowestHeadingLevel={2} highestHeadingLevel={2} type="row" className={details.eipMenu} titleLimit={30} customMatchers={{"`": ""}} />
             </Box>
         </Box>
       </Box>
