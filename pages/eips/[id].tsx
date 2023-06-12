@@ -470,9 +470,11 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
-                          {...props}
                           language={match[1]}
                           PreTag="div"
+                          customStyle={{
+                            background: 'transparent',
+                          }}
                         >
                           {String(children).replace(/\n$/, '')}
                         </SyntaxHighlighter>
