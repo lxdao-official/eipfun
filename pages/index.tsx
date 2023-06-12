@@ -307,7 +307,7 @@ const introList = [
   },
 ];
 const partnerList = [
-  { name: 'LXDao', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
+  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
   {
     name: 'Plancker',
     logo: '/images/plancker.svg',
@@ -315,12 +315,6 @@ const partnerList = [
   },
 ];
 const advisorList = [
-  // {
-  //   name: 'Scott Moore',
-  //   head: '/images/Scott.png',
-  //   intro: 'Co-founder of Gitcoin, steward of ensdomains and Optimism foundation',
-  //   desc: 'Gitcoin founder',
-  // },
   {
     name: '5660.eth',
     head: '/images/5660.jpg',
