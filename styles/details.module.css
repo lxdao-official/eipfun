@@ -1,12 +1,7 @@
-.eipEnmu li {
-  line-height: 22px;
-  padding: 4px 0;
-  font-size: 15px;
-}
-.eipEnmu li a {
+.eipMenu li a {
   color: #5f6d7e;
 }
-.sidementActive a {
+.sideMenuActive a {
   color: #222935 !important;
 }
 
