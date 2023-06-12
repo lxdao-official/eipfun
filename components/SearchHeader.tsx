@@ -131,7 +131,7 @@ export default function SearchHeader() {
   return (
     <Autocomplete
       id="search-header"
-      sx={{ width: 460, height: 46 }}
+      sx={{ width: 460}}
       disableClearable
       options={options || []}
       onInputChange={(e, value) => {
