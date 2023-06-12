@@ -1,7 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
-
   typography: {
     fontFamily: 'Inter',
     button: {
@@ -10,60 +9,57 @@ export const theme = createTheme({
     h1: {
       fontSize: '60px',
       lineHeight: '60px',
-      textAlign:'center',
+      textAlign: 'center',
       fontWeight: 700,
     },
-    h2:{
+    h2: {
       fontSize: '32px',
       lineHeight: '40px',
       fontWeight: 700,
     },
-    h3:{
+    h3: {
       fontSize: '32px',
       lineHeight: '40px',
     },
-    h4:{
+    h4: {
       fontSize: '22px',
       lineHeight: '30px',
-      fontWeight:600,
-      color:'#272D37',
-      marginTop:'10px'
+      fontWeight: 600,
+      color: '#272D37',
+      marginTop: '10px',
     },
-    h5:{
+    h5: {
       fontSize: '16px',
       lineHeight: '20px',
-      fontWeight:600,
-      color:'#272D37',
-      
+      fontWeight: 600,
+      color: '#272D37',
     },
-    h6:{
+    h6: {
       fontSize: '21px',
       lineHeight: '60px',
-      fontWeight:600,
-      color:'#000',
-      
+      fontWeight: 600,
+      color: '#000',
     },
     body1: {
       fontSize: '16px',
       lineHeight: '19px',
-      fontWeight:400,
-      color:'#5F6D7E'
+      fontWeight: 400,
+      color: '#5F6D7E',
     },
     body2: {
       fontSize: '16px',
       lineHeight: '24px',
-      fontWeight:400,
-      color:'#5F6D7E',
-      marginTop:'10px'
+      fontWeight: 400,
+      color: '#5F6D7E',
+      marginTop: '10px',
     },
     body3: {
       fontSize: '12px',
       lineHeight: '16px',
-      fontWeight:400,
-      color:'#5F6D7E',
-      marginTop:'16px'
+      fontWeight: 400,
+      color: '#5F6D7E',
+      marginTop: '16px',
     },
-   
   },
 
   palette: {
@@ -85,17 +81,16 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 600,
-        
         },
       },
     },
-    MuiButtonOutlined:{
+    MuiButtonOutlined: {
       styleOverrides: {
         root: {
           border: '1px solid #DAE0E6',
         },
-      }
-    }
+      },
+    },
   },
   breakpoints: {
     values: {

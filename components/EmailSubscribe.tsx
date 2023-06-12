@@ -23,22 +23,22 @@ const SubInput = styled(TextField)<TextFieldProps>(({ theme }) => ({
   },
 }));
 const EmailSubscribe = (): JSX.Element => {
-    useEffect(() => {
-      (window as any).CustomSubstackWidget = {
-          substackUrl: 'xlws2002.substack.com',
-          placeholder: 'example@gmail.com',
-          buttonText: 'Submit',
-          theme: 'custom',
-          colors: {
-            primary: '#437EF7',
-            input: '#fff',
-            email: '#333',
-            text: '#fff',
-          },
-        };;
-       
-        console.log(globalThis)
-    }, []);
+  useEffect(() => {
+    (window as any).CustomSubstackWidget = {
+      substackUrl: 'xlws2002.substack.com',
+      placeholder: 'example@gmail.com',
+      buttonText: 'Submit',
+      theme: 'custom',
+      colors: {
+        primary: '#437EF7',
+        input: '#fff',
+        email: '#333',
+        text: '#fff',
+      },
+    };
+
+    console.log(globalThis);
+  }, []);
   return (
     <>
       <Script src="https://substackapi.com/widget.js" async></Script>
@@ -83,7 +83,6 @@ const EmailSubscribe = (): JSX.Element => {
           </Button>
         </form> */}
         <div id="custom-substack-embed"></div>
-
       </Box>
     </>
   );

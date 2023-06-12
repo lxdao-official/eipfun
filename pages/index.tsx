@@ -218,12 +218,7 @@ export default function Home() {
           >
             {advisors.length > 0 &&
               advisors.map((item) => (
-                <Box
-                  key={item.name}
-                  width="218px"
-                  textAlign='center'
-                >
-                
+                <Box key={item.name} width="218px" textAlign="center">
                   <Image
                     src={item.head}
                     alt={item.name}
@@ -231,7 +226,7 @@ export default function Home() {
                     height={162}
                     style={{ borderRadius: '10px' }}
                   />
-                  
+
                   <Typography variant="h6" textAlign="center">
                     {item.name}
                   </Typography>

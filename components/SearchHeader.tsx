@@ -143,7 +143,7 @@ export default function SearchHeader() {
       filterOptions={(x) => x}
       // value={inputValue}
       autoSelect={false}
-      loading={ isFetching}
+      loading={isFetching}
       freeSolo={inputValue?.length ? false : true}
       autoComplete={false}
       noOptionsText={inputValue && `No results for "${inputValue}"`}
