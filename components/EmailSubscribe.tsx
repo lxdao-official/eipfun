@@ -1,31 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Link,
-  Box,
-  TextField,
-  TextFieldProps,
-  Typography,
-  styled,
-  Button,
-} from '@mui/material';
+import React, { useEffect } from 'react';
+import { Link, Box, Typography } from '@mui/material';
 
 import EastIcon from '@mui/icons-material/East';
 import Script from 'next/script';
 
-const SubInput = styled(TextField)<TextFieldProps>(({ theme }) => ({
-  background: '#fff',
-  '.MuiInputBase-root': {
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  [theme.breakpoints.down('md')]: {
-    width: '67%',
-  },
-}));
 const EmailSubscribe = (): JSX.Element => {
   useEffect(() => {
     (window as any).CustomSubstackWidget = {
-      substackUrl: 'xlws2002.substack.com',
+      substackUrl: 'eipsfun.substack.com',
       placeholder: 'example@gmail.com',
       buttonText: 'Submit',
       theme: 'custom',
@@ -36,8 +18,6 @@ const EmailSubscribe = (): JSX.Element => {
         text: '#fff',
       },
     };
-
-    console.log(globalThis);
   }, []);
   return (
     <>

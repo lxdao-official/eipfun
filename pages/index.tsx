@@ -327,4 +327,10 @@ const advisorList = [
     intro: 'Author of EIP6105, EIP6147',
     desc: 'Author of EIP6105, EIP6147',
   },
+  {
+    name: 'Victor Zhou',
+    head: '/images/victor.jpg',
+    intro: 'Author of ERC1202, ERC5750;Initiator of AllERCdevs',
+    desc: 'Author of ERC1202, ERC5750;Initiator of AllERCdevs',
+  },
 ];
