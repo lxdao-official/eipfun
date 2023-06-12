@@ -112,7 +112,9 @@ return (
   
   <Container maxWidth="lg">
     <Box py={4}>
-      <Typography display="inline-block" className={detials.iconArrow} component="span" variant="h5" lineHeight="24px">EIPs</Typography>
+      <Typography display="inline-block" className={detials.iconArrow} component="span" variant="h5" lineHeight="24px">
+        <Link href="/eips" underline="hover" color="#272D37">EIPs</Link>
+      </Typography>
       <Link  display="inline-block" underline='none' lineHeight="24px">
         EIP-{meta.eip}
       </Link>
@@ -153,7 +155,7 @@ return (
       </Box>
     )}
 
-    <Typography sx={(theme) => ({[theme.breakpoints.up('md')]: { background: "url('/images/eip_details_author.png') no-repeat left center", paddingLeft: '40px'}})} py={0.75} variant="subtitle2" component={Box} className={detials.floatWrap} >
+    <Typography sx={(theme) => ({[theme.breakpoints.up('md')]: { background: "url('/images/eip_details_author.png') no-repeat left center/32px", paddingLeft: '40px'}})} py={0.75} variant="subtitle2" component={Box} className={detials.floatWrap} >
       {meta?.author?.includes(', ')
         ? meta.author.split(', ').map((item, i) => (<span style={{float: 'left', lineHeight: '24px'}} key={item}>
              {i !== 0 ? ', ' : '' }{fomatLink(item)}
@@ -162,7 +164,7 @@ return (
     </Typography>
 
     <Box pt={4} pb={3}>
-      {!meta['discussions-to'] && (
+      {meta['discussions-to'] && (
         <Button
           sx={{marginRight: '16px'}}
           variant="contained"
@@ -198,14 +200,15 @@ return (
           pt={3}
           pb={5}
           border={1}
-          borderColor="#F5F5F5"
+          borderColor="#f5f5f5"
           borderRadius="6px"
+          sx={{boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.06)"}}
         >
-          <Box mb={2.5} pl={5.25}  sx={{background: "url('/images/eip_details_chatgpt.png') left center no-repeat"}} >
-            <Typography sx={{background: '#F5FAFF'}} display="inline-block" px={1.5} component='span' variant="subtitle2" lineHeight="28px" color="#437EF7" fontSize={14} fontWeight="bold">{meta.summary ? ' ' : "By ChatGPT-4"}</Typography>
-          </Box>
+         {meta.summary ? null : <Box mb={2.5} pl={5.25}  sx={{background: "url('/images/eip_details_chatgpt.png') no-repeat left center/contain"}}>
+            <Typography sx={{background: '#F5FAFF'}} display="inline-block" px={1.5} variant="subtitle2" lineHeight="28px" color="#437EF7" fontSize={14} fontWeight="bold">By ChatGPT-4</Typography>
+          </Box>}
 
-          <Typography color="#5F6D7E" variant="body1">{meta.summary || meta.chatgpt4}</Typography>
+          <Typography color="#24292f" variant="body1" lineHeight={1.5} dangerouslySetInnerHTML={{__html: meta.summary || meta.chatgpt4}}></Typography>
         </Box>
 
         <Typography id="original-tit" pt={6} pb={3} variant='h6' fontSize="22px" fontWeight='bold'>Original</Typography>
@@ -220,6 +223,7 @@ return (
           borderColor="#f5f5f5"
           borderRadius={1.5}
           mb={6}
+          sx={{boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.06)"}}
         >
           <Box sx={[{ height: show ? 'auto' : '526px', overflow: 'hidden', '& h2:first-of-type,& hr': { display: 'none'} } ]} className="markdown-body">
             <Box sx={visuallyHidden}>{jsxData}</Box>

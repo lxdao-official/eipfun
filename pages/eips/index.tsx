@@ -113,7 +113,7 @@ function Eips({ data, pagination }: IProps) {
     status?: string;
     page?: number;
   }) => {
-    sendGet('https://api-dev.eips.fun/eips/list', {
+    sendGet('/eips/list', {
       type,
       category,
       status,
@@ -125,6 +125,7 @@ function Eips({ data, pagination }: IProps) {
           setTotal(res.pagination.total);
           setCurrent(res.pagination.current + 1);
           setDataArr(res.data);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       })
       .catch((err) => {
@@ -192,11 +193,17 @@ function Eips({ data, pagination }: IProps) {
     <>
       <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg">
-        <Typography color="#2E343F" py={4} variant="h4" fontWeight="bold">
+        <Typography
+          color="#2E343F"
+          py={4}
+          mt={0}
+          variant="h4"
+          fontWeight="bold"
+        >
           EIPs
         </Typography>
 
-        <Box pb={3}>
+        <Box pb={1.5}>
           {categorysArr.map((item) => (
             <TypeButton
               className={item === active ? 'active' : ''}
@@ -219,7 +226,7 @@ function Eips({ data, pagination }: IProps) {
           ))}
         </Box>
 
-        <Box pb={3}>
+        <Box pb={2.375}>
           {statusArr.map((item) => (
             <TypeButton
               className={item === activeSecond ? 'active' : ''}
@@ -253,6 +260,7 @@ function Eips({ data, pagination }: IProps) {
                         color: '#437EF7',
                         fontWeight: 'bold',
                       }}
+                      target="_blank"
                       href={`./eips/eip-${row.eip}`}
                     >
                       {row.eip}
@@ -282,7 +290,7 @@ function Eips({ data, pagination }: IProps) {
           </Table>
         </TableContainer>
 
-        <Stack spacing={2} alignItems={'center'} sx={{ margin: '16px 0 20px' }}>
+        <Stack spacing={2} alignItems={'center'} py={3}>
           <Pagination
             onChange={handlePageChange}
             count={Math.ceil(total / 20) || 0}
