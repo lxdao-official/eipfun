@@ -59,28 +59,38 @@ const SearchMain = styled('div')(({}) => ({
     width: '80%',
   },
 }));
+
 type EipCommonResult = {
-  eip: string;
+  eip?: string;
   title?: TrustedHTML;
   ts_headline?: TrustedHTML;
   rank?: number;
+  type?: string;
+  category?: string;
 };
 type EipResult = {
   eip: string;
   title: TrustedHTML;
+  type: string;
+  category: string;
 };
 type EipTitleResult = {
   eip: string;
   ts_headline: TrustedHTML;
   rank: number;
   title?: TrustedHTML;
+  type: string;
+  category: string;
 };
 type EipContentResult = {
   eip: string;
   ts_headline: TrustedHTML;
   title: TrustedHTML;
   rank: number;
+  type: string;
+  category: string;
 };
+
 interface ResultList {
   eip_list?: Array<EipResult>;
   title_list?: Array<EipTitleResult>;
@@ -102,31 +112,58 @@ function useSearch(searchText: string) {
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
         } else {
-          if (res.data.data?.title_list) {
-            optionsList = optionsList.concat(res.data.data.title_list);
-          }
-          if (res.data.data?.content_list) {
-            optionsList = optionsList.concat(res.data.data.content_list);
+          const title_list: EipTitleResult[] = res.data.data?.title_list || [];
+          const content_list: EipContentResult[] =
+            res.data.data?.content_list || [];
+
+          if (title_list.length > 0) {
+            for (let i = 0; i < title_list.length; i++) {
+              const item: EipCommonResult = { eip: title_list[i].eip };
+              item.title = title_list[i].ts_headline;
+              for (let j = 0; j < content_list.length; j++) {
+                if (content_list[j].eip === title_list[i].eip) {
+                  item.ts_headline = content_list[j].ts_headline;
+                  content_list.splice(j, 1);
+                  j--;
+                  break;
+                }
+              }
+              optionsList.push(item);
+            }
+            if (content_list.length > 0) {
+              optionsList = optionsList.concat(content_list);
+            }
+          } else {
+            if (content_list.length > 0) {
+              optionsList = optionsList.concat(content_list);
+            }
           }
 
-          optionsList = optionsList.reduce(
-            (obj: EipCommonResult[], item: EipCommonResult) => {
-              let find = obj.find(
-                (i: EipCommonResult) => i.eip && i.eip === item.eip
-              );
-              //如果没有title则使用ts_headline
-              item.title = item.title ? item.title : item.ts_headline;
-
-              console.log(item);
-              //取出重复并使用content_list的title和ts_headline
-              find
-                ? ((find.title = item.title),
-                  (find.ts_headline = item.ts_headline))
-                : obj.push(item);
-              return obj;
-            },
-            []
-          );
+          // if (res.data.data?.title_list) {
+          //   optionsList = optionsList.concat(res.data.data.title_list);
+          // }
+          // if (res.data.data?.content_list) {
+          //   optionsList = optionsList.concat(res.data.data.content_list);
+          // }
+          //
+          // optionsList = optionsList.reduce(
+          //   (obj: EipCommonResult[], item: EipCommonResult) => {
+          //     let find = obj.find(
+          //       (i: EipCommonResult) => i.eip && i.eip === item.eip
+          //     );
+          //     //如果没有title则使用ts_headline
+          //     item.title = item.title ? item.title : item.ts_headline;
+          //
+          //     console.log(item);
+          //     //取出重复并使用content_list的title和ts_headline
+          //     find
+          //       ? ((find.title = item.title),
+          //         (find.ts_headline = item.ts_headline))
+          //       : obj.push(item);
+          //     return obj;
+          //   },
+          //   []
+          // );
         }
         return optionsList.slice(0, 20);
       });
@@ -179,7 +216,7 @@ export default function SearchHeader() {
               }}
             >
               <h3>
-                EIP-{option.rank ? option.eip : <b>{option.eip} </b>}&nbsp;
+              {option.category === "ERC"?'ERC':'EIP'}-{option.rank ? option.eip : <b>{option.eip} </b>}&nbsp;
                 <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
               </h3>
               {option.ts_headline && (
