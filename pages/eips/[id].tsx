@@ -53,6 +53,7 @@ type EIProps = {
 
 export default function EIPDetails({ meta, mdStrData }: EIProps) {
   const [show, setShow] = useState(false);
+  const detailsWrapperElement = React.createRef<HTMLDivElement>();
 
   useEffect(() => {
     if (show) {
@@ -415,6 +416,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               borderRadius={1.5}
               mb={6}
               sx={{ boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)' }}
+              ref={detailsWrapperElement}
             >
               <Box
                 sx={{
@@ -588,7 +590,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
             {show && (
               <Box>
-                <Affix top={20}>
+                <Affix parent={detailsWrapperElement} top={20}>
                   <Box
                     px={3}
                     pb={3}

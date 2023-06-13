@@ -2,6 +2,7 @@ import React from 'react';
 
 export default function Affix(props: {
   top: number;
+  parent: React.RefObject<HTMLDivElement>;
   children: React.ReactNode;
   offset?: number;
   className?: string;
@@ -17,9 +18,16 @@ export default function Affix(props: {
 
   const checkPosition = (distanceToBody: number, width: number) => {
     const scrollTop = window.scrollY;
+    const elemHeight = element.current?.clientHeight || 0;
+    const parentHeight = props.parent.current!.offsetHeight;
+    const parentTop =
+      props.parent.current!.getBoundingClientRect().top + scrollTop;
 
-    if (distanceToBody - scrollTop < props.top + offset) {
-      if (element.current!.style.position != 'fixed') {
+    if (scrollTop + elemHeight + props.top > parentHeight + parentTop) {
+      element.current!.style.position = 'absolute';
+      element.current!.style.top = parentHeight + parentTop - elemHeight + 'px';
+    } else if (distanceToBody - scrollTop < props.top + offset) {
+      if (element.current!.style.position !== 'fixed') {
         for (let key in oldStyles) {
           oldStyles[key] = element.current!.style[key];
         }
