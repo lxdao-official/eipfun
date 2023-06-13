@@ -185,11 +185,11 @@ export default function Home() {
                   key={item.name}
                   width="292px"
                   height="144px"
-                  bgcolor='#F8F9FB'
+                  bgcolor="#F8F9FB"
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
-                  margin='0 8px'
+                  margin="0 8px"
                 >
                   <Link href={item.link}>
                     <Image
@@ -252,9 +252,15 @@ export default function Home() {
             </Typography>
           </Box>
           <Box className="contentRight">
-            <Button variant="outlined" sx={{
-              color: '#272D37',
-            }} href={Telegram} target='_blank' size="medium">
+            <Button
+              variant="outlined"
+              sx={{
+                color: '#272D37',
+              }}
+              href={Telegram}
+              target="_blank"
+              size="medium"
+            >
               Join Us
             </Button>
             <Button
@@ -262,7 +268,7 @@ export default function Home() {
               href="https://app.safe.global/home?safe=eth:0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
               sx={{ marginLeft: '15px' }}
               size="medium"
-              target='_blank'
+              target="_blank"
             >
               Donate
             </Button>
@@ -329,7 +335,7 @@ const advisorList = [
   {
     name: 'Victor Zhou',
     head: '/images/victorzhou.jpg',
-    intro: 'Author of ERC1202, ERC5750;Initiator of AllERCdevs',
-    desc: 'Author of ERC1202, ERC5750;Initiator of AllERCdevs',
+    intro: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
+    desc: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
   },
 ];

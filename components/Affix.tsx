@@ -8,12 +8,14 @@ export default function Affix(props: {
   className?: string;
 }) {
   const element = React.createRef<HTMLDivElement>();
-  let oldStyles = {
+  let oldStyles: {
+    [key: string]: string;
+  } = {
     position: '',
     top: '',
     width: '',
   };
-  // Offset could make the element fixed ealier or later
+  // Offset could make the element fixed earlier or later
   const { offset = 0 } = props;
 
   const checkPosition = (distanceToBody: number, width: number) => {
@@ -29,7 +31,7 @@ export default function Affix(props: {
     } else if (distanceToBody - scrollTop < props.top + offset) {
       if (element.current!.style.position !== 'fixed') {
         for (let key in oldStyles) {
-          oldStyles[key] = element.current!.style[key];
+          oldStyles[key as any] = element.current!.style[key as any];
         }
         element.current!.style.position = 'fixed';
         element.current!.style.width = width + 'px';
@@ -38,7 +40,7 @@ export default function Affix(props: {
     } else {
       // reset to default
       for (let key in oldStyles) {
-        element.current!.style[key] = oldStyles[key];
+        element.current!.style[key as any] = oldStyles[key];
       }
     }
   };
