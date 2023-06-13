@@ -570,7 +570,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
             {show && (
               <Box>
-                <Affix top={20}>
+                <Affix top={20} className={details.toc}>
                   <Box
                     px={3}
                     pb={3}
