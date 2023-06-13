@@ -129,7 +129,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           key="description"
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@huntarosan" />
+        <meta name="twitter:site" content="@eipsfun" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
         <link
