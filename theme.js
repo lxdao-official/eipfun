@@ -81,6 +81,9 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 600,
+          borderColor: '#DAE0E6',
+          height: '46px',
+          padding: '0 36px',
         },
       },
     },
@@ -88,6 +91,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           border: '1px solid #DAE0E6',
+          color: '#272D37!important',
         },
       },
     },

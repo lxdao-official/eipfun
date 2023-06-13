@@ -252,7 +252,9 @@ export default function Home() {
             </Typography>
           </Box>
           <Box className="contentRight">
-            <Button variant="outlined" href={Telegram} size="medium">
+            <Button variant="outlined" sx={{
+              color: '#272D37',
+            }} href={Telegram} target='_blank' size="medium">
               Join Us
             </Button>
             <Button
@@ -260,6 +262,7 @@ export default function Home() {
               href="https://app.safe.global/home?safe=eth:0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
               sx={{ marginLeft: '15px' }}
               size="medium"
+              target='_blank'
             >
               Donate
             </Button>
