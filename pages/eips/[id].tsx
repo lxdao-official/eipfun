@@ -66,12 +66,10 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
   const handleShow = () => {
     setShow((state) => !state);
-    if (show) {
-      window.scrollTo({
-        top: (document.querySelector('#original-tit') as any).offsetTop,
-        behavior: 'smooth',
-      });
-    }
+    window.scrollTo({
+      top: (document.querySelector('#original-tit') as any).offsetTop,
+      behavior: 'smooth',
+    });
   };
 
   const formatLink = (str: string) => {
@@ -344,12 +342,6 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               <Typography fontSize={22} component="span" variant="h6">
                 1 min read
               </Typography>
-              {meta.summary ? null : (
-                <Typography component="span" variant="body2" color="#5F6D7E">
-                  {' '}
-                  by chatGPT-4
-                </Typography>
-              )}
             </Box>
 
             <Box
@@ -544,6 +536,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             <Box
               pt={3}
               px={3}
+              mb={3}
               border={1}
               borderColor="#eaebf0"
               borderRadius={'10px'}
@@ -575,16 +568,23 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 ))}
             </Box>
 
-            <Box>
-              <Affix top={0} className={details.toc}>
-                <Box
-                  padding={3}
-                  className="js-toc toc"
-                  border="1px solid #EAEBF0"
-                  borderRadius="10px"
-                ></Box>
-              </Affix>
-            </Box>
+            {show && (
+              <Box>
+                <Affix top={20}>
+                  <Box
+                    px={3}
+                    pb={3}
+                    border="1px solid #EAEBF0"
+                    borderRadius="10px"
+                  >
+                    <Typography fontWeight="bold" variant="h6">
+                      Contents
+                    </Typography>
+                    <Box className="js-toc toc"></Box>
+                  </Box>
+                </Affix>
+              </Box>
+            )}
           </Box>
         </Box>
 
