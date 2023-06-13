@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
@@ -84,6 +83,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     (meta.abstract ? meta.abstract : '') +
     (meta.description ? meta.description : '') +
     (meta.summary ? meta.summary : '');
+  // console.log(meta, 999999999);
 
   // todo add images for sharing
 
@@ -326,9 +326,6 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Typography>
             </Box>
 
-            <Box>
-              <Box>TODO empty tips</Box>
-            </Box>
             <ExtendedResources data={meta['extended resources']} />
           </Box>
 
@@ -345,7 +342,6 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 Adopted by projects
               </Typography>
 
-              <Box>TODO</Box>
               <Projects data={meta.projects} />
             </Box>
 

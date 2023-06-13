@@ -8,7 +8,7 @@ export default function ExtendedResources({
   data?: { title: string; link: string; imgSrc: string; alt: string }[];
 }) {
   if (!data || !data.length) {
-    return null;
+    return <Box>TODO empty tips</Box>;
   }
 
   return (
