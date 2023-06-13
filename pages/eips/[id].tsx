@@ -482,6 +482,10 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Typography>
             </Box>
 
+            <Box>
+              <Box>TODO empty tips</Box>
+            </Box>
+
             {meta['extended resources'] &&
               meta['extended resources'].length && (
                 <Box className={details.floatWrap}>
@@ -541,6 +545,8 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               <Typography fontWeight="bold" variant="h6" pb={3}>
                 Adopted by projects
               </Typography>
+
+              <Box>TODO</Box>
 
               {meta.projects &&
                 meta.projects.length &&
