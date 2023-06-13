@@ -183,11 +183,13 @@ export default function Home() {
               partnerList.map((item) => (
                 <Box
                   key={item.name}
-                  width="218px"
-                  height="40px"
+                  width="292px"
+                  height="144px"
+                  bgcolor='#F8F9FB'
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
+                  margin='0 8px'
                 >
                   <Link href={item.link}>
                     <Image
