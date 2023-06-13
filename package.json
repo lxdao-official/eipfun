@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "clone:EIPs": "node scripts/downloadEips",
+    "copy": "cp -rf eth-eips/assets/ public/assets/ && cp -rf eth-eips/EIPS/ public/original-eips/",
     "start": "next start",
     "lint": "next lint"
   },
