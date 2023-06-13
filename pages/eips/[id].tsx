@@ -609,6 +609,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
             <Box
               pt={3}
               px={3}
+              mb={3}
               border={1}
               borderColor="#eaebf0"
               borderRadius={'10px'}
@@ -642,11 +643,16 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
               <Box>
                 <Affix top={20}>
                   <Box
-                    padding={3}
-                    className="js-toc toc"
+                    px={3}
+                    pb={3}
                     border="1px solid #EAEBF0"
                     borderRadius="10px"
-                  ></Box>
+                  >
+                    <Typography fontWeight="bold" variant="h6">
+                      Contents
+                    </Typography>
+                    <Box className="js-toc toc"></Box>
+                  </Box>
                 </Affix>
               </Box>
             )}
