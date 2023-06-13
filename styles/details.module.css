@@ -1,14 +1,3 @@
-.eipMenu {
-  padding: 0;
-  list-style: none;
-}
-.eipMenu li a {
-  color: #5f6d7e;
-}
-.sideMenuActive a {
-  color: #222935 !important;
-}
-
 .iconArrow {
   position: relative;
   padding-right: 24px;
@@ -31,16 +20,5 @@
 }
 
 .toc {
-  position: 'static';
-  display: none;
-}
-
-.tocFixed {
-  position: fixed;
-  width: 288px;
-  padding: 24px;
-  top: 10%;
-  border: 1px solid #eaebf0;
-  border-radius: 10px;
-  list-style: none;
+  background: #fff;
 }

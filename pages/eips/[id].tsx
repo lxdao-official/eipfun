@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-// import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP, EIPHeader } from '@/utils/str';
-import { getHeader, createLink } from '@/utils/getHeader';
 import { readFile } from 'node:fs/promises';
 import ReactMarkdown from 'react-markdown';
 import path from 'path';
@@ -14,9 +12,7 @@ import details from '@/styles/details.module.css';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Affix from '@/components/Affix';
-import _ from 'lodash';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-
 import { flatten } from '@/utils/index';
 
 type HIProps = {
@@ -47,7 +43,6 @@ type EIProps = {
     projects?: { link: string; title: string; imgSrc: string; alt: string }[];
     [propName: string]: any;
   };
-  id: string;
   mdStrData: string;
 };
 
@@ -431,21 +426,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                   components={{
-                    h2: ({ node, children, ...props }) => {
-                      return (
-                        <h2 {...props} id={children}>
-                          {children}
-                        </h2>
-                      );
-                    },
-                    h3: ({ node, children, ...props }) => {
-                      return (
-                        <h3 {...props} id={children}>
-                          {children}
-                        </h3>
-                      );
-                    },
-                    code: ({ node, inline, className, children, ...props }) => {
+                    code: ({ inline, className, children, ...props }) => {
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
@@ -491,66 +472,60 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Box>
             </Box>
 
-            {meta['extended resources'] &&
-              meta['extended resources']!.length > 0 && (
-                <>
-                  <Box pb={3}>
-                    <Typography variant="h5" component="span">
-                      Quick read
-                    </Typography>
-                    <Typography
-                      color="#5F6D7E"
-                      variant="body2"
-                      component="span"
-                    >
-                      {' '}
-                      by Analyst
-                    </Typography>
-                  </Box>
+            <Box pb={3}>
+              <Typography variant="h5" component="span">
+                Quick read
+              </Typography>
+              <Typography color="#5F6D7E" variant="body2" component="span">
+                {' '}
+                by Analyst
+              </Typography>
+            </Box>
 
-                  <Box className={details.floatWrap}>
-                    {meta['extended resources'].map((item) => (
-                      <Box
-                        sx={{
-                          float: 'left',
-                          '&:nth-of-type(2n)': { marginRight: 0 },
-                        }}
-                        width={[1, 1, 398, 398]}
-                        mb={6.5}
-                        mr={4}
-                        key={item.title}
-                      >
-                        <Box height={84} borderRadius="6px">
-                          <img
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              height: '100%',
-                              border: 'none',
-                            }}
-                            src={item.imgSrc}
-                            alt={item.alt}
-                          />
-                        </Box>
-                        <Typography
-                          component={Box}
-                          variant="h6"
-                          py={2}
-                          fontWeight="bold"
-                          fontSize={18}
-                          lineHeight={'30px'}
-                        >
-                          {item.title}
-                        </Typography>
-                        <Box>
-                          <Link href={item.link} underline="none">
-                            Learn more →
-                          </Link>
-                        </Box>
+            {meta['extended resources'] &&
+              meta['extended resources'].length && (
+                <Box className={details.floatWrap}>
+                  {meta['extended resources'].map((item) => (
+                    <Box
+                      sx={{
+                        float: 'left',
+                        '&:nth-of-type(2n)': { marginRight: 0 },
+                      }}
+                      width={[1, 1, 398, 398]}
+                      mb={6.5}
+                      mr={4}
+                      key={item.title}
+                    >
+                      <Box height={84} borderRadius="6px">
+                        <img
+                          style={{
+                            display: 'block',
+                            width: '100%',
+                            height: '100%',
+                            border: 'none',
+                          }}
+                          src={item.imgSrc}
+                          alt={item.alt}
+                        />
                       </Box>
-                    ))}
-                  </Box>
-                </>
+                      <Typography
+                        component={Box}
+                        variant="h6"
+                        py={2}
+                        fontWeight="bold"
+                        fontSize={18}
+                        lineHeight={'30px'}
+                      >
+                        {item.title}
+                      </Typography>
+                      <Box>
+                        <Link href={item.link} underline="none">
+                          Learn more →
+                        </Link>
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
               )}
           </Box>
 
@@ -567,30 +542,36 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 Adopted by projects
               </Typography>
 
-              {meta.projects?.map((item) => (
-                <Link href={item.link} key={item.title} underline="hover">
-                  <Box height={100}>
-                    <img
-                      style={{
-                        display: 'block',
-                        width: '100%',
-                        height: '100%',
-                        border: 'none',
-                      }}
-                      src={item.imgSrc}
-                      alt={item.alt}
-                    />
-                  </Box>
-                  <Typography py={2} color="#272d37" variant="subtitle1">
-                    {item.title}
-                  </Typography>
-                </Link>
-              ))}
+              {meta.projects &&
+                meta.projects.length &&
+                meta.projects.map((item) => (
+                  <Link href={item.link} key={item.title} underline="hover">
+                    <Box height={100}>
+                      <img
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          height: '100%',
+                          border: 'none',
+                        }}
+                        src={item.imgSrc}
+                        alt={item.alt}
+                      />
+                    </Box>
+                    <Typography py={2} color="#272d37" variant="subtitle1">
+                      {item.title}
+                    </Typography>
+                  </Link>
+                ))}
             </Box>
 
             {show && (
               <Box>
-                <Affix parent={detailsWrapperElement} top={20}>
+                <Affix
+                  className={details.toc}
+                  parent={detailsWrapperElement}
+                  top={20}
+                >
                   <Box
                     px={3}
                     pb={3}
@@ -667,7 +648,6 @@ export async function getServerSideProps(context: IContent) {
   }
 
   const [, metaStr, ...con] = originalEIP.split('---');
-
   const meta: EIPHeader = formatMeta(metaStr);
 
   try {
