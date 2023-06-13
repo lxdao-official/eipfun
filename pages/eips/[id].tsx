@@ -469,66 +469,60 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Box>
             </Box>
 
-            {meta['extended resources'] &&
-              meta['extended resources']!.length > 0 && (
-                <>
-                  <Box pb={3}>
-                    <Typography variant="h5" component="span">
-                      Quick read
-                    </Typography>
-                    <Typography
-                      color="#5F6D7E"
-                      variant="body2"
-                      component="span"
-                    >
-                      {' '}
-                      by Analyst
-                    </Typography>
-                  </Box>
+            <Box pb={3}>
+              <Typography variant="h5" component="span">
+                Quick read
+              </Typography>
+              <Typography color="#5F6D7E" variant="body2" component="span">
+                {' '}
+                by Analyst
+              </Typography>
+            </Box>
 
-                  <Box className={details.floatWrap}>
-                    {meta['extended resources'].map((item) => (
-                      <Box
-                        sx={{
-                          float: 'left',
-                          '&:nth-of-type(2n)': { marginRight: 0 },
-                        }}
-                        width={[1, 1, 398, 398]}
-                        mb={6.5}
-                        mr={4}
-                        key={item.title}
-                      >
-                        <Box height={84} borderRadius="6px">
-                          <img
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              height: '100%',
-                              border: 'none',
-                            }}
-                            src={item.imgSrc}
-                            alt={item.alt}
-                          />
-                        </Box>
-                        <Typography
-                          component={Box}
-                          variant="h6"
-                          py={2}
-                          fontWeight="bold"
-                          fontSize={18}
-                          lineHeight={'30px'}
-                        >
-                          {item.title}
-                        </Typography>
-                        <Box>
-                          <Link href={item.link} underline="none">
-                            Learn more →
-                          </Link>
-                        </Box>
+            {meta['extended resources'] &&
+              meta['extended resources'].length && (
+                <Box className={details.floatWrap}>
+                  {meta['extended resources'].map((item) => (
+                    <Box
+                      sx={{
+                        float: 'left',
+                        '&:nth-of-type(2n)': { marginRight: 0 },
+                      }}
+                      width={[1, 1, 398, 398]}
+                      mb={6.5}
+                      mr={4}
+                      key={item.title}
+                    >
+                      <Box height={84} borderRadius="6px">
+                        <img
+                          style={{
+                            display: 'block',
+                            width: '100%',
+                            height: '100%',
+                            border: 'none',
+                          }}
+                          src={item.imgSrc}
+                          alt={item.alt}
+                        />
                       </Box>
-                    ))}
-                  </Box>
-                </>
+                      <Typography
+                        component={Box}
+                        variant="h6"
+                        py={2}
+                        fontWeight="bold"
+                        fontSize={18}
+                        lineHeight={'30px'}
+                      >
+                        {item.title}
+                      </Typography>
+                      <Box>
+                        <Link href={item.link} underline="none">
+                          Learn more →
+                        </Link>
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
               )}
           </Box>
 
