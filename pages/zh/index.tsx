@@ -281,7 +281,7 @@ const introList = [
   },
 ];
 const partnerList = [
-  { name: 'LXDao', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
+  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
   {
     name: 'Plancker',
     logo: '/images/plancker.svg',

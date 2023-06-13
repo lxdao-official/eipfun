@@ -183,11 +183,13 @@ export default function Home() {
               partnerList.map((item) => (
                 <Box
                   key={item.name}
-                  width="218px"
-                  height="40px"
+                  width="292px"
+                  height="144px"
+                  bgcolor="#F8F9FB"
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
+                  margin="0 8px"
                 >
                   <Link href={item.link}>
                     <Image
@@ -218,12 +220,7 @@ export default function Home() {
           >
             {advisors.length > 0 &&
               advisors.map((item) => (
-                <Box
-                  key={item.name}
-                  width="218px"
-                  textAlign='center'
-                >
-                
+                <Box key={item.name} width="218px" textAlign="center">
                   <Image
                     src={item.head}
                     alt={item.name}
@@ -231,7 +228,7 @@ export default function Home() {
                     height={162}
                     style={{ borderRadius: '10px' }}
                   />
-                  
+
                   <Typography variant="h6" textAlign="center">
                     {item.name}
                   </Typography>
@@ -255,7 +252,15 @@ export default function Home() {
             </Typography>
           </Box>
           <Box className="contentRight">
-            <Button variant="outlined" href={Telegram} size="medium">
+            <Button
+              variant="outlined"
+              sx={{
+                color: '#272D37',
+              }}
+              href={Telegram}
+              target="_blank"
+              size="medium"
+            >
               Join Us
             </Button>
             <Button
@@ -263,6 +268,7 @@ export default function Home() {
               href="https://app.safe.global/home?safe=eth:0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
               sx={{ marginLeft: '15px' }}
               size="medium"
+              target="_blank"
             >
               Donate
             </Button>
@@ -312,7 +318,7 @@ const introList = [
   },
 ];
 const partnerList = [
-  { name: 'LXDao', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
+  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
   {
     name: 'Plancker',
     logo: '/images/plancker.svg',
@@ -320,16 +326,16 @@ const partnerList = [
   },
 ];
 const advisorList = [
-  // {
-  //   name: 'Scott Moore',
-  //   head: '/images/Scott.png',
-  //   intro: 'Co-founder of Gitcoin, steward of ensdomains and Optimism foundation',
-  //   desc: 'Gitcoin founder',
-  // },
   {
     name: '5660.eth',
     head: '/images/5660.jpg',
     intro: 'Author of EIP6105, EIP6147',
     desc: 'Author of EIP6105, EIP6147',
+  },
+  {
+    name: 'Victor Zhou',
+    head: '/images/victorzhou.jpg',
+    intro: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
+    desc: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
   },
 ];

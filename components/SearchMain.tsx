@@ -15,8 +15,8 @@ const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   maxWidth: 850,
-  width:'80%',
-  flex:0,
+  width: '80%',
+  flex: 0,
   height: 58,
   lineHeight: '58px',
   // backgroundColor: '#fff',
@@ -24,8 +24,8 @@ const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
 
   '.MuiInputBase-root': {
     backgroundColor: '#fff',
-    padding:'9px',
-    paddingRight:'9px!important'
+    padding: '9px',
+    paddingRight: '9px!important',
   },
 }));
 const SearchOption = styled('li')(({}) => ({
@@ -59,28 +59,38 @@ const SearchMain = styled('div')(({}) => ({
     width: '80%',
   },
 }));
+
 type EipCommonResult = {
-  eip: string;
+  eip?: string;
   title?: TrustedHTML;
   ts_headline?: TrustedHTML;
   rank?: number;
+  type?: string;
+  category?: string;
 };
 type EipResult = {
   eip: string;
   title: TrustedHTML;
+  type: string;
+  category: string;
 };
 type EipTitleResult = {
   eip: string;
   ts_headline: TrustedHTML;
   rank: number;
   title?: TrustedHTML;
+  type: string;
+  category: string;
 };
 type EipContentResult = {
   eip: string;
   ts_headline: TrustedHTML;
   title: TrustedHTML;
   rank: number;
+  type: string;
+  category: string;
 };
+
 interface ResultList {
   eip_list?: Array<EipResult>;
   title_list?: Array<EipTitleResult>;
@@ -95,40 +105,72 @@ function useSearch(searchText: string) {
   let url = `${ADDR}/eips/search?content=${searchText}`;
 
   return useQuery(
-    ['SeatchMain', { searchText }],
+    ['SearchMain', { searchText }],
     () => {
       return axios.get(url).then((res: AxiosResponse) => {
         let optionsList: EipCommonResult[] = [];
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
-          
         } else {
-         
-          if(res.data.data?.title_list ) {
-            optionsList = optionsList.concat(res.data.data.title_list)
-          }
-          if(res.data.data?.content_list ) {
-            optionsList = optionsList.concat(res.data.data.content_list)
-          }
-          
-          optionsList = optionsList.reduce((obj:EipCommonResult[], item:EipCommonResult) => {  
-            let find = obj.find((i:EipCommonResult) => i.eip&&( i.eip === item.eip))  
-            //如果没有title则使用ts_headline
-            item.title = item.title? item.title : item.ts_headline
+          const title_list: EipTitleResult[] = res.data.data?.title_list || [];
+          const content_list: EipContentResult[] =
+            res.data.data?.content_list || [];
 
-            console.log(item)
-            //取出重复并使用content_list的title和ts_headline
-            find ? (find.title = item.title,find.ts_headline = item.ts_headline):(obj.push(item))  
-            return obj  
-          }, [])
+          if (title_list.length > 0) {
+            for (let i = 0; i < title_list.length; i++) {
+              const item: EipCommonResult = { eip: title_list[i].eip };
+              item.title = title_list[i].ts_headline;
+              for (let j = 0; j < content_list.length; j++) {
+                if (content_list[j].eip === title_list[i].eip) {
+                  item.ts_headline = content_list[j].ts_headline;
+                  content_list.splice(j, 1);
+                  j--;
+                  break;
+                }
+              }
+              optionsList.push(item);
+            }
+            if (content_list.length > 0) {
+              optionsList = optionsList.concat(content_list);
+            }
+          } else {
+            if (content_list.length > 0) {
+              optionsList = optionsList.concat(content_list);
+            }
+          }
+
+          // if (res.data.data?.title_list) {
+          //   optionsList = optionsList.concat(res.data.data.title_list);
+          // }
+          // if (res.data.data?.content_list) {
+          //   optionsList = optionsList.concat(res.data.data.content_list);
+          // }
+          //
+          // optionsList = optionsList.reduce(
+          //   (obj: EipCommonResult[], item: EipCommonResult) => {
+          //     let find = obj.find(
+          //       (i: EipCommonResult) => i.eip && i.eip === item.eip
+          //     );
+          //     //如果没有title则使用ts_headline
+          //     item.title = item.title ? item.title : item.ts_headline;
+          //
+          //     console.log(item);
+          //     //取出重复并使用content_list的title和ts_headline
+          //     find
+          //       ? ((find.title = item.title),
+          //         (find.ts_headline = item.ts_headline))
+          //       : obj.push(item);
+          //     return obj;
+          //   },
+          //   []
+          // );
         }
         return optionsList.slice(0, 20);
-        
       });
     },
     {
       enabled: searchText.length > 0,
-      retry:false,
+      retry: false,
     }
     // { keepPreviousData: true, staleTime: 5 * 60 * 1000 }
   );
@@ -143,7 +185,6 @@ export default function SearchHeader() {
   return (
     <SearchMain>
       <Autocomplete
-      
         id="search-main"
         disableClearable
         options={options || []}
@@ -171,19 +212,16 @@ export default function SearchHeader() {
             <SearchOption
               {...props}
               onClick={() => {
-                location.href=`/eips/eip-${option.eip}`;
+                location.href = `/eips/eip-${option.eip}`;
               }}
             >
-               
               <h3>
-                EIP-{option.rank ? option.eip  : <b>{option.eip} </b>}&nbsp;
+              {option.category === "ERC"?'ERC':'EIP'}-{option.rank ? option.eip : <b>{option.eip} </b>}&nbsp;
                 <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
-                
               </h3>
               {option.ts_headline && (
                 <p dangerouslySetInnerHTML={{ __html: option.ts_headline }}></p>
               )}
-             
             </SearchOption>
           );
         }}
@@ -197,7 +235,7 @@ export default function SearchHeader() {
               ...params.InputProps,
               endAdornment: (
                 <InputAdornment position="end">
-                  <SearchIcon  sx={{color:'#919BA7'}} />
+                  <SearchIcon sx={{ color: '#919BA7' }} />
                 </InputAdornment>
               ),
             }}

@@ -11,7 +11,10 @@ import SearchHeader from './SearchHeader';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import useGetLang from '@/hooks/useGetLang';
 import Drawer from '@mui/material/Drawer';
-
+import {
+  Telegram as TelegramLink,
+  Twitter as TwitterLink,
+} from '@/common/config';
 const Navigation = (): JSX.Element => {
   // const [langText, setLangText] = useState<string>();
   const [drawOpen, setDrawOpen] = useState<boolean>(false);
@@ -122,7 +125,8 @@ const Navigation = (): JSX.Element => {
               margin="0 20px"
               padding="0 12px"
               color="inherit"
-              href="https://t.eips.fun/"
+              href={TelegramLink}
+              target='_blank'
             >
               <TelegramIcon />
             </Link>
@@ -223,6 +227,7 @@ const Navigation = (): JSX.Element => {
               margin="0 20px"
               padding="0 12px"
               color="inherit"
+              target='_blank'
               href="https://t.eips.fun/"
             >
               <TelegramIcon />

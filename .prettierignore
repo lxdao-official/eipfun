@@ -1,2 +1,6 @@
 /public
 /ETH-eips
+.next
+node_modules
+content
+pnpm-lock.yaml

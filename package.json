@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "clone:EIPs": "node scripts/downloadEips",
+    "copy": "cp -rf eth-eips/assets/ public/assets/ && cp -rf eth-eips/EIPS/ public/original-eips/",
     "start": "next start",
     "lint": "next lint"
   },
@@ -32,7 +33,6 @@
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "l": "^0.6.0",
-    "lodash": "^4.17.21",
     "next": "13.3.0",
     "next-mdx-remote": "^4.4.1",
     "react": "18.2.0",
@@ -40,15 +40,21 @@
     "react-hook-form": "^7.43.9",
     "react-loader-spinner": "^5.3.4",
     "react-loading": "^2.0.3",
+    "react-markdown": "^8.0.7",
     "react-query": "^3.39.3",
+    "react-syntax-highlighter": "^15.5.0",
     "react-toc": "^3.1.0",
+    "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",
     "styled-components": "^5.3.9",
+    "tocbot": "^4.21.0",
     "typescript": "5.0.4"
   },
   "devDependencies": {
     "@svgr/webpack": "^7.0.0",
+    "@types/lodash": "^4.14.195",
     "@types/node": "18.15.11",
+    "@types/react-syntax-highlighter": "^15.5.7",
     "prettier": "^2.8.7"
   }
 }
