@@ -100,20 +100,20 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
   // }, [offsets]);
 
   useEffect(() => {
-    tocbot.init({
-      // Where to render the table of contents.
-      tocSelector: '.js-toc',
-      // Where to grab the headings to build the table of contents.
-      contentSelector: '.js-toc-content',
-      // Which headings to grab inside of the contentSelector element.
-      headingSelector: 'h1, h2, h3, h4',
-      hasInnerContainers: false,
-    });
-
-    setInterval(() => {
-      tocbot.refresh();
-    }, 20000);
-  }, []);
+    if (show) {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.js-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.js-toc-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3, h4',
+        hasInnerContainers: true,
+      });
+    } else {
+      tocbot.destroy();
+    }
+  }, [show]);
 
   const handleShow = () => {
     setShow((state) => !state);
@@ -189,10 +189,6 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
           integrity="sha512-bm684OXnsiNuQSyrxuuwo4PHqr3OzxPpXyhT66DA/fhl73e1JmBxRKGnO/nRwWvOZxJLRCmNH7FII+Yn1JNPmg=="
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css"
         />
       </Head>
 
@@ -610,43 +606,46 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
           </Box>
 
           <Box sx={{ float: 'right' }} width={[1, 1, 0.26, 300]}>
-            {meta?.projects && meta.projects.length > 0 && (
-              <Box
-                pt={3}
-                px={3}
-                border={1}
-                borderColor="#eaebf0"
-                borderRadius={'10px'}
-              >
-                <Typography fontWeight="bold" variant="h6" pb={3}>
-                  Adopted by projects
-                </Typography>
+            <Box
+              pt={3}
+              px={3}
+              border={1}
+              borderColor="#eaebf0"
+              borderRadius={'10px'}
+            >
+              <Typography fontWeight="bold" variant="h6" pb={3}>
+                Adopted by projects
+              </Typography>
 
-                {meta.projects?.map((item) => (
-                  <Link href={item.link} key={item.title} underline="hover">
-                    <Box height={100}>
-                      <img
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          border: 'none',
-                        }}
-                        src={item.imgSrc}
-                        alt={item.alt}
-                      />
-                    </Box>
-                    <Typography py={2} color="#272d37" variant="subtitle1">
-                      {item.title}
-                    </Typography>
-                  </Link>
-                ))}
-              </Box>
-            )}
+              {meta.projects?.map((item) => (
+                <Link href={item.link} key={item.title} underline="hover">
+                  <Box height={100}>
+                    <img
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                      }}
+                      src={item.imgSrc}
+                      alt={item.alt}
+                    />
+                  </Box>
+                  <Typography py={2} color="#272d37" variant="subtitle1">
+                    {item.title}
+                  </Typography>
+                </Link>
+              ))}
+            </Box>
 
             <Box>
               <Affix top={0}>
-                <Box className="js-toc" border="1px solid #ECECEC"></Box>
+                <Box
+                  padding={3}
+                  className="js-toc toc"
+                  border="1px solid #EAEBF0"
+                  borderRadius="10px"
+                ></Box>
               </Affix>
             </Box>
           </Box>
