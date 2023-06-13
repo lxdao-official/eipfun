@@ -50,7 +50,7 @@ export function formatComEIP(str: string): EIPHeader {
       if (k === 'chatgpt4') {
         vStr = v.join('<br /><br />').trim();
       } else {
-        v.toString().trim();
+        vStr = v.toString().trim();
       }
 
       if (vStr.includes('- ')) {
