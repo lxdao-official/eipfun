@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-// import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP, EIPHeader } from '@/utils/str';
-import { getHeader, createLink } from '@/utils/getHeader';
 import { readFile } from 'node:fs/promises';
 import ReactMarkdown from 'react-markdown';
 import path from 'path';
@@ -14,9 +12,7 @@ import details from '@/styles/details.module.css';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Affix from '@/components/Affix';
-import _ from 'lodash';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-
 import { flatten } from '@/utils/index';
 
 type HIProps = {
@@ -47,58 +43,11 @@ type EIProps = {
     projects?: { link: string; title: string; imgSrc: string; alt: string }[];
     [propName: string]: any;
   };
-  id: string;
   mdStrData: string;
-  sideMenu: string[];
 };
 
-export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
-  console.log('mdStrData: ', mdStrData);
+export default function EIPDetails({ meta, mdStrData }: EIProps) {
   const [show, setShow] = useState(false);
-  const [menuIndex, setMenuIndex] = useState(0);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     const originalTop = (document.querySelector('#original') as HTMLElement)
-  //       .offsetTop;
-  //     const offsets: number[] = [];
-  //     document.querySelectorAll('.eip-toc').forEach((item, i) => {
-  //       if (i !== 0) {
-  //         offsets.push((item as HTMLElement).offsetTop + originalTop);
-  //       }
-  //     });
-  //     setOffsets(offsets);
-  //   }, 200);
-  // }, []);
-
-  // useEffect(() => {
-  //   function watchHeight() {
-  //     const originalTop = (document.querySelector('#original') as HTMLElement)
-  //       .offsetTop;
-  //     if (originalTop <= window.scrollY) {
-  //       setTocFixed(true);
-  //     } else {
-  //       setTocFixed(false);
-  //     }
-  //     if (window.scrollY <= offsets[0]) {
-  //       return setMenuIndex(0);
-  //     }
-  //     if (window.scrollY >= offsets[offsets.length - 1]) {
-  //       return setMenuIndex(offsets.length - 1);
-  //     }
-  //     setMenuIndex(
-  //       offsets.findIndex(
-  //         (item, i, arr) =>
-  //           window.scrollY >= item && window.scrollY < arr[i + 1]
-  //       )
-  //     );
-  //   }
-  //   window.addEventListener('scroll', _.throttle(watchHeight, 400));
-  //   return () => {
-  //     window.removeEventListener('scroll', _.throttle(watchHeight, 400));
-  //   };
-  // }, [offsets]);
-
   useEffect(() => {
     if (show) {
       tocbot.init({
@@ -482,21 +431,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                   components={{
-                    h2: ({ node, children, ...props }) => {
-                      return (
-                        <h2 {...props} id={children}>
-                          {children}
-                        </h2>
-                      );
-                    },
-                    h3: ({ node, children, ...props }) => {
-                      return (
-                        <h3 {...props} id={children}>
-                          {children}
-                        </h3>
-                      );
-                    },
-                    code: ({ node, inline, className, children, ...props }) => {
+                    code: ({ inline, className, children, ...props }) => {
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
@@ -617,29 +552,31 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
                 Adopted by projects
               </Typography>
 
-              {meta.projects?.map((item) => (
-                <Link href={item.link} key={item.title} underline="hover">
-                  <Box height={100}>
-                    <img
-                      style={{
-                        display: 'block',
-                        width: '100%',
-                        height: '100%',
-                        border: 'none',
-                      }}
-                      src={item.imgSrc}
-                      alt={item.alt}
-                    />
-                  </Box>
-                  <Typography py={2} color="#272d37" variant="subtitle1">
-                    {item.title}
-                  </Typography>
-                </Link>
-              ))}
+              {meta.projects &&
+                meta.projects.length &&
+                meta.projects.map((item) => (
+                  <Link href={item.link} key={item.title} underline="hover">
+                    <Box height={100}>
+                      <img
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          height: '100%',
+                          border: 'none',
+                        }}
+                        src={item.imgSrc}
+                        alt={item.alt}
+                      />
+                    </Box>
+                    <Typography py={2} color="#272d37" variant="subtitle1">
+                      {item.title}
+                    </Typography>
+                  </Link>
+                ))}
             </Box>
 
             <Box>
-              <Affix top={0}>
+              <Affix top={0} className={details.toc}>
                 <Box
                   padding={3}
                   className="js-toc toc"
@@ -710,9 +647,8 @@ export async function getServerSideProps(context: IContent) {
   }
 
   const [, metaStr, ...con] = originalEIP.split('---');
-
   const meta: EIPHeader = formatMeta(metaStr);
-  const sideMenu = getHeader(con.toString());
+
   try {
     let comEIP = await readFile(
       path.join(process.cwd(), 'content', 'en', `${id}.md`),
@@ -727,7 +663,6 @@ export async function getServerSideProps(context: IContent) {
     props: {
       meta,
       mdStrData: con.toString(),
-      sideMenu,
     },
   };
 }
