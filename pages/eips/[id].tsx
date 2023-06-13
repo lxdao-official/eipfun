@@ -638,16 +638,18 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
               ))}
             </Box>
 
-            <Box>
-              <Affix top={0}>
-                <Box
-                  padding={3}
-                  className="js-toc toc"
-                  border="1px solid #EAEBF0"
-                  borderRadius="10px"
-                ></Box>
-              </Affix>
-            </Box>
+            {show && (
+              <Box>
+                <Affix top={20}>
+                  <Box
+                    padding={3}
+                    className="js-toc toc"
+                    border="1px solid #EAEBF0"
+                    borderRadius="10px"
+                  ></Box>
+                </Affix>
+              </Box>
+            )}
           </Box>
         </Box>
 
