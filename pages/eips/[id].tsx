@@ -49,55 +49,10 @@ type EIProps = {
   };
   id: string;
   mdStrData: string;
-  sideMenu: string[];
 };
 
-export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
-  console.log('mdStrData: ', mdStrData);
+export default function EIPDetails({ meta, mdStrData }: EIProps) {
   const [show, setShow] = useState(false);
-  const [menuIndex, setMenuIndex] = useState(0);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     const originalTop = (document.querySelector('#original') as HTMLElement)
-  //       .offsetTop;
-  //     const offsets: number[] = [];
-  //     document.querySelectorAll('.eip-toc').forEach((item, i) => {
-  //       if (i !== 0) {
-  //         offsets.push((item as HTMLElement).offsetTop + originalTop);
-  //       }
-  //     });
-  //     setOffsets(offsets);
-  //   }, 200);
-  // }, []);
-
-  // useEffect(() => {
-  //   function watchHeight() {
-  //     const originalTop = (document.querySelector('#original') as HTMLElement)
-  //       .offsetTop;
-  //     if (originalTop <= window.scrollY) {
-  //       setTocFixed(true);
-  //     } else {
-  //       setTocFixed(false);
-  //     }
-  //     if (window.scrollY <= offsets[0]) {
-  //       return setMenuIndex(0);
-  //     }
-  //     if (window.scrollY >= offsets[offsets.length - 1]) {
-  //       return setMenuIndex(offsets.length - 1);
-  //     }
-  //     setMenuIndex(
-  //       offsets.findIndex(
-  //         (item, i, arr) =>
-  //           window.scrollY >= item && window.scrollY < arr[i + 1]
-  //       )
-  //     );
-  //   }
-  //   window.addEventListener('scroll', _.throttle(watchHeight, 400));
-  //   return () => {
-  //     window.removeEventListener('scroll', _.throttle(watchHeight, 400));
-  //   };
-  // }, [offsets]);
 
   useEffect(() => {
     if (show) {
@@ -117,12 +72,10 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
 
   const handleShow = () => {
     setShow((state) => !state);
-    if (show) {
-      window.scrollTo({
-        top: (document.querySelector('#original-tit') as any).offsetTop,
-        behavior: 'smooth',
-      });
-    }
+    window.scrollTo({
+      top: (document.querySelector('#original-tit') as any).offsetTop,
+      behavior: 'smooth',
+    });
   };
 
   const formatLink = (str: string) => {
@@ -395,12 +348,6 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
               <Typography fontSize={22} component="span" variant="h6">
                 1 min read
               </Typography>
-              {meta.summary ? null : (
-                <Typography component="span" variant="body2" color="#5F6D7E">
-                  {' '}
-                  by chatGPT-4
-                </Typography>
-              )}
             </Box>
 
             <Box
@@ -720,7 +667,7 @@ export async function getServerSideProps(context: IContent) {
   const [, metaStr, ...con] = originalEIP.split('---');
 
   const meta: EIPHeader = formatMeta(metaStr);
-  const sideMenu = getHeader(con.toString());
+
   try {
     let comEIP = await readFile(
       path.join(process.cwd(), 'content', 'en', `${id}.md`),
@@ -735,7 +682,6 @@ export async function getServerSideProps(context: IContent) {
     props: {
       meta,
       mdStrData: con.toString(),
-      sideMenu,
     },
   };
 }
