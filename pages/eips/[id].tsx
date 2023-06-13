@@ -12,6 +12,14 @@ import details from '@/styles/details.module.css';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Affix from '@/components/Affix';
+import Status from '@/components/details/Status';
+import Time from '@/components/details/Time';
+import Requires from '@/components/details/Requires';
+import OriginalLink from '@/components/details/OriginalLink';
+import ChatGpt from '@/components/details/ChatGpt';
+import FormatLink from '@/components/FormatLink';
+import ExtendedResources from '@/components/details/ExtendedResources';
+import Projects from '@/components/details/Projects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { flatten } from '@/utils/index';
 
@@ -53,12 +61,9 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
   useEffect(() => {
     if (show) {
       tocbot.init({
-        // Where to render the table of contents.
-        tocSelector: '.js-toc',
-        // Where to grab the headings to build the table of contents.
-        contentSelector: '.js-toc-content',
-        // Which headings to grab inside of the contentSelector element.
-        headingSelector: 'h1, h2, h3, h4',
+        tocSelector: '.js-toc', // Where to render the table of contents.
+        contentSelector: '.js-toc-content', // Where to grab the headings to build the table of contents.
+        headingSelector: 'h1, h2, h3, h4', // Which headings to grab inside of the contentSelector element.
         hasInnerContainers: true,
       });
     } else {
@@ -74,40 +79,6 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     });
   };
 
-  const formatLink = (str: string) => {
-    if (str.includes('<')) {
-      let [name, linkText] = str.split('<');
-      let link;
-      linkText = linkText.replace('>', '');
-      link = 'mailto:' + linkText;
-      return (
-        <>
-          {name}
-          {'<'}
-          <Link underline="hover" href={link}>
-            {linkText}
-          </Link>
-          {'>'}
-        </>
-      );
-    } else if (str.includes('(')) {
-      let [name, linkText] = str.split('(');
-      let link;
-      linkText = linkText.replace(')', '');
-      link = 'https://github.com/' + linkText.replace('@', '');
-      return (
-        <>
-          {name}(
-          <Link underline="hover" target="_blank" href={link}>
-            {linkText}
-          </Link>
-          )
-        </>
-      );
-    } else {
-      return str;
-    }
-  };
   const TITLE = `EIP-${meta.eip}: ${meta.title} | EIPs Fun - Serve EIP builders, scale Ethereum`;
   const DESCRIPTION =
     (meta.abstract ? meta.abstract : '') +
@@ -199,82 +170,18 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           </Typography>
         )}
 
-        <Box pb={4} pt={2}>
-          <Typography
-            display="inline-block"
-            component="span"
-            variant="body2"
-            color="#FF8A00"
-            fontSize={14}
-            borderRadius="5px"
-            px={1}
-            mr={2}
-            style={{ background: '#FFF1E4' }}
-          >
-            {meta.status}
-          </Typography>
+        <Status
+          status={meta.status}
+          type={meta.type}
+          category={meta.category}
+        />
 
-          <Typography
-            display="inline-block"
-            component="span"
-            variant="body2"
-            color="#437EF7"
-            fontSize={14}
-            borderRadius="5px"
-            px={1}
-            mr={2}
-            style={{ background: '#F5FAFF' }}
-          >
-            {meta.type}
-            {meta.category ? ': ' + meta.category : ''}
-          </Typography>
-        </Box>
+        <Time
+          created={meta.created}
+          lastCallDeadline={meta['last-call-deadline']}
+        />
 
-        <Box pb={4}>
-          <Typography fontWeight="bold" fontSize={14} component="span">
-            Created:{' '}
-          </Typography>
-          <Typography component="span" fontSize={14} fontWeight="normal">
-            {meta.created}
-          </Typography>
-          {meta['last-call-deadline'] ? (
-            <>
-              <Typography
-                fontWeight="bold"
-                fontSize={14}
-                component="span"
-                ml={1}
-              >
-                Last Call Deadline:{' '}
-              </Typography>
-              <Typography component="span" fontSize={14} fontWeight="normal">
-                {meta['last-call-deadline']}
-              </Typography>
-            </>
-          ) : null}
-        </Box>
-
-        {meta.requires && meta.requires?.length > 0 && meta.requires != 0 && (
-          <Box pb={4} sx={{ fontSize: '14px' }}>
-            <Typography fontWeight="bold" fontSize={14} component="span">
-              Requires:{' '}
-            </Typography>
-            {meta.requires && meta.requires.includes(', ') ? (
-              meta.requires.split(', ').map((item: string, i: number) => (
-                <React.Fragment key={item}>
-                  {i !== 0 ? ', ' : ''}
-                  <Link underline="none" href={`/eips/eip-${item}`}>
-                    EIP-{item}
-                  </Link>
-                </React.Fragment>
-              ))
-            ) : (
-              <Link underline="none" href={`/eips/eip-${meta.requires}`}>
-                EIP-{meta.requires}
-              </Link>
-            )}
-          </Box>
-        )}
+        <Requires data={meta.requires} />
 
         <Typography
           sx={(theme) => ({
@@ -283,62 +190,39 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 "url('/images/eip_details_author.png') no-repeat left center/32px",
               paddingLeft: '40px',
             },
+            '&::after': {
+              content: '""',
+              display: 'table',
+              clear: 'both',
+            },
           })}
           py={0.75}
           variant="subtitle2"
           component={Box}
-          className={details.floatWrap}
         >
-          {meta?.author?.includes(', ')
-            ? meta.author.split(', ').map((item: string, i: number) => (
-                <span style={{ float: 'left', lineHeight: '24px' }} key={item}>
-                  {i !== 0 ? ', ' : ''}
-                  {formatLink(item)}
-                </span>
-              ))
-            : formatLink(meta.author)}
+          {meta?.author?.includes(', ') ? (
+            meta.author.split(', ').map((item: string, i: number) => (
+              <span style={{ float: 'left', lineHeight: '24px' }} key={item}>
+                {i !== 0 ? ', ' : ''}
+                <FormatLink author={item} />
+              </span>
+            ))
+          ) : (
+            <FormatLink author={meta.author} />
+          )}
         </Typography>
 
-        <Box pt={4} pb={3}>
-          {meta['discussions-to'] && (
-            <Button
-              sx={{ marginRight: '16px' }}
-              variant="contained"
-              startIcon={
-                <span
-                  style={{
-                    display: 'inline-block',
-                    width: '22px',
-                    height: '22px',
-                    background:
-                      "url('/images/eip_details_discussions.png') center center no-repeat",
-                  }}
-                />
-              }
-              size="large"
-              href={meta['discussions-to']}
-            >
-              Discussions
-            </Button>
-          )}
+        <OriginalLink eip={meta.eip} discussions={meta['discussions-to']} />
 
-          <Button
-            variant="outlined"
-            size="large"
-            sx={{
-              color: '#272D37',
-              borderColor: '#DAE0E6',
-              '&:hover': {
-                color: '#437ef7',
-              },
-            }}
-            href={`https://eips.ethereum.org/EIPS/eip-${meta.eip}`}
-          >
-            Original link
-          </Button>
-        </Box>
-
-        <Box className={details.floatWrap}>
+        <Box
+          sx={{
+            '&::after': {
+              content: '""',
+              display: 'table',
+              clear: 'both',
+            },
+          }}
+        >
           <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 830]}>
             <Box pb={3}>
               <Typography fontSize={22} component="span" variant="h6">
@@ -346,48 +230,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Typography>
             </Box>
 
-            <Box
-              px={4}
-              pt={3}
-              pb={5}
-              border={1}
-              borderColor="#f5f5f5"
-              borderRadius="6px"
-              sx={{ boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)' }}
-            >
-              {meta.summary ? null : (
-                <Box
-                  mb={2.5}
-                  pl={5.25}
-                  sx={{
-                    background:
-                      "url('/images/eip_details_chatgpt.png') no-repeat left center/contain",
-                  }}
-                >
-                  <Typography
-                    sx={{ background: '#F5FAFF' }}
-                    display="inline-block"
-                    px={1.5}
-                    variant="subtitle2"
-                    lineHeight="28px"
-                    color="#437EF7"
-                    fontSize={14}
-                    fontWeight="bold"
-                  >
-                    By ChatGPT-4
-                  </Typography>
-                </Box>
-              )}
-
-              <Typography
-                color="#24292f"
-                variant="body1"
-                lineHeight={1.5}
-                dangerouslySetInnerHTML={{
-                  __html: meta.summary || meta.chatgpt4,
-                }}
-              ></Typography>
-            </Box>
+            <ChatGpt chatgpt4={meta.chatgpt4} summary={meta.summary} />
 
             <Typography
               id="original-tit"
@@ -447,6 +290,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                     h1: (props) => HeadingRenderer({ ...props, level: 1 }),
                     h2: (props) => HeadingRenderer({ ...props, level: 2 }),
                     h3: (props) => HeadingRenderer({ ...props, level: 3 }),
+                    h4: (props) => HeadingRenderer({ ...props, level: 4 }),
                   }}
                 >
                   {mdStrData}
@@ -485,52 +329,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             <Box>
               <Box>TODO empty tips</Box>
             </Box>
-
-            {meta['extended resources'] &&
-              meta['extended resources'].length && (
-                <Box className={details.floatWrap}>
-                  {meta['extended resources'].map((item) => (
-                    <Box
-                      sx={{
-                        float: 'left',
-                        '&:nth-of-type(2n)': { marginRight: 0 },
-                      }}
-                      width={[1, 1, 398, 398]}
-                      mb={6.5}
-                      mr={4}
-                      key={item.title}
-                    >
-                      <Box height={84} borderRadius="6px">
-                        <img
-                          style={{
-                            display: 'block',
-                            width: '100%',
-                            height: '100%',
-                            border: 'none',
-                          }}
-                          src={item.imgSrc}
-                          alt={item.alt}
-                        />
-                      </Box>
-                      <Typography
-                        component={Box}
-                        variant="h6"
-                        py={2}
-                        fontWeight="bold"
-                        fontSize={18}
-                        lineHeight={'30px'}
-                      >
-                        {item.title}
-                      </Typography>
-                      <Box>
-                        <Link href={item.link} underline="none">
-                          Learn more →
-                        </Link>
-                      </Box>
-                    </Box>
-                  ))}
-                </Box>
-              )}
+            <ExtendedResources data={meta['extended resources']} />
           </Box>
 
           <Box sx={{ float: 'right' }} width={[1, 1, 0.26, 300]}>
@@ -547,37 +346,12 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Typography>
 
               <Box>TODO</Box>
-
-              {meta.projects &&
-                meta.projects.length &&
-                meta.projects.map((item) => (
-                  <Link href={item.link} key={item.title} underline="hover">
-                    <Box height={100}>
-                      <img
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          border: 'none',
-                        }}
-                        src={item.imgSrc}
-                        alt={item.alt}
-                      />
-                    </Box>
-                    <Typography py={2} color="#272d37" variant="subtitle1">
-                      {item.title}
-                    </Typography>
-                  </Link>
-                ))}
+              <Projects data={meta.projects} />
             </Box>
 
             {show && (
               <Box>
-                <Affix
-                  className={details.toc}
-                  parent={detailsWrapperElement}
-                  top={20}
-                >
+                <Affix parent={detailsWrapperElement} top={20}>
                   <Box
                     px={3}
                     pb={3}

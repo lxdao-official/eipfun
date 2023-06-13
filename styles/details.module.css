@@ -12,13 +12,3 @@
   height: 24px;
   background: url('/images/eip_details_arrow.png') no-repeat center center/8px;
 }
-
-.floatWrap::after {
-  content: ' ';
-  display: table;
-  clear: both;
-}
-
-.toc {
-  background: #fff;
-}
