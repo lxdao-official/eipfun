@@ -14,8 +14,14 @@ export default function Projects({
   return (
     <>
       {data.map((item) => (
-        <Link href={item.link} key={item.title} underline="hover">
-          <Box height={100}>
+        <Link
+          href={item.link}
+          key={item.title}
+          underline="hover"
+          pt={3}
+          display="block"
+        >
+          <Box height={138}>
             <img
               style={{
                 display: 'block',
@@ -27,7 +33,17 @@ export default function Projects({
               alt={item.alt}
             />
           </Box>
-          <Typography py={2} color="#272d37" variant="subtitle1">
+          <Typography
+            mt={2}
+            color="#272d37"
+            variant="subtitle1"
+            title={item.title}
+            sx={{
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+            }}
+          >
             {item.title}
           </Typography>
         </Link>

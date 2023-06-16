@@ -75,6 +75,9 @@ button {
 }
 .toc > .toc-list li {
   list-style: none;
+  line-height: 22px;
+  font-size: 15px;
+  padding: 4px 0;
 }
 .js-toc {
   overflow-y: hidden;
@@ -84,7 +87,7 @@ button {
   padding-left: 10px;
 }
 a.toc-link {
-  color: currentColor;
+  color: #222935;
   height: 100%;
 }
 .is-collapsible {
@@ -113,5 +116,5 @@ a.toc-link {
   width: 2px;
 }
 .is-active-link::before {
-  background-color: #54bc4b;
+  background-color: #437ef7;
 }

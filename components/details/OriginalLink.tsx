@@ -9,10 +9,10 @@ export default function OriginalLink({
   discussions?: string;
 }) {
   return (
-    <Box pt={4} pb={3}>
+    <Box pt={3} pb={3}>
       {discussions && (
         <Button
-          sx={{ marginRight: '16px' }}
+          sx={{ marginRight: '16px', borderRadius: '6px', padding: '0 16px' }}
           variant="contained"
           startIcon={
             <span
@@ -38,6 +38,8 @@ export default function OriginalLink({
         sx={{
           color: '#272D37',
           borderColor: '#DAE0E6',
+          borderRadius: '6px',
+          padding: '0 16px',
           '&:hover': {
             color: '#437ef7',
           },

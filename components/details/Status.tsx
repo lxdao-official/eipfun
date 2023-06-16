@@ -11,7 +11,7 @@ export default function Status({
   category?: string;
 }) {
   return (
-    <Box pb={4} pt={2}>
+    <Box pb={3} pt={2}>
       <Typography
         display="inline-block"
         component="span"

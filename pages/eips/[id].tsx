@@ -13,10 +13,10 @@ import remarkGfm from 'remark-gfm';
 import Affix from '@/components/Affix';
 import Status from '@/components/details/Status';
 import Time from '@/components/details/Time';
+import Author from '@/components/details/Author';
 import Requires from '@/components/details/Requires';
 import OriginalLink from '@/components/details/OriginalLink';
 import ChatGpt from '@/components/details/ChatGpt';
-import FormatLink from '@/components/FormatLink';
 import ExtendedResources from '@/components/details/ExtendedResources';
 import Projects from '@/components/details/Projects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -83,7 +83,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     (meta.abstract ? meta.abstract : '') +
     (meta.description ? meta.description : '') +
     (meta.summary ? meta.summary : '');
-  // console.log(meta, 999999999);
+  const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
 
   // todo add images for sharing
 
@@ -114,7 +114,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
       <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg">
-        <Box py={4}>
+        <Box pt={4} pb={3}>
           <Typography
             display="inline-block"
             className={details.iconArrow}
@@ -127,7 +127,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             </Link>
           </Typography>
           <Link display="inline-block" underline="none" lineHeight="24px">
-            EIP-{meta.eip}
+            {ERCorEIP}-{meta.eip}
           </Link>
         </Box>
 
@@ -145,21 +145,21 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               position: 'absolute',
               fontSize: '80px',
               color: '#fff',
-              [theme.breakpoints.down('md')]: { fontSize: '40px' },
+              [theme.breakpoints.down('md')]: { fontSize: '20px' },
             })}
-            right={50}
+            right={[12, 12, 50, 50]}
             bottom={10}
           >
-            EIP-{meta.eip}
+            {ERCorEIP}-{meta.eip}
           </Box>
         </Box>
 
         <Typography
           variant="h2"
-          fontSize={40}
+          fontSize={[26, 26, 40, 40]}
           lineHeight="48px"
           fontWeight="bold"
-          mt={4}
+          mt={3}
         >
           {meta.title}
         </Typography>
@@ -183,34 +183,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
         <Requires data={meta.requires} />
 
-        <Typography
-          sx={(theme) => ({
-            [theme.breakpoints.up('md')]: {
-              background:
-                "url('/images/eip_details_author.png') no-repeat left center/32px",
-              paddingLeft: '40px',
-            },
-            '&::after': {
-              content: '""',
-              display: 'table',
-              clear: 'both',
-            },
-          })}
-          py={0.75}
-          variant="subtitle2"
-          component={Box}
-        >
-          {meta?.author?.includes(', ') ? (
-            meta.author.split(', ').map((item: string, i: number) => (
-              <span style={{ float: 'left', lineHeight: '24px' }} key={item}>
-                {i !== 0 ? ', ' : ''}
-                <FormatLink author={item} />
-              </span>
-            ))
-          ) : (
-            <FormatLink author={meta.author} />
-          )}
-        </Typography>
+        <Author authors={meta.author} />
 
         <OriginalLink eip={meta.eip} discussions={meta['discussions-to']} />
 
@@ -222,10 +195,16 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               clear: 'both',
             },
           }}
+          mt={3}
         >
           <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 830]}>
             <Box pb={3}>
-              <Typography fontSize={22} component="span" variant="h6">
+              <Typography
+                fontSize={22}
+                component="span"
+                variant="h6"
+                lineHeight="30px"
+              >
                 1 min read
               </Typography>
             </Box>
@@ -238,6 +217,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               pb={3}
               variant="h6"
               fontSize="22px"
+              lineHeight="30px"
               fontWeight="bold"
             >
               Original
@@ -310,7 +290,11 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 )}
               </Box>
               <Box mt={4} sx={{ textAlign: 'center' }}>
-                <Button variant="contained" onClick={handleShow}>
+                <Button
+                  variant="contained"
+                  onClick={handleShow}
+                  sx={{ padding: '0 24px', borderRadius: '6px' }}
+                >
                   {show ? 'Show less' : 'View more'}
                 </Button>
               </Box>
@@ -331,14 +315,13 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
           <Box sx={{ float: 'right' }} width={[1, 1, 0.26, 300]}>
             <Box
-              pt={3}
-              px={3}
-              mb={3}
+              p={3}
               border={1}
               borderColor="#eaebf0"
               borderRadius={'10px'}
+              boxShadow="0px 4px 40px rgba(16, 24, 40, 0.06)"
             >
-              <Typography fontWeight="bold" variant="h6" pb={3}>
+              <Typography fontWeight="bold" variant="h6" lineHeight="28px">
                 Adopted by projects
               </Typography>
 
@@ -347,13 +330,12 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
             {show && (
               <Box>
-                <Affix parent={detailsWrapperElement} top={20}>
-                  <Box
-                    px={3}
-                    pb={3}
-                    border="1px solid #EAEBF0"
-                    borderRadius="10px"
-                  >
+                <Affix
+                  parent={detailsWrapperElement}
+                  top={20}
+                  className={details.tocWrap}
+                >
+                  <Box p={3} border="1px solid #EAEBF0" borderRadius="10px">
                     <Typography fontWeight="bold" variant="h6">
                       Contents
                     </Typography>
@@ -372,7 +354,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           borderRadius="10px"
           px={4}
           py={5}
-          my={5}
+          mb={8}
           sx={{ background: '#F8F9FB' }}
         >
           <EmailSubscribe />

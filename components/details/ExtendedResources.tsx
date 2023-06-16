@@ -23,11 +23,18 @@ export default function ExtendedResources({
               '&:nth-of-type(2n)': { marginRight: 0 },
             }}
             width={[1, 1, 398, 398]}
-            mb={6.5}
+            mb={6}
             mr={4}
             key={item.title}
           >
-            <Box height={84} borderRadius="6px">
+            <Box
+              height={200}
+              borderRadius="6px"
+              sx={{
+                background: '#fff',
+              }}
+              boxShadow="0px 4px 40px rgba(0, 0, 0, 0.06)"
+            >
               <img
                 style={{
                   display: 'block',
