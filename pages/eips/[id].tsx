@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP, EIPHeader } from '@/utils/str';
 import { readFile } from 'node:fs/promises';
@@ -21,6 +22,7 @@ import ExtendedResources from '@/components/details/ExtendedResources';
 import Projects from '@/components/details/Projects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { flatten } from '@/utils/index';
+import { EipsContentBlock } from '../index';
 
 type HIProps = {
   level: number;
@@ -82,7 +84,8 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
   const DESCRIPTION =
     (meta.abstract ? meta.abstract : '') +
     (meta.description ? meta.description : '') +
-    (meta.summary ? meta.summary : '');
+    (meta.summary ? meta.summary : '') +
+    (meta.chatgpt4 ? meta.chatgpt4.replaceAll('<br />', '') : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
 
   // todo add images for sharing
@@ -91,33 +94,39 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     <>
       <Head>
         <title>{TITLE}</title>
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="EIPs.Fun - Website" />
-        <meta property="og:title" content={TITLE} key="title" />
         <meta
-          property="og:description"
-          content={DESCRIPTION}
-          key="description"
+          property="twitter:url"
+          content={`https://eips.fun/eips/eip-${meta.eip}`}
         />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@eipsfun" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css"
-          integrity="sha512-bm684OXnsiNuQSyrxuuwo4PHqr3OzxPpXyhT66DA/fhl73e1JmBxRKGnO/nRwWvOZxJLRCmNH7FII+Yn1JNPmg=="
-          crossOrigin="anonymous"
-          referrerPolicy="no-referrer"
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@eipsfun" />
+        <meta name="twitter:creator" content="@LXDAO" />
+        <meta
+          name="twitter:image"
+          content="http://gg.chendahai.cn/static/image/apple.jpg"
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="EIPs.Fun - Website" />
+        <meta
+          property="og:url"
+          content={`https://eips.fun/eips/eip-${meta.eip}`}
+        />
+        <meta property="og:title" content={TITLE} />
+        <meta property="og:description" content={DESCRIPTION} />
+        <meta
+          property="og:image"
+          content="http://graphics8.nytimes.com/images/2011/12/08/technology/bits-newtwitter/bits-newtwitter-tmagArticle.jpg"
         />
       </Head>
 
       <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg">
-        <Box pt={4} pb={3}>
+        <Box pt={4} pb={[2, 2, 3, 3]}>
           <Typography
             display="inline-block"
-            className={details.iconArrow}
             component="span"
             variant="h5"
             lineHeight="24px"
@@ -125,6 +134,15 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             <Link href="/eips" underline="hover" color="#272D37">
               EIPs
             </Link>
+            <ArrowForwardIosIcon
+              sx={{
+                width: 15,
+                height: 15,
+                marginLeft: 0.5,
+                marginRight: 0.5,
+                verticalAlign: 'middle',
+              }}
+            />
           </Typography>
           <Link display="inline-block" underline="none" lineHeight="24px">
             {ERCorEIP}-{meta.eip}
@@ -137,7 +155,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             background:
               "#272D37 url('/images/eip_details_bg.png') no-repeat top left/contain",
           }}
-          height={[120, 120, 260, 260]}
+          height={[66, 66, 260, 260]}
           borderRadius={1}
         >
           <Box
@@ -156,10 +174,10 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
         <Typography
           variant="h2"
-          fontSize={[26, 26, 40, 40]}
-          lineHeight="48px"
+          fontSize={[24, 24, 40, 40]}
+          lineHeight={['38px', '38px', '48px', '48px']}
           fontWeight="bold"
-          mt={3}
+          mt={[2, 2, 3, 3]}
         >
           {meta.title}
         </Typography>
@@ -224,7 +242,6 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             </Typography>
 
             <Box
-              id="original"
               position="relative"
               px={4}
               pt={3}
@@ -243,7 +260,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                   '& hr': { display: 'none' },
                 }}
                 position="relative"
-                className="markdown-body js-toc-content"
+                className={details['markdown-body'] + ' js-toc-content'}
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
@@ -289,7 +306,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                   />
                 )}
               </Box>
-              <Box mt={4} sx={{ textAlign: 'center' }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <Button
                   variant="contained"
                   onClick={handleShow}
@@ -300,7 +317,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Box>
             </Box>
 
-            <Box pb={3}>
+            <Box>
               <Typography variant="h5" component="span">
                 Quick read
               </Typography>
@@ -313,15 +330,25 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             <ExtendedResources data={meta['extended resources']} />
           </Box>
 
-          <Box sx={{ float: 'right' }} width={[1, 1, 0.26, 300]}>
+          <Box
+            sx={{ float: 'right' }}
+            width={[1, 1, 0.26, 302]}
+            mt={[4, 4, 0, 0]}
+          >
             <Box
               p={3}
+              mb={3}
               border={1}
-              borderColor="#eaebf0"
+              borderColor="#fff"
               borderRadius={'10px'}
               boxShadow="0px 4px 40px rgba(16, 24, 40, 0.06)"
             >
-              <Typography fontWeight="bold" variant="h6" lineHeight="28px">
+              <Typography
+                fontWeight="bold"
+                variant="h6"
+                lineHeight="28px"
+                fontSize="18px"
+              >
                 Adopted by projects
               </Typography>
 
@@ -347,18 +374,9 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           </Box>
         </Box>
 
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          borderRadius="10px"
-          px={4}
-          py={5}
-          mb={8}
-          sx={{ background: '#F8F9FB' }}
-        >
+        <EipsContentBlock>
           <EmailSubscribe />
-        </Box>
+        </EipsContentBlock>
       </Container>
     </>
   );

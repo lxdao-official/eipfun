@@ -7,7 +7,7 @@ export default function Requires({ data }: { data?: string }) {
   }
 
   return (
-    <Box pb={3} sx={{ fontSize: '14px' }}>
+    <Box pb={[1, 1, 2, 2]} sx={{ fontSize: '14px' }}>
       <Typography fontWeight="bold" fontSize={14} component="span">
         Requires:{' '}
       </Typography>

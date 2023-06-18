@@ -11,7 +11,7 @@ export default function Status({
   category?: string;
 }) {
   return (
-    <Box pb={3} pt={2}>
+    <Box pb={[2, 2, 3, 3]} pt={2}>
       <Typography
         display="inline-block"
         component="span"
@@ -21,6 +21,7 @@ export default function Status({
         borderRadius="5px"
         px={1}
         mr={2}
+        mt={0}
         style={{ background: '#FFF1E4' }}
       >
         {status}
@@ -35,6 +36,7 @@ export default function Status({
         borderRadius="5px"
         px={1}
         mr={2}
+        mt={0}
         style={{ background: '#F5FAFF' }}
       >
         {type}

@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { Box, Link, Typography } from '@mui/material';
+import EastIcon from '@mui/icons-material/East';
+import { UpdateDocs } from '@/common/config';
 
 export default function ExtendedResources({
   data,
@@ -8,7 +10,46 @@ export default function ExtendedResources({
   data?: { title: string; link: string; imgSrc: string; alt: string }[];
 }) {
   if (!data || !data.length) {
-    return <Box>TODO empty tips</Box>;
+    return (
+      <Box
+        my={3}
+        borderRadius={1.5}
+        px={2.5}
+        pt={5}
+        pb={3.75}
+        border={1}
+        borderColor={'#D9D9D9'}
+        textAlign={'center'}
+      >
+        <Typography
+          variant="subtitle2"
+          component={Box}
+          color={'#5F6D7E'}
+          lineHeight={'20px'}
+          mb={1}
+        >
+          No content, go to update the document
+        </Typography>
+        <Link
+          display={'block'}
+          href={UpdateDocs}
+          color="#437EF7"
+          lineHeight="22px"
+          fontSize="15px"
+          underline="none"
+        >
+          Get start
+          <EastIcon
+            sx={{
+              width: 14,
+              height: 14,
+              marginLeft: 0.5,
+              verticalAlign: 'middle',
+            }}
+          />
+        </Link>
+      </Box>
+    );
   }
 
   return (
@@ -23,15 +64,17 @@ export default function ExtendedResources({
               '&:nth-of-type(2n)': { marginRight: 0 },
             }}
             width={[1, 1, 398, 398]}
-            mb={6}
             mr={4}
+            mt={3}
             key={item.title}
           >
             <Box
-              height={200}
+              height={[150, 150, 200, 200]}
               borderRadius="6px"
               sx={{
                 background: '#fff',
+                overflow: 'hidden',
+                border: '0.5px solid #d9d9d9',
               }}
               boxShadow="0px 4px 40px rgba(0, 0, 0, 0.06)"
             >
@@ -40,8 +83,9 @@ export default function ExtendedResources({
                   display: 'block',
                   width: '100%',
                   height: '100%',
-                  border: 'none',
+                  border: 0,
                 }}
+                loading="lazy"
                 src={item.imgSrc}
                 alt={item.alt}
               />
@@ -58,7 +102,15 @@ export default function ExtendedResources({
             </Typography>
             <Box>
               <Link href={item.link} underline="none">
-                Learn more →
+                Learn more{' '}
+                <EastIcon
+                  sx={{
+                    width: 14,
+                    height: 14,
+                    marginLeft: 0.5,
+                    verticalAlign: 'middle',
+                  }}
+                />
               </Link>
             </Box>
           </Box>

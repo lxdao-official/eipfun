@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import FormatLink from '@/components/FormatLink';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Author({ authors }: { authors: string }) {
   let author = '',
@@ -15,34 +16,35 @@ export default function Author({ authors }: { authors: string }) {
 
   return (
     <Box
+      position="relative"
+      py={1}
       sx={(theme) => ({
-        [theme.breakpoints.up('md')]: {
-          background:
-            "url('/images/eip_details_author.png') no-repeat left center/32px",
-          paddingLeft: '40px',
-        },
-        '&::after': {
-          content: '""',
-          display: 'table',
-          clear: 'both',
-        },
+        lineHeight: '24px',
+        fontSize: '14px',
+        [theme.breakpoints.up('md')]: { paddingLeft: '44px' },
       })}
-      py={0.75}
     >
+      <Box
+        position="absolute"
+        top="50%"
+        marginTop="-18px"
+        left={[9999, 9999, 0, 0]}
+      >
+        <AccountCircleIcon
+          sx={{
+            width: 36,
+            height: 36,
+            color: '#5F6D7E',
+            verticalAlign: 'middle',
+          }}
+        />
+      </Box>
+
       {authorArr?.length &&
         authorArr.map((item: string, i: number) => (
           <React.Fragment key={item}>
-            <span
-              style={{
-                float: 'left',
-                lineHeight: '24px',
-                marginRight: '12px',
-                fontSize: '14px',
-              }}
-            >
-              <FormatLink author={item} />
-              {i === authorArrL ? '' : ','}
-            </span>
+            <FormatLink author={item} />
+            {i === authorArrL ? '' : ', '}
           </React.Fragment>
         ))}
 
