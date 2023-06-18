@@ -93,6 +93,7 @@ export default function Home() {
             maxWidth="800px"
             textAlign="center"
             margin="16px auto 0 auto"
+            width="90%"
           >
             It is short for Ethereum Improvement Proposals, they are standards
             for the Ethereum platform, including core protocol specifications,
