@@ -76,6 +76,7 @@ export default function ExtendedResources({
                 overflow: 'hidden',
                 border: '0.5px solid #d9d9d9',
               }}
+              p={2.5}
               boxShadow="0px 4px 40px rgba(0, 0, 0, 0.06)"
             >
               <img

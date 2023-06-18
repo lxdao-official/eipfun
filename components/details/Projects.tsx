@@ -65,6 +65,7 @@ export default function Projects({
           <Box
             height={138}
             border={1}
+            p={2.5}
             borderColor="#d9d9d9"
             borderRadius={1.5}
             overflow="hidden"
