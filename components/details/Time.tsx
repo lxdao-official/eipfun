@@ -9,7 +9,7 @@ export default function Time({
   lastCallDeadline?: string;
 }) {
   return (
-    <Box pb={4}>
+    <Box pb={[2, 2, 3, 3]}>
       <Typography fontWeight="bold" fontSize={14} component="span">
         Created:{' '}
       </Typography>

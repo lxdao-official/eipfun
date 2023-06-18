@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 export default function OriginalLink({
   eip,
@@ -9,20 +10,14 @@ export default function OriginalLink({
   discussions?: string;
 }) {
   return (
-    <Box pt={4} pb={3}>
+    <Box pt={[1, 1, 3, 3]} pb={3}>
       {discussions && (
         <Button
-          sx={{ marginRight: '16px' }}
+          sx={{ marginRight: '16px', borderRadius: '6px', padding: '0 16px' }}
           variant="contained"
           startIcon={
-            <span
-              style={{
-                display: 'inline-block',
-                width: '22px',
-                height: '22px',
-                background:
-                  "url('/images/eip_details_discussions.png') center center no-repeat",
-              }}
+            <ChatBubbleOutlineIcon
+              sx={{ width: 22, height: 22, verticalAlign: 'middle' }}
             />
           }
           size="large"
@@ -38,6 +33,8 @@ export default function OriginalLink({
         sx={{
           color: '#272D37',
           borderColor: '#DAE0E6',
+          borderRadius: '6px',
+          padding: '0 16px',
           '&:hover': {
             color: '#437ef7',
           },

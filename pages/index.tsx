@@ -9,51 +9,51 @@ import EmailSubscribe from '../components/EmailSubscribe';
 import EastIcon from '@mui/icons-material/East';
 import { Telegram } from '@/common/config';
 
+export const EipsContentBlock = styled('div')(({ theme }) => ({
+  // width: 1152,
+  maxWidth: 1152,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: '#F8F9FB',
+  borderRadius: 10,
+  padding: '40px 64px',
+  margin: '40px auto',
+  fontWeight: 400,
+  flexWrap: 'wrap',
+
+  '.contentleft': {
+    maxWidth: '568px',
+    flex: 1,
+  },
+  '.contentRight': {
+    maxWidth: '440px',
+    flex: 1,
+    textAlign: 'right',
+  },
+  [theme.breakpoints.down('md')]: {
+    padding: '32px',
+    flexDirection: 'column',
+    '.contentleft': {
+      width: '100%',
+      flex: 1,
+      maxWidth: '100%',
+    },
+    '.contentRight': {
+      width: '100%',
+      flex: 1,
+      maxWidth: '100%',
+      paddingTop: '20px',
+    },
+  },
+}));
+
 export default function Home() {
   const [eipsWay] = useState<EipWayIntro[]>(introList);
   const [partners] = useState<PartnerType[]>(partnerList);
   const [advisors] = useState<AdvisorType[]>(advisorList);
   const padWidth = useMediaQuery('(min-width:900px)');
   // const mobileWidth = useMediaQuery('(min-width:400px)');
-
-  const EipsContentBlock = styled('div')(({ theme }) => ({
-    // width: 1152,
-    maxWidth: 1152,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    background: '#F8F9FB',
-    borderRadius: 10,
-    padding: '40px 64px',
-    margin: '40px auto',
-    fontWeight: 400,
-    flexWrap: 'wrap',
-
-    '.contentleft': {
-      maxWidth: '568px',
-      flex: 1,
-    },
-    '.contentRight': {
-      maxWidth: '440px',
-      flex: 1,
-      textAlign: 'right',
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: '32px',
-      flexDirection: 'column',
-      '.contentleft': {
-        width: '100%',
-        flex: 1,
-        maxWidth: '100%',
-      },
-      '.contentRight': {
-        width: '100%',
-        flex: 1,
-        maxWidth: '100%',
-        paddingTop: '20px',
-      },
-    },
-  }));
 
   return (
     <>
@@ -93,6 +93,7 @@ export default function Home() {
             maxWidth="800px"
             textAlign="center"
             margin="16px auto 0 auto"
+            width="90%"
           >
             It is short for Ethereum Improvement Proposals, they are standards
             for the Ethereum platform, including core protocol specifications,

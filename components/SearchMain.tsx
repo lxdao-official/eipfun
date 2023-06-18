@@ -15,13 +15,12 @@ const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   maxWidth: 850,
-  width: '80%',
+  width: '100%',
   flex: 0,
   height: 58,
   lineHeight: '58px',
   // backgroundColor: '#fff',
   overflow: 'hidden',
-
   '.MuiInputBase-root': {
     backgroundColor: '#fff',
     padding: '9px',
@@ -56,7 +55,7 @@ const SearchMain = styled('div')(({}) => ({
   margin: '60px auto 0 auto',
   width: '100%',
   '.MuiAutocomplete-root ': {
-    width: '80%',
+    width: '90%',
   },
 }));
 
@@ -216,7 +215,8 @@ export default function SearchHeader() {
               }}
             >
               <h3>
-              {option.category === "ERC"?'ERC':'EIP'}-{option.rank ? option.eip : <b>{option.eip} </b>}&nbsp;
+                {option.category === 'ERC' ? 'ERC' : 'EIP'}-
+                {option.rank ? option.eip : <b>{option.eip} </b>}&nbsp;
                 <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
               </h3>
               {option.ts_headline && (

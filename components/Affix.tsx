@@ -66,11 +66,7 @@ export default function Affix(props: {
   });
 
   return (
-    <div
-      ref={element}
-      style={{ zIndex: 1, background: '#fff' }}
-      className={props.className}
-    >
+    <div ref={element} className={props.className}>
       {props.children}
     </div>
   );
