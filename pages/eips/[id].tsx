@@ -105,7 +105,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         <meta name="twitter:creator" content="@LXDAO" />
         <meta
           name="twitter:image"
-          content="http://gg.chendahai.cn/static/image/apple.jpg"
+          content="https://eips.fun/images/logo_summary.jpg"
         />
 
         <meta property="og:type" content="website" />
@@ -118,7 +118,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         <meta property="og:description" content={DESCRIPTION} />
         <meta
           property="og:image"
-          content="http://graphics8.nytimes.com/images/2011/12/08/technology/bits-newtwitter/bits-newtwitter-tmagArticle.jpg"
+          content="https://eips.fun/images/logo_summary.jpg"
         />
       </Head>
 

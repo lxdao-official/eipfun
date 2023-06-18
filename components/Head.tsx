@@ -23,6 +23,10 @@ const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
       <meta name="twitter:site" content="@huntarosan" />
       <meta name="twitter:title" content={meta.title} />
       <meta name="twitter:description" content={meta.description} />
+      <meta
+        name="twitter:image"
+        content="https://eips.fun/images/logo_summary.jpg"
+      />
       {meta.created && (
         <meta property="eips:created_time" content={meta.created} />
       )}
