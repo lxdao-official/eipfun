@@ -1,11 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-// import dynamic from 'next/dynamic';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP, EIPHeader } from '@/utils/str';
-import { getHeader, createLink } from '@/utils/getHeader';
 import { readFile } from 'node:fs/promises';
 import ReactMarkdown from 'react-markdown';
 import path from 'path';
@@ -14,9 +11,15 @@ import details from '@/styles/details.module.css';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Affix from '@/components/Affix';
-import _ from 'lodash';
+import Status from '@/components/details/Status';
+import Time from '@/components/details/Time';
+import Author from '@/components/details/Author';
+import Requires from '@/components/details/Requires';
+import OriginalLink from '@/components/details/OriginalLink';
+import ChatGpt from '@/components/details/ChatGpt';
+import ExtendedResources from '@/components/details/ExtendedResources';
+import Projects from '@/components/details/Projects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-
 import { flatten } from '@/utils/index';
 
 type HIProps = {
@@ -47,123 +50,40 @@ type EIProps = {
     projects?: { link: string; title: string; imgSrc: string; alt: string }[];
     [propName: string]: any;
   };
-  id: string;
   mdStrData: string;
-  sideMenu: string[];
 };
 
-export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
-  console.log('mdStrData: ', mdStrData);
+export default function EIPDetails({ meta, mdStrData }: EIProps) {
   const [show, setShow] = useState(false);
-  const [menuIndex, setMenuIndex] = useState(0);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     const originalTop = (document.querySelector('#original') as HTMLElement)
-  //       .offsetTop;
-  //     const offsets: number[] = [];
-  //     document.querySelectorAll('.eip-toc').forEach((item, i) => {
-  //       if (i !== 0) {
-  //         offsets.push((item as HTMLElement).offsetTop + originalTop);
-  //       }
-  //     });
-  //     setOffsets(offsets);
-  //   }, 200);
-  // }, []);
-
-  // useEffect(() => {
-  //   function watchHeight() {
-  //     const originalTop = (document.querySelector('#original') as HTMLElement)
-  //       .offsetTop;
-  //     if (originalTop <= window.scrollY) {
-  //       setTocFixed(true);
-  //     } else {
-  //       setTocFixed(false);
-  //     }
-  //     if (window.scrollY <= offsets[0]) {
-  //       return setMenuIndex(0);
-  //     }
-  //     if (window.scrollY >= offsets[offsets.length - 1]) {
-  //       return setMenuIndex(offsets.length - 1);
-  //     }
-  //     setMenuIndex(
-  //       offsets.findIndex(
-  //         (item, i, arr) =>
-  //           window.scrollY >= item && window.scrollY < arr[i + 1]
-  //       )
-  //     );
-  //   }
-  //   window.addEventListener('scroll', _.throttle(watchHeight, 400));
-  //   return () => {
-  //     window.removeEventListener('scroll', _.throttle(watchHeight, 400));
-  //   };
-  // }, [offsets]);
+  const detailsWrapperElement = React.createRef<HTMLDivElement>();
 
   useEffect(() => {
-    tocbot.init({
-      // Where to render the table of contents.
-      tocSelector: '.js-toc',
-      // Where to grab the headings to build the table of contents.
-      contentSelector: '.js-toc-content',
-      // Which headings to grab inside of the contentSelector element.
-      headingSelector: 'h1, h2, h3, h4',
-      hasInnerContainers: false,
-    });
-
-    setInterval(() => {
-      tocbot.refresh();
-    }, 20000);
-  }, []);
+    if (show) {
+      tocbot.init({
+        tocSelector: '.js-toc', // Where to render the table of contents.
+        contentSelector: '.js-toc-content', // Where to grab the headings to build the table of contents.
+        headingSelector: 'h1, h2, h3, h4', // Which headings to grab inside of the contentSelector element.
+        hasInnerContainers: true,
+      });
+    } else {
+      tocbot.destroy();
+    }
+  }, [show]);
 
   const handleShow = () => {
     setShow((state) => !state);
-    if (show) {
-      window.scrollTo({
-        top: (document.querySelector('#original-tit') as any).offsetTop,
-        behavior: 'smooth',
-      });
-    }
+    window.scrollTo({
+      top: (document.querySelector('#original-tit') as any).offsetTop,
+      behavior: 'smooth',
+    });
   };
 
-  const formatLink = (str: string) => {
-    if (str.includes('<')) {
-      let [name, linkText] = str.split('<');
-      let link;
-      linkText = linkText.replace('>', '');
-      link = 'mailto:' + linkText;
-      return (
-        <>
-          {name}
-          {'<'}
-          <Link underline="hover" href={link}>
-            {linkText}
-          </Link>
-          {'>'}
-        </>
-      );
-    } else if (str.includes('(')) {
-      let [name, linkText] = str.split('(');
-      let link;
-      linkText = linkText.replace(')', '');
-      link = 'https://github.com/' + linkText.replace('@', '');
-      return (
-        <>
-          {name}(
-          <Link underline="hover" target="_blank" href={link}>
-            {linkText}
-          </Link>
-          )
-        </>
-      );
-    } else {
-      return str;
-    }
-  };
   const TITLE = `EIP-${meta.eip}: ${meta.title} | EIPs Fun - Serve EIP builders, scale Ethereum`;
   const DESCRIPTION =
     (meta.abstract ? meta.abstract : '') +
     (meta.description ? meta.description : '') +
     (meta.summary ? meta.summary : '');
+  const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
 
   // todo add images for sharing
 
@@ -180,7 +100,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
           key="description"
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@huntarosan" />
+        <meta name="twitter:site" content="@eipsfun" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
         <link
@@ -190,15 +110,11 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css"
-        />
       </Head>
 
       <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg">
-        <Box py={4}>
+        <Box pt={4} pb={3}>
           <Typography
             display="inline-block"
             className={details.iconArrow}
@@ -211,7 +127,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
             </Link>
           </Typography>
           <Link display="inline-block" underline="none" lineHeight="24px">
-            EIP-{meta.eip}
+            {ERCorEIP}-{meta.eip}
           </Link>
         </Box>
 
@@ -229,21 +145,21 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
               position: 'absolute',
               fontSize: '80px',
               color: '#fff',
-              [theme.breakpoints.down('md')]: { fontSize: '40px' },
+              [theme.breakpoints.down('md')]: { fontSize: '20px' },
             })}
-            right={50}
+            right={[12, 12, 50, 50]}
             bottom={10}
           >
-            EIP-{meta.eip}
+            {ERCorEIP}-{meta.eip}
           </Box>
         </Box>
 
         <Typography
           variant="h2"
-          fontSize={40}
+          fontSize={[26, 26, 40, 40]}
           lineHeight="48px"
           fontWeight="bold"
-          mt={4}
+          mt={3}
         >
           {meta.title}
         </Typography>
@@ -254,201 +170,46 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
           </Typography>
         )}
 
-        <Box pb={4} pt={2}>
-          <Typography
-            display="inline-block"
-            component="span"
-            variant="body2"
-            color="#FF8A00"
-            fontSize={14}
-            borderRadius="5px"
-            px={1}
-            mr={2}
-            style={{ background: '#FFF1E4' }}
-          >
-            {meta.status}
-          </Typography>
+        <Status
+          status={meta.status}
+          type={meta.type}
+          category={meta.category}
+        />
 
-          <Typography
-            display="inline-block"
-            component="span"
-            variant="body2"
-            color="#437EF7"
-            fontSize={14}
-            borderRadius="5px"
-            px={1}
-            mr={2}
-            style={{ background: '#F5FAFF' }}
-          >
-            {meta.type}
-            {meta.category ? ': ' + meta.category : ''}
-          </Typography>
-        </Box>
+        <Time
+          created={meta.created}
+          lastCallDeadline={meta['last-call-deadline']}
+        />
 
-        <Box pb={4}>
-          <Typography fontWeight="bold" fontSize={14} component="span">
-            Created:{' '}
-          </Typography>
-          <Typography component="span" fontSize={14} fontWeight="normal">
-            {meta.created}
-          </Typography>
-          {meta['last-call-deadline'] ? (
-            <>
-              <Typography
-                fontWeight="bold"
-                fontSize={14}
-                component="span"
-                ml={1}
-              >
-                Last Call Deadline:{' '}
-              </Typography>
-              <Typography component="span" fontSize={14} fontWeight="normal">
-                {meta['last-call-deadline']}
-              </Typography>
-            </>
-          ) : null}
-        </Box>
+        <Requires data={meta.requires} />
 
-        {meta.requires && meta.requires?.length > 0 && meta.requires != 0 && (
-          <Box pb={4} sx={{ fontSize: '14px' }}>
-            <Typography fontWeight="bold" fontSize={14} component="span">
-              Requires:{' '}
-            </Typography>
-            {meta.requires && meta.requires.includes(', ') ? (
-              meta.requires.split(', ').map((item: string, i: number) => (
-                <React.Fragment key={item}>
-                  {i !== 0 ? ', ' : ''}
-                  <Link underline="none" href={`/eips/eip-${item}`}>
-                    EIP-{item}
-                  </Link>
-                </React.Fragment>
-              ))
-            ) : (
-              <Link underline="none" href={`/eips/eip-${meta.requires}`}>
-                EIP-{meta.requires}
-              </Link>
-            )}
-          </Box>
-        )}
+        <Author authors={meta.author} />
 
-        <Typography
-          sx={(theme) => ({
-            [theme.breakpoints.up('md')]: {
-              background:
-                "url('/images/eip_details_author.png') no-repeat left center/32px",
-              paddingLeft: '40px',
+        <OriginalLink eip={meta.eip} discussions={meta['discussions-to']} />
+
+        <Box
+          sx={{
+            '&::after': {
+              content: '""',
+              display: 'table',
+              clear: 'both',
             },
-          })}
-          py={0.75}
-          variant="subtitle2"
-          component={Box}
-          className={details.floatWrap}
+          }}
+          mt={3}
         >
-          {meta?.author?.includes(', ')
-            ? meta.author.split(', ').map((item: string, i: number) => (
-                <span style={{ float: 'left', lineHeight: '24px' }} key={item}>
-                  {i !== 0 ? ', ' : ''}
-                  {formatLink(item)}
-                </span>
-              ))
-            : formatLink(meta.author)}
-        </Typography>
-
-        <Box pt={4} pb={3}>
-          {meta['discussions-to'] && (
-            <Button
-              sx={{ marginRight: '16px' }}
-              variant="contained"
-              startIcon={
-                <span
-                  style={{
-                    display: 'inline-block',
-                    width: '22px',
-                    height: '22px',
-                    background:
-                      "url('/images/eip_details_discussions.png') center center no-repeat",
-                  }}
-                />
-              }
-              size="large"
-              href={meta['discussions-to']}
-            >
-              Discussions
-            </Button>
-          )}
-
-          <Button
-            variant="outlined"
-            size="large"
-            sx={{
-              color: '#272D37',
-              borderColor: '#DAE0E6',
-              '&:hover': {
-                color: '#437ef7',
-              },
-            }}
-            href={`https://eips.ethereum.org/EIPS/eip-${meta.eip}`}
-          >
-            Original link
-          </Button>
-        </Box>
-
-        <Box className={details.floatWrap}>
           <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 830]}>
             <Box pb={3}>
-              <Typography fontSize={22} component="span" variant="h6">
+              <Typography
+                fontSize={22}
+                component="span"
+                variant="h6"
+                lineHeight="30px"
+              >
                 1 min read
               </Typography>
-              {meta.summary ? null : (
-                <Typography component="span" variant="body2" color="#5F6D7E">
-                  {' '}
-                  by chatGPT-4
-                </Typography>
-              )}
             </Box>
 
-            <Box
-              px={4}
-              pt={3}
-              pb={5}
-              border={1}
-              borderColor="#f5f5f5"
-              borderRadius="6px"
-              sx={{ boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)' }}
-            >
-              {meta.summary ? null : (
-                <Box
-                  mb={2.5}
-                  pl={5.25}
-                  sx={{
-                    background:
-                      "url('/images/eip_details_chatgpt.png') no-repeat left center/contain",
-                  }}
-                >
-                  <Typography
-                    sx={{ background: '#F5FAFF' }}
-                    display="inline-block"
-                    px={1.5}
-                    variant="subtitle2"
-                    lineHeight="28px"
-                    color="#437EF7"
-                    fontSize={14}
-                    fontWeight="bold"
-                  >
-                    By ChatGPT-4
-                  </Typography>
-                </Box>
-              )}
-
-              <Typography
-                color="#24292f"
-                variant="body1"
-                lineHeight={1.5}
-                dangerouslySetInnerHTML={{
-                  __html: meta.summary || meta.chatgpt4,
-                }}
-              ></Typography>
-            </Box>
+            <ChatGpt chatgpt4={meta.chatgpt4} summary={meta.summary} />
 
             <Typography
               id="original-tit"
@@ -456,6 +217,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
               pb={3}
               variant="h6"
               fontSize="22px"
+              lineHeight="30px"
               fontWeight="bold"
             >
               Original
@@ -472,6 +234,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
               borderRadius={1.5}
               mb={6}
               sx={{ boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)' }}
+              ref={detailsWrapperElement}
             >
               <Box
                 sx={{
@@ -486,21 +249,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                   components={{
-                    h2: ({ node, children, ...props }) => {
-                      return (
-                        <h2 {...props} id={children}>
-                          {children}
-                        </h2>
-                      );
-                    },
-                    h3: ({ node, children, ...props }) => {
-                      return (
-                        <h3 {...props} id={children}>
-                          {children}
-                        </h3>
-                      );
-                    },
-                    code: ({ node, inline, className, children, ...props }) => {
+                    code: ({ inline, className, children, ...props }) => {
                       const match = /language-(\w+)/.exec(className || '');
                       return !inline && match ? (
                         <SyntaxHighlighter
@@ -521,6 +270,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
                     h1: (props) => HeadingRenderer({ ...props, level: 1 }),
                     h2: (props) => HeadingRenderer({ ...props, level: 2 }),
                     h3: (props) => HeadingRenderer({ ...props, level: 3 }),
+                    h4: (props) => HeadingRenderer({ ...props, level: 4 }),
                   }}
                 >
                   {mdStrData}
@@ -540,115 +290,60 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
                 )}
               </Box>
               <Box mt={4} sx={{ textAlign: 'center' }}>
-                <Button variant="contained" onClick={handleShow}>
+                <Button
+                  variant="contained"
+                  onClick={handleShow}
+                  sx={{ padding: '0 24px', borderRadius: '6px' }}
+                >
                   {show ? 'Show less' : 'View more'}
                 </Button>
               </Box>
             </Box>
 
-            {meta['extended resources'] &&
-              meta['extended resources']!.length > 0 && (
-                <>
-                  <Box pb={3}>
-                    <Typography variant="h5" component="span">
-                      Quick read
-                    </Typography>
-                    <Typography
-                      color="#5F6D7E"
-                      variant="body2"
-                      component="span"
-                    >
-                      {' '}
-                      by Analyst
-                    </Typography>
-                  </Box>
+            <Box pb={3}>
+              <Typography variant="h5" component="span">
+                Quick read
+              </Typography>
+              <Typography color="#5F6D7E" variant="body2" component="span">
+                {' '}
+                by Analyst
+              </Typography>
+            </Box>
 
-                  <Box className={details.floatWrap}>
-                    {meta['extended resources'].map((item) => (
-                      <Box
-                        sx={{
-                          float: 'left',
-                          '&:nth-of-type(2n)': { marginRight: 0 },
-                        }}
-                        width={[1, 1, 398, 398]}
-                        mb={6.5}
-                        mr={4}
-                        key={item.title}
-                      >
-                        <Box height={84} borderRadius="6px">
-                          <img
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              height: '100%',
-                              border: 'none',
-                            }}
-                            src={item.imgSrc}
-                            alt={item.alt}
-                          />
-                        </Box>
-                        <Typography
-                          component={Box}
-                          variant="h6"
-                          py={2}
-                          fontWeight="bold"
-                          fontSize={18}
-                          lineHeight={'30px'}
-                        >
-                          {item.title}
-                        </Typography>
-                        <Box>
-                          <Link href={item.link} underline="none">
-                            Learn more →
-                          </Link>
-                        </Box>
-                      </Box>
-                    ))}
-                  </Box>
-                </>
-              )}
+            <ExtendedResources data={meta['extended resources']} />
           </Box>
 
           <Box sx={{ float: 'right' }} width={[1, 1, 0.26, 300]}>
-            {meta?.projects && meta.projects.length > 0 && (
-              <Box
-                pt={3}
-                px={3}
-                border={1}
-                borderColor="#eaebf0"
-                borderRadius={'10px'}
-              >
-                <Typography fontWeight="bold" variant="h6" pb={3}>
-                  Adopted by projects
-                </Typography>
+            <Box
+              p={3}
+              border={1}
+              borderColor="#eaebf0"
+              borderRadius={'10px'}
+              boxShadow="0px 4px 40px rgba(16, 24, 40, 0.06)"
+            >
+              <Typography fontWeight="bold" variant="h6" lineHeight="28px">
+                Adopted by projects
+              </Typography>
 
-                {meta.projects?.map((item) => (
-                  <Link href={item.link} key={item.title} underline="hover">
-                    <Box height={100}>
-                      <img
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          border: 'none',
-                        }}
-                        src={item.imgSrc}
-                        alt={item.alt}
-                      />
-                    </Box>
-                    <Typography py={2} color="#272d37" variant="subtitle1">
-                      {item.title}
+              <Projects data={meta.projects} />
+            </Box>
+
+            {show && (
+              <Box>
+                <Affix
+                  parent={detailsWrapperElement}
+                  top={20}
+                  className={details.tocWrap}
+                >
+                  <Box p={3} border="1px solid #EAEBF0" borderRadius="10px">
+                    <Typography fontWeight="bold" variant="h6">
+                      Contents
                     </Typography>
-                  </Link>
-                ))}
+                    <Box className="js-toc toc"></Box>
+                  </Box>
+                </Affix>
               </Box>
             )}
-
-            <Box>
-              <Affix top={0}>
-                <Box className="js-toc" border="1px solid #ECECEC"></Box>
-              </Affix>
-            </Box>
           </Box>
         </Box>
 
@@ -659,7 +354,7 @@ export default function EIPDetails({ meta, mdStrData, sideMenu }: EIProps) {
           borderRadius="10px"
           px={4}
           py={5}
-          my={5}
+          mb={8}
           sx={{ background: '#F8F9FB' }}
         >
           <EmailSubscribe />
@@ -711,9 +406,8 @@ export async function getServerSideProps(context: IContent) {
   }
 
   const [, metaStr, ...con] = originalEIP.split('---');
-
   const meta: EIPHeader = formatMeta(metaStr);
-  const sideMenu = getHeader(con.toString());
+
   try {
     let comEIP = await readFile(
       path.join(process.cwd(), 'content', 'en', `${id}.md`),
@@ -728,7 +422,6 @@ export async function getServerSideProps(context: IContent) {
     props: {
       meta,
       mdStrData: con.toString(),
-      sideMenu,
     },
   };
 }

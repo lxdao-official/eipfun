@@ -2,26 +2,36 @@ import React from 'react';
 
 export default function Affix(props: {
   top: number;
+  parent: React.RefObject<HTMLDivElement>;
   children: React.ReactNode;
   offset?: number;
   className?: string;
 }) {
   const element = React.createRef<HTMLDivElement>();
-  let oldStyles = {
+  let oldStyles: {
+    [key: string]: string;
+  } = {
     position: '',
     top: '',
     width: '',
   };
-  // Offset could make the element fixed ealier or later
+  // Offset could make the element fixed earlier or later
   const { offset = 0 } = props;
 
   const checkPosition = (distanceToBody: number, width: number) => {
     const scrollTop = window.scrollY;
+    const elemHeight = element.current?.clientHeight || 0;
+    const parentHeight = props.parent.current!.offsetHeight;
+    const parentTop =
+      props.parent.current!.getBoundingClientRect().top + scrollTop;
 
-    if (distanceToBody - scrollTop < props.top + offset) {
-      if (element.current!.style.position != 'fixed') {
+    if (scrollTop + elemHeight + props.top > parentHeight + parentTop) {
+      element.current!.style.position = 'absolute';
+      element.current!.style.top = parentHeight + parentTop - elemHeight + 'px';
+    } else if (distanceToBody - scrollTop < props.top + offset) {
+      if (element.current!.style.position !== 'fixed') {
         for (let key in oldStyles) {
-          oldStyles[key] = element.current!.style[key];
+          oldStyles[key as any] = element.current!.style[key as any];
         }
         element.current!.style.position = 'fixed';
         element.current!.style.width = width + 'px';
@@ -30,7 +40,7 @@ export default function Affix(props: {
     } else {
       // reset to default
       for (let key in oldStyles) {
-        element.current!.style[key] = oldStyles[key];
+        element.current!.style[key as any] = oldStyles[key];
       }
     }
   };
@@ -56,7 +66,7 @@ export default function Affix(props: {
   });
 
   return (
-    <div ref={element} style={{ zIndex: 1 }} className={props.className}>
+    <div ref={element} className={props.className}>
       {props.children}
     </div>
   );

@@ -336,7 +336,7 @@ const advisorList = [
   {
     name: 'Victor Zhou',
     head: '/images/victorzhou.jpg',
-    intro: 'Author of ERC1202, ERC5750;Initiator of AllERCdevs',
-    desc: 'Author of ERC1202, ERC5750;Initiator of AllERCdevs',
+    intro: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
+    desc: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
   },
 ];
