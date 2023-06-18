@@ -1,7 +1,12 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { InputAdornment, Typography, styled } from '@mui/material';
+import {
+  InputAdornment,
+  Typography,
+  styled,
+  useMediaQuery,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
 
@@ -91,7 +96,6 @@ function useSearch(searchText: string) {
         if (res.data.data?.eip_list) {
           optionsList = res.data.data.eip_list;
         } else {
-          
           const title_list: EipTitleResult[] = res.data.data?.title_list || [];
           const content_list: EipContentResult[] =
             res.data.data?.content_list || [];
@@ -134,13 +138,14 @@ function useSearch(searchText: string) {
 export default function SearchHeader() {
   const [inputValue, setInputValue] = useState<string>('');
   const debouncedSearch = useDebounce(inputValue, 500);
+  const screenWidth = useMediaQuery('(min-width:1000px)');
 
   const { isFetching, data: options, isError } = useSearch(debouncedSearch);
 
   return (
     <Autocomplete
       id="search-header"
-      sx={{ width: 460}}
+      sx={{ width: screenWidth ? 460 : 360 }}
       disableClearable
       options={options || []}
       onInputChange={(e, value) => {
@@ -171,7 +176,8 @@ export default function SearchHeader() {
             }}
           >
             <Typography variant="h5" width="100%">
-              {option.category === "ERC"?'ERC':'EIP'}-{option.rank ? option.eip : <b>{option.eip} </b>}&nbsp;
+              {option.category === 'ERC' ? 'ERC' : 'EIP'}-
+              {option.rank ? option.eip : <b>{option.eip} </b>}&nbsp;
               <span dangerouslySetInnerHTML={{ __html: option.title }}></span>
             </Typography>
             {option.ts_headline && (

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, Box, Typography } from '@mui/material';
 
 import EastIcon from '@mui/icons-material/East';
@@ -6,6 +6,9 @@ import Script from 'next/script';
 
 const EmailSubscribe = (): JSX.Element => {
   useEffect(() => {
+    if ((window as any).CustomSubstackWidget) {
+      return;
+    }
     (window as any).CustomSubstackWidget = {
       substackUrl: 'eipsfun.substack.com',
       placeholder: 'example@gmail.com',

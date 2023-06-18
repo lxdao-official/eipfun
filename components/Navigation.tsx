@@ -126,7 +126,7 @@ const Navigation = (): JSX.Element => {
               padding="0 12px"
               color="inherit"
               href={TelegramLink}
-              target='_blank'
+              target="_blank"
             >
               <TelegramIcon />
             </Link>
@@ -149,11 +149,14 @@ const Navigation = (): JSX.Element => {
           </Link> */}
         </Box>
         <Box className="mobileShow">
-          <Menu
+          <Box
+            padding="10px"
             onClick={() => {
               setDrawOpen(true);
             }}
-          />
+          >
+            <Menu />
+          </Box>
         </Box>
       </Box>
       <Drawer
@@ -181,35 +184,44 @@ const Navigation = (): JSX.Element => {
               <Link href={isEn ? '/' : '/zh'}>
                 <Logo />
               </Link>
-              <Close
+              <Box
+                padding="10px"
                 onClick={() => {
                   setDrawOpen(false);
                 }}
-              />
+              >
+                <Close />
+              </Box>
             </Box>
             <Box width="100%" height="72px" lineHeight="72px">
-              <Link
+              <Box
                 fontWeight={600}
                 className={
                   ['/', '/zh'].includes(router.asPath) ? 'current ' : ''
                 }
-                href={isEn ? '/' : '/zh'}
-                underline="none"
+                // href={isEn ? '/' : '/zh'}
+                // underline="none"
                 color="inherit"
+                onClick={() => {
+                  location.href = isEn ? '/' : '/zh';
+                }}
               >
                 Home
-              </Link>
+              </Box>
             </Box>
             <Box width="100%" height="72px" lineHeight="72px">
-              <Link
+              <Box
                 color="inherit"
                 fontWeight={600}
-                underline="none"
+                // underline="none"
+                onClick={() => {
+                  location.href = isEn ? '/eips' : '/zh/eips';
+                }}
                 className={router.asPath.includes('/eips') ? 'current ' : ''}
-                href={isEn ? '/eips' : '/zh/eips'}
+                // href={isEn ? '/eips' : '/zh/eips'}
               >
                 EIPs
-              </Link>
+              </Box>
             </Box>
           </Box>
           <Box
@@ -227,7 +239,7 @@ const Navigation = (): JSX.Element => {
               margin="0 20px"
               padding="0 12px"
               color="inherit"
-              target='_blank'
+              target="_blank"
               href="https://t.eips.fun/"
             >
               <TelegramIcon />
