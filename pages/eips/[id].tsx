@@ -319,7 +319,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
             <Box>
               <Typography variant="h5" component="span">
-                Quick read
+                Further reading 
               </Typography>
               <Typography color="#5F6D7E" variant="body2" component="span">
                 {' '}
