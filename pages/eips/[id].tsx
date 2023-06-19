@@ -4,7 +4,7 @@ import { Container, Box, Link, Button, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import EmailSubscribe from '@/components/EmailSubscribe';
 import { formatMeta, formatComEIP, EIPHeader } from '@/utils/str';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import ReactMarkdown from 'react-markdown';
 import path from 'path';
 import tocbot from 'tocbot';
@@ -85,7 +85,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     (meta.abstract ? meta.abstract : '') +
     (meta.description ? meta.description : '') +
     (meta.summary ? meta.summary : '') +
-    (meta.chatgpt4 ? meta.chatgpt4.replaceAll('<br />', '') : '');
+    (meta.chatgpt4 ? meta.chatgpt4 : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
 
   // todo add images for sharing
@@ -319,7 +319,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
             <Box>
               <Typography variant="h5" component="span">
-                Further reading 
+                Further reading
               </Typography>
               <Typography color="#5F6D7E" variant="body2" component="span">
                 {' '}
@@ -382,14 +382,37 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
   );
 }
 
+export const getStaticPaths = async () => {
+  let markdownFiles: string[] | undefined, paths;
+  try {
+    markdownFiles = await readdir(
+      path.join(process.cwd(), 'public', 'original-eips')
+    );
+  } catch (e) {
+    console.log(e);
+  }
+
+  if (markdownFiles && markdownFiles.length) {
+    paths = markdownFiles.map((item) => {
+      return {
+        params: {
+          id: item.replace('.md', ''),
+        },
+      };
+    });
+  }
+  return {
+    paths,
+    fallback: false, // false or "blocking"
+  };
+};
+
 type IContent = {
   params: {
     id: string;
   };
 };
-
-export async function getServerSideProps(context: IContent) {
-  let id = context.params.id;
+export const getStaticProps = async ({ params: { id } }: IContent) => {
   let originalEIP;
   if (id.includes('.md')) {
     id = id.replace('.md', '');
@@ -442,4 +465,4 @@ export async function getServerSideProps(context: IContent) {
       mdStrData: con.toString(),
     },
   };
-}
+};
