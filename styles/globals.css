@@ -57,6 +57,7 @@ button {
   max-width: 335px;
   border-radius: 6px 0px 0px 6px;
 }
+
 #custom-substack-embed .custom-substack-widget button {
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
     0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
@@ -64,6 +65,7 @@ button {
   width: 105px;
   max-width: 105px;
 }
+
 #custom-substack-embed .custom-substack-widget button:hover {
   text-decoration: none;
   background-color: #002884;
@@ -74,4 +76,61 @@ button {
 #custom-substack-embed .custom-substack-widget button:active {
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
     0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.toc {
+  overflow-y: auto;
+}
+
+.toc>.toc-list {
+  overflow: hidden;
+  position: relative;
+}
+
+.toc>.toc-list li {
+  list-style: none;
+}
+
+.js-toc {
+  overflow-y: hidden;
+}
+
+.toc-list {
+  margin: 0;
+  padding-left: 10px;
+}
+
+a.toc-link {
+  color: currentColor;
+  height: 100%;
+}
+
+.is-collapsible {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: all 300ms ease-in-out;
+}
+
+.is-collapsed {
+  max-height: 0;
+}
+
+.is-position-fixed {
+  position: fixed !important;
+  top: 0;
+}
+
+.is-active-link {
+  font-weight: 700;
+}
+
+.toc-link::before {
+  background-color: #eee;
+  content: ' ';
+  display: inline-block;
+  height: inherit;
+  left: 0;
+  margin-top: -1px;
+  position: absolute;
+  width: 2px;
 }
