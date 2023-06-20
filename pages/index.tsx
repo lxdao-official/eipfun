@@ -109,6 +109,25 @@ export default function Home() {
           <Typography variant="h2" textAlign="center">
             How EIPs work?
           </Typography>
+          <Typography
+            variant="body2"
+            maxWidth="800px"
+            textAlign="center"
+            margin="16px auto 0 auto"
+            width="90%"
+          >
+            <Link
+              fontWeight={700}
+              underline="hover"
+              fontSize={15}
+              marginTop={10}
+              href="https://eips.ethereum.org/EIPS/eip-1"
+            >
+              {' '}
+              View more {' '}
+              <EastIcon sx={{ fontSize: '14px',verticalAlign:'middle' }} />
+            </Link>
+          </Typography>
           <Box
             maxWidth="lg"
             display="flex"
@@ -153,7 +172,7 @@ export default function Home() {
                       href={item.actionLink}
                     >
                       {' '}
-                      {item.action} <EastIcon sx={{ fontSize: '14px' }} />
+                      {item.action} <EastIcon sx={{ fontSize: '14px' ,verticalAlign:'middle' }} />
                     </Link>
                   )}
                 </Box>

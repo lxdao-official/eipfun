@@ -123,7 +123,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
       </Head>
 
       <Box borderTop={1} borderColor="#EAEBF0" />
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ overflow: 'hidden' }}>
         <Box pt={4} pb={[2, 2, 3, 3]}>
           <Typography
             display="inline-block"
@@ -362,7 +362,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                   top={20}
                   className={details.tocWrap}
                 >
-                  <Box p={3} border="1px solid #EAEBF0" borderRadius="10px">
+                  <Box p={3}>
                     <Typography fontWeight="bold" variant="h6">
                       Contents
                     </Typography>
@@ -446,7 +446,7 @@ export const getStaticProps = async ({ params: { id } }: IContent) => {
     };
   }
 
-  const [, metaStr, ...con] = originalEIP.split('---');
+  const [, metaStr, ...con] = originalEIP.split('---\n');
   const meta: EIPHeader = formatMeta(metaStr);
 
   try {
