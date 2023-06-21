@@ -125,7 +125,7 @@ export default function Home() {
             >
               {' '}
               View more {' '}
-              <EastIcon sx={{ fontSize: '14px',verticalAlign:'middle' }} />
+              <EastIcon sx={{ fontSize: '14px', verticalAlign: 'middle' }} />
             </Link>
           </Typography>
           <Box
@@ -172,7 +172,7 @@ export default function Home() {
                       href={item.actionLink}
                     >
                       {' '}
-                      {item.action} <EastIcon sx={{ fontSize: '14px' ,verticalAlign:'middle' }} />
+                      {item.action} <EastIcon sx={{ fontSize: '14px', verticalAlign: 'middle' }} />
                     </Link>
                   )}
                 </Box>
@@ -294,6 +294,12 @@ export default function Home() {
             </Button>
           </Box>
         </EipsContentBlock>
+        <div
+          data-donate3-type="float"
+          data-donate3-color="#0086f2"
+          data-donate3-title="EIPs.Fun(TESTNET)"
+          data-donate3-to-address="0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
+        />
       </Box>
     </>
   );

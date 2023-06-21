@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app';
 import { theme } from '../theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
+import Script from 'next/script';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={new QueryClient()}>
         <ThemeProvider theme={theme}>
           <Layout>
+            <Script src="https://cdn.jsdelivr.net/npm/donate3-sdk@0.3.48/dist/webpack/bundle.js" />
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
