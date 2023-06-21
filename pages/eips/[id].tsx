@@ -317,15 +317,9 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Box>
             </Box>
 
-            <Box>
-              <Typography variant="h5" component="span">
-                Further reading
-              </Typography>
-              <Typography color="#5F6D7E" variant="body2" component="span">
-                {' '}
-                by Analyst
-              </Typography>
-            </Box>
+            <Typography variant="h5" component={Box}>
+              Further reading
+            </Typography>
 
             <ExtendedResources data={meta['extended resources']} />
           </Box>
@@ -462,7 +456,7 @@ export const getStaticProps = async ({ params: { id } }: IContent) => {
   return {
     props: {
       meta,
-      mdStrData: con.toString(),
+      mdStrData: con.join('---\n'),
     },
   };
 };
