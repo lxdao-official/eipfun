@@ -1,5 +1,5 @@
 export type EIPHeader = {
-  [key: string]: string | Project[];
+  [key: string]: string | Project[] | string[];
 };
 
 export function formatMeta(meta: string): EIPHeader {
@@ -48,7 +48,7 @@ export function formatComEIP(str: string): EIPHeader {
       k = k.trim().toLowerCase();
       let vStr = v.join(k === 'chatgpt4' ? '<br /><br />' : '').trim();
 
-      if (vStr.includes('- ')) {
+      if (vStr.startsWith('- ')) {
         let tmpArr: Project[] = [];
         vStr.split('- ').forEach((line: string | undefined) => {
           if (line) {
@@ -68,6 +68,10 @@ export function formatComEIP(str: string): EIPHeader {
         metaObj[k] = tmpArr;
       } else {
         metaObj[k] = vStr;
+      }
+
+      if (k === 'video' && vStr) {
+        metaObj[k] = vStr.split(' ');
       }
     });
 

@@ -14,6 +14,7 @@ import remarkGfm from 'remark-gfm';
 import Affix from '@/components/Affix';
 import Status from '@/components/details/Status';
 import Time from '@/components/details/Time';
+import Video from '@/components/details/Video';
 import Author from '@/components/details/Author';
 import Requires from '@/components/details/Requires';
 import OriginalLink from '@/components/details/OriginalLink';
@@ -88,8 +89,6 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     (meta.chatgpt4 ? meta.chatgpt4 : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
 
-  // todo add images for sharing
-
   return (
     <>
       <Head>
@@ -123,7 +122,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
       </Head>
 
       <Box borderTop={1} borderColor="#EAEBF0" />
-      <Container maxWidth="lg" sx={{ overflow: 'hidden' }}>
+      <Container maxWidth="lg" sx={{ overflow: 'hidden', px: [3, 3, 2, 0] }}>
         <Box pt={4} pb={[2, 2, 3, 3]}>
           <Typography
             display="inline-block"
@@ -215,7 +214,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           }}
           mt={3}
         >
-          <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 830]}>
+          <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 840]}>
             <Box pb={3}>
               <Typography
                 fontSize={22}
@@ -228,6 +227,18 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             </Box>
 
             <ChatGpt chatgpt4={meta.chatgpt4} summary={meta.summary} />
+
+            <Typography
+              pt={6}
+              pb={3}
+              variant="h6"
+              fontSize="22px"
+              lineHeight="30px"
+              fontWeight="bold"
+            >
+              Video
+            </Typography>
+            <Video list={meta.video || []} />
 
             <Typography
               id="original-tit"
@@ -326,7 +337,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
           <Box
             sx={{ float: 'right' }}
-            width={[1, 1, 0.26, 302]}
+            width={[1, 1, 0.26, 328]}
             mt={[4, 4, 0, 0]}
           >
             <Box
