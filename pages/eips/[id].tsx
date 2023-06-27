@@ -236,9 +236,9 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               lineHeight="30px"
               fontWeight="bold"
             >
-              Video
+              Video{meta.videos?.length ? 's' : ''}
             </Typography>
-            <Video list={meta.video || []} />
+            <Video list={meta.videos || []} />
 
             <Typography
               id="original-tit"

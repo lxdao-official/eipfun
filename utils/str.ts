@@ -1,3 +1,6 @@
+import url from 'node:url';
+import querystring from 'node:querystring'
+
 export type EIPHeader = {
   [key: string]: string | Project[] | string[];
 };
@@ -48,7 +51,7 @@ export function formatComEIP(str: string): EIPHeader {
       k = k.trim().toLowerCase();
       let vStr = v.join(k === 'chatgpt4' ? '<br /><br />' : '').trim();
 
-      if (vStr.startsWith('- ')) {
+      if (vStr.startsWith('- ') && !['extended resources', 'projects'].includes(k)) {
         let tmpArr: Project[] = [];
         vStr.split('- ').forEach((line: string | undefined) => {
           if (line) {
@@ -70,8 +73,18 @@ export function formatComEIP(str: string): EIPHeader {
         metaObj[k] = vStr;
       }
 
-      if (k === 'video' && vStr) {
-        metaObj[k] = vStr.split(' ');
+      if (k === 'videos' && vStr && vStr.startsWith('- ')) {
+        const vIds: string[] = [];
+        vStr.split('- ').forEach((line: string | undefined) => {
+          if (line) {
+            const vUrlQuery = url.parse(line).query;
+            if (vUrlQuery) {
+              let queryV = querystring.parse(vUrlQuery).v;
+              queryV && vIds.push(queryV as string)
+            }
+          }
+        })
+        metaObj[k] = vIds;
       }
     });
 
