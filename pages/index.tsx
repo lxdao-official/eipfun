@@ -8,7 +8,8 @@ import { Link, Box, Button, useMediaQuery } from '@mui/material';
 import EmailSubscribe from '../components/EmailSubscribe';
 import EastIcon from '@mui/icons-material/East';
 import { Telegram } from '@/common/config';
-
+import TwitterIcon from '@mui/icons-material/Twitter';
+import GitHubIcon from '@mui/icons-material/GitHub';
 export const EipsContentBlock = styled('div')(({ theme }) => ({
   // width: 1152,
   maxWidth: 1152,
@@ -124,8 +125,8 @@ export default function Home() {
               href="https://eips.ethereum.org/EIPS/eip-1"
             >
               {' '}
-              View more {' '}
-              <EastIcon sx={{ fontSize: '14px',verticalAlign:'middle' }} />
+              View more{' '}
+              <EastIcon sx={{ fontSize: '14px', verticalAlign: 'middle' }} />
             </Link>
           </Typography>
           <Box
@@ -172,7 +173,10 @@ export default function Home() {
                       href={item.actionLink}
                     >
                       {' '}
-                      {item.action} <EastIcon sx={{ fontSize: '14px' ,verticalAlign:'middle' }} />
+                      {item.action}{' '}
+                      <EastIcon
+                        sx={{ fontSize: '14px', verticalAlign: 'middle' }}
+                      />
                     </Link>
                   )}
                 </Box>
@@ -254,6 +258,14 @@ export default function Home() {
                   </Typography>
                   <Typography variant="body1" textAlign="center">
                     {item.intro}
+                  </Typography>
+                  <Typography variant="body2" textAlign="center">
+                    <Link href={item.twitter} color="#000" target='_blank'>
+                      <TwitterIcon sx={{ fontSize: '20px',margin:'0 4px' }} />
+                    </Link>
+                    <Link href={item.github} color="#000" target='_blank'>
+                      <GitHubIcon sx={{ fontSize: '20px',margin:'0 4px' }} />
+                    </Link>
                   </Typography>
                 </Box>
               ))}
@@ -351,11 +363,15 @@ const advisorList = [
     head: '/images/5660.jpg',
     intro: 'Author of EIP6105, EIP6147',
     desc: 'Author of EIP6105, EIP6147',
+    twitter: 'https://twitter.com/web3saltman',
+    github: 'https://github.com/5660-eth',
   },
   {
     name: 'Victor Zhou',
     head: '/images/victorzhou.jpg',
     intro: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
     desc: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
+    twitter: 'https://twitter.com/xinbenlv',
+    github: 'https://github.com/xinbenlv',
   },
 ];
