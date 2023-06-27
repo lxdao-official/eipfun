@@ -51,7 +51,7 @@ export function formatComEIP(str: string): EIPHeader {
       k = k.trim().toLowerCase();
       let vStr = v.join(k === 'chatgpt4' ? '<br /><br />' : '').trim();
 
-      if (vStr.startsWith('- ') && !['extended resources', 'projects'].includes(k)) {
+      if (vStr.startsWith('- ') && ['extended resources', 'projects'].includes(k)) {
         let tmpArr: Project[] = [];
         vStr.split('- ').forEach((line: string | undefined) => {
           if (line) {
