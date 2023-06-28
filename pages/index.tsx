@@ -260,11 +260,11 @@ export default function Home() {
                     {item.intro}
                   </Typography>
                   <Typography variant="body2" textAlign="center">
-                    <Link href={item.twitter} color="#000" target='_blank'>
-                      <TwitterIcon sx={{ fontSize: '20px',margin:'0 4px' }} />
+                    <Link href={item.twitter} color="#000" target="_blank">
+                      <TwitterIcon sx={{ fontSize: '20px', margin: '0 4px' }} />
                     </Link>
-                    <Link href={item.github} color="#000" target='_blank'>
-                      <GitHubIcon sx={{ fontSize: '20px',margin:'0 4px' }} />
+                    <Link href={item.github} color="#000" target="_blank">
+                      <GitHubIcon sx={{ fontSize: '20px', margin: '0 4px' }} />
                     </Link>
                   </Typography>
                 </Box>
@@ -371,7 +371,7 @@ const advisorList = [
     head: '/images/victorzhou.jpg',
     intro: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
     desc: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
-    twitter: 'https://twitter.com/xinbenlv',
+    twitter: 'https://twitter.com/ZainanZhou',
     github: 'https://github.com/xinbenlv',
   },
 ];
