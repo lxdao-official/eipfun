@@ -38,7 +38,7 @@ export default function Video({ list }: { list: string[] }) {
           lineHeight={'20px'}
           mb={1}
         >
-          No content, go to update the document
+          Any one may contribute to propose adopted projects.
         </Typography>
         <Link
           display={'block'}
@@ -48,7 +48,7 @@ export default function Video({ list }: { list: string[] }) {
           fontSize="15px"
           underline="none"
         >
-          Get start
+          Go propose
           <EastIcon
             sx={{
               width: 14,
