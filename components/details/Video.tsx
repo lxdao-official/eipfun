@@ -38,7 +38,7 @@ export default function Video({ list }: { list: string[] }) {
           lineHeight={'20px'}
           mb={1}
         >
-          Any one may contribute to propose contents.
+          Anyone may contribute to propose contents.
         </Typography>
         <Link
           display={'block'}
