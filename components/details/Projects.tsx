@@ -28,7 +28,7 @@ export default function Projects({
           lineHeight={'20px'}
           mb={1}
         >
-          No content, go to update the document
+          Anyone may contribute to propose contents.
         </Typography>
         <Link
           display={'block'}
@@ -38,7 +38,7 @@ export default function Projects({
           fontSize={'15px'}
           underline="none"
         >
-          Get start
+          Go propose
           <EastIcon
             sx={{
               width: 14,
