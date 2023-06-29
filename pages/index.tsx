@@ -296,7 +296,7 @@ export default function Home() {
         </EipsContentBlock>
         <div
           data-donate3-type="float"
-          data-donate3-color="#0086f2"
+          data-donate3-color="#517def"
           data-donate3-title="EIPs.Fun(TESTNET)"
           data-donate3-to-address="0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
         />

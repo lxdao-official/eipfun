@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={new QueryClient()}>
         <ThemeProvider theme={theme}>
           <Layout>
-            <Script src="https://cdn.jsdelivr.net/npm/donate3-sdk@0.3.48/dist/webpack/bundle.js" />
+            <Script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.1/dist/webpack/bundle.js" />
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
