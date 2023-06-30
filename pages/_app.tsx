@@ -3,6 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Layout from '../components/Layout';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import Script from 'next/script';
 import { theme } from '../theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
@@ -23,6 +24,18 @@ export default function App({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         ></link>
       </Head>
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-005C54Q2GC"
+      />
+      <Script id="ga">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-005C54Q2GC');`}
+      </Script>
       <QueryClientProvider client={new QueryClient()}>
         <ThemeProvider theme={theme}>
           <Layout>
