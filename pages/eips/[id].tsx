@@ -42,6 +42,31 @@ export const HeadingRenderer: React.FC<HIProps> = ({ level, children }) => {
   );
 };
 
+interface AIProps {
+  href?: string;
+  children?: React.ReactNode;
+}
+
+const ARenderer: React.FC<AIProps> = ({ href, children }) => {
+  if (href?.startsWith('./') && href.endsWith('.md')) {
+    return React.createElement(
+      'a',
+      { href: href.replace('.md', '') },
+      children
+    );
+  }
+
+  if (href === '../LICENSE.md') {
+    return React.createElement(
+      'a',
+      { href: 'https://eips.ethereum.org/LICENSE', target: '_blank' },
+      children
+    );
+  }
+
+  return React.createElement('a', { href: href }, children);
+};
+
 type EIProps = {
   meta: {
     'extended resources'?: {
@@ -299,6 +324,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                     h2: (props) => HeadingRenderer({ ...props, level: 2 }),
                     h3: (props) => HeadingRenderer({ ...props, level: 3 }),
                     h4: (props) => HeadingRenderer({ ...props, level: 4 }),
+                    a: (props) => ARenderer(props),
                   }}
                 >
                   {mdStrData}
