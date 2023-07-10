@@ -4,9 +4,7 @@ The purpose of Ethereum Improvement Proposals (EIPs) is to propose new features,
 
 ## Videos
 
-- https://www.youtube.com/watch?v=Hl7ANnenRUQ&ab_channel=TheBlockchainGuy
-- https://www.youtube.com/watch?v=Hl7ANnenRUQ&ab_channel=TheBlockchainGuy
-- https://www.youtube.com/watch?v=Hl7ANnenRUQ&ab_channel=TheBlockchainGuy
+- https://www.youtube.com/watch?v=6WoNRbkZOaU&t=734s
 
 ## Projects
 
