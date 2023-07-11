@@ -19,7 +19,7 @@ export const EipsContentBlock = styled('div')(({ theme }) => ({
   background: '#F8F9FB',
   borderRadius: 10,
   padding: '40px 64px',
-  margin: '40px auto',
+  margin: '40px 0',
   fontWeight: 400,
   flexWrap: 'wrap',
 
