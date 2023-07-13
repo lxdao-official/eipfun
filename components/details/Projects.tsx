@@ -69,12 +69,14 @@ export default function Projects({
             borderColor="#d9d9d9"
             borderRadius={1.5}
             overflow="hidden"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
           >
             <img
               style={{
                 display: 'block',
-                width: '100%',
-                height: '100%',
+                maxHeight: '100%',
                 border: 'none',
               }}
               src={item.imgSrc}
