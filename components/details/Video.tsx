@@ -3,10 +3,9 @@ import { Box, Typography, Link } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import EastIcon from '@mui/icons-material/East';
-import { UpdateDocs } from '@/common/config';
 
 const elementWidth = 272.66;
-export default function Video({ list }: { list: string[] }) {
+export default function Video({ list, url }: { list: string[]; url: string }) {
   const [left, setLeft] = useState(0);
   const [wrapWidth, setWrapWidth] = useState(838);
   const [leftMax, setLeftMax] = useState(0);
@@ -42,11 +41,12 @@ export default function Video({ list }: { list: string[] }) {
         </Typography>
         <Link
           display={'block'}
-          href={UpdateDocs}
+          href={url}
           color="#437EF7"
           lineHeight="22px"
           fontSize="15px"
           underline="none"
+          target="_blank"
         >
           Go propose
           <EastIcon

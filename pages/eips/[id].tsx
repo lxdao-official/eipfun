@@ -113,6 +113,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     (meta.summary ? meta.summary : '') +
     (meta.chatgpt4 ? meta.chatgpt4 : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
+  const updateFileUrl = `https://github.com/lxdao-official/eipsfun/blob/main/content/en/eip-${meta.eip}.md?plain=1`;
 
   return (
     <>
@@ -263,7 +264,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             >
               Video{meta.videos?.length ? 's' : ''}
             </Typography>
-            <Video list={meta.videos || []} />
+            <Video list={meta.videos || []} url={updateFileUrl} />
 
             <Typography
               id="original-tit"
@@ -358,7 +359,10 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               Further reading
             </Typography>
 
-            <ExtendedResources data={meta['extended resources']} />
+            <ExtendedResources
+              data={meta['extended resources']}
+              url={updateFileUrl}
+            />
           </Box>
 
           <Box
@@ -383,7 +387,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 Adopted by projects
               </Typography>
 
-              <Projects data={meta.projects} />
+              <Projects data={meta.projects} url={updateFileUrl} />
             </Box>
 
             {show && (
