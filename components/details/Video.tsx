@@ -5,7 +5,13 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import EastIcon from '@mui/icons-material/East';
 
 const elementWidth = 272.66;
-export default function Video({ list, url }: { list: string[]; url: string }) {
+export default function Video({
+  list,
+  url,
+}: {
+  list: { title: string; url: string }[];
+  url: string;
+}) {
   const [left, setLeft] = useState(0);
   const [wrapWidth, setWrapWidth] = useState(838);
   const [leftMax, setLeftMax] = useState(0);
@@ -88,7 +94,7 @@ export default function Video({ list, url }: { list: string[]; url: string }) {
     <Box
       id="videoWrap"
       position="relative"
-      height={208}
+      height={286}
       border={1}
       borderColor="#f5f5f5"
       borderRadius={1.5}
@@ -108,22 +114,39 @@ export default function Video({ list, url }: { list: string[]; url: string }) {
       >
         {list.map((item) => (
           <Box
-            key={item}
+            key={item.url}
             borderRadius={1.5}
             width={252.66}
-            height={158}
+            height={246}
             ml={2.5}
             overflow="hidden"
           >
             <iframe
               width="260"
               height="160"
-              src={`https://www.youtube.com/embed/${item}`}
+              src={`https://www.youtube.com/embed/${item.url}`}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>
+
+            <Typography
+              variant="body1"
+              lineHeight={'24px'}
+              mt={2.5}
+              height="48px"
+              fontWeight={600}
+              title={item.title}
+              sx={{
+                display: '-webkit-box',
+                overflow: 'hidden',
+                '-webkit-line-clamp': '2',
+                '-webkit-box-orient': 'vertical',
+              }}
+            >
+              {item.title}
+            </Typography>
           </Box>
         ))}
       </Box>

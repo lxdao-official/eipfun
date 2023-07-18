@@ -360,7 +360,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             </Typography>
 
             <ExtendedResources
-              data={meta['extended resources']}
+              data={meta['further reading']}
               url={updateFileUrl}
             />
           </Box>
