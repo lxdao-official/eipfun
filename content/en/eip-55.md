@@ -7,3 +7,15 @@ The standard works by taking a 20-byte binary address and converting it to a hex
 The significance of the ERC-55 standard is that it provides a more reliable way of verifying Ethereum addresses. Previously, users had to rely on manually checking the address for errors, which was prone to mistakes. With the checksum, it is much less likely that a user will accidentally send funds to the wrong address. This is particularly important given the irreversible nature of Ethereum transactions.
 
 The standard has been widely adopted by the Ethereum community and is now the recommended method for encoding addresses. It has also been implemented in many Ethereum wallets and other software tools. Overall, the ERC-55 standard has helped to improve the security and reliability of the Ethereum network, making it a more trustworthy platform for decentralized applications and transactions.
+
+## Videos
+
+- [Example Video Title](https://www.youtube.com/watch?v=TDGq4aeevgY)
+
+## Projects
+
+- [Example Project Name](https://xxxx.xxx/xxxxx) Project Description (one sentence) ![this is an img's alt for the project logo](https://xxxx.xxx/project-logo.xxx)
+
+## Further Reading
+
+- [Example Article Title](https://xxxx.xxx/xxxxx) ![this is an img's alt for the article cover](https://xxxx.xxx/article-cover.xxx)
