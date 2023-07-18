@@ -2,12 +2,13 @@
 import React from 'react';
 import { Box, Link, Typography } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
-import { UpdateDocs } from '@/common/config';
 
 export default function ExtendedResources({
   data,
+  url,
 }: {
   data?: { title: string; link: string; imgSrc: string; alt: string }[];
+  url: string;
 }) {
   if (!data || !data.length) {
     return (
@@ -32,11 +33,12 @@ export default function ExtendedResources({
         </Typography>
         <Link
           display={'block'}
-          href={UpdateDocs}
+          href={url}
           color="#437EF7"
           lineHeight="22px"
           fontSize="15px"
           underline="none"
+          target="_blank"
         >
           Go propose
           <EastIcon
