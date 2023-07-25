@@ -231,7 +231,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         <OriginalLink
           eip={meta.eip}
           discussions={meta['discussions-to']}
-          list={meta.list}
+          list={meta?.list}
         />
 
         <Box
