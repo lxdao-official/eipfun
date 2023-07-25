@@ -94,7 +94,7 @@ export default function Video({
     <Box
       id="videoWrap"
       position="relative"
-      height={286}
+      height={266}
       border={1}
       borderColor="#f5f5f5"
       borderRadius={1.5}
@@ -117,7 +117,7 @@ export default function Video({
             key={item.url}
             borderRadius={1.5}
             width={252.66}
-            height={246}
+            height={226}
             ml={2.5}
             overflow="hidden"
           >
@@ -134,9 +134,10 @@ export default function Video({
             <Typography
               variant="body1"
               lineHeight={'24px'}
-              mt={2.5}
+              mt={0.25}
               height="48px"
               fontWeight={600}
+              color="#000"
               title={item.title}
               sx={{
                 display: '-webkit-box',
