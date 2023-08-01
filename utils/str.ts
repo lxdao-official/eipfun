@@ -101,6 +101,22 @@ export function formatComEIP(str: string): EIPHeader {
         })
         metaObj[k] = vIds;
       }
+
+      if (k === 'list' && vStr && vStr.startsWith('- ')) {
+        const vIds: Video[] = [];
+        vStr.split('- ').forEach((line: string | undefined) => {
+          if (line) {
+            let [t, v] = line.split('](');
+            t = t.substring(1);
+            v = v.substring(0, v.length - 2);
+            if (t === 'Example Link Title') {
+              return;
+            }
+            v && t && vIds.push({ title: t, url: v })
+          }
+        })
+        metaObj[k] = vIds;
+      }
     });
 
   return metaObj;

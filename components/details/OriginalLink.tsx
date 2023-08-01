@@ -4,9 +4,11 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 export default function OriginalLink({
   eip,
+  list,
   discussions,
 }: {
   eip: string;
+  list?: { title: string; link: string }[];
   discussions?: string;
 }) {
   return (
@@ -43,6 +45,28 @@ export default function OriginalLink({
       >
         Original link
       </Button>
+
+      {!!(list && list.length) &&
+        list.map((item) => (
+          <Button
+            key={item.link}
+            variant="outlined"
+            size="large"
+            sx={{
+              marginLeft: '16px',
+              color: '#272D37',
+              borderColor: '#DAE0E6',
+              borderRadius: '6px',
+              padding: '0 16px',
+              '&:hover': {
+                color: '#437ef7',
+              },
+            }}
+            href={item.link}
+          >
+            {item.title}
+          </Button>
+        ))}
     </Box>
   );
 }
