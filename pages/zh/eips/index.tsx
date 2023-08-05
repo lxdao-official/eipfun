@@ -36,6 +36,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 const TypeButton = styled(Button)(() => {
   return {
     marginRight: '16px',
+    marginTop: '6px',
+    marginBottom: '6px',
     borderColor: 'transparent',
     color: '#272D37',
     background: '#F7F7F8',
@@ -49,7 +51,12 @@ const TypeButton = styled(Button)(() => {
   };
 });
 
-const categorysArr = ['All', 'Core', 'Networking', 'Interface', 'ERC'];
+const TypeButtonStyle = {
+  padding: '0 16px',
+  marginRight: '8px',
+};
+
+const categoriesArr = ['All', 'Core', 'Networking', 'Interface', 'ERC'];
 const typeArr = ['Meta', 'Informational'];
 
 const statusArr = [
@@ -98,7 +105,7 @@ function Eips({ data, pagination }: IProps) {
 
   const getPageData = ({
     type = typeArr.includes(active) ? active : undefined,
-    category = categorysArr.includes(active) && active !== 'All'
+    category = categoriesArr.includes(active) && active !== 'All'
       ? active
       : undefined,
     status = statusArr.includes(activeSecond) && activeSecond !== 'All'
@@ -123,6 +130,7 @@ function Eips({ data, pagination }: IProps) {
           setTotal(res.pagination.total);
           setCurrent(res.pagination.current + 1);
           setDataArr(res.data);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       })
       .catch((err) => {
@@ -151,7 +159,7 @@ function Eips({ data, pagination }: IProps) {
     });
   };
 
-  const fomatLink = (str: string) => {
+  const formatLink = (str: string) => {
     if (str.includes('<')) {
       let [name, linkText] = str.split('<');
       let link;
@@ -190,17 +198,26 @@ function Eips({ data, pagination }: IProps) {
     <>
       <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg">
-        <Typography color="#2E343F" py={4} variant="h4" fontWeight="bold">
+        <Typography
+          color="#2E343F"
+          py={4}
+          mt={0}
+          variant="h4"
+          fontWeight="bold"
+        >
           EIPs
         </Typography>
 
-        <Box pb={3} my={0.75}>
-          {categorysArr.map((item) => (
+        <Box pb={1.5}>
+          {categoriesArr.map((item) => (
             <TypeButton
               className={item === active ? 'active' : ''}
               variant="outlined"
               key={item}
               onClick={() => handleClickType(item)}
+              sx={(theme) => ({
+                [theme.breakpoints.down('md')]: TypeButtonStyle,
+              })}
             >
               {item}
             </TypeButton>
@@ -211,19 +228,25 @@ function Eips({ data, pagination }: IProps) {
               variant="outlined"
               key={item}
               onClick={() => handleClickType(item)}
+              sx={(theme) => ({
+                [theme.breakpoints.down('md')]: TypeButtonStyle,
+              })}
             >
               {item.replace('_', ' ')}
             </TypeButton>
           ))}
         </Box>
 
-        <Box pb={3} my={0.75}>
+        <Box pb={2.375}>
           {statusArr.map((item) => (
             <TypeButton
               className={item === activeSecond ? 'active' : ''}
               variant="outlined"
               key={item}
               onClick={() => handleClickType(item, 'status')}
+              sx={(theme) => ({
+                [theme.breakpoints.down('md')]: TypeButtonStyle,
+              })}
             >
               {item.replace('_', ' ')}
             </TypeButton>
@@ -247,7 +270,11 @@ function Eips({ data, pagination }: IProps) {
                 <StyledTableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
                     <Link
-                      style={{ color: '#437EF7', fontWeight: 'bold' }}
+                      style={{
+                        color: '#437EF7',
+                        fontWeight: 'bold',
+                      }}
+                      target="_blank"
                       href={`./eips/eip-${row.eip}`}
                     >
                       {row.eip}
@@ -266,10 +293,10 @@ function Eips({ data, pagination }: IProps) {
                       ? row.author.split(', ').map((item, i) => (
                           <React.Fragment key={item}>
                             {i !== 0 ? ', ' : ''}
-                            {fomatLink(item)}
+                            {formatLink(item)}
                           </React.Fragment>
                         ))
-                      : fomatLink(row.author)}
+                      : formatLink(row.author)}
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -277,7 +304,7 @@ function Eips({ data, pagination }: IProps) {
           </Table>
         </TableContainer>
 
-        <Stack spacing={2} alignItems={'center'} sx={{ margin: '16px 0 20px' }}>
+        <Stack spacing={2} alignItems={'center'} py={3}>
           <Pagination
             onChange={handlePageChange}
             count={Math.ceil(total / 20) || 0}
