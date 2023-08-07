@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, Box, Typography } from '@mui/material';
 
 import EastIcon from '@mui/icons-material/East';
 import Script from 'next/script';
+import useGetLang from '@/hooks/useGetLang';
 
 const EmailSubscribe = (): JSX.Element => {
+  const lang = useGetLang();
   useEffect(() => {
     if ((window as any).CustomSubstackWidget) {
       return;
@@ -12,7 +14,7 @@ const EmailSubscribe = (): JSX.Element => {
     (window as any).CustomSubstackWidget = {
       substackUrl: 'eipsfun.substack.com',
       placeholder: 'example@gmail.com',
-      buttonText: 'Submit',
+      buttonText: lang === 'en' ? 'Submit' : '邮件订阅',
       theme: 'custom',
       colors: {
         primary: '#437EF7',
@@ -21,21 +23,37 @@ const EmailSubscribe = (): JSX.Element => {
         text: '#fff',
       },
     };
-  }, []);
+  }, [lang]);
+  const t = ({ en, zh }: { en: string; zh: string }): string => {
+    if (lang === 'en') {
+      return en;
+    } else if (lang === 'zh') {
+      return zh;
+    }
+    return en;
+  };
+
   return (
     <>
       <Script src="https://substackapi.com/widget.js" async></Script>
 
       <Box className="contentleft">
         <Typography variant="h3">
-          Not miss a beat of EIPs&rsquo; update?
+          {t({
+            en: "Not miss a beat of EIPs' update?",
+            zh: '不想错过最新的 EIP 动态？',
+          })}
         </Typography>
         <Typography variant="body1" marginBottom="10px" marginTop="10px">
-          Subscribe EIPs Fun to receive the latest updates of EIPs Good for
-          Buidlers to follow up.
+          {t({
+            en: `Subscribe EIPs Fun to receive the latest updates of EIPs Good for
+          Buidlers to follow up.`,
+            zh: '订阅 EIPs Fun 周刊，以跟进相关更新。助你更容易了解 EIP，更好地建设以太坊。',
+          })}
         </Typography>
         <Link href="#" color="#437EF7" fontWeight={600} underline="hover">
-          View all <EastIcon sx={{ width: 14, verticalAlign: 'middle' }} />
+          {t({ en: ' View all ', zh: '详情' })}
+          <EastIcon sx={{ width: 14, verticalAlign: 'middle' }} />
         </Link>
       </Box>
       <Box className="contentRight">

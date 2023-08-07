@@ -24,6 +24,7 @@ import Projects from '@/components/details/Projects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { flatten } from '@/utils/index';
 import { EipsContentBlock } from '../../index';
+import useGetLang from '@/hooks/useGetLang';
 
 type HIProps = {
   level: number;
@@ -106,6 +107,21 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
       tocbot.destroy();
     }
   }, [show]);
+
+  interface LangObj {
+    en: string;
+    zh: string;
+  }
+
+  const T = ({ en, zh }: LangObj) => {
+    const lang = useGetLang();
+    if (lang === 'en') {
+      return en;
+    } else if (lang === 'zh') {
+      return zh;
+    }
+    return en;
+  };
 
   const handleShow = () => {
     setShow((state) => !state);
@@ -231,6 +247,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         <Time
           created={meta.created}
           lastCallDeadline={meta['last-call-deadline']}
+          T={T}
         />
 
         <Requires data={meta.requires} />
@@ -239,6 +256,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
         <OriginalLink
           eip={meta.eip}
+          T={T}
           discussions={meta['discussions-to']}
           list={meta?.list}
         />
@@ -261,7 +279,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 variant="h6"
                 lineHeight="30px"
               >
-                1 min read
+                长话短说
               </Typography>
             </Box>
 
@@ -275,9 +293,9 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               lineHeight="30px"
               fontWeight="bold"
             >
-              Video{meta.videos?.length ? 's' : ''}
+              视频
             </Typography>
-            <Video list={meta.videos || []} url={updateFileUrl} />
+            <Video list={meta.videos || []} url={updateFileUrl} T={T} />
 
             <Typography
               id="original-tit"
@@ -288,7 +306,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               lineHeight="30px"
               fontWeight="bold"
             >
-              Original
+              正文
             </Typography>
 
             <Box
@@ -364,18 +382,19 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                   onClick={handleShow}
                   sx={{ padding: '0 24px', borderRadius: '6px' }}
                 >
-                  {show ? 'Show less' : 'View more'}
+                  {show ? 'Show less' : '继续阅读'}
                 </Button>
               </Box>
             </Box>
 
             <Typography variant="h5" component={Box}>
-              Further reading
+              扩展阅读
             </Typography>
 
             <ExtendedResources
               data={meta['further reading']}
               url={updateFileUrl}
+              T={T}
             />
           </Box>
 
@@ -398,10 +417,10 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 lineHeight="28px"
                 fontSize="18px"
               >
-                Adopted by projects
+                项目展示
               </Typography>
 
-              <Projects data={meta.projects} url={updateFileUrl} />
+              <Projects data={meta.projects} url={updateFileUrl} T={T} />
             </Box>
 
             {show && (

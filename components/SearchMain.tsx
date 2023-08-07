@@ -10,7 +10,8 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
-import { link } from 'fs';
+import useGetLang from '@/hooks/useGetLang';
+
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
@@ -177,7 +178,7 @@ function useSearch(searchText: string) {
 export default function SearchHeader() {
   const [inputValue, setInputValue] = useState<string>('');
   const debouncedSearch = useDebounce(inputValue, 200);
-  const router = useRouter();
+  const lang = useGetLang();
 
   const { isFetching, data: options } = useSearch(debouncedSearch);
 
@@ -227,7 +228,11 @@ export default function SearchHeader() {
         }}
         renderInput={(params) => (
           <EIPsSearch
-            placeholder="Search EIPs by number/word"
+            placeholder={
+              lang === 'en'
+                ? 'Search EIPs by number/word'
+                : '输入编号或标题内容搜索 EIP'
+            }
             {...params}
             size="medium"
             InputProps={{

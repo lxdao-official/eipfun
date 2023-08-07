@@ -257,11 +257,11 @@ function Eips({ data, pagination }: IProps) {
           <Table sx={{ minWidth: 700 }} aria-label="table">
             <TableHead>
               <TableRow>
-                <StyledTableCell sx={{ width: '0.08' }}>Number</StyledTableCell>
-                <StyledTableCell sx={{ width: '0.08' }}>Status</StyledTableCell>
-                <StyledTableCell sx={{ width: '0.22' }}>Type</StyledTableCell>
-                <StyledTableCell sx={{ width: '0.32' }}>Title</StyledTableCell>
-                <StyledTableCell sx={{ width: '0.3' }}>Author</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.08' }}>编号</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.08' }}>状态</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.22' }}>类型</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.32' }}>标题</StyledTableCell>
+                <StyledTableCell sx={{ width: '0.3' }}>作者</StyledTableCell>
               </TableRow>
             </TableHead>
 

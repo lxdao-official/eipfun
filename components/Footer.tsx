@@ -24,8 +24,12 @@ const footerList1: footerItem[] = [
 ];
 
 const footerList2: footerItem[] = [
-  { con: 'LXDAO', conZh: '合作伙伴', href: 'https://lxdao.io' },
-  { con: 'PlanckerDAO', conZh: '社区', href: 'https://www.plancker.org' },
+  { con: 'LXDAO', conZh: 'LXDAO', href: 'https://lxdao.io' },
+  {
+    con: 'PlanckerDAO',
+    conZh: 'PlanckerDAO',
+    href: 'https://www.plancker.org',
+  },
 ];
 
 export default function Footer() {
@@ -49,7 +53,7 @@ export default function Footer() {
           </Box>
 
           <Typography component={Box} pb={2} variant="body1">
-            Serve EIP builders, scale Ethereum.
+            聚集 EIP 贡献者, 扩展以太坊
           </Typography>
 
           <Box>
@@ -99,7 +103,7 @@ export default function Footer() {
               fontWeight="bold"
               lineHeight="24px"
             >
-              Resources
+              资源
             </Typography>
             <Box pb={7.25} pt={2}>
               {footerList1.map((item) => (
@@ -118,7 +122,7 @@ export default function Footer() {
               fontWeight="bold"
               lineHeight="24px"
             >
-              Supported by
+              支持社区
             </Typography>
             <Box pb={7.25} pt={2}>
               {footerList2.map((item) => (

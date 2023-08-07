@@ -74,7 +74,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h1" textAlign="center" color="#fff">
-            Serve EIP builders, scale Ethereum.
+            聚集 EIP 贡献者，拓展以太坊
           </Typography>
           <Box maxWidth="lg" margin="0 auto" width="100%">
             <SearchMain />
@@ -87,7 +87,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h2" textAlign="center">
-            What is EIPs?
+            什么是 EIP ?
           </Typography>
           <Typography
             variant="body2"
@@ -96,9 +96,10 @@ export default function Home() {
             margin="16px auto 0 auto"
             width="90%"
           >
-            It is short for Ethereum Improvement Proposals, they are standards
-            for the Ethereum platform, including core protocol specifications,
-            client APIs, and contract standards.
+            EIP 是 ”Ethereum Improvement Proposal“ 的缩
+            写，译成中文为“以太坊改进提案”。它们是以太坊
+            平台的标准，包括核心协议规范、客户端应用程 序接口 (API)
+            、以及智能合约标准。
           </Typography>
         </Box>
         <Box
@@ -108,7 +109,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h2" textAlign="center">
-            How EIPs work?
+            EIP 如何运作？
           </Typography>
           <Typography
             variant="body2"
@@ -124,8 +125,7 @@ export default function Home() {
               marginTop={10}
               href="https://eips.ethereum.org/EIPS/eip-1"
             >
-              {' '}
-              View more{' '}
+              进一步阅读{' '}
               <EastIcon sx={{ fontSize: '14px', verticalAlign: 'middle' }} />
             </Link>
           </Typography>
@@ -195,7 +195,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h2" textAlign="center">
-            Supporters & Partners
+            支持社区
           </Typography>
           <Box
             display="flex"
@@ -234,7 +234,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h2" textAlign="center">
-            Advisors
+            顾问伙伴
           </Typography>
           <Box
             display="flex"
@@ -276,11 +276,11 @@ export default function Home() {
         </EipsContentBlock>
         <EipsContentBlock>
           <Box className="contentleft">
-            <Typography variant="h3">Our vision</Typography>
+            <Typography variant="h3">愿景</Typography>
             <Typography variant="body2">
-              EIPs.Fun aims to serve as the &quot;layer 2&quot; of the EIP
-              ecosystem, simplifying and accelerating the adoption of EIPs, and
-              seeking to catalyze the synergy of the EIP ecosystem.
+              EIPs Fun希望能成为EIP生态系统的“第2层
+              (Layer2)”，使EIP更易接近，并促进它的采
+              用，连接以太坊的建设者与爱好者们。
             </Typography>
           </Box>
           <Box className="contentRight">
@@ -293,7 +293,7 @@ export default function Home() {
               target="_blank"
               size="medium"
             >
-              Join Us
+              加入我们
             </Button>
             <Button
               variant="contained"
@@ -302,7 +302,7 @@ export default function Home() {
               size="medium"
               target="_blank"
             >
-              Donate
+              捐赠
             </Button>
           </Box>
         </EipsContentBlock>
@@ -312,39 +312,38 @@ export default function Home() {
 }
 const introList = [
   {
-    title: 'Write & Submit',
+    title: '写作与提交',
     image: '/images/intro_1.jpg',
-    intro: 'Clone the repository, write your idea, commit and push a PR',
-    action: 'Propose now',
+    intro: '克隆 EIPs Fun 的 Github 仓库，写下你的想法，提交 PR',
+    action: '现在提交',
     index: 1,
     actionLink: 'https://github.com/ethereum/EIPs',
   },
   {
-    title: 'Review & Feedback',
+    title: '评议与反馈',
     image: '/images/intro_2.jpg',
-    intro:
-      'Once review is done, any editor assigns an EIP number and merges the PR',
+    intro: '评议结束后，EIP编辑会分配编码并合并 PR 至 EIP 主仓库中',
     action: '',
     index: 2,
   },
   {
-    title: 'Peer Review',
+    title: '社区评议',
     image: '/images/intro_3.jpg',
-    intro: 'The community review and give you feedback',
+    intro: '以太坊社区评议并给与反馈',
     action: '',
     index: 3,
   },
   {
-    title: 'Last Call',
+    title: '终审',
     image: '/images/intro_4.jpg',
-    intro: 'Any editor sets this status with a deadline',
+    intro: ' EIP 编辑将分配”终审“状态并设置终审截止日期，通常是 14 天',
     action: '',
     index: 4,
   },
   {
-    title: 'Final',
+    title: '终稿',
     image: '/images/intro_5.jpg',
-    intro: 'Deadline reached, status auto changes to “Final”',
+    intro: '到了截止日期，EIP 进入”终稿“状态',
     action: '',
     index: 5,
   },
@@ -361,16 +360,16 @@ const advisorList = [
   {
     name: '5660.eth',
     head: '/images/5660.jpg',
-    intro: 'Author of EIP6105, EIP6147',
-    desc: 'Author of EIP6105, EIP6147',
+    intro: 'EIP6105 与 EIP6147的作者',
+    desc: 'EIP6105 与 EIP6147的作者',
     twitter: 'https://twitter.com/web3saltman',
     github: 'https://github.com/5660-eth',
   },
   {
     name: 'Victor Zhou',
     head: '/images/victorzhou.jpg',
-    intro: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
-    desc: 'Author of ERC1202, ERC5750; Initiator of AllERCdevs',
+    intro: '周栽南（Victor Zhou）ERC1202 与 ERC5750 的作者; AllERCdevs 发起者',
+    desc: '周栽南（Victor Zhou）ERC1202 与 ERC5750 的作者; AllERCdevs 发起者',
     twitter: 'https://twitter.com/ZainanZhou',
     github: 'https://github.com/xinbenlv',
   },

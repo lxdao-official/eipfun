@@ -6,9 +6,11 @@ import EastIcon from '@mui/icons-material/East';
 export default function ExtendedResources({
   data,
   url,
+  T,
 }: {
   data?: { title: string; link: string; imgSrc: string; alt: string }[];
   url: string;
+  T: Function;
 }) {
   if (!data || !data.length) {
     return (
@@ -29,7 +31,10 @@ export default function ExtendedResources({
           lineHeight={'20px'}
           mb={1}
         >
-          Anyone may contribute to propose contents.
+          {T({
+            en: 'Anyone may contribute to propose contents.',
+            zh: '欢迎补充好内容',
+          })}
         </Typography>
         <Link
           display={'block'}
@@ -40,7 +45,10 @@ export default function ExtendedResources({
           underline="none"
           target="_blank"
         >
-          Go propose
+          {T({
+            en: ' Go propose',
+            zh: '去提交',
+          })}
           <EastIcon
             sx={{
               width: 14,
