@@ -35,6 +35,15 @@ const footerList2: footerItem[] = [
 export default function Footer() {
   const lang = useGetLang();
 
+  const t = ({ en, zh }: { en: string; zh: string }) => {
+    if (lang === 'en') {
+      return en;
+    } else if (lang === 'zh') {
+      return zh;
+    }
+    return en;
+  };
+
   return (
     <Box bgcolor={'#f8f9fb'} py={[5, 5, 8, 8]}>
       <Box
@@ -53,7 +62,10 @@ export default function Footer() {
           </Box>
 
           <Typography component={Box} pb={2} variant="body1">
-            聚集 EIP 贡献者, 扩展以太坊
+            {t({
+              en: 'Serve EIP builders, scale Ethereum.',
+              zh: '聚集 EIP 贡献者, 扩展以太坊',
+            })}
           </Typography>
 
           <Box>
@@ -103,7 +115,7 @@ export default function Footer() {
               fontWeight="bold"
               lineHeight="24px"
             >
-              资源
+              {t({ en: 'Resources', zh: '资源' })}
             </Typography>
             <Box pb={7.25} pt={2}>
               {footerList1.map((item) => (
@@ -122,7 +134,7 @@ export default function Footer() {
               fontWeight="bold"
               lineHeight="24px"
             >
-              支持社区
+              {t({ en: 'Supported by', zh: '支持社区' })}
             </Typography>
             <Box pb={7.25} pt={2}>
               {footerList2.map((item) => (
