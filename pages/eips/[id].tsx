@@ -24,6 +24,7 @@ import Projects from '@/components/details/Projects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { flatten } from '@/utils/index';
 import { EipsContentBlock } from '../index';
+import useGetLang from '@/hooks/useGetLang';
 
 type HIProps = {
   level: number;
@@ -97,6 +98,20 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
       tocbot.destroy();
     }
   }, [show]);
+
+  interface LangObj {
+    en: string;
+    zh: string;
+  }
+  const T = ({ en, zh }: LangObj) => {
+    const lang = useGetLang();
+    if (lang === 'en') {
+      return en;
+    } else if (lang === 'zh') {
+      return zh;
+    }
+    return en;
+  };
 
   const handleShow = () => {
     setShow((state) => !state);
@@ -222,6 +237,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         <Time
           created={meta.created}
           lastCallDeadline={meta['last-call-deadline']}
+          T={T}
         />
 
         <Requires data={meta.requires} />
@@ -232,6 +248,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           eip={meta.eip}
           discussions={meta['discussions-to']}
           list={meta?.list}
+          T={T}
         />
 
         <Box
@@ -268,7 +285,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             >
               Video{meta.videos?.length ? 's' : ''}
             </Typography>
-            <Video list={meta.videos || []} url={updateFileUrl} />
+            <Video list={meta.videos || []} url={updateFileUrl} T={T} />
 
             <Typography
               id="original-tit"
@@ -366,6 +383,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             <ExtendedResources
               data={meta['further reading']}
               url={updateFileUrl}
+              T={T}
             />
           </Box>
 
@@ -391,7 +409,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 Adopted by projects
               </Typography>
 
-              <Projects data={meta.projects} url={updateFileUrl} />
+              <Projects data={meta.projects} url={updateFileUrl} T={T} />
             </Box>
 
             {show && (
