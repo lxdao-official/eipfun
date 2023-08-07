@@ -21,7 +21,7 @@ export default function Time({
       {lastCallDeadline && (
         <>
           <Typography fontWeight="bold" fontSize={14} component="span" ml={1}>
-            Last Call Deadline:{' '}
+            {T({ en: 'Last Call Deadline ', zh: '终审截止日期' })}:{' '}
           </Typography>
           <Typography component="span" fontSize={14} fontWeight="normal">
             {lastCallDeadline}

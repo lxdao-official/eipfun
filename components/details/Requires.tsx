@@ -1,7 +1,9 @@
 import React from 'react';
 import { Box, Link, Typography } from '@mui/material';
+import useGetLang from '@/hooks/useGetLang';
 
 export default function Requires({ data }: { data?: string }) {
+  const lang = useGetLang();
   if (!data || data === '0') {
     return null;
   }
@@ -9,7 +11,7 @@ export default function Requires({ data }: { data?: string }) {
   return (
     <Box pb={[1, 1, 2, 2]} sx={{ fontSize: '14px' }}>
       <Typography fontWeight="bold" fontSize={14} component="span">
-        Requires:{' '}
+        {lang === 'en' ? 'Requires' : '关联 EIP'}:{' '}
       </Typography>
       {data.includes(', ') ? (
         data.split(', ').map((item: string, i: number) => (

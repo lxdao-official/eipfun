@@ -27,7 +27,7 @@ export default function OriginalLink({
           size="large"
           href={discussions}
         >
-          Discussions
+          {T({ en: 'Discussions', zh: '社区讨论' })}
         </Button>
       )}
 
