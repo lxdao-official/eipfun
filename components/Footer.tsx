@@ -16,8 +16,8 @@ type footerItem = {
 
 const footerList1: footerItem[] = [
   {
-    con: 'Github',
-    conZh: 'Github',
+    con: 'GitHub',
+    conZh: 'GitHub',
     href: 'https://github.com/lxdao-official/eipsfun',
   },
   { con: 'Community', conZh: '社区', href: TelegramLink },

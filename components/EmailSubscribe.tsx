@@ -48,7 +48,7 @@ const EmailSubscribe = (): JSX.Element => {
           {t({
             en: `Subscribe EIPs Fun to receive the latest updates of EIPs Good for
           Buidlers to follow up.`,
-            zh: '订阅 EIPs Fun 周刊，以跟进相关更新。助你更容易了解 EIP，更好地建设以太坊。',
+            zh: '订阅 EIPs Fun 周刊以跟进相关更新，建⽴你与 EIP 之间的连接 ，更好地建设以太坊。',
           })}
         </Typography>
         <Link href="#" color="#437EF7" fontWeight={600} underline="hover">

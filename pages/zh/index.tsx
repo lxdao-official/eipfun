@@ -74,7 +74,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h1" textAlign="center" color="#fff">
-            聚集 EIP 贡献者，拓展以太坊
+            连接 EIP 贡献者，扩展以太坊
           </Typography>
           <Box maxWidth="lg" margin="0 auto" width="100%">
             <SearchMain />
@@ -96,10 +96,10 @@ export default function Home() {
             margin="16px auto 0 auto"
             width="90%"
           >
-            EIP 是 ”Ethereum Improvement Proposal“ 的缩
-            写，译成中文为“以太坊改进提案”。它们是以太坊
-            平台的标准，包括核心协议规范、客户端应用程 序接口 (API)
-            、以及智能合约标准。
+            EIP 是 ”Ethereum Improvement Proposal”
+            的缩写，译成中⽂为“以太坊改进提案”。它们
+            是以太坊平台的标准，包括核⼼协议规范、客户端应⽤程序接⼝（API）以及智能合约标
+            准。
           </Typography>
         </Box>
         <Box
@@ -278,9 +278,8 @@ export default function Home() {
           <Box className="contentleft">
             <Typography variant="h3">愿景</Typography>
             <Typography variant="body2">
-              EIPs Fun希望能成为EIP生态系统的“第2层
-              (Layer2)”，使EIP更易接近，并促进它的采
-              用，连接以太坊的建设者与爱好者们。
+              EIPs Fun 希望成为 EIP ⽣态系统的“第 2 层 (Layer2)”，使 EIP
+              更易接近，促进它的采 ⽤，连接以太坊的建设者与爱好者们。
             </Typography>
           </Box>
           <Box className="contentRight">
@@ -368,8 +367,8 @@ const advisorList = [
   {
     name: 'Victor Zhou',
     head: '/images/victorzhou.jpg',
-    intro: '周栽南（Victor Zhou）ERC1202 与 ERC5750 的作者; AllERCdevs 发起者',
-    desc: '周栽南（Victor Zhou）ERC1202 与 ERC5750 的作者; AllERCdevs 发起者',
+    intro: '周载南（Victor Zhou）ERC1202 与 ERC5750 的作者; AllERCdevs 发起者',
+    desc: '周载南（Victor Zhou）ERC1202 与 ERC5750 的作者; AllERCdevs 发起者',
     twitter: 'https://twitter.com/ZainanZhou',
     github: 'https://github.com/xinbenlv',
   },

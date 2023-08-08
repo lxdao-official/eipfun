@@ -90,7 +90,7 @@ const Navigation = (): JSX.Element => {
             color="inherit"
             underline="hover"
           >
-            Home
+            {isEn ? 'Home' : '主页'}
           </Link>
           <Link
             color="inherit"
@@ -204,7 +204,7 @@ const Navigation = (): JSX.Element => {
                   location.href = isEn ? '/' : '/zh';
                 }}
               >
-                Home
+                {isEn ? 'Home' : '主页'}
               </Box>
             </Box>
             <Box width="100%" height="72px" lineHeight="72px">
