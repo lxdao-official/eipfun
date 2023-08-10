@@ -2,6 +2,9 @@
 
 Serve EIP builders, scale Ethereum.
 
+- Website: http://eip.fun/
+- TG Group: https://t.me/eipfun
+
 ## Background: What are EIPs, and why it matters?
 
 Ethereum Improvement Proposals (EIPs) describe standards for the Ethereum platform, including core protocol specifications, client APIs, and contract standards.
