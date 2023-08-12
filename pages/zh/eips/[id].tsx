@@ -387,7 +387,13 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Box>
             </Box>
 
-            <Typography variant="h5" component={Box}>
+            <Typography
+              component={Box}
+              variant="h6"
+              fontSize="22px"
+              lineHeight="30px"
+              fontWeight="bold"
+            >
               扩展阅读
             </Typography>
 
@@ -417,7 +423,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 lineHeight="28px"
                 fontSize="18px"
               >
-                项目展示
+                相关项目展示
               </Typography>
 
               <Projects data={meta.projects} url={updateFileUrl} T={T} />

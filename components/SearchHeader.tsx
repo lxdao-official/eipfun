@@ -175,7 +175,9 @@ export default function SearchHeader() {
             {...props}
             onClick={() => {
               // router.push(`/eips/eip-${option.eip}`);
-              location.href = `/eips/eip-${option.eip}`;
+              location.href = `${lang === 'en' ? '' : '/zh'}/eips/eip-${
+                option.eip
+              }`;
             }}
           >
             <Typography variant="h5" width="100%">

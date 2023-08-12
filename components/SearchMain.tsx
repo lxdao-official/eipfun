@@ -4,7 +4,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { Box, InputAdornment, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
-import { useRouter } from 'next/router';
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -212,7 +211,9 @@ export default function SearchHeader() {
             <SearchOption
               {...props}
               onClick={() => {
-                location.href = `/eips/eip-${option.eip}`;
+                location.href = `${lang === 'en' ? '' : '/zh'}/eips/eip-${
+                  option.eip
+                }`;
               }}
             >
               <h3>

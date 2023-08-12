@@ -98,8 +98,7 @@ export default function Home() {
           >
             EIP 是 ”Ethereum Improvement Proposal”
             的缩写，译成中⽂为“以太坊改进提案”。它们
-            是以太坊平台的标准，包括核⼼协议规范、客户端应⽤程序接⼝（API）以及智能合约标
-            准。
+            是以太坊平台的标准，包括核⼼协议规范、客户端应⽤程序接⼝（API）以及智能合约标准。
           </Typography>
         </Box>
         <Box

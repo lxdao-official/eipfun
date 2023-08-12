@@ -376,7 +376,13 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Box>
             </Box>
 
-            <Typography variant="h5" component={Box}>
+            <Typography
+              component={Box}
+              variant="h6"
+              fontSize="22px"
+              lineHeight="30px"
+              fontWeight="bold"
+            >
               Further reading
             </Typography>
 
