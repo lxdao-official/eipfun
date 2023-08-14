@@ -9,7 +9,7 @@ export default function Requires({ data }: { data?: string }) {
   }
 
   return (
-    <Box pb={[1, 1, 2, 2]} sx={{ fontSize: '14px' }}>
+    <Box pb={[1, 1, 1.5, 1.5]} sx={{ fontSize: '14px' }}>
       <Typography fontWeight="bold" fontSize={14} component="span">
         {lang === 'en' ? 'Requires' : '关联 EIP'}:{' '}
       </Typography>

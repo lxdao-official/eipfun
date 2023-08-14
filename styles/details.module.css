@@ -7,13 +7,13 @@
 
 @media (max-width: 900px) {
   .tocWrap {
-    margin-top: -999999px !important;
+    display: none;
   }
 }
 
 @media (min-width: 900px) {
   .tocWrap {
-    margin-top: 0 !important;
+    display: block;
   }
 }
 

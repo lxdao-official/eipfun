@@ -173,7 +173,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
       </Head>
 
       <Box borderTop={1} borderColor="#EAEBF0" />
-      <Container maxWidth="lg" sx={{ overflow: 'hidden', px: [3, 3, 2, 0] }}>
+      <Container maxWidth="lg" sx={{ overflow: 'hidden', px: [3, 3, 2, 2] }}>
         <Box pt={4} pb={[2, 2, 3, 3]}>
           <Typography
             display="inline-block"
@@ -227,13 +227,13 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           fontSize={[24, 24, 40, 40]}
           lineHeight={['38px', '38px', '48px', '48px']}
           fontWeight="bold"
-          mt={[2, 2, 3, 3]}
+          mt={[1, 1, 1.5, 1.5]}
         >
           {meta.title}
         </Typography>
 
         {(meta.abstract || meta.description) && (
-          <Typography pt={2} component={Box} variant="body1" color="#5F6D7E">
+          <Typography pt={1} component={Box} variant="body1" color="#5F6D7E">
             {meta.abstract || meta.description}
           </Typography>
         )}
@@ -256,9 +256,9 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
         <OriginalLink
           eip={meta.eip}
-          T={T}
           discussions={meta['discussions-to']}
           list={meta?.list}
+          T={T}
         />
 
         <Box
@@ -271,7 +271,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           }}
           mt={3}
         >
-          <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 840]}>
+          <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 828]}>
             <Box pb={3}>
               <Typography
                 fontSize={22}
@@ -376,13 +376,13 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                   />
                 )}
               </Box>
-              <Box sx={{ textAlign: 'center' }}>
+              <Box sx={{ textAlign: 'center' }} pt={show ? 5 : 0}>
                 <Button
                   variant="contained"
                   onClick={handleShow}
                   sx={{ padding: '0 24px', borderRadius: '6px' }}
                 >
-                  {show ? 'Show less' : '继续阅读'}
+                  {show ? '收起' : '继续阅读'}
                 </Button>
               </Box>
             </Box>
@@ -406,7 +406,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
           <Box
             sx={{ float: 'right' }}
-            width={[1, 1, 0.26, 328]}
+            width={[1, 1, 0.26, 308]}
             mt={[4, 4, 0, 0]}
           >
             <Box
@@ -448,7 +448,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           </Box>
         </Box>
 
-        <EipsContentBlock>
+        <EipsContentBlock sx={{ maxWidth: '1168px' }}>
           <EmailSubscribe />
         </EipsContentBlock>
       </Container>
