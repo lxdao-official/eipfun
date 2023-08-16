@@ -250,7 +250,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           T={T}
         />
 
-        <Requires data={meta.requires} />
+        <Requires data={meta.requires} T={T} />
 
         <Author authors={meta.author} />
 
@@ -279,7 +279,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 variant="h6"
                 lineHeight="30px"
               >
-                长话短说
+                1 分钟了解
               </Typography>
             </Box>
 
@@ -293,7 +293,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               lineHeight="30px"
               fontWeight="bold"
             >
-              视频
+              相关视频
             </Typography>
             <Video list={meta.videos || []} url={updateFileUrl} T={T} />
 
@@ -423,7 +423,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 lineHeight="28px"
                 fontSize="18px"
               >
-                相关项目展示
+                相关项目
               </Typography>
 
               <Projects data={meta.projects} url={updateFileUrl} T={T} />

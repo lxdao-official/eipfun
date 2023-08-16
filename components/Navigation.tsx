@@ -65,7 +65,12 @@ const Navigation = (): JSX.Element => {
 
   const toggleLang = () => {
     if (langText === 'EN') {
-      router.replace(router.asPath.substring(3) || '/');
+      const asPath = router.asPath;
+      if (asPath.includes('/zh/')) {
+        router.replace(asPath.substring(3));
+      } else {
+        router.replace('/');
+      }
     } else {
       router.replace('/zh' + router.asPath);
     }

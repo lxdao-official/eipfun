@@ -46,7 +46,7 @@ export default function Projects({
           target="_blank"
         >
           {T({
-            en: ' Go propose',
+            en: 'Go propose',
             zh: '去提交',
           })}
           <EastIcon

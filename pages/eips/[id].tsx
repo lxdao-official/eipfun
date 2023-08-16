@@ -240,7 +240,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           T={T}
         />
 
-        <Requires data={meta.requires} />
+        <Requires data={meta.requires} T={T} />
 
         <Author authors={meta.author} />
 

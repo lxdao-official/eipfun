@@ -277,8 +277,7 @@ export default function Home() {
           <Box className="contentleft">
             <Typography variant="h3">愿景</Typography>
             <Typography variant="body2">
-              EIPs Fun 希望成为 EIP ⽣态系统的“第 2 层 (Layer2)”，使 EIP
-              更易接近，促进它的采 ⽤，连接以太坊的建设者与爱好者们。
+              {`EIPs Fun 希望成为 EIP ⽣态系统的“Layer2”，使 EIP 更易接近，促进它的采 ⽤，连接以太坊的建设者与爱好者们。`}
             </Typography>
           </Box>
           <Box className="contentRight">
