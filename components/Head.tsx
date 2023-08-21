@@ -4,9 +4,9 @@ import { MetaProps } from '../types/layout';
 
 const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
   const meta = {
-    title: 'EIPs.Fun - Serve EIP builders, scale Ethereum.',
+    title: 'EIP.Fun - Serve EIP builders, scale Ethereum.',
     description:
-      'EIPs.fun is run by the contributors, for the contributor, and owned by the contributors.',
+      'EIP.fun is run by the contributors, for the contributor, and owned by the contributors.',
     type: 'website',
     ...customMeta,
   };
@@ -16,7 +16,7 @@ const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
       <title>{meta.title}</title>
       <meta content={meta.description} name="description" />
       <meta property="og:type" content={meta.type} />
-      <meta property="og:site_name" content="EIPs.Fun - Website" />
+      <meta property="og:site_name" content="EIP.Fun - Website" />
       <meta property="og:description" content={meta.description} />
       <meta property="og:title" content={meta.title} />
       <meta name="twitter:card" content="summary_large_image" />
@@ -25,10 +25,10 @@ const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
       <meta name="twitter:description" content={meta.description} />
       <meta
         name="twitter:image"
-        content="https://eips.fun/images/logo_summary.jpg"
+        content="https://eip.fun/images/logo_summary.jpg"
       />
       {meta.created && (
-        <meta property="eips:created_time" content={meta.created} />
+        <meta property="eip:created_time" content={meta.created} />
       )}
     </NextHead>
   );

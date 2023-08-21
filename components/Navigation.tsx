@@ -5,6 +5,7 @@ import Menu from 'public/images/menu.svg';
 import Close from 'public/images/close.svg';
 import LanguageIcon from '@mui/icons-material/Language';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import TwitterIcon from '@mui/icons-material/Twitter';
 // import Container, { ContainerProps } from '@mui/material/Container';
 import { Box, Link, styled } from '@mui/material';
 import SearchHeader from './SearchHeader';
@@ -12,6 +13,8 @@ import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import useGetLang from '@/hooks/useGetLang';
 import Drawer from '@mui/material/Drawer';
 import { Telegram as TelegramLink } from '@/common/config';
+import { Twitter as TwitterLink } from '@/common/config';
+
 const Navigation = (): JSX.Element => {
   const [langText, setLangText] = useState<string>();
   const [drawOpen, setDrawOpen] = useState<boolean>(false);
@@ -118,6 +121,21 @@ const Navigation = (): JSX.Element => {
       </Box>
       <Box>
         <Box className="mobileHidden" display={'flex'} alignItems={'center'}>
+          <Link
+            height="46px"
+            bgcolor="#F8F9FB"
+            borderRadius="25px"
+            display="flex"
+            alignItems="center"
+            margin="0 20px"
+            padding="0 12px"
+            color="inherit"
+            target="_blank"
+            href={TwitterLink}
+          >
+            <TwitterIcon />
+          </Link>
+
           <LightTooltip title="Join community">
             <Link
               height="46px"
@@ -233,6 +251,21 @@ const Navigation = (): JSX.Element => {
             alignItems="flex-end"
             justifyContent="flex-end"
           >
+            <Link
+              height="46px"
+              bgcolor="#F8F9FB"
+              borderRadius="25px"
+              display="flex"
+              alignItems="center"
+              margin="0 20px"
+              padding="0 12px"
+              color="inherit"
+              target="_blank"
+              href={TwitterLink}
+            >
+              <TwitterIcon />
+            </Link>
+
             <Link
               height="46px"
               bgcolor="#F8F9FB"

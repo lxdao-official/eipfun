@@ -143,7 +143,7 @@ export default function SearchHeader() {
   const screenWidth = useMediaQuery('(min-width:1000px)');
   const lang = useGetLang();
 
-  const { isFetching, data: options, isError } = useSearch(debouncedSearch);
+  const { isFetching, data: options } = useSearch(debouncedSearch);
 
   return (
     <Autocomplete
@@ -174,7 +174,6 @@ export default function SearchHeader() {
           <SearchOption
             {...props}
             onClick={() => {
-              // router.push(`/eips/eip-${option.eip}`);
               location.href = `${lang === 'en' ? '' : '/zh'}/eips/eip-${
                 option.eip
               }`;

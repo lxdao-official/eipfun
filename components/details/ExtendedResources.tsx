@@ -76,6 +76,7 @@ export default function ExtendedResources({
             py={2}
             key={item.title}
             href={item.link}
+            target="_blank"
             underline="none"
           >
             <Typography
