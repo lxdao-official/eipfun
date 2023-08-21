@@ -23,7 +23,7 @@ import ExtendedResources from '@/components/details/ExtendedResources';
 import Projects from '@/components/details/Projects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { flatten } from '@/utils/index';
-import { EipsContentBlock } from '../index';
+import { EipsContentBlock } from '../../index';
 import useGetLang from '@/hooks/useGetLang';
 
 type HIProps = {
@@ -68,6 +68,15 @@ const ARenderer: React.FC<AIProps> = ({ href, children }) => {
   return React.createElement('a', { href: href }, children);
 };
 
+interface ImgProps {
+  src?: string | undefined;
+  alt?: string | undefined;
+}
+
+const ImgRenderer: React.FC<ImgProps> = ({ alt, src }) => {
+  return React.createElement('img', { src: '../' + src, alt: alt });
+};
+
 type EIProps = {
   meta: {
     'extended resources'?: {
@@ -103,6 +112,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     en: string;
     zh: string;
   }
+
   const T = ({ en, zh }: LangObj) => {
     const lang = useGetLang();
     if (lang === 'en') {
@@ -128,7 +138,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     (meta.summary ? meta.summary : '') +
     (meta.chatgpt4 ? meta.chatgpt4 : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
-  const updateFileUrl = `https://github.com/lxdao-official/eipsfun/blob/main/content/en/eip-${meta.eip}.md?plain=1`;
+  const updateFileUrl = `https://github.com/lxdao-official/eipsfun/blob/main/content/zh/eip-${meta.eip}.md?plain=1`;
 
   return (
     <>
@@ -269,7 +279,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 variant="h6"
                 lineHeight="30px"
               >
-                1 min read
+                1 分钟了解
               </Typography>
             </Box>
 
@@ -283,7 +293,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               lineHeight="30px"
               fontWeight="bold"
             >
-              Video{meta.videos?.length ? 's' : ''}
+              相关视频
             </Typography>
             <Video list={meta.videos || []} url={updateFileUrl} T={T} />
 
@@ -296,7 +306,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               lineHeight="30px"
               fontWeight="bold"
             >
-              Original
+              正文
             </Typography>
 
             <Box
@@ -347,6 +357,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                     h3: (props) => HeadingRenderer({ ...props, level: 3 }),
                     h4: (props) => HeadingRenderer({ ...props, level: 4 }),
                     a: (props) => ARenderer(props),
+                    img: (props) => ImgRenderer(props),
                   }}
                 >
                   {mdStrData}
@@ -371,7 +382,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                   onClick={handleShow}
                   sx={{ padding: '0 24px', borderRadius: '6px' }}
                 >
-                  {show ? 'Show less' : 'View more'}
+                  {show ? '收起' : '继续阅读'}
                 </Button>
               </Box>
             </Box>
@@ -383,7 +394,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               lineHeight="30px"
               fontWeight="bold"
             >
-              Further reading
+              扩展阅读
             </Typography>
 
             <ExtendedResources
@@ -412,7 +423,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 lineHeight="28px"
                 fontSize="18px"
               >
-                Adopted by projects
+                相关项目
               </Typography>
 
               <Projects data={meta.projects} url={updateFileUrl} T={T} />
@@ -514,7 +525,7 @@ export const getStaticProps = async ({ params: { id } }: IContent) => {
 
   try {
     let comEIP = await readFile(
-      path.join(process.cwd(), 'content', 'en', `${id}.md`),
+      path.join(process.cwd(), 'content', 'zh', `${id}.md`),
       'utf8'
     );
     Object.assign(meta, formatComEIP(comEIP));

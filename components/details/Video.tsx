@@ -8,9 +8,11 @@ const elementWidth = 272.66;
 export default function Video({
   list,
   url,
+  T,
 }: {
   list: { title: string; url: string }[];
   url: string;
+  T: Function;
 }) {
   const [left, setLeft] = useState(0);
   const [wrapWidth, setWrapWidth] = useState(838);
@@ -43,7 +45,10 @@ export default function Video({
           lineHeight={'20px'}
           mb={1}
         >
-          Anyone may contribute to propose contents.
+          {T({
+            en: 'Anyone may contribute to propose contents.',
+            zh: '欢迎补充好内容',
+          })}
         </Typography>
         <Link
           display={'block'}
@@ -54,7 +59,11 @@ export default function Video({
           underline="none"
           target="_blank"
         >
-          Go propose
+          {T({
+            en: 'Go propose',
+            zh: '去提交',
+          })}
+
           <EastIcon
             sx={{
               width: 14,

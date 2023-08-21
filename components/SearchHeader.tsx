@@ -14,6 +14,8 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
+import useGetLang from '@/hooks/useGetLang';
+
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
 const SearchOption = styled('li')(() => ({
@@ -139,6 +141,7 @@ export default function SearchHeader() {
   const [inputValue, setInputValue] = useState<string>('');
   const debouncedSearch = useDebounce(inputValue, 500);
   const screenWidth = useMediaQuery('(min-width:1000px)');
+  const lang = useGetLang();
 
   const { isFetching, data: options, isError } = useSearch(debouncedSearch);
 
@@ -172,7 +175,9 @@ export default function SearchHeader() {
             {...props}
             onClick={() => {
               // router.push(`/eips/eip-${option.eip}`);
-              location.href = `/eips/eip-${option.eip}`;
+              location.href = `${lang === 'en' ? '' : '/zh'}/eips/eip-${
+                option.eip
+              }`;
             }}
           >
             <Typography variant="h5" width="100%">
@@ -188,7 +193,11 @@ export default function SearchHeader() {
       }}
       renderInput={(params) => (
         <TextField
-          placeholder="Search EIPs by number/word"
+          placeholder={
+            lang === 'en'
+              ? 'Search EIPs by number/word'
+              : '输入编号或标题内容搜索 EIP'
+          }
           {...params}
           size="small"
           InputProps={{

@@ -4,14 +4,16 @@ import { Box, Typography } from '@mui/material';
 export default function Time({
   created,
   lastCallDeadline,
+  T,
 }: {
   created: string;
   lastCallDeadline?: string;
+  T: Function;
 }) {
   return (
-    <Box pb={[2, 2, 3, 3]}>
+    <Box pb={[1, 1, 1.5, 1.5]}>
       <Typography fontWeight="bold" fontSize={14} component="span">
-        Created:{' '}
+        {T({ en: 'Created', zh: '创建时间' })}:{' '}
       </Typography>
       <Typography component="span" fontSize={14} fontWeight="normal">
         {created}
@@ -19,7 +21,7 @@ export default function Time({
       {lastCallDeadline && (
         <>
           <Typography fontWeight="bold" fontSize={14} component="span" ml={1}>
-            Last Call Deadline:{' '}
+            {T({ en: 'Last Call Deadline ', zh: '终审截止日期' })}:{' '}
           </Typography>
           <Typography component="span" fontSize={14} fontWeight="normal">
             {lastCallDeadline}

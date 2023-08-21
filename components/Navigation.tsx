@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Logo from 'public/logo.svg';
 import Menu from 'public/images/menu.svg';
 import Close from 'public/images/close.svg';
-// import LanguageIcon from '@mui/icons-material/Language';
+import LanguageIcon from '@mui/icons-material/Language';
 import TelegramIcon from '@mui/icons-material/Telegram';
 // import Container, { ContainerProps } from '@mui/material/Container';
 import { Box, Link, styled } from '@mui/material';
@@ -11,23 +11,20 @@ import SearchHeader from './SearchHeader';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import useGetLang from '@/hooks/useGetLang';
 import Drawer from '@mui/material/Drawer';
-import {
-  Telegram as TelegramLink,
-  Twitter as TwitterLink,
-} from '@/common/config';
+import { Telegram as TelegramLink } from '@/common/config';
 const Navigation = (): JSX.Element => {
-  // const [langText, setLangText] = useState<string>();
+  const [langText, setLangText] = useState<string>();
   const [drawOpen, setDrawOpen] = useState<boolean>(false);
 
   const router = useRouter();
   const isEn = useGetLang() === 'en';
-  // useEffect(() => {
-  //   if (router.pathname.includes('zh')) {
-  //     setLangText('EN');
-  //   } else {
-  //     setLangText('中文');
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    if (router.pathname.includes('zh')) {
+      setLangText('EN');
+    } else {
+      setLangText('中文');
+    }
+  }, [router]);
 
   const EipHeader = styled(Box)(({ theme }) => ({
     // width: 1440,
@@ -65,13 +62,19 @@ const Navigation = (): JSX.Element => {
       fontSize: 14,
     },
   }));
-  // const toggleLang = () => {
-  //   if (langText === 'EN') {
-  //     router.replace(router.pathname.substring(3) || '/');
-  //   } else {
-  //     router.replace('/zh' + router.pathname);
-  //   }
-  // };
+
+  const toggleLang = () => {
+    if (langText === 'EN') {
+      const asPath = router.asPath;
+      if (asPath.includes('/zh/')) {
+        router.replace(asPath.substring(3));
+      } else {
+        router.replace('/');
+      }
+    } else {
+      router.replace('/zh' + router.asPath);
+    }
+  };
 
   return (
     <EipHeader>
@@ -92,7 +95,7 @@ const Navigation = (): JSX.Element => {
             color="inherit"
             underline="hover"
           >
-            Home
+            {isEn ? 'Home' : '主页'}
           </Link>
           <Link
             color="inherit"
@@ -132,7 +135,7 @@ const Navigation = (): JSX.Element => {
             </Link>
           </LightTooltip>
 
-          {/* <Link
+          <Link
             height="46px"
             bgcolor="#F8F9FB"
             borderRadius="25px"
@@ -146,7 +149,7 @@ const Navigation = (): JSX.Element => {
             onClick={toggleLang}
           >
             <LanguageIcon /> {langText}
-          </Link> */}
+          </Link>
         </Box>
         <Box className="mobileShow">
           <Box
@@ -206,7 +209,7 @@ const Navigation = (): JSX.Element => {
                   location.href = isEn ? '/' : '/zh';
                 }}
               >
-                Home
+                {isEn ? 'Home' : '主页'}
               </Box>
             </Box>
             <Box width="100%" height="72px" lineHeight="72px">
@@ -245,7 +248,7 @@ const Navigation = (): JSX.Element => {
               <TelegramIcon />
             </Link>
 
-            {/* <Link
+            <Link
               height="46px"
               bgcolor="#F8F9FB"
               borderRadius="25px"
@@ -259,7 +262,7 @@ const Navigation = (): JSX.Element => {
               onClick={toggleLang}
             >
               <LanguageIcon /> {langText}
-            </Link> */}
+            </Link>
           </Box>
         </EipHeader>
       </Drawer>

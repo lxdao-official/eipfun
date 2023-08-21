@@ -51,7 +51,7 @@ const TypeButton = styled(Button)(() => {
   };
 });
 
-const TypeButtonStyle = {
+const typeButtonStyle = {
   padding: '0 16px',
   marginRight: '8px',
 };
@@ -216,7 +216,7 @@ function Eips({ data, pagination }: IProps) {
               key={item}
               onClick={() => handleClickType(item)}
               sx={(theme) => ({
-                [theme.breakpoints.down('md')]: TypeButtonStyle,
+                [theme.breakpoints.down('md')]: typeButtonStyle,
               })}
             >
               {item}
@@ -229,7 +229,7 @@ function Eips({ data, pagination }: IProps) {
               key={item}
               onClick={() => handleClickType(item)}
               sx={(theme) => ({
-                [theme.breakpoints.down('md')]: TypeButtonStyle,
+                [theme.breakpoints.down('md')]: typeButtonStyle,
               })}
             >
               {item.replace('_', ' ')}
@@ -245,7 +245,7 @@ function Eips({ data, pagination }: IProps) {
               key={item}
               onClick={() => handleClickType(item, 'status')}
               sx={(theme) => ({
-                [theme.breakpoints.down('md')]: TypeButtonStyle,
+                [theme.breakpoints.down('md')]: typeButtonStyle,
               })}
             >
               {item.replace('_', ' ')}

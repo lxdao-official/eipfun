@@ -6,10 +6,12 @@ export default function OriginalLink({
   eip,
   list,
   discussions,
+  T,
 }: {
   eip: string;
   list?: { title: string; link: string }[];
   discussions?: string;
+  T: Function;
 }) {
   return (
     <Box pt={[1, 1, 3, 3]} pb={3}>
@@ -25,7 +27,7 @@ export default function OriginalLink({
           size="large"
           href={discussions}
         >
-          Discussions
+          {T({ en: 'Discussions', zh: '社区讨论' })}
         </Button>
       )}
 
@@ -43,7 +45,7 @@ export default function OriginalLink({
         }}
         href={`https://eips.ethereum.org/EIPS/eip-${eip}`}
       >
-        Original link
+        {T({ en: 'Original link', zh: '原文链接' })}
       </Button>
 
       {!!(list && list.length) &&
