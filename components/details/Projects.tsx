@@ -2,12 +2,15 @@
 import React from 'react';
 import { Box, Link, Typography } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
-import { UpdateDocs } from '@/common/config';
 
 export default function Projects({
   data,
+  url,
+  T,
 }: {
   data?: { title: string; link: string; imgSrc: string; alt: string }[];
+  url: string;
+  T: Function;
 }) {
   if (!data || !data.length) {
     return (
@@ -28,17 +31,24 @@ export default function Projects({
           lineHeight={'20px'}
           mb={1}
         >
-          No content, go to update the document
+          {T({
+            en: 'Anyone may contribute to propose contents.',
+            zh: '欢迎补充好内容',
+          })}
         </Typography>
         <Link
           display={'block'}
-          href={UpdateDocs}
+          href={url}
           color={'#437EF7'}
           lineHeight={'22px'}
           fontSize={'15px'}
           underline="none"
+          target="_blank"
         >
-          Get start
+          {T({
+            en: 'Go propose',
+            zh: '去提交',
+          })}
           <EastIcon
             sx={{
               width: 14,
@@ -69,12 +79,14 @@ export default function Projects({
             borderColor="#d9d9d9"
             borderRadius={1.5}
             overflow="hidden"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
           >
             <img
               style={{
                 display: 'block',
-                width: '100%',
-                height: '100%',
+                maxHeight: '100%',
                 border: 'none',
               }}
               src={item.imgSrc}

@@ -4,10 +4,14 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 export default function OriginalLink({
   eip,
+  list,
   discussions,
+  T,
 }: {
   eip: string;
+  list?: { title: string; link: string }[];
   discussions?: string;
+  T: Function;
 }) {
   return (
     <Box pt={[1, 1, 3, 3]} pb={3}>
@@ -23,7 +27,7 @@ export default function OriginalLink({
           size="large"
           href={discussions}
         >
-          Discussions
+          {T({ en: 'Discussions', zh: '社区讨论' })}
         </Button>
       )}
 
@@ -41,8 +45,30 @@ export default function OriginalLink({
         }}
         href={`https://eips.ethereum.org/EIPS/eip-${eip}`}
       >
-        Original link
+        {T({ en: 'Original link', zh: '原文链接' })}
       </Button>
+
+      {!!(list && list.length) &&
+        list.map((item) => (
+          <Button
+            key={item.link}
+            variant="outlined"
+            size="large"
+            sx={{
+              marginLeft: '16px',
+              color: '#272D37',
+              borderColor: '#DAE0E6',
+              borderRadius: '6px',
+              padding: '0 16px',
+              '&:hover': {
+                color: '#437ef7',
+              },
+            }}
+            href={item.link}
+          >
+            {item.title}
+          </Button>
+        ))}
     </Box>
   );
 }

@@ -14,6 +14,7 @@ import remarkGfm from 'remark-gfm';
 import Affix from '@/components/Affix';
 import Status from '@/components/details/Status';
 import Time from '@/components/details/Time';
+import Video from '@/components/details/Video';
 import Author from '@/components/details/Author';
 import Requires from '@/components/details/Requires';
 import OriginalLink from '@/components/details/OriginalLink';
@@ -23,6 +24,7 @@ import Projects from '@/components/details/Projects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { flatten } from '@/utils/index';
 import { EipsContentBlock } from '../index';
+import useGetLang from '@/hooks/useGetLang';
 
 type HIProps = {
   level: number;
@@ -39,6 +41,31 @@ export const HeadingRenderer: React.FC<HIProps> = ({ level, children }) => {
     { id: slug, className: 'eip-toc' },
     children
   );
+};
+
+interface AIProps {
+  href?: string;
+  children?: React.ReactNode;
+}
+
+const ARenderer: React.FC<AIProps> = ({ href, children }) => {
+  if (href?.startsWith('./') && href.endsWith('.md')) {
+    return React.createElement(
+      'a',
+      { href: href.replace('.md', '') },
+      children
+    );
+  }
+
+  if (href === '../LICENSE.md') {
+    return React.createElement(
+      'a',
+      { href: 'https://eips.ethereum.org/LICENSE', target: '_blank' },
+      children
+    );
+  }
+
+  return React.createElement('a', { href: href }, children);
 };
 
 type EIProps = {
@@ -72,6 +99,20 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     }
   }, [show]);
 
+  interface LangObj {
+    en: string;
+    zh: string;
+  }
+  const T = ({ en, zh }: LangObj) => {
+    const lang = useGetLang();
+    if (lang === 'en') {
+      return en;
+    } else if (lang === 'zh') {
+      return zh;
+    }
+    return en;
+  };
+
   const handleShow = () => {
     setShow((state) => !state);
     window.scrollTo({
@@ -87,8 +128,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     (meta.summary ? meta.summary : '') +
     (meta.chatgpt4 ? meta.chatgpt4 : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
-
-  // todo add images for sharing
+  const updateFileUrl = `https://github.com/lxdao-official/eipsfun/blob/main/content/en/eip-${meta.eip}.md?plain=1`;
 
   return (
     <>
@@ -123,7 +163,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
       </Head>
 
       <Box borderTop={1} borderColor="#EAEBF0" />
-      <Container maxWidth="lg" sx={{ overflow: 'hidden' }}>
+      <Container maxWidth="lg" sx={{ overflow: 'hidden', px: [3, 3, 2, 2] }}>
         <Box pt={4} pb={[2, 2, 3, 3]}>
           <Typography
             display="inline-block"
@@ -177,13 +217,13 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           fontSize={[24, 24, 40, 40]}
           lineHeight={['38px', '38px', '48px', '48px']}
           fontWeight="bold"
-          mt={[2, 2, 3, 3]}
+          mt={[1, 1, 1.5, 1.5]}
         >
           {meta.title}
         </Typography>
 
         {(meta.abstract || meta.description) && (
-          <Typography pt={2} component={Box} variant="body1" color="#5F6D7E">
+          <Typography pt={1} component={Box} variant="body1" color="#5F6D7E">
             {meta.abstract || meta.description}
           </Typography>
         )}
@@ -197,13 +237,19 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         <Time
           created={meta.created}
           lastCallDeadline={meta['last-call-deadline']}
+          T={T}
         />
 
-        <Requires data={meta.requires} />
+        <Requires data={meta.requires} T={T} />
 
         <Author authors={meta.author} />
 
-        <OriginalLink eip={meta.eip} discussions={meta['discussions-to']} />
+        <OriginalLink
+          eip={meta.eip}
+          discussions={meta['discussions-to']}
+          list={meta?.list}
+          T={T}
+        />
 
         <Box
           sx={{
@@ -215,7 +261,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           }}
           mt={3}
         >
-          <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 830]}>
+          <Box sx={{ float: 'left' }} width={[1, 1, 0.72, 828]}>
             <Box pb={3}>
               <Typography
                 fontSize={22}
@@ -228,6 +274,18 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             </Box>
 
             <ChatGpt chatgpt4={meta.chatgpt4} summary={meta.summary} />
+
+            <Typography
+              pt={6}
+              pb={3}
+              variant="h6"
+              fontSize="22px"
+              lineHeight="30px"
+              fontWeight="bold"
+            >
+              Video{meta.videos?.length ? 's' : ''}
+            </Typography>
+            <Video list={meta.videos || []} url={updateFileUrl} T={T} />
 
             <Typography
               id="original-tit"
@@ -288,6 +346,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                     h2: (props) => HeadingRenderer({ ...props, level: 2 }),
                     h3: (props) => HeadingRenderer({ ...props, level: 3 }),
                     h4: (props) => HeadingRenderer({ ...props, level: 4 }),
+                    a: (props) => ARenderer(props),
                   }}
                 >
                   {mdStrData}
@@ -306,7 +365,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                   />
                 )}
               </Box>
-              <Box sx={{ textAlign: 'center' }}>
+              <Box sx={{ textAlign: 'center' }} pt={show ? 5 : 0}>
                 <Button
                   variant="contained"
                   onClick={handleShow}
@@ -317,22 +376,26 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Box>
             </Box>
 
-            <Box>
-              <Typography variant="h5" component="span">
-                Further reading
-              </Typography>
-              <Typography color="#5F6D7E" variant="body2" component="span">
-                {' '}
-                by Analyst
-              </Typography>
-            </Box>
+            <Typography
+              component={Box}
+              variant="h6"
+              fontSize="22px"
+              lineHeight="30px"
+              fontWeight="bold"
+            >
+              Further reading
+            </Typography>
 
-            <ExtendedResources data={meta['extended resources']} />
+            <ExtendedResources
+              data={meta['further reading']}
+              url={updateFileUrl}
+              T={T}
+            />
           </Box>
 
           <Box
             sx={{ float: 'right' }}
-            width={[1, 1, 0.26, 302]}
+            width={[1, 1, 0.26, 308]}
             mt={[4, 4, 0, 0]}
           >
             <Box
@@ -352,7 +415,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 Adopted by projects
               </Typography>
 
-              <Projects data={meta.projects} />
+              <Projects data={meta.projects} url={updateFileUrl} T={T} />
             </Box>
 
             {show && (
@@ -374,7 +437,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           </Box>
         </Box>
 
-        <EipsContentBlock>
+        <EipsContentBlock sx={{ maxWidth: '1168px' }}>
           <EmailSubscribe />
         </EipsContentBlock>
       </Container>
@@ -462,7 +525,7 @@ export const getStaticProps = async ({ params: { id } }: IContent) => {
   return {
     props: {
       meta,
-      mdStrData: con.toString(),
+      mdStrData: con.join('---\n'),
     },
   };
 };

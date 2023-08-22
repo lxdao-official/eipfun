@@ -9,3 +9,15 @@ The gas and memory semantics for `CALL`, `CALLCODE`, and `DELEGATECALL` are chan
 This proposal is important because it makes it possible to call functions that return strings and other dynamically-sized arrays, which was previously difficult and costly. It also improves the flexibility and usability of the Ethereum network by reducing the cost of returning dynamically-sized data. 
 
 Overall, EIP-5 is a significant improvement to the gas usage for `RETURN` and `CALL*` in the Ethereum network, making it easier and more cost-effective to work with dynamically-sized data.
+
+## Videos
+
+- [Example Video Title](https://www.youtube.com/watch?v=TDGq4aeevgY)
+
+## Projects
+
+- [Example Project Name](https://xxxx.xxx/xxxxx) Project Description (one sentence) ![this is an img's alt for the project logo](https://xxxx.xxx/project-logo.xxx)
+
+## Further Reading
+
+- [Example Article Title](https://xxxx.xxx/xxxxx) ![this is an img's alt for the article cover](https://xxxx.xxx/article-cover.xxx)
