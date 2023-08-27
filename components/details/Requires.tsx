@@ -1,9 +1,7 @@
 import React from 'react';
 import { Box, Link, Typography } from '@mui/material';
-import useGetLang from '@/hooks/useGetLang';
 
 export default function Requires({ data, T }: { data?: string; T: Function }) {
-  const lang = useGetLang();
   if (!data || data === '0') {
     return null;
   }
