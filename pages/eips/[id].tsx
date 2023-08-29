@@ -25,6 +25,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { flatten } from '@/utils/index';
 import { EipsContentBlock } from '../index';
 import useGetLang from '@/hooks/useGetLang';
+import Relationship from '@/components/details/Relationship';
 
 type HIProps = {
   level: number;
@@ -164,7 +165,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
       <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg" sx={{ overflow: 'hidden', px: [3, 3, 2, 2] }}>
-        <Box pt={4} pb={[2, 2, 3, 3]}>
+        <Box pt={4} pb={2}>
           <Typography
             display="inline-block"
             component="span"
@@ -195,13 +196,13 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             background:
               "#272D37 url('/images/eip_details_bg.png') no-repeat top left/contain",
           }}
-          height={[66, 66, 260, 260]}
+          height={[66, 66, 180, 180]}
           borderRadius={1}
         >
           <Box
             sx={(theme) => ({
               position: 'absolute',
-              fontSize: '80px',
+              fontSize: '60px',
               color: '#fff',
               [theme.breakpoints.down('md')]: { fontSize: '20px' },
             })}
@@ -375,6 +376,12 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
                 </Button>
               </Box>
             </Box>
+
+            <Relationship
+              eip={ERCorEIP + ' ' + meta.eip}
+              data={meta['related eips']}
+              T={T}
+            />
 
             <Typography
               component={Box}

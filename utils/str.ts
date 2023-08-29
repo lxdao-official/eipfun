@@ -82,13 +82,13 @@ export function formatComEIP(str: string): EIPHeader {
 
       if (k === 'videos' && vStr && vStr.startsWith('- ')) {
         const vIds: Video[] = [];
-        vStr.split('- ').forEach((line: string | undefined) => {
+        vStr.split('\n- ').forEach((line: string | undefined) => {
           if (line) {
-            let [t, v] = line.split('](');
-            t = t.substring(1);
-            v = v.substring(0, v.length - 2);
-
-            if (t === 'Example Video Title') {
+            const linkRegex = /\[(.+?)\]\((.+?)\)/;
+            const linkMath = line.match(linkRegex);
+            const t = linkMath ? linkMath[1] : '';
+            const v = linkMath ? linkMath[2] : '';
+            if (t.includes('Example Video Title')) {
               return;
             }
 
@@ -102,17 +102,20 @@ export function formatComEIP(str: string): EIPHeader {
         metaObj[k] = vIds;
       }
 
-      if (k === 'list' && vStr && vStr.startsWith('- ')) {
+      if (['list', 'related eips'].includes(k) && vStr && vStr.startsWith('- ')) {
         const vIds: Video[] = [];
-        vStr.split('- ').forEach((line: string | undefined) => {
+        vStr.split('\n- ').forEach((line: string | undefined) => {
           if (line) {
-            let [t, v] = line.split('](');
-            t = t.substring(1);
-            v = v.substring(0, v.length - 2);
-            if (t === 'Example Link Title') {
-              return;
+            const linkRegex = /\[(.+?)\]\((.+?)\)/;
+            const linkMath = line.match(linkRegex);
+            const title = linkMath ? linkMath[1] : ''
+            const url = linkMath ? linkMath[2] : '';
+            if (title && !['Example Video Title'].includes(title)) {
+              vIds.push({
+                title,
+                url,
+              })
             }
-            v && t && vIds.push({ title: t, url: v })
           }
         })
         metaObj[k] = vIds;
