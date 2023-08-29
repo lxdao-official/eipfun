@@ -24,7 +24,7 @@ function Relationship({
         lineHeight="30px"
         fontWeight="bold"
       >
-        {T({ en: 'EIP relationship and deps', zh: 'EIP关系及依赖关系' })}
+        {T({ en: 'Related EIPs', zh: '相关 EIPs' })}
       </Typography>
 
       <Box
