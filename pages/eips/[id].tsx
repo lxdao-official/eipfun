@@ -122,14 +122,14 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     });
   };
 
-  const TITLE = `EIP-${meta.eip}: ${meta.title} | EIPs Fun - Serve EIP builders, scale Ethereum`;
+  const TITLE = `EIP-${meta.eip}: ${meta.title} | EIP Fun - Serve EIP builders, scale Ethereum`;
   const DESCRIPTION =
     (meta.abstract ? meta.abstract : '') +
     (meta.description ? meta.description : '') +
     (meta.summary ? meta.summary : '') +
     (meta.chatgpt4 ? meta.chatgpt4 : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
-  const updateFileUrl = `https://github.com/lxdao-official/eipsfun/blob/main/content/en/eip-${meta.eip}.md?plain=1`;
+  const updateFileUrl = `https://github.com/lxdao-official/eipfun/blob/main/content/en/eip-${meta.eip}.md?plain=1`;
 
   return (
     <>
@@ -137,29 +137,29 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         <title>{TITLE}</title>
         <meta
           property="twitter:url"
-          content={`https://eips.fun/eips/eip-${meta.eip}`}
+          content={`https://eip.fun/eips/eip-${meta.eip}`}
         />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@eipsfun" />
+        <meta name="twitter:site" content="@eipfun" />
         <meta name="twitter:creator" content="@LXDAO" />
         <meta
           name="twitter:image"
-          content="https://eips.fun/images/logo_summary.jpg"
+          content="https://eip.fun/images/logo_summary.jpg"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="EIPs.Fun - Website" />
+        <meta property="og:site_name" content="EIP.Fun - Website" />
         <meta
           property="og:url"
-          content={`https://eips.fun/eips/eip-${meta.eip}`}
+          content={`https://eip.fun/eips/eip-${meta.eip}`}
         />
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta
           property="og:image"
-          content="https://eips.fun/images/logo_summary.jpg"
+          content="https://eip.fun/images/logo_summary.jpg"
         />
       </Head>
 

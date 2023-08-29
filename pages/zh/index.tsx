@@ -311,7 +311,7 @@ const introList = [
   {
     title: '写作与提交',
     image: '/images/intro_1.jpg',
-    intro: '克隆 EIPs Fun 的 Github 仓库，写下你的想法，提交 PR',
+    intro: '克隆 EIP Fun 的 Github 仓库，写下你的想法，提交 PR',
     action: '现在提交',
     index: 1,
     actionLink: 'https://github.com/ethereum/EIPs',
