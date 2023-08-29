@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Link, Typography } from '@mui/material';
+import EastIcon from '@mui/icons-material/East';
 
 function Relationship({
   eip,
@@ -26,66 +27,98 @@ function Relationship({
         {T({ en: 'EIP relationship and deps', zh: 'EIP关系及依赖关系' })}
       </Typography>
 
-      <Box mt={3} mb={6} border={1} borderColor={'#EAEBF0'} borderRadius={1.25}>
+      <Box
+        mt={3}
+        mb={3}
+        sx={{ '&::after': { content: '""', display: 'table', clear: 'both' } }}
+      >
         {data.map((item) => (
           <Link
-            display={'flex'}
             sx={{
+              float: 'left',
               boxSizing: 'border-box',
               borderBottom: '1px solid #EAEBF0',
-              '&:last-child': { border: 0 },
+              padding: '0 0 26px',
+              marginRight: '32px',
+              overflow: 'hidden',
+              '&:nth-of-type(3n)': {
+                marginRight: '0',
+              },
             }}
-            py={2.5}
+            width={254}
+            mb={3}
+            border={1}
+            borderColor={'#EAEBF0'}
+            borderRadius={1.5}
             key={item.title}
             href={item.link}
             underline="none"
           >
-            <Typography
-              flex={1}
-              px={4}
-              component={Box}
-              variant="h6"
-              fontWeight={500}
-              fontSize={16}
-              lineHeight={'48px'}
+            <Box
+              height={84}
+              sx={{
+                position: 'relative',
+                background:
+                  "#272D37 url('/images/eip_details_bg.png') no-repeat top left/contain",
+              }}
             >
-              <Typography
-                component={Box}
-                variant="h6"
-                fontWeight={500}
-                fontSize={18}
-                lineHeight={'28px'}
-                color={'var(--gray-700, #272D37)'}
+              <Box
+                sx={(theme) => ({
+                  position: 'absolute',
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  color: '#fff',
+                  [theme.breakpoints.down('md')]: { fontSize: '20px' },
+                })}
+                right={[12, 12, 15, 15]}
+                bottom={10}
               >
                 {eip}
-              </Typography>
-              <Typography
-                component={Box}
-                variant="body1"
-                fontWeight={500}
-                fontSize={16}
-                lineHeight={'24px'}
-                color={'var(--gray-50, #5F6D7E)'}
-              >
-                {item.title}
-              </Typography>
+              </Box>
+            </Box>
+            <Typography
+              component={Box}
+              variant="h6"
+              px={3}
+              my={2}
+              fontWeight={600}
+              fontSize={18}
+              lineHeight={'30px'}
+              color={'var(--gray-700, #272D37)'}
+            >
+              {eip}
+            </Typography>
+            <Typography
+              component={Box}
+              variant="body1"
+              height={120}
+              px={3}
+              mb={2}
+              lineHeight={'24px'}
+              color={'var(--gray-50, #5F6D7E)'}
+            >
+              {item.title}
             </Typography>
 
             <Typography
               component={Box}
               variant="body1"
-              height={'28px'}
-              mx={4}
-              px={1.5}
-              py={0}
-              mt={2}
-              bgcolor={'var(--primary-25, #F5FAFF)'}
-              lineHeight={'28px'}
+              height={'22px'}
+              lineHeight={'22px'}
               borderRadius={'5px'}
+              px={3}
               color="#437EF7"
-              fontSize={14}
+              fontSize={15}
             >
-              Learn more
+              Learn more{' '}
+              <EastIcon
+                sx={{
+                  width: 20,
+                  height: 20,
+                  marginLeft: 0.5,
+                  verticalAlign: 'middle',
+                }}
+              />
             </Typography>
           </Link>
         ))}

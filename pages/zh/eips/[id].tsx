@@ -389,8 +389,8 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             </Box>
 
             <Relationship
-              eip={meta.eip}
-              data={meta['relationship'] || meta['further reading']}
+              eip={ERCorEIP + ' ' + meta.eip}
+              data={meta['eip relationship and deps']}
               T={T}
             />
 
