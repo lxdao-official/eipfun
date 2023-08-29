@@ -102,7 +102,7 @@ export function formatComEIP(str: string): EIPHeader {
         metaObj[k] = vIds;
       }
 
-      if (['list', 'eip relationship and deps'].includes(k) && vStr && vStr.startsWith('- ')) {
+      if (['list', 'related eips'].includes(k) && vStr && vStr.startsWith('- ')) {
         const vIds: Video[] = [];
         vStr.split('\n- ').forEach((line: string | undefined) => {
           if (line) {

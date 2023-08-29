@@ -1,4 +1,4 @@
-## EIP relationship and deps
+## Related EIPs
 
 - [Example Link Title](https://xxxx.xxx/xxxxx)
 ## List

@@ -390,7 +390,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
             <Relationship
               eip={ERCorEIP + ' ' + meta.eip}
-              data={meta['eip relationship and deps']}
+              data={meta['related eips']}
               T={T}
             />
 
