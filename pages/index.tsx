@@ -295,7 +295,7 @@ export default function Home() {
             >
               Join Us
             </Button>
-            <Button
+            {/* <Button
               variant="contained"
               href="https://app.safe.global/home?safe=eth:0x36C4f0d9FD9ED768491EC2c492634218BC3e5A72"
               sx={{ marginLeft: '15px' }}
@@ -303,9 +303,11 @@ export default function Home() {
               target="_blank"
             >
               Donate
-            </Button>
+            </Button> */}
           </Box>
         </EipsContentBlock>
+
+        <div data-donate3-cid="bafkreigezyaaz2hebncag2bccsfjif4leivmp57ddhvlfm3piov6utxuuy" />
       </Box>
     </>
   );
