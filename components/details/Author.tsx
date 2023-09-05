@@ -17,6 +17,7 @@ export default function Author({ authors }: { authors: string }) {
   return (
     <Box
       position="relative"
+      mt={[0, 0, 1, 1]}
       py={1}
       sx={(theme) => ({
         lineHeight: '24px',

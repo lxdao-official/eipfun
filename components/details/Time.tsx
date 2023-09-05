@@ -11,7 +11,7 @@ export default function Time({
   T: Function;
 }) {
   return (
-    <Box pb={[1, 1, 1.5, 1.5]}>
+    <Box mt={[1, 1, 2, 2]}>
       <Typography fontWeight="bold" fontSize={14} component="span">
         {T({ en: 'Created', zh: '创建时间' })}:{' '}
       </Typography>

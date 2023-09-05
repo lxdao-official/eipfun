@@ -35,7 +35,7 @@ export default function Video({
         borderRadius={1.5}
         textAlign={'center'}
         sx={{
-          boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)',
+          boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.06)',
         }}
       >
         <Typography
@@ -108,7 +108,7 @@ export default function Video({
       borderColor="#f5f5f5"
       borderRadius={1.5}
       sx={{
-        boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)',
+        boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.06)',
         overflow: ['scroll', 'scroll', 'hidden', 'hidden'],
       }}
     >
