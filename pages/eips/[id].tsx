@@ -165,7 +165,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
       <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg" sx={{ overflow: 'hidden', px: [3, 3, 2, 2] }}>
-        <Box pt={4} pb={2}>
+        <Box pt={4} pb={[2, 2, 3, 3]}>
           <Typography
             display="inline-block"
             component="span"
@@ -218,13 +218,18 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           fontSize={[24, 24, 40, 40]}
           lineHeight={['38px', '38px', '48px', '48px']}
           fontWeight="bold"
-          mt={[1, 1, 1.5, 1.5]}
+          mt={[1, 1, 3, 3]}
         >
           {meta.title}
         </Typography>
 
         {(meta.abstract || meta.description) && (
-          <Typography pt={1} component={Box} variant="body1" color="#5F6D7E">
+          <Typography
+            mt={[1, 1, 3, 3]}
+            component={Box}
+            variant="body1"
+            color="#5F6D7E"
+          >
             {meta.abstract || meta.description}
           </Typography>
         )}

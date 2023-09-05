@@ -228,13 +228,18 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           fontSize={[24, 24, 40, 40]}
           lineHeight={['38px', '38px', '48px', '48px']}
           fontWeight="bold"
-          mt={[1, 1, 1.5, 1.5]}
+          mt={[1, 1, 3, 3]}
         >
           {meta.title}
         </Typography>
 
         {(meta.abstract || meta.description) && (
-          <Typography pt={1} component={Box} variant="body1" color="#5F6D7E">
+          <Typography
+            mt={[1, 1, 3, 3]}
+            component={Box}
+            variant="body1"
+            color="#5F6D7E"
+          >
             {meta.abstract || meta.description}
           </Typography>
         )}
