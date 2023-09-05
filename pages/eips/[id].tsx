@@ -225,7 +225,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
 
         {(meta.abstract || meta.description) && (
           <Typography
-            mt={[1, 1, 3, 3]}
+            mt={[1, 1, 2, 2]}
             component={Box}
             variant="body1"
             color="#5F6D7E"
@@ -314,7 +314,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               borderColor="#f5f5f5"
               borderRadius={1.5}
               mb={6}
-              sx={{ boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)' }}
+              sx={{ boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.06)' }}
               ref={detailsWrapperElement}
             >
               <Box
@@ -416,7 +416,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               border={1}
               borderColor="#fff"
               borderRadius={'10px'}
-              boxShadow="0px 4px 40px rgba(16, 24, 40, 0.06)"
+              boxShadow="0px 4px 16px rgba(16, 24, 40, 0.06)"
             >
               <Typography
                 fontWeight="bold"

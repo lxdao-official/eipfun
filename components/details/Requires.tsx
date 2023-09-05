@@ -7,7 +7,7 @@ export default function Requires({ data, T }: { data?: string; T: Function }) {
   }
 
   return (
-    <Box mt={[1, 1, 3, 3]} sx={{ fontSize: '14px' }}>
+    <Box mt={[1, 1, 2, 2]} sx={{ fontSize: '14px' }}>
       <Typography fontWeight="bold" fontSize={14} component="span">
         {T({ en: 'Requires', zh: '关联 EIP' })}:{' '}
       </Typography>

@@ -17,7 +17,7 @@ export default function ChatGpt({
       border={1}
       borderColor="#f5f5f5"
       borderRadius="6px"
-      sx={{ boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.06)' }}
+      sx={{ boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.06)' }}
     >
       {summary ? null : (
         <Box mb={2.5}>

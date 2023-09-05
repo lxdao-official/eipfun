@@ -14,7 +14,7 @@ export default function OriginalLink({
   T: Function;
 }) {
   return (
-    <Box mt={[0, 0, 2, 2]} pb={3}>
+    <Box mt={[0, 0, 1, 1]} pb={3}>
       {discussions && (
         <Button
           sx={{ marginRight: '16px', borderRadius: '6px', padding: '0 16px' }}

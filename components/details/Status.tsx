@@ -11,7 +11,7 @@ export default function Status({
   category?: string;
 }) {
   return (
-    <Box mt={[1, 1, 3, 3]}>
+    <Box mt={[1, 1, 2, 2]}>
       <Typography
         display="inline-block"
         component="span"
