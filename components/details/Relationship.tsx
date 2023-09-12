@@ -3,12 +3,14 @@ import { Box, Link, Typography } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
 
 function Relationship({
-  eip,
   data,
   T,
 }: {
-  eip: string;
-  data?: { title: string; link: string; imgSrc: string; alt: string }[];
+  data?: {
+    title: string;
+    description: string;
+    url: string;
+  }[];
   T: Function;
 }) {
   if (!data || !data.length) {
@@ -51,7 +53,7 @@ function Relationship({
             borderColor={'#EAEBF0'}
             borderRadius={1.5}
             key={item.title}
-            href={item.link}
+            href={item.url}
             underline="none"
           >
             <Box
@@ -73,7 +75,7 @@ function Relationship({
                 right={[12, 12, 15, 15]}
                 bottom={10}
               >
-                {eip}
+                {item.title}
               </Box>
             </Box>
             <Typography
@@ -86,7 +88,7 @@ function Relationship({
               lineHeight={'30px'}
               color={'var(--gray-700, #272D37)'}
             >
-              {eip}
+              {item.title}
             </Typography>
             <Typography
               component={Box}
@@ -97,7 +99,7 @@ function Relationship({
               lineHeight={'24px'}
               color={'var(--gray-50, #5F6D7E)'}
             >
-              {item.title}
+              {item.description}
             </Typography>
 
             <Typography

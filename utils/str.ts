@@ -102,7 +102,7 @@ export function formatComEIP(str: string): EIPHeader {
         metaObj[k] = vIds;
       }
 
-      if (['list', 'related eips'].includes(k) && vStr && vStr.startsWith('- ')) {
+      if (['list'].includes(k) && vStr && vStr.startsWith('- ')) {
         const vIds: Video[] = [];
         vStr.split('\n- ').forEach((line: string | undefined) => {
           if (line) {
@@ -113,6 +113,27 @@ export function formatComEIP(str: string): EIPHeader {
             if (title && !['Example Video Title'].includes(title)) {
               vIds.push({
                 title,
+                url,
+              })
+            }
+          }
+        })
+        metaObj[k] = vIds;
+      }
+
+      if (['related eips'].includes(k) && vStr && vStr.startsWith('- ')) {
+        const vIds: { title: string, description: string, url: string }[] = [];
+        vStr.split('\n- ').forEach((line: string | undefined) => {
+          if (line) {
+            const linkRegex = /\[(.+?)\]\[(.+?)\]\((.+?)\)/;
+            const linkMath = line.match(linkRegex);
+            const title = linkMath ? linkMath[1] : ''
+            const description = linkMath ? linkMath[2] : ''
+            const url = linkMath ? linkMath[3] : '';
+            if (description && !['Example Link Title'].includes(title)) {
+              vIds.push({
+                title,
+                description,
                 url,
               })
             }

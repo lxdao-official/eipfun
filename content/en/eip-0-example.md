@@ -1,6 +1,6 @@
 ## Related EIPs
 
-- [Example Link Title](https://xxxx.xxx/xxxxx)
+- [EIP-1][Example Link Title](https://xxxx.xxx/xxxxx)
 ## List
 
 - [Example Link Title](https://t.eips.fun/)

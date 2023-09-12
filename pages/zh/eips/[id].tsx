@@ -393,11 +393,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Box>
             </Box>
 
-            <Relationship
-              eip={ERCorEIP + ' ' + meta.eip}
-              data={meta['related eips']}
-              T={T}
-            />
+            <Relationship data={meta['related eips']} T={T} />
 
             <Typography
               component={Box}
