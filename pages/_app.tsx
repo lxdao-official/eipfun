@@ -45,6 +45,18 @@ export default function App({ Component, pageProps }: AppProps) {
               type: 'image/jpeg',
             },
           ],
+          type: 'article',
+          article: {
+            tags: [
+              'eip',
+              'fun',
+              'eipfun',
+              'eip fun',
+              'lxdao',
+              'plancker',
+              'ethereum',
+            ],
+          },
           siteName: 'EIP.Fun - Website',
         }}
         twitter={{
