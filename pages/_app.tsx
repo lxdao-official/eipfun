@@ -7,10 +7,52 @@ import Script from 'next/script';
 import { theme } from '../theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const description =
+    'What is EIPs? It is short for Ethereum Improvement Proposals, they are standards for the Ethereum platform, including core protocol specifications, client APIs, and contract standards.';
+
   return (
     <>
+      <NextSeo
+        title="Serve EIP builders, scale Ethereum."
+        description={description}
+        openGraph={{
+          url: 'https://eip.fun',
+          title: 'Serve EIP builders, scale Ethereum.',
+          description,
+          images: [
+            {
+              url: 'https://eip.fun/images/logo_summary.jpg',
+              width: 800,
+              height: 600,
+              alt: 'eip.fun Alt',
+              type: 'image/jpeg',
+            },
+            {
+              url: 'https://eip.fun/images/lxdao.svg',
+              width: 800,
+              height: 600,
+              alt: 'lxdao',
+              type: 'image/jpeg',
+            },
+            {
+              url: 'https://eip.fun/images/plancker.svg',
+              width: 800,
+              height: 600,
+              alt: 'plancker',
+              type: 'image/jpeg',
+            },
+          ],
+          siteName: 'EIP.Fun - Website',
+        }}
+        twitter={{
+          handle: '@LXDAO',
+          site: '@EIPFun',
+          cardType: 'summary_large_image',
+        }}
+      />
       <Script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-005C54Q2GC"
