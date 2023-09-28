@@ -255,6 +255,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           discussions={meta['discussions-to']}
           list={meta?.list}
           T={T}
+          url={updateFileUrl}
         />
 
         <Box

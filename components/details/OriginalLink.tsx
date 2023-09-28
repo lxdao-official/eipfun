@@ -7,11 +7,13 @@ export default function OriginalLink({
   list,
   discussions,
   T,
+  url,
 }: {
   eip: string;
   list?: { title: string; link: string }[];
   discussions?: string;
   T: Function;
+  url: string;
 }) {
   return (
     <Box mt={[0, 0, 1, 1]} pb={3}>
@@ -35,6 +37,7 @@ export default function OriginalLink({
         variant="outlined"
         size="large"
         sx={{
+          marginRight: '16px',
           color: '#272D37',
           borderColor: '#DAE0E6',
           borderRadius: '6px',
@@ -46,6 +49,23 @@ export default function OriginalLink({
         href={`https://eips.ethereum.org/EIPS/eip-${eip}`}
       >
         {T({ en: 'Original link', zh: '原文链接' })}
+      </Button>
+
+      <Button
+        variant="outlined"
+        size="large"
+        sx={{
+          color: '#272D37',
+          borderColor: '#DAE0E6',
+          borderRadius: '6px',
+          padding: '0 16px',
+          '&:hover': {
+            color: '#437ef7',
+          },
+        }}
+        href={url}
+      >
+        {T({ en: 'Edit', zh: '编辑' })}
       </Button>
 
       {!!(list && list.length) &&
