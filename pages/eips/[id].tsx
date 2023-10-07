@@ -139,6 +139,8 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           property="twitter:url"
           content={`https://eip.fun/eips/eip-${meta.eip}`}
         />
+        <meta name="keywords" content={TITLE} />
+        <meta name="description" content={DESCRIPTION} />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
         <meta name="twitter:card" content="summary_large_image" />
