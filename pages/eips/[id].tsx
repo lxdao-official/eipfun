@@ -214,7 +214,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         </Box>
 
         <Typography
-          variant="h2"
+          variant="h1"
           fontSize={[24, 24, 40, 40]}
           lineHeight={['38px', '38px', '48px', '48px']}
           fontWeight="bold"

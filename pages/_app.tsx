@@ -18,6 +18,13 @@ export default function App({ Component, pageProps }: AppProps) {
       <NextSeo
         title="Serve EIP builders, scale Ethereum."
         description={description}
+        additionalMetaTags={[
+          {
+            name: 'keywords',
+            content:
+              'EIPs, eip fun, lxdao, plancker, ethereum, web3, dao, public goods',
+          },
+        ]}
         openGraph={{
           url: 'https://eip.fun',
           title: 'Serve EIP builders, scale Ethereum.',
