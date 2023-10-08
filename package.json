@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "clone:EIPs": "node scripts/downloadEips",
     "copy": "cp -rf eth-eips/assets/ public/assets/ && cp -rf eth-eips/EIPS/ public/original-eips/",
     "addExample": "node scripts/syncFile",
@@ -36,6 +37,8 @@
     "l": "^0.6.0",
     "next": "13.3.0",
     "next-mdx-remote": "^4.4.1",
+    "next-seo": "^6.1.0",
+    "next-sitemap": "^4.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",

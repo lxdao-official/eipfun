@@ -139,6 +139,8 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           property="twitter:url"
           content={`https://eip.fun/eips/eip-${meta.eip}`}
         />
+        <meta name="keywords" content={TITLE} />
+        <meta name="description" content={DESCRIPTION} />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
         <meta name="twitter:card" content="summary_large_image" />
@@ -214,7 +216,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
         </Box>
 
         <Typography
-          variant="h2"
+          variant="h1"
           fontSize={[24, 24, 40, 40]}
           lineHeight={['38px', '38px', '48px', '48px']}
           fontWeight="bold"
@@ -255,6 +257,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           discussions={meta['discussions-to']}
           list={meta?.list}
           T={T}
+          url={updateFileUrl}
         />
 
         <Box

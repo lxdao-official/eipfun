@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://eip.fun/
+
+# Sitemaps
+Sitemap: https://eip.fun/sitemap.xml

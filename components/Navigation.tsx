@@ -84,7 +84,7 @@ const Navigation = (): JSX.Element => {
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center" justifyContent="flex-start">
           <Link href={isEn ? '/' : '/zh'}>
-            <Logo />
+            <Logo alt="logo" />
           </Link>
           <Link
             sx={{ margin: '0 5px 0 108px' }}
@@ -202,7 +202,7 @@ const Navigation = (): JSX.Element => {
               justifyContent="space-between"
             >
               <Link href={isEn ? '/' : '/zh'}>
-                <Logo />
+                <Logo alt="logo" />
               </Link>
               <Box
                 padding="10px"
