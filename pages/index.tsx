@@ -306,8 +306,6 @@ export default function Home() {
             </Button> */}
           </Box>
         </EipsContentBlock>
-
-        <div data-donate3-cid="bafkreigezyaaz2hebncag2bccsfjif4leivmp57ddhvlfm3piov6utxuuy" />
       </Box>
     </>
   );
