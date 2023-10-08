@@ -100,6 +100,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <Layout>
             <Script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.28/dist/webpack/bundle.js" />
+            <div data-donate3-cid="bafkreigezyaaz2hebncag2bccsfjif4leivmp57ddhvlfm3piov6utxuuy" />
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
