@@ -221,6 +221,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
           lineHeight={['38px', '38px', '48px', '48px']}
           fontWeight="bold"
           mt={[1, 1, 3, 3]}
+          textAlign="left"
         >
           {meta.title}
         </Typography>
