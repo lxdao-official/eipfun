@@ -9,7 +9,6 @@ export const theme = createTheme({
     h1: {
       fontSize: '60px',
       lineHeight: '60px',
-      textAlign: 'center',
       fontWeight: 700,
     },
     h2: {
