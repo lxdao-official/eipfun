@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { Box, InputAdornment, styled } from '@mui/material';
+import { Box, Button, InputAdornment, Typography, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
 
@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
 import useGetLang from '@/hooks/useGetLang';
+import HotEipConfig from '@/common/HotEipConfig';
 
 const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
 
@@ -228,24 +229,53 @@ export default function SearchHeader() {
           );
         }}
         renderInput={(params) => (
-          <EIPsSearch
-            placeholder={
-              lang === 'en'
-                ? 'Search EIPs by number/word'
-                : '输入编号或标题内容搜索 EIP'
-            }
-            {...params}
-            size="medium"
-            InputProps={{
-              type: 'search',
-              ...params.InputProps,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon sx={{ color: '#919BA7' }} />
-                </InputAdornment>
-              ),
-            }}
-          />
+          <>
+            <EIPsSearch
+              placeholder={
+                lang === 'en'
+                  ? 'Search EIPs by number/word'
+                  : '输入编号或标题内容搜索 EIP'
+              }
+              {...params}
+              size="medium"
+              InputProps={{
+                type: 'search',
+                ...params.InputProps,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon sx={{ color: '#919BA7' }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Typography component="p" textAlign="center" marginTop="24px">
+              {HotEipConfig.map((eip) => (
+                <Button
+                  key={eip.key}
+                  href={`/eips/eip-${eip.key}`}
+                  aria-label="fingerprint"
+                  sx={{
+                    height: 'auto',
+                    borderRadius: '5px',
+                    background: 'rgba(247, 247, 248, 0.20)',
+                    color: '#FFF',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    lineHeight: '20px',
+                    letterSpacing: '-0.1px',
+                    paddingX: '12px',
+                    paddingY: '4px',
+                    marginX: '6px',
+                    '&:hover': {
+                      backgroundColor: 'rgba(247, 247, 248, 0.20)',
+                    },
+                  }}
+                >
+                  {eip.name}
+                </Button>
+              ))}
+            </Typography>
+          </>
         )}
       />
     </SearchMain>
