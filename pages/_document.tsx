@@ -8,6 +8,7 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
           rel="stylesheet"
         ></link>
+        <link rel="canonical" href="https://eip.fun/" />
       </Head>
       <body>
         <Main />
