@@ -7,7 +7,10 @@
     "build": "next build",
     "postbuild": "next-sitemap",
     "clone:EIPs": "node scripts/downloadEips",
-    "copy": "cp -rf eth-eips/assets/ public/assets/ && cp -rf eth-eips/EIPS/ public/original-eips/",
+    "copy": "pnpm change:name && pnpm copy:eip && pnpm copy:erc",
+    "change:name": "find ./eth-ercs/ERCS/ -type f -name \"*erc-*\" -exec bash -c 'mv \"$0\" \"${0/erc-/eip-}\"' {} \\;",
+    "copy:eip": "cp -rf eth-eips/assets/ public/assets/ && cp -rf eth-eips/EIPS/ public/original-eips/",
+    "copy:erc": "cp -rf eth-ercs/assets/ public/assets/ && cp -rf eth-ercs/ERCS/ public/original-eips/",
     "addExample": "node scripts/syncFile",
     "start": "next start",
     "lint": "next lint"
