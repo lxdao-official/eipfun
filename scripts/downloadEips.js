@@ -19,10 +19,23 @@ function deleteFolder(filePath) {
   }
 }
 
-const paths = './eth-eips/';
+const eipPaths = './eth-eips/';
+const ercPaths = './eth-ercs/';
 
 ~(async function () {
-  deleteFolder(paths);
+  deleteFolder(eipPaths);
+  deleteFolder(ercPaths);
+  download(
+    'direct:https://github.com/ethereum/ERCs.git',
+    'eth-ercs',
+    { clone: true },
+    (err) => {
+      if (err) {
+        throw new Error(err);
+      }
+      console.log('clone success');
+    }
+  );
   download(
     'direct:https://github.com/ethereum/EIPs.git',
     'eth-eips',
