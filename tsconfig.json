@@ -29,6 +29,7 @@
   "exclude": [
     "node_modules",
     "ETH-EIPs/**/*.ts",
+    "eth-ercs/**/*.ts",
     "original-eips/**/*.ts",
     "public/assets/**/*.ts"
   ]
