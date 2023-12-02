@@ -106,17 +106,6 @@ export default function Home() {
             boxShadow="0px 1px 2px 0px rgba(16, 24, 40, 0.04)"
           >
             <Typography
-              variant="h3"
-              color="#272D37"
-              fontSize="22px"
-              fontWeight="700"
-              lineHeight="28px"
-              letterSpacing="-0.44px"
-              marginBottom="8px"
-            >
-              Hot
-            </Typography>
-            <Typography
               color="#5F6D7E"
               fontSize="16px"
               fontWeight="400"
@@ -125,7 +114,7 @@ export default function Home() {
               paddingBottom="24px"
               borderBottom="1px solid #EAEBF0"
             >
-              Popular EIPs
+              Popular EIPs/ ERCs
             </Typography>
             {hotEips.map((i) => (
               <Link key={i.key} href={`/eips/eip-${i.key}`} underline="none">
@@ -147,8 +136,8 @@ export default function Home() {
                       backgroundColor: '#437EF7',
                       borderRadius: '50%',
                     },
-                    '&:hover': {
-                      textDecoration: 'underline',
+                    '& :hover': {
+                      fontWeight: '700 !important',
                     },
                   }}
                 >
@@ -160,7 +149,10 @@ export default function Home() {
                   >
                     {i.name}
                   </Typography>
-                  <Typography variant="body1" width={{ xs: '80%', sm: '60%' }}>
+                  <Typography
+                    variant="body1"
+                    width={{ xs: '80%', sm: '60%', lg: '80%' }}
+                  >
                     {i.description}
                   </Typography>
                 </Box>
@@ -175,17 +167,6 @@ export default function Home() {
             boxShadow="0px 1px 2px 0px rgba(16, 24, 40, 0.04)"
           >
             <Typography
-              variant="h3"
-              color="#272D37"
-              fontSize="22px"
-              fontWeight="700"
-              lineHeight="28px"
-              letterSpacing="-0.44px"
-              marginBottom="8px"
-            >
-              New
-            </Typography>
-            <Typography
               color="#5F6D7E"
               fontSize="16px"
               fontWeight="400"
@@ -195,7 +176,7 @@ export default function Home() {
               borderBottom="1px solid #EAEBF0"
               marginBottom="24px"
             >
-              Latest EIP
+              Latest EIPs/ERCs
             </Typography>
             {newEips.map((i) => (
               <Link key={i.key} href={`/eips/eip-${i.key}`} underline="none">
@@ -217,8 +198,8 @@ export default function Home() {
                       backgroundColor: '#437EF7',
                       borderRadius: '50%',
                     },
-                    '&:hover': {
-                      textDecoration: 'underline',
+                    '& :hover': {
+                      fontWeight: '700 !important',
                     },
                   }}
                 >
@@ -230,7 +211,10 @@ export default function Home() {
                   >
                     {i.name}
                   </Typography>
-                  <Typography variant="body1" width={{ xs: '80%', sm: '60%' }}>
+                  <Typography
+                    variant="body1"
+                    width={{ xs: '80%', sm: '60%', lg: '80%' }}
+                  >
                     {i.description}
                   </Typography>
                 </Box>

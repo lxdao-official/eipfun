@@ -5,9 +5,9 @@ interface ItemConfigType {
 }
 export const hotEips: ItemConfigType[] = [
   {
-    name: 'EIP 721',
-    key: '721',
-    description: 'Non-Fungible Token Standard',
+    name: 'EIP 4337',
+    key: '4337',
+    description: 'Account Abstraction Using Alt Mempool',
   },
   {
     name: 'EIP 6551',
@@ -17,9 +17,9 @@ export const hotEips: ItemConfigType[] = [
 ];
 export const newEips: ItemConfigType[] = [
   {
-    name: 'EIP 20',
-    key: '20',
-    description: 'Token Standard',
+    name: 'ERC 6909',
+    key: '6909',
+    description: 'Minimal Multi-Token Interface',
   },
   {
     name: 'EIP 7329',
