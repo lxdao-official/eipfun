@@ -5,12 +5,12 @@ interface ItemConfigType {
 }
 export const hotEips: ItemConfigType[] = [
   {
-    name: 'EIP 4337',
+    name: 'ERC 4337',
     key: '4337',
     description: 'Account Abstraction Using Alt Mempool',
   },
   {
-    name: 'EIP 6551',
+    name: 'ERC 6551',
     key: '6551',
     description: 'Non-fungible Token Bound Accounts',
   },
