@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "update": "pnpm run clone:EIPs && pnpm copy && pnpm run addExample",
     "postbuild": "next-sitemap",
     "clone:EIPs": "node scripts/downloadEips",
     "copy": "pnpm change:name && pnpm copy:eip && pnpm copy:erc",
