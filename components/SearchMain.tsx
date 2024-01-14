@@ -11,7 +11,7 @@ import axios from 'axios';
 import useDebounce from '../hooks/useDebounce';
 import useGetLang from '@/hooks/useGetLang';
 
-const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eips.fun';
+const ADDR = process.env.NEXT_PUBLIC_BACKEND_ADDR || 'https://api-dev.eip.fun';
 
 const EIPsSearch = styled(TextField)<TextFieldProps>(({}) => ({
   maxWidth: 850,

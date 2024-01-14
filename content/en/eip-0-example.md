@@ -3,7 +3,7 @@
 - [EIP-1][Example Link Title](https://xxxx.xxx/xxxxx)
 ## List
 
-- [Example Link Title](https://t.eips.fun/)
+- [Example Link Title](https://t.me/eipfun)
 
 ## Videos
 
