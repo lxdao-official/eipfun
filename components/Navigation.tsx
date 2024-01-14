@@ -84,7 +84,7 @@ const Navigation = (): JSX.Element => {
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center" justifyContent="flex-start">
           <Link href={isEn ? '/' : '/zh'}>
-            <Logo alt="logo" />
+            <Logo />
           </Link>
           <Link
             sx={{ margin: '0 5px 0 108px' }}
@@ -202,7 +202,7 @@ const Navigation = (): JSX.Element => {
               justifyContent="space-between"
             >
               <Link href={isEn ? '/' : '/zh'}>
-                <Logo alt="logo" />
+                <Logo />
               </Link>
               <Box
                 padding="10px"
@@ -274,7 +274,7 @@ const Navigation = (): JSX.Element => {
               padding="0 12px"
               color="inherit"
               target="_blank"
-              href="https://t.eips.fun/"
+              href="https://t.me/eipfun"
             >
               <TelegramIcon />
             </Link>
