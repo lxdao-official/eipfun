@@ -39,20 +39,18 @@ For more details, please check our deck: <https://docs.google.com/presentation/d
 
 We have finished the development phrase as promised. Now is in the operation phrase.
 
-We will add more content on the website, generate high-quality newsletter, co-host EIP-related events, etc. 
+We will add more content on the website, generate high-quality newsletter, co-host EIP-related events, etc.
 
 And this is the reason why we need grant support.
 
 ## Team Members
 
-Project Manager: Bruce
+Project Manager: Chloe, Bruce
 
 Product Manager: Mike
 
-Dev: Neal Li
+Dev: Neal Li, wwei
 
 UI: Wang Teng
 
 Operation: Tiao, and more
-
-
