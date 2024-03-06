@@ -8,3 +8,15 @@ export default function useGetLang(): string {
   }
   return lang;
 }
+
+export function useT() {
+  const lang = useGetLang();
+  return function (langObj: { en: string, zh: string }) {
+    if (lang === 'en') {
+      return langObj.en;
+    } else if (lang === 'zh') {
+      return langObj.zh;
+    }
+    return langObj.en;
+  }
+}

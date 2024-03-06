@@ -10,6 +10,7 @@ import EastIcon from '@mui/icons-material/East';
 import { Telegram } from '@/common/config';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import DencunBanner from '@/components/DencunBanner';
 import { hotEips, newEips } from '@/common/HotEipConfig';
 export const EipsContentBlock = styled('div')(({ theme }) => ({
   // width: 1152,
@@ -223,6 +224,9 @@ export default function Home() {
           </Box>
         </Box>
       </Box>
+
+      <DencunBanner />
+
       <Box
         padding="64px 0"
         sx={{

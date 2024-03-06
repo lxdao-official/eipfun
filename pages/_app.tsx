@@ -5,9 +5,20 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 import { theme } from '../theme';
+import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
+import { mainnet, polygon, optimism, arbitrum, base, zora } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
+import '@rainbow-me/rainbowkit/styles.css';
+
+const config = getDefaultConfig({
+  appName: 'eip.fun App',
+  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECTID as string,
+  chains: [mainnet, polygon, optimism, arbitrum, base, zora],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const description =
@@ -96,14 +107,18 @@ export default function App({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         ></link>
       </Head>
-      <QueryClientProvider client={new QueryClient()}>
-        <ThemeProvider theme={theme}>
-          <Layout>
-            <Script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.28/dist/webpack/bundle.js" />
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </QueryClientProvider>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={new QueryClient()}>
+          <RainbowKitProvider>
+            <ThemeProvider theme={theme}>
+              <Layout>
+                <Script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.28/dist/webpack/bundle.js" />
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </>
   );
 }
