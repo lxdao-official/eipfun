@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import Image from 'next/image';
-import { useT } from '@/hooks/useGetLang';
+import useGetLang, { useT } from '@/hooks/useGetLang';
 
 function EIP4844() {
   const T = useT();
+  const lang = useGetLang();
   return (
     <Box bgcolor={'#EFEFEF'}>
       <Container sx={{ py: 6 }}>
@@ -63,7 +64,7 @@ function EIP4844() {
         </Typography>
         <Box mt={3}>
           <Image
-            src="/images/dencun/EIP4844_01.jpg"
+            src={`/images/dencun/EIP4844_01${lang === 'zh' ? '_zh' : ''}.png`}
             width={625}
             height={374}
             alt="img"

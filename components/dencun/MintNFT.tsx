@@ -13,7 +13,13 @@ import { useT } from '@/hooks/useGetLang';
 import Image from 'next/image';
 import abi from 'abi/dencunnft.json';
 
-import { useAccount, useReadContract, useWriteContract } from 'wagmi';
+import {
+  useAccount,
+  useReadContract,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  type UseWriteContractReturnType,
+} from 'wagmi';
 
 const MintButton = styled(Button)<ButtonProps>(() => ({
   color: '#fff',
@@ -26,13 +32,23 @@ const MintButton = styled(Button)<ButtonProps>(() => ({
 
 type Address = `0x${string}`;
 
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as Address;
+
 export default function MintNFT() {
   const T = useT();
-  const { address } = useAccount();
-  const { writeContractAsync } = useWriteContract();
+  const { address, chain } = useAccount();
+
+  const {
+    data: hash,
+    isLoading,
+    writeContract,
+  }: UseWriteContractReturnType = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
   const [isMinted, setIsMinted] = useState(false);
   const [IAddress, setIAddress] = useState<Address | undefined>();
-  const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as Address;
 
   useEffect(() => {
     if (address) {
@@ -54,16 +70,19 @@ export default function MintNFT() {
         setIsMinted(true);
       }
     }
-  }, [result.isSuccess, result.data]);
+  }, [result.isSuccess, result.data, IAddress]);
 
   const mint = async () => {
-    const nftResult = await writeContractAsync({
+    writeContract({
       abi,
       address: CONTRACT_ADDRESS,
       functionName: 'mint',
       args: ['Dencun'],
     });
-    console.log(nftResult);
+
+    if (isConfirmed) {
+      setIsMinted(true);
+    }
   };
 
   const mintOrConnectWallet = () => {
@@ -73,6 +92,8 @@ export default function MintNFT() {
       openConnectModal && openConnectModal();
     }
   };
+
+  console.log(chain);
 
   return (
     <Container>
@@ -87,7 +108,7 @@ export default function MintNFT() {
         py={5}
         pl={6}
       >
-        {address && isMinted ? (
+        {(address && isMinted) || isConfirmed ? (
           <>
             {/* minted NFT */}
             <Typography
@@ -122,43 +143,11 @@ export default function MintNFT() {
                   color={'#fff'}
                   underline="none"
                 >
-                  {T({ en: 'Share on Twitter', zh: '铸造' })}
+                  {T({ en: 'Share on Twitter', zh: '分享到 Twitter' })}
                 </Link>
               </MintButton>
-              <Link
-                sx={{
-                  height: '46px',
-                  verticalAlign: 'middle',
-                  paddingLeft: 2,
-                }}
-                href="https://opensea.io/collection/"
-              >
-                <Opensea />
-              </Link>
-              <Link
-                sx={{
-                  height: '46px',
-                  verticalAlign: 'middle',
-                  paddingLeft: 1,
-                }}
-                href="https://sepolia-optimism.etherscan.io/address/0x64f2143a6FD6c7a35bE8D03dd30CA754f7da8501"
-              >
-                <Etherscan />
-              </Link>
+              <Icons />
             </Box>
-
-            <Image
-              style={{
-                position: 'absolute',
-                top: 0,
-                right: '56px',
-                marginTop: '-50px',
-              }}
-              src="/images/dencun/mint_nft_bg.png?v=1"
-              alt="nft"
-              width={284.5}
-              height={254.5}
-            ></Image>
           </>
         ) : (
           <>
@@ -180,7 +169,10 @@ export default function MintNFT() {
               color={'#272D37'}
               mt={1}
             >
-              {T({ en: 'Dencun Upgrade Commemorative NFT', zh: '坎昆升级' })}
+              {T({
+                en: 'Dencun Mainnet Fork NFT',
+                zh: '坎昆升级纪念 NFT',
+              })}
             </Typography>
 
             <Typography
@@ -192,61 +184,73 @@ export default function MintNFT() {
               mt={2}
             >
               {T({
-                en: 'Free  Non-transferable NFT',
-                zh: '终审截止日期',
+                en: 'Free Non-transferable NFT',
+                zh: '免费且不可转移',
               })}
             </Typography>
 
             <Box mt={3}>
-              <MintButton onClick={mintOrConnectWallet}>
+              <MintButton
+                disabled={isLoading || !isConfirming}
+                onClick={mintOrConnectWallet}
+              >
                 {T({ en: 'Mint', zh: '铸造' })}
               </MintButton>
-              <Link
-                sx={{
-                  height: '46px',
-                  verticalAlign: 'middle',
-                  paddingLeft: 2,
-                }}
-                href="https://opensea.io/collection/"
-              >
-                <Opensea />
-              </Link>
-              <Link
-                sx={{
-                  height: '46px',
-                  verticalAlign: 'middle',
-                  paddingLeft: 1,
-                }}
-                href="https://sepolia-optimism.etherscan.io/address/0x64f2143a6FD6c7a35bE8D03dd30CA754f7da8501"
-              >
-                <Etherscan />
-              </Link>
+              <Icons />
             </Box>
           </>
         )}
+
+        <Image
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: '56px',
+            marginTop: '-50px',
+          }}
+          src="/images/dencun/mint_nft_bg.png"
+          alt="nft"
+          width={284.5}
+          height={254.5}
+        />
       </Box>
     </Container>
   );
 }
 
-function Etherscan() {
+function Icons() {
   return (
-    <Image
-      src="/images/dencun/etherscan.png"
-      alt="etherscan"
-      width={20}
-      height={20}
-    ></Image>
-  );
-}
-
-function Opensea() {
-  return (
-    <Image
-      src="/images/dencun/opensea.png"
-      alt="etherscan"
-      width={20}
-      height={20}
-    ></Image>
+    <>
+      <Link
+        sx={{
+          height: '46px',
+          verticalAlign: 'middle',
+          paddingLeft: 2,
+        }}
+        href="https://opensea.io/collection/"
+      >
+        <Image
+          src="/images/dencun/opensea.png"
+          alt="etherscan"
+          width={20}
+          height={20}
+        />
+      </Link>
+      <Link
+        sx={{
+          height: '46px',
+          verticalAlign: 'middle',
+          paddingLeft: 1,
+        }}
+        href={`${process.env.NEXT_PUBLIC_ETHERSCAN_URL}/address/${CONTRACT_ADDRESS}`}
+      >
+        <Image
+          src="/images/dencun/etherscan.png"
+          alt="etherscan"
+          width={20}
+          height={20}
+        />
+      </Link>
+    </>
   );
 }

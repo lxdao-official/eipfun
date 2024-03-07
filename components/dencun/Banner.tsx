@@ -4,6 +4,12 @@ import { useT } from '@/hooks/useGetLang';
 
 function Banner() {
   const T = useT();
+  const readMore = () => {
+    window.scrollTo({
+      top: (document.querySelector('#anchor') as HTMLElement).offsetTop,
+      behavior: 'smooth',
+    });
+  };
   return (
     <Box
       height={656}
@@ -53,7 +59,7 @@ function Banner() {
         </Typography>
 
         <Box mt={6}>
-          <Button variant="contained">
+          <Button variant="contained" onClick={readMore}>
             {T({ en: 'Read more', zh: '阅读更多' })}
           </Button>
         </Box>

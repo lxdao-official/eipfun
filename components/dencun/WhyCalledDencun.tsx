@@ -8,6 +8,7 @@ function WhyCalledDencun() {
   return (
     <Container sx={{ py: 8 }}>
       <Typography
+        id="anchor"
         fontWeight="bold"
         fontSize={14}
         lineHeight={'20px'}
