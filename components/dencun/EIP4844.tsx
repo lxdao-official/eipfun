@@ -1,11 +1,102 @@
 import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import Image from 'next/image';
 import useGetLang, { useT } from '@/hooks/useGetLang';
+
+const StyledTableCell = styled(TableCell)(() => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: '#e6f0f7',
+    color: '#333',
+    fontWeight: 'bold',
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(even)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+interface Date {
+  name: string;
+  storage: string;
+  calldata: string;
+  memory: string;
+  blob: string;
+}
 
 function EIP4844() {
   const T = useT();
   const lang = useGetLang();
+  const rows: Date[] = [
+    {
+      name: T({ en: 'Description', zh: '说明' }),
+      storage: T({
+        en: 'Ethereum storage, incl. the core World State',
+        zh: '以太坊存储，包括最核心的状态 World State',
+      }),
+      calldata: T({ en: 'Immutable storage location', zh: '不可变的存储位置' }),
+      memory: T({
+        en: 'Temporary memory during EVM execution',
+        zh: 'EVM 执行时的临时内存',
+      }),
+      blob: T({ en: 'Additional external storage', zh: '新增的外挂存储' }),
+    },
+    {
+      name: T({ en: 'Location', zh: '位置' }),
+      storage: T({
+        en: 'Execution layer',
+        zh: '执行层',
+      }),
+      calldata: T({ en: 'Execution layer', zh: '执行层' }),
+      memory: T({
+        en: 'Execution layer',
+        zh: '执行层',
+      }),
+      blob: T({ en: 'Consensus layer', zh: '共识层' }),
+    },
+    {
+      name: T({ en: 'Gas fee', zh: 'Gas fee' }),
+      storage: T({
+        en: '$$$$$',
+        zh: '$$$$$',
+      }),
+      calldata: T({ en: '$$$', zh: '$$$' }),
+      memory: T({
+        en: '0',
+        zh: '0',
+      }),
+      blob: T({ en: '$', zh: '$' }),
+    },
+    {
+      name: T({ en: 'Life cycle', zh: '生命周期' }),
+      storage: T({
+        en: 'Permanent',
+        zh: '永久',
+      }),
+      calldata: T({ en: 'Permanent', zh: '永久' }),
+      memory: T({
+        en: 'Destroyed immediately after the execution',
+        zh: '方法执行完成立即销毁',
+      }),
+      blob: T({ en: 'Deleted after c. 18 days', zh: '～18 天后删除' }),
+    },
+  ];
   return (
     <Box bgcolor={'#EFEFEF'}>
       <Container sx={{ py: 6 }}>
@@ -63,12 +154,32 @@ function EIP4844() {
           })}
         </Typography>
         <Box mt={3}>
-          <Image
-            src={`/images/dencun/EIP4844_01${lang === 'zh' ? '_zh' : ''}.png`}
-            width={625}
-            height={374}
-            alt="img"
-          />
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Name</StyledTableCell>
+                  <StyledTableCell>Storage</StyledTableCell>
+                  <StyledTableCell>Calldate</StyledTableCell>
+                  <StyledTableCell>Memory</StyledTableCell>
+                  <StyledTableCell>Blod</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell>{row.storage}</StyledTableCell>
+                    <StyledTableCell>{row.calldata}</StyledTableCell>
+                    <StyledTableCell>{row.memory}</StyledTableCell>
+                    <StyledTableCell>{row.blob}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
         <Typography variant="body1" color={'#5F6D7E'} mt={4}>
           {T({
