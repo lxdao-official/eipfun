@@ -200,19 +200,23 @@ export default function MintNFT() {
             </Box>
           </>
         )}
-
-        <Image
-          style={{
+        <Box
+          sx={{
             position: 'absolute',
-            top: 0,
-            right: '56px',
-            marginTop: '-50px',
+            top: '25px',
+            right: '106px',
+            zIndex: 1,
+            width: 216,
+            height: 216,
           }}
-          src="/images/dencun/mint_nft_bg.png"
-          alt="nft"
-          width={284.5}
-          height={254.5}
-        />
+        >
+          <img
+            src="/images/dencun/mint_nft_bg.png"
+            alt="nft"
+            width="100%"
+            height="100%"
+          />
+        </Box>
       </Box>
     </Container>
   );
