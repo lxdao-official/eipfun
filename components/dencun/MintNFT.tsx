@@ -131,7 +131,7 @@ export default function MintNFT() {
             >
               {T({
                 en: 'Please check your wallet for your NFT.',
-                zh: '免费且不可转移，每个地址仅可铸造一枚',
+                zh: '免费且不可转移，每个地址仅可铸造一枚铸造，共同见证以太坊的历史时刻',
               })}
             </Typography>
 
@@ -185,7 +185,7 @@ export default function MintNFT() {
             >
               {T({
                 en: 'Free Non-transferable NFT',
-                zh: '免费且不可转移，每个地址仅可铸造一枚',
+                zh: '免费且不可转移，每个地址仅可铸造一枚铸造，共同见证以太坊的历史时刻',
               })}
             </Typography>
 

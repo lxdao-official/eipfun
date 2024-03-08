@@ -1,8 +1,7 @@
 import React from 'react';
+import Head from 'next/head';
 import { Box, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
-// import { styled } from '@mui/material/styles';
-// import { sendGet } from '@/network/axios-wrapper';
 
 import Banner from '@/components/dencun/Banner';
 import MintNFT from '@/components/dencun/MintNFT';
@@ -10,7 +9,6 @@ import WhyCalledDencun from '@/components/dencun/WhyCalledDencun';
 import Relationship from '@/components/dencun/Relationship';
 import EIP4844 from '@/components/dencun/EIP4844';
 import FutureOutlook from '@/components/dencun/FutureOutlook';
-import ReferenceLinks from '@/components/dencun/ReferenceLinks';
 import { useT } from '@/hooks/useGetLang';
 
 const RelationshipData = [
@@ -74,6 +72,11 @@ function Dencun() {
   const T = useT();
   return (
     <>
+      <Head>
+        <title>
+          Dencun upgrade - EIP.Fun - Serve EIP builders, scale Ethereum.
+        </title>
+      </Head>
       <Box borderTop={1} borderColor="#EAEBF0" />
 
       <Banner />
@@ -100,8 +103,6 @@ function Dencun() {
       <EIP4844 />
 
       <FutureOutlook />
-
-      <ReferenceLinks />
     </>
   );
 }

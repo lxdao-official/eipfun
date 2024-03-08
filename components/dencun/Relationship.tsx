@@ -45,7 +45,7 @@ function Relationship({
             borderRadius={1.5}
             key={item.title}
             target="_blank"
-            href={`https://eips.ethereum.org/EIPS/eip-${item.eip}`}
+            href={`${lang === 'en' ? '' : '/zh'}/eips/eip-${item.eip}`}
             underline="none"
           >
             <Box

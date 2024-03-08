@@ -44,7 +44,7 @@ function WhyCalledDencun() {
         mb={8}
       >
         {T({
-          en: "The English name for the Cancun upgrade is actually Dencun, which is composed of two merged names: Deneb and Cancun. Deneb represents the upgrade of Ethereum's Consensus Layer, while Cancun represents the upgrade of Ethereum's Execution Layer.",
+          en: "The upgrade name Dencun is composed of two merged names: Deneb and Cancun. Deneb represents the upgrade of Ethereum's Consensus Layer, while Cancun represents the upgrade of Ethereum's Execution Layer.",
           zh: '为什么叫坎昆升级？其实坎昆升级的英文名称为 Dencun，是由两个名字合并组成：Deneb 和 Cancun，其中 Deneb 是以太坊共识层（Consensus Layer）的升级而 Cancun 则是以太坊执行层（Execution Layer）升级。',
         })}
       </Typography>
@@ -95,7 +95,7 @@ function WhyCalledDencun() {
             lineHeight={'30px'}
             mt={2.5}
           >
-            {T({ en: 'Consensus Layer', zh: '坎昆升级' })}
+            {T({ en: 'Consensus Layer', zh: '共识层' })}
           </Typography>
           <Typography variant="body1" lineHeight={'24px'} mt={1.5}>
             {T({
