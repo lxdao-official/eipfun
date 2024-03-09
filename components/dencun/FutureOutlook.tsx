@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useT } from '@/hooks/useGetLang';
+import { MintButton } from './MintNFT';
 
 const Item = function Item({ children }: { children: React.ReactNode }) {
   return (
@@ -35,6 +36,12 @@ const Item = function Item({ children }: { children: React.ReactNode }) {
 
 function FutureOutlook() {
   const T = useT();
+  const goTop = () => {
+    window.scrollTo({
+      top: (document.querySelector('#mint-nft') as HTMLElement).offsetTop - 60,
+      behavior: 'smooth',
+    });
+  };
   return (
     <Container sx={{ py: 8 }}>
       <Box
@@ -104,6 +111,12 @@ function FutureOutlook() {
               zh: '让我们期待和一起见证以太坊的未来！',
             })}
           </Typography>
+
+          <Box mt={3}>
+            <MintButton onClick={goTop}>
+              {T({ en: 'Mint', zh: '铸造' })}
+            </MintButton>
+          </Box>
         </Box>
 
         <Box

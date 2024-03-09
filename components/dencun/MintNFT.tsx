@@ -21,7 +21,7 @@ import {
   type UseWriteContractReturnType,
 } from 'wagmi';
 
-const MintButton = styled(Button)<ButtonProps>(() => ({
+export const MintButton = styled(Button)<ButtonProps>(() => ({
   color: '#fff',
   backgroundColor: '#F651B0',
   '&:hover': {
@@ -96,7 +96,7 @@ export default function MintNFT() {
   console.log(chain);
 
   return (
-    <Container>
+    <Container id="mint-nft">
       <Box
         sx={{
           position: 'relative',
