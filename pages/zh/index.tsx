@@ -10,6 +10,8 @@ import EastIcon from '@mui/icons-material/East';
 import { Telegram } from '@/common/config';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import DencunBanner from '@/components/DencunBanner';
+import useGetLang from '@/hooks/useGetLang';
 export const EipsContentBlock = styled('div')(({ theme }) => ({
   // width: 1152,
   maxWidth: 1152,
@@ -101,6 +103,8 @@ export default function Home() {
             是以太坊平台的标准，包括核⼼协议规范、客户端应⽤程序接⼝（API）以及智能合约标准。
           </Typography>
         </Box>
+
+        <DencunBanner />
         <Box
           padding="64px 0"
           sx={{
@@ -371,3 +375,6 @@ const advisorList = [
     github: 'https://github.com/xinbenlv',
   },
 ];
+function useLang() {
+  throw new Error('Function not implemented.');
+}
