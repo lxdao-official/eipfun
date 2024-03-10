@@ -237,7 +237,7 @@ function Icons() {
           verticalAlign: 'middle',
           paddingLeft: 2,
         }}
-        href="https://opensea.io/collection/"
+        href="https://opensea.io/collection/memory-of-ethereum"
       >
         <Image
           src="/images/dencun/opensea.png"
