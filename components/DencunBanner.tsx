@@ -24,7 +24,7 @@ export default function DencunBanner() {
             mt={5}
             textTransform={'uppercase'}
           >
-            {T({ en: 'cancun Upgrade', zh: '坎昆升级' })}
+            {T({ en: 'Dencun Upgrade', zh: '坎昆升级' })}
           </Typography>
           <Typography
             width={524}
@@ -37,7 +37,7 @@ export default function DencunBanner() {
           >
             {T({
               en: 'A Crucial Step in Ethereum Scalability',
-              zh: '坎昆升级',
+              zh: '以太坊扩容的关键一步',
             })}
           </Typography>
         </Box>
@@ -48,7 +48,7 @@ export default function DencunBanner() {
             sx={{ px: 2.25, mt: 6.75, mr: 5.75 }}
             href={lang === 'en' ? '/dencun' : '/zh/dencun'}
           >
-            {T({ en: 'Learn More', zh: '坎昆升级' })}
+            {T({ en: 'Learn More', zh: '了解更多' })}
           </Button>
         </Box>
       </Box>
