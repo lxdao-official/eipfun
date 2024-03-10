@@ -212,7 +212,7 @@ function EIP4844() {
         </Typography>
         <Box mt={4}>
           <Image
-            src="/images/dencun/EIP4844_02.jpeg"
+            src="/images/dencun/EIP4844.jpg"
             width={605}
             height={641}
             alt="img"
