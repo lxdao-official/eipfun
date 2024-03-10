@@ -37,7 +37,7 @@ function Relationship({
                 marginRight: '0',
               },
             }}
-            width={278}
+            width={[1, 340.5, 278, 278]}
             height={lang === 'en' ? 634 : 460}
             mb={3}
             border={1}

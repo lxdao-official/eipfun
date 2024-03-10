@@ -18,7 +18,7 @@ function Banner() {
         backgroundSize: 'contain',
       }}
     >
-      <Container sx={{ pt: 6 }}>
+      <Container sx={{ pt: [1, 1, 6, 6] }}>
         <Typography
           fontWeight={600}
           fontSize={24}
@@ -30,12 +30,12 @@ function Banner() {
         </Typography>
 
         <Typography
-          width={524}
+          width={[1, 1, 524, 524]}
           component="h2"
-          fontSize={52}
+          fontSize={[24, 24, 52, 52]}
           color={'#272D37'}
           fontWeight={700}
-          lineHeight={'60px'}
+          lineHeight={['30px', '60px']}
           mt={2.75}
         >
           {T({
@@ -45,10 +45,10 @@ function Banner() {
         </Typography>
 
         <Typography
-          width={524}
+          width={[0.8, 0.8, 524, 524]}
           fontWeight={400}
           lineHeight={'26px'}
-          fontSize={18}
+          fontSize={[16, 16, 18, 18]}
           component="h4"
           mt={3}
         >

@@ -38,7 +38,7 @@ function WhyCalledDencun() {
         variant="body1"
         mx={'auto'}
         lineHeight={'24px'}
-        width={800}
+        width={['100%', '100%', '80%', 800]}
         textAlign={'center'}
         mt={2}
         mb={8}
@@ -53,7 +53,7 @@ function WhyCalledDencun() {
         variant="body1"
         mx={'auto'}
         lineHeight={'24px'}
-        width={800}
+        width={['100%', '100%', '80%', 800]}
         textAlign={'center'}
         pt={3.5}
         mb={8}
