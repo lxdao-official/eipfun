@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useT } from '@/hooks/useGetLang';
+import useGetLang, { useT } from '@/hooks/useGetLang';
 import Image from 'next/image';
 import abi from 'abi/dencunnft.json';
 
@@ -36,6 +36,7 @@ const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as Address;
 
 export default function MintNFT() {
   const T = useT();
+  const lang = useGetLang();
   const { address, chain } = useAccount();
 
   const {
@@ -104,7 +105,7 @@ export default function MintNFT() {
           borderRadius: '10px',
           background: 'linear-gradient(90deg, #EFD4EE 0%, #EED1EB 69.71%)',
         }}
-        height={260}
+        height={[520, 520, 260, 260]}
         py={5}
         pl={6}
       >
@@ -138,7 +139,11 @@ export default function MintNFT() {
             <Box mt={3}>
               <MintButton>
                 <Link
-                  href="https://twitter.com/share?text=I just minted my Dencun Mainnet Fork NFT from @EIPFun as a memorable piece of Ethereum history. Blobs are here! To learn more about Dencun upgrade and mint the Dencun NFT, please follow @EIPFun and check the website here&url=https://eip.fun/dencun"
+                  href={
+                    lang === 'en'
+                      ? 'https://twitter.com/share?text=I just minted my Dencun Mainnet Fork NFT from @EIPFun as a memorable piece of Ethereum history. Blobs are here! To learn more about Dencun upgrade and mint the Dencun NFT, please follow @EIPFun and check the website here&url=https://eip.fun/dencun'
+                      : 'https://twitter.com/share?text=刚刚在 @EIPFun 平台铸造了我的 Dencun 主网分叉纪念 NFT，为这个令人难忘的以太坊历史时刻留念，Blobs 已经来啦！ 想要了解 Dencun 升级的详情及铸造 Dencun 纪念 NFT 的信息，请关注 @EIPFun 推特及官网&url=https://eip.fun/zh/dencun'
+                  }
                   target="_blank"
                   color={'#fff'}
                   underline="none"
@@ -203,8 +208,9 @@ export default function MintNFT() {
         <Box
           sx={{
             position: 'absolute',
-            top: '25px',
-            right: '106px',
+            bottom: ['10px'],
+            right: ['50%', '50%', '106px', '106px'],
+            marginRight: ['-108px', '108px', 0, 0],
             zIndex: 1,
             width: 216,
             height: 216,

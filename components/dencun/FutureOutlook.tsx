@@ -43,7 +43,7 @@ function FutureOutlook() {
     });
   };
   return (
-    <Container sx={{ py: 8 }}>
+    <Container sx={{ py: [4, 4, 8, 8] }}>
       <Box
         sx={{
           overflow: 'hidden',
@@ -57,7 +57,7 @@ function FutureOutlook() {
             lineHeight={'42px'}
             color={'#437EF7'}
             component="h2"
-            mt={7.5}
+            mt={[3, 3, 7.5, 7.5]}
           >
             {T({
               en: 'Future Outlook',
@@ -78,7 +78,7 @@ function FutureOutlook() {
             })}
           </Typography>
 
-          <Box pt={3} pb={1.75} maxWidth={532}>
+          <Box pt={3} pb={1.75} maxWidth={[1, 1, 532, 532]}>
             <Item>
               {T({
                 en: `DeFi transaction efficiency improvement and reduction in transaction fees`,
@@ -121,8 +121,9 @@ function FutureOutlook() {
 
         <Box
           sx={{ float: 'right' }}
-          width={560}
-          height={560}
+          mt={[2, 2, 0, 0]}
+          width={[1, 1, 560, 560]}
+          height={[400, 400, 560, 560]}
           bgcolor={'#F4F4F4'}
           display={'flex'}
           justifyContent={'center'}
