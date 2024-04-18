@@ -291,7 +291,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Typography>
             </Box>
 
-            <ChatGpt chatgpt4={meta.chatgpt4} summary={meta.summary} />
+            <ChatGpt summary={meta.summary} url={updateFileUrl} />
 
             <Typography
               pt={6}
