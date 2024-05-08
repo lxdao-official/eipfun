@@ -76,7 +76,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h1" textAlign="center" color="#fff">
-            连接 EIP 贡献者，扩展以太坊
+            支持 EIP 贡献者，推进以太坊建设
           </Typography>
           <Box maxWidth="lg" margin="0 auto" width="100%">
             <SearchMain />
@@ -89,7 +89,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h2" textAlign="center">
-            什么是 EIP ?
+            什么是 EIP、ERC？
           </Typography>
           <Typography
             variant="body2"
@@ -98,9 +98,8 @@ export default function Home() {
             margin="16px auto 0 auto"
             width="90%"
           >
-            EIP 是 ”Ethereum Improvement Proposal”
-            的缩写，译成中⽂为“以太坊改进提案”。它们
-            是以太坊平台的标准，包括核⼼协议规范、客户端应⽤程序接⼝（API）以及智能合约标准。
+            {`EIP（Ethereum Improvement Proposal）是以太坊改进提案，主要针对以太坊核心协议的改进。
+            ERC（Ethereum Request for Comment）是以太坊标准征求意见，主要针对以太坊应用层的规范。`}
           </Typography>
         </Box>
 
@@ -375,6 +374,3 @@ const advisorList = [
     github: 'https://github.com/xinbenlv',
   },
 ];
-function useLang() {
-  throw new Error('Function not implemented.');
-}

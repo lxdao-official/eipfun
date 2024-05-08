@@ -11,7 +11,7 @@ import { Telegram } from '@/common/config';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import DencunBanner from '@/components/DencunBanner';
-import { hotEips, newEips } from '@/common/HotEipConfig';
+// import { hotEips, newEips } from '@/common/HotEipConfig';
 export const EipsContentBlock = styled('div')(({ theme }) => ({
   // width: 1152,
   maxWidth: 1152,
@@ -81,7 +81,7 @@ export default function Home() {
           <SearchMain />
         </Box>
       </Box>
-      <Box
+      {/* <Box
         padding="64px 0"
         sx={{
           padding: padWidth ? '64px 0' : '32px 0',
@@ -115,7 +115,7 @@ export default function Home() {
               paddingBottom="24px"
               borderBottom="1px solid #EAEBF0"
             >
-              Popular EIPs/ ERCs
+              Popular EIPs / ERCs
             </Typography>
             {hotEips.map((i) => (
               <Link key={i.key} href={`/eips/eip-${i.key}`} underline="none">
@@ -177,7 +177,7 @@ export default function Home() {
               borderBottom="1px solid #EAEBF0"
               marginBottom="24px"
             >
-              Latest EIPs/ERCs
+              Latest EIPs / ERCs
             </Typography>
             {newEips.map((i) => (
               <Link key={i.key} href={`/eips/eip-${i.key}`} underline="none">
@@ -223,7 +223,7 @@ export default function Home() {
             ))}
           </Box>
         </Box>
-      </Box>
+      </Box> */}
 
       <DencunBanner />
 
@@ -284,6 +284,48 @@ export default function Home() {
           justifyContent="space-around"
           margin="20px auto 20px auto"
         >
+          <Box flex={0} minWidth="218px" textAlign="center" padding="20px 0">
+            <Box
+              display="inline-flex"
+              width={48}
+              height={48}
+              alignItems="center"
+              justifyContent="center"
+              bgcolor="#F5FAFF"
+              borderRadius="5px"
+              color="#437EF7"
+              fontSize="24px"
+            >
+              1
+            </Box>
+            <Typography variant={'h4'}>Write & Submit</Typography>
+            <Typography variant="body2" padding="0" width="100%">
+              Clone the repository, write your idea, commit and push a PR
+            </Typography>
+            <Box>
+              <Link
+                fontWeight={700}
+                underline="hover"
+                fontSize={15}
+                marginTop={10}
+                href="https://github.com/ethereum/EIPs"
+              >
+                现在提交 EIP
+                <EastIcon sx={{ fontSize: '14px', verticalAlign: 'middle' }} />
+              </Link>
+
+              <Link
+                fontWeight={700}
+                underline="hover"
+                fontSize={15}
+                marginTop={10}
+                href="https://github.com/ethereum/ERCs"
+              >
+                现在提交 ERC
+                <EastIcon sx={{ fontSize: '14px', verticalAlign: 'middle' }} />
+              </Link>
+            </Box>
+          </Box>
           {eipsWay.length > 0 &&
             eipsWay.map((item, index) => (
               <Box
@@ -459,14 +501,14 @@ export default function Home() {
   );
 }
 const introList = [
-  {
-    title: 'Write & Submit',
-    image: '/images/intro_1.jpg',
-    intro: 'Clone the repository, write your idea, commit and push a PR',
-    action: 'Propose now',
-    index: 1,
-    actionLink: 'https://github.com/ethereum/EIPs',
-  },
+  // {
+  //   title: 'Write & Submit',
+  //   image: '/images/intro_1.jpg',
+  //   intro: 'Clone the repository, write your idea, commit and push a PR',
+  //   action: 'Propose now',
+  //   index: 1,
+  //   actionLink: 'https://github.com/ethereum/EIPs',
+  // },
   {
     title: 'Review & Feedback',
     image: '/images/intro_2.jpg',

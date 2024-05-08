@@ -28,6 +28,7 @@ export default function OriginalLink({
           }
           size="large"
           href={discussions}
+          target="_blank"
         >
           {T({ en: 'Discussions', zh: '社区讨论' })}
         </Button>
@@ -47,6 +48,7 @@ export default function OriginalLink({
           },
         }}
         href={`https://eips.ethereum.org/EIPS/eip-${eip}`}
+        target="_blank"
       >
         {T({ en: 'Original link', zh: '原文链接' })}
       </Button>
@@ -64,6 +66,7 @@ export default function OriginalLink({
           },
         }}
         href={url}
+        target="_blank"
       >
         {T({ en: 'Edit', zh: '编辑' })}
       </Button>
@@ -85,6 +88,7 @@ export default function OriginalLink({
               },
             }}
             href={item.link}
+            target="_blank"
           >
             {item.title}
           </Button>
