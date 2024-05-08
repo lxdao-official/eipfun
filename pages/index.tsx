@@ -75,7 +75,7 @@ export default function Home() {
         }}
       >
         <Typography variant="h1" textAlign="center" color="#fff">
-          Serve EIP builders, scale Ethereum.
+          Serve Ethereum Builders, Scale the Community.
         </Typography>
         <Box maxWidth="lg" margin="0 auto" width="100%">
           <SearchMain />
@@ -234,7 +234,7 @@ export default function Home() {
         }}
       >
         <Typography variant="h2" textAlign="center">
-          What is EIPs?
+          What is EIP & ERC?
         </Typography>
         <Typography
           variant="body2"
@@ -243,9 +243,9 @@ export default function Home() {
           margin="16px auto 0 auto"
           width="90%"
         >
-          It is short for Ethereum Improvement Proposals, they are standards for
-          the Ethereum platform, including core protocol specifications, client
-          APIs, and contract standards.
+          EIP standards for Ethereum Improvement Proposal. It mainly targets
+          Ethereum core protocol changes. ERC standards for Ethereum Request for
+          Comment. It mainly targets application layer specifications.
         </Typography>
       </Box>
       <Box
@@ -255,7 +255,7 @@ export default function Home() {
         }}
       >
         <Typography variant="h2" textAlign="center">
-          How EIPs work?
+          How EIP & ERC work?
         </Typography>
         <Typography
           variant="body2"
@@ -300,9 +300,7 @@ export default function Home() {
             </Box>
             <Typography variant={'h4'}>Write & Submit</Typography>
             <Typography variant="body2" padding="0" width="100%">
-              Clone the repository, write your idea, commit and push a PR
-            </Typography>
-            <Box>
+              Clone{' '}
               <Link
                 fontWeight={700}
                 underline="hover"
@@ -310,10 +308,9 @@ export default function Home() {
                 marginTop={10}
                 href="https://github.com/ethereum/EIPs"
               >
-                现在提交 EIP
-                <EastIcon sx={{ fontSize: '14px', verticalAlign: 'middle' }} />
-              </Link>
-
+                EIP
+              </Link>{' '}
+              /{' '}
               <Link
                 fontWeight={700}
                 underline="hover"
@@ -321,8 +318,27 @@ export default function Home() {
                 marginTop={10}
                 href="https://github.com/ethereum/ERCs"
               >
-                现在提交 ERC
-                <EastIcon sx={{ fontSize: '14px', verticalAlign: 'middle' }} />
+                ERC
+              </Link>{' '}
+              the repository, write your idea, commit and push a PR
+            </Typography>
+            <Box>
+              <Link
+                fontWeight={700}
+                fontSize={15}
+                marginTop={10}
+                href="https://github.com/ethereum/EIPs"
+              >
+                Propose EIP now
+              </Link>
+              <br />
+              <Link
+                fontWeight={700}
+                fontSize={15}
+                marginTop={10}
+                href="https://github.com/ethereum/ERCs"
+              >
+                Propose ERC now
               </Link>
             </Box>
           </Box>
@@ -352,22 +368,6 @@ export default function Home() {
                 <Typography variant="body2" padding="0" width="100%">
                   {item.intro}
                 </Typography>
-
-                {item.action && item.actionLink && (
-                  <Link
-                    fontWeight={700}
-                    underline="hover"
-                    fontSize={15}
-                    marginTop={10}
-                    href={item.actionLink}
-                  >
-                    {' '}
-                    {item.action}{' '}
-                    <EastIcon
-                      sx={{ fontSize: '14px', verticalAlign: 'middle' }}
-                    />
-                  </Link>
-                )}
               </Box>
             ))}
           {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
@@ -501,14 +501,6 @@ export default function Home() {
   );
 }
 const introList = [
-  // {
-  //   title: 'Write & Submit',
-  //   image: '/images/intro_1.jpg',
-  //   intro: 'Clone the repository, write your idea, commit and push a PR',
-  //   action: 'Propose now',
-  //   index: 1,
-  //   actionLink: 'https://github.com/ethereum/EIPs',
-  // },
   {
     title: 'Review & Feedback',
     image: '/images/intro_2.jpg',
@@ -542,8 +534,8 @@ const introList = [
 const partnerList = [
   { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
   {
-    name: 'Plancker',
-    logo: '/images/plancker.svg',
+    name: 'ETHPanda',
+    logo: '/images/ethpanda.png',
     link: 'https://plancker.org/',
   },
 ];

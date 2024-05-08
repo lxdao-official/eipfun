@@ -4,7 +4,7 @@ import { MetaProps } from '../types/layout';
 
 const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
   const meta = {
-    title: 'EIP.Fun - Serve EIP builders, scale Ethereum.',
+    title: 'EIP.Fun - Serve Ethereum Builders, Scale the Community .',
     description:
       'EIP.fun is run by the contributors, for the contributor, and owned by the contributors.',
     type: 'website',

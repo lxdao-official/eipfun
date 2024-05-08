@@ -132,7 +132,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     });
   };
 
-  const TITLE = `EIP-${meta.eip}: ${meta.title} | EIP Fun - Serve EIP builders, scale Ethereum`;
+  const TITLE = `EIP-${meta.eip}: ${meta.title} | EIP Fun - Serve Ethereum Builders, Scale the Community`;
   const DESCRIPTION =
     (meta.abstract ? meta.abstract : '') +
     (meta.description ? meta.description : '') +

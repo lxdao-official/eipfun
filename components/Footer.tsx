@@ -63,8 +63,8 @@ export default function Footer() {
 
           <Typography component={Box} pb={2} variant="body1">
             {t({
-              en: 'Serve EIP builders, scale Ethereum.',
-              zh: '聚集 EIP 贡献者, 扩展以太坊',
+              en: 'Serve Ethereum Builders, Scale the Community.',
+              zh: '支持以太坊贡献者，推动生态建设',
             })}
           </Typography>
 
