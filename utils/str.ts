@@ -54,13 +54,11 @@ export function formatComEIP(str: string): EIPHeader {
 
       let [k, ...v] = item.split('\n\n');
       k = k.trim().toLowerCase();
-      let vStr = v.join('').trim();
-      if (vStr.includes('Please enter the summary')) {
-        vStr = vStr.replace('Please enter the summary', '');
+      if (k === 'summary' && ['Please enter the summary', '请在下方提交本协议总结'].includes(v[0])) {
+        v.shift();
       }
-      if (vStr.includes('请在下方提交本协议总结')) {
-        vStr = vStr.replace('请在下方提交本协议总结', '');
-      }
+      let vStr = v.join(k === 'summary' ? '<br /><br />' : '').trim();
+
 
       if (vStr.startsWith('- ') && ['further reading', 'projects'].includes(k)) {
         let tmpArr: Project[] = [];

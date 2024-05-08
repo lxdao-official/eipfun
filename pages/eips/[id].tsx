@@ -129,7 +129,6 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     (meta.summary ? meta.summary : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
   const updateFileUrl = `https://github.com/lxdao-official/eipfun/blob/main/content/en/eip-${meta.eip}.md?plain=1`;
-  console.log(meta);
 
   return (
     <>
