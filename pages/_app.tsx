@@ -11,6 +11,7 @@ import { optimism, optimismSepolia } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import '@rainbow-me/rainbowkit/styles.css';
 
 const config = getDefaultConfig({
@@ -23,66 +24,69 @@ const config = getDefaultConfig({
 export default function App({ Component, pageProps }: AppProps) {
   const description =
     'What is EIPs? It is short for Ethereum Improvement Proposals, they are standards for the Ethereum platform, including core protocol specifications, client APIs, and contract standards.';
+  const { asPath } = useRouter();
 
   return (
     <>
-      <NextSeo
-        title="Serve Ethereum Builders, Scale the Community."
-        description={description}
-        additionalMetaTags={[
-          {
-            name: 'keywords',
-            content:
-              'EIPs, eip fun, lxdao, plancker, ethereum, web3, dao, public goods',
-          },
-        ]}
-        openGraph={{
-          url: 'https://eip.fun',
-          title: 'Serve Ethereum Builders, Scale the Community.',
-          description,
-          images: [
+      {asPath && !asPath.includes('/eips/eip-') && (
+        <NextSeo
+          title="Serve Ethereum Builders, Scale the Community."
+          description={description}
+          additionalMetaTags={[
             {
-              url: 'https://eip.fun/images/logo_summary.jpg',
-              width: 800,
-              height: 600,
-              alt: 'eip.fun Alt',
-              type: 'image/jpeg',
+              name: 'keywords',
+              content:
+                'EIPs, eip fun, lxdao, plancker, ethereum, web3, dao, public goods',
             },
-            {
-              url: 'https://eip.fun/images/lxdao.svg',
-              width: 800,
-              height: 600,
-              alt: 'lxdao',
-              type: 'image/jpeg',
-            },
-            {
-              url: 'https://eip.fun/images/plancker.svg',
-              width: 800,
-              height: 600,
-              alt: 'plancker',
-              type: 'image/jpeg',
-            },
-          ],
-          type: 'article',
-          article: {
-            tags: [
-              'eip',
-              'fun',
-              'eipfun',
-              'eip fun',
-              'lxdao',
-              'plancker',
-              'ethereum',
+          ]}
+          openGraph={{
+            url: 'https://eip.fun',
+            title: 'Serve Ethereum Builders, Scale the Community.',
+            description,
+            images: [
+              {
+                url: 'https://eip.fun/images/logo_summary.jpg',
+                width: 800,
+                height: 600,
+                alt: 'eip.fun Alt',
+                type: 'image/jpeg',
+              },
+              {
+                url: 'https://eip.fun/images/lxdao.svg',
+                width: 800,
+                height: 600,
+                alt: 'lxdao',
+                type: 'image/jpeg',
+              },
+              {
+                url: 'https://eip.fun/images/ethpanda.png',
+                width: 800,
+                height: 600,
+                alt: 'ETHPanda',
+                type: 'image/jpeg',
+              },
             ],
-          },
-          siteName: 'EIP.Fun - Website',
-        }}
-        twitter={{
-          handle: '@LXDAO',
-          site: '@EIPFun',
-          cardType: 'summary_large_image',
-        }}
-      />
+            type: 'article',
+            article: {
+              tags: [
+                'eip',
+                'fun',
+                'eipfun',
+                'eip fun',
+                'lxdao',
+                'plancker',
+                'ethereum',
+              ],
+            },
+            siteName: 'EIP.Fun - Website',
+          }}
+          twitter={{
+            handle: '@LXDAO',
+            site: '@EIPFun',
+            cardType: 'summary_large_image',
+          }}
+        />
+      )}
       <Script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-005C54Q2GC"
