@@ -24,12 +24,12 @@ const footerList1: footerItem[] = [
 ];
 
 const footerList2: footerItem[] = [
-  { con: 'LXDAO', conZh: 'LXDAO', href: 'https://lxdao.io' },
   {
-    con: 'PlanckerDAO',
-    conZh: 'PlanckerDAO',
+    con: 'ETHPanda',
+    conZh: 'ETHPanda',
     href: 'https://www.plancker.org',
   },
+  { con: 'LXDAO', conZh: 'LXDAO', href: 'https://lxdao.io' },
 ];
 
 export default function Footer() {

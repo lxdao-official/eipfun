@@ -532,12 +532,12 @@ const introList = [
   },
 ];
 const partnerList = [
-  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
   {
     name: 'ETHPanda',
     logo: '/images/ethpanda.png',
     link: 'https://plancker.org/',
   },
+  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
 ];
 const advisorList = [
   {
