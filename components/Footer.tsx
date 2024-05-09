@@ -27,7 +27,7 @@ const footerList2: footerItem[] = [
   {
     con: 'ETHPanda',
     conZh: 'ETHPanda',
-    href: 'https://www.plancker.org',
+    href: 'https://twitter.com/EthPanda_org',
   },
   { con: 'LXDAO', conZh: 'LXDAO', href: 'https://lxdao.io' },
 ];
@@ -120,7 +120,12 @@ export default function Footer() {
             <Box pb={7.25} pt={2}>
               {footerList1.map((item) => (
                 <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
-                  <Link href={item.href} underline="hover" color="#5F6D7E">
+                  <Link
+                    href={item.href}
+                    underline="hover"
+                    color="#5F6D7E"
+                    target="_blank"
+                  >
                     {lang === 'en' ? item.con : item.conZh}
                   </Link>
                 </Box>
@@ -139,7 +144,12 @@ export default function Footer() {
             <Box pb={7.25} pt={2}>
               {footerList2.map((item) => (
                 <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
-                  <Link href={item.href} underline="hover" color="#5F6D7E">
+                  <Link
+                    href={item.href}
+                    underline="hover"
+                    color="#5F6D7E"
+                    target="_blank"
+                  >
                     {lang === 'en' ? item.con : item.conZh}
                   </Link>
                 </Box>
