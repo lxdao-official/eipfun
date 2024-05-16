@@ -232,8 +232,8 @@ export default function SearchHeader() {
             <EIPsSearch
               placeholder={
                 lang === 'en'
-                  ? 'Search EIPs/ ERCs by number/ word'
-                  : '输入编号或标题内容搜索 EIPs/ERCs'
+                  ? 'Search EIPs/ERCs by number or keywords'
+                  : '输入编号或关键词搜索 EIPs/ERCs'
               }
               {...params}
               size="medium"

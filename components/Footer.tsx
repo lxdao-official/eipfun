@@ -24,12 +24,12 @@ const footerList1: footerItem[] = [
 ];
 
 const footerList2: footerItem[] = [
-  { con: 'LXDAO', conZh: 'LXDAO', href: 'https://lxdao.io' },
   {
-    con: 'PlanckerDAO',
-    conZh: 'PlanckerDAO',
-    href: 'https://www.plancker.org',
+    con: 'ETHPanda',
+    conZh: 'ETHPanda',
+    href: 'https://twitter.com/EthPanda_org',
   },
+  { con: 'LXDAO', conZh: 'LXDAO', href: 'https://lxdao.io' },
 ];
 
 export default function Footer() {
@@ -63,8 +63,8 @@ export default function Footer() {
 
           <Typography component={Box} pb={2} variant="body1">
             {t({
-              en: 'Serve EIP builders, scale Ethereum.',
-              zh: '聚集 EIP 贡献者, 扩展以太坊',
+              en: 'Serve Ethereum Builders, Scale the Community.',
+              zh: '支持以太坊贡献者，推动生态建设',
             })}
           </Typography>
 
@@ -120,7 +120,12 @@ export default function Footer() {
             <Box pb={7.25} pt={2}>
               {footerList1.map((item) => (
                 <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
-                  <Link href={item.href} underline="hover" color="#5F6D7E">
+                  <Link
+                    href={item.href}
+                    underline="hover"
+                    color="#5F6D7E"
+                    target="_blank"
+                  >
                     {lang === 'en' ? item.con : item.conZh}
                   </Link>
                 </Box>
@@ -139,7 +144,12 @@ export default function Footer() {
             <Box pb={7.25} pt={2}>
               {footerList2.map((item) => (
                 <Box key={item.con} height={36} sx={{ lineHeight: '36px' }}>
-                  <Link href={item.href} underline="hover" color="#5F6D7E">
+                  <Link
+                    href={item.href}
+                    underline="hover"
+                    color="#5F6D7E"
+                    target="_blank"
+                  >
                     {lang === 'en' ? item.con : item.conZh}
                   </Link>
                 </Box>

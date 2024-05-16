@@ -12,7 +12,7 @@ const EmailSubscribe = (): JSX.Element => {
       return;
     }
     (window as any).CustomSubstackWidget = {
-      substackUrl: 'eipsfun.substack.com',
+      substackUrl: 'eipfun.substack.com',
       placeholder: 'example@gmail.com',
       buttonText: lang === 'en' ? 'Submit' : '邮件订阅',
       theme: 'custom',
@@ -51,7 +51,13 @@ const EmailSubscribe = (): JSX.Element => {
             zh: '订阅 EIPs Fun 周刊以跟进相关更新，建⽴你与 EIP 之间的连接 ，更好地建设以太坊。',
           })}
         </Typography>
-        <Link href="#" color="#437EF7" fontWeight={600} underline="hover">
+        <Link
+          href="https://eipfun.substack.com"
+          target="_blank"
+          color="#437EF7"
+          fontWeight={600}
+          underline="hover"
+        >
           {t({ en: ' View all ', zh: '详情' })}
           <EastIcon sx={{ width: 14, verticalAlign: 'middle' }} />
         </Link>

@@ -1,6 +1,6 @@
 # EIP Fun
 
-Serve EIP builders, scale Ethereum.
+Serve Ethereum Builders, Scale the Community.
 
 - Website: http://eip.fun/
 - TG Group: https://t.me/eipfun

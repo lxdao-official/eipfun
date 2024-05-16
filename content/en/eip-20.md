@@ -1,4 +1,4 @@
-## ChatGPT4
+## Summary
 
 The ERC-20 Token Standard is a set of rules and guidelines that define a common interface for tokens on the Ethereum network. It was proposed by Vitalik Buterin and Fabian Vogelsteller in November 2015 as an Ethereum Improvement Proposal (EIP-20). The standard provides a basic set of functions that any token on the Ethereum network can implement, making it easier for developers to create and interact with tokens.
 

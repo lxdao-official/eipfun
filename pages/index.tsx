@@ -11,7 +11,7 @@ import { Telegram } from '@/common/config';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import DencunBanner from '@/components/DencunBanner';
-import { hotEips, newEips } from '@/common/HotEipConfig';
+// import { hotEips, newEips } from '@/common/HotEipConfig';
 export const EipsContentBlock = styled('div')(({ theme }) => ({
   // width: 1152,
   maxWidth: 1152,
@@ -75,13 +75,13 @@ export default function Home() {
         }}
       >
         <Typography variant="h1" textAlign="center" color="#fff">
-          Serve EIP builders, scale Ethereum.
+          Serve Ethereum Builders, Scale the Community.
         </Typography>
         <Box maxWidth="lg" margin="0 auto" width="100%">
           <SearchMain />
         </Box>
       </Box>
-      <Box
+      {/* <Box
         padding="64px 0"
         sx={{
           padding: padWidth ? '64px 0' : '32px 0',
@@ -115,7 +115,7 @@ export default function Home() {
               paddingBottom="24px"
               borderBottom="1px solid #EAEBF0"
             >
-              Popular EIPs/ ERCs
+              Popular EIPs / ERCs
             </Typography>
             {hotEips.map((i) => (
               <Link key={i.key} href={`/eips/eip-${i.key}`} underline="none">
@@ -177,7 +177,7 @@ export default function Home() {
               borderBottom="1px solid #EAEBF0"
               marginBottom="24px"
             >
-              Latest EIPs/ERCs
+              Latest EIPs / ERCs
             </Typography>
             {newEips.map((i) => (
               <Link key={i.key} href={`/eips/eip-${i.key}`} underline="none">
@@ -223,7 +223,7 @@ export default function Home() {
             ))}
           </Box>
         </Box>
-      </Box>
+      </Box> */}
 
       <DencunBanner />
 
@@ -234,7 +234,7 @@ export default function Home() {
         }}
       >
         <Typography variant="h2" textAlign="center">
-          What is EIPs?
+          What is EIP & ERC?
         </Typography>
         <Typography
           variant="body2"
@@ -243,9 +243,9 @@ export default function Home() {
           margin="16px auto 0 auto"
           width="90%"
         >
-          It is short for Ethereum Improvement Proposals, they are standards for
-          the Ethereum platform, including core protocol specifications, client
-          APIs, and contract standards.
+          EIP standards for Ethereum Improvement Proposal. It mainly targets
+          Ethereum core protocol changes. ERC standards for Ethereum Request for
+          Comment. It mainly targets application layer specifications.
         </Typography>
       </Box>
       <Box
@@ -255,7 +255,7 @@ export default function Home() {
         }}
       >
         <Typography variant="h2" textAlign="center">
-          How EIPs work?
+          How EIP & ERC work?
         </Typography>
         <Typography
           variant="body2"
@@ -284,6 +284,64 @@ export default function Home() {
           justifyContent="space-around"
           margin="20px auto 20px auto"
         >
+          <Box flex={0} minWidth="218px" textAlign="center" padding="20px 0">
+            <Box
+              display="inline-flex"
+              width={48}
+              height={48}
+              alignItems="center"
+              justifyContent="center"
+              bgcolor="#F5FAFF"
+              borderRadius="5px"
+              color="#437EF7"
+              fontSize="24px"
+            >
+              1
+            </Box>
+            <Typography variant={'h4'}>Write & Submit</Typography>
+            <Typography variant="body2" padding="0" width="100%">
+              Clone{' '}
+              <Link
+                fontWeight={700}
+                underline="hover"
+                fontSize={15}
+                marginTop={10}
+                href="https://github.com/ethereum/EIPs"
+              >
+                EIP
+              </Link>{' '}
+              /{' '}
+              <Link
+                fontWeight={700}
+                underline="hover"
+                fontSize={15}
+                marginTop={10}
+                href="https://github.com/ethereum/ERCs"
+              >
+                ERC
+              </Link>{' '}
+              the repository, write your idea, commit and push a PR
+            </Typography>
+            <Box>
+              <Link
+                fontWeight={700}
+                fontSize={15}
+                marginTop={10}
+                href="https://github.com/ethereum/EIPs"
+              >
+                Propose EIP now
+              </Link>
+              <br />
+              <Link
+                fontWeight={700}
+                fontSize={15}
+                marginTop={10}
+                href="https://github.com/ethereum/ERCs"
+              >
+                Propose ERC now
+              </Link>
+            </Box>
+          </Box>
           {eipsWay.length > 0 &&
             eipsWay.map((item, index) => (
               <Box
@@ -310,22 +368,6 @@ export default function Home() {
                 <Typography variant="body2" padding="0" width="100%">
                   {item.intro}
                 </Typography>
-
-                {item.action && item.actionLink && (
-                  <Link
-                    fontWeight={700}
-                    underline="hover"
-                    fontSize={15}
-                    marginTop={10}
-                    href={item.actionLink}
-                  >
-                    {' '}
-                    {item.action}{' '}
-                    <EastIcon
-                      sx={{ fontSize: '14px', verticalAlign: 'middle' }}
-                    />
-                  </Link>
-                )}
               </Box>
             ))}
           {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
@@ -460,14 +502,6 @@ export default function Home() {
 }
 const introList = [
   {
-    title: 'Write & Submit',
-    image: '/images/intro_1.jpg',
-    intro: 'Clone the repository, write your idea, commit and push a PR',
-    action: 'Propose now',
-    index: 1,
-    actionLink: 'https://github.com/ethereum/EIPs',
-  },
-  {
     title: 'Review & Feedback',
     image: '/images/intro_2.jpg',
     intro:
@@ -498,12 +532,12 @@ const introList = [
   },
 ];
 const partnerList = [
-  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
   {
-    name: 'Plancker',
-    logo: '/images/plancker.svg',
+    name: 'ETHPanda',
+    logo: '/images/ethpanda.png',
     link: 'https://plancker.org/',
   },
+  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
 ];
 const advisorList = [
   {

@@ -1,3 +1,7 @@
+## Summary
+
+Please enter the summary
+
 ## Videos
 
 - [Example Video Title](https://www.youtube.com/watch?v=TDGq4aeevgY)

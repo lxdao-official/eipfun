@@ -1,4 +1,4 @@
-## ChatGPT4
+## Summary
 
 The ERC-55 standard is a proposal for a new method of encoding Ethereum addresses that includes a checksum to reduce the risk of errors when sending transactions. The standard was introduced in January 2016 by Vitalik Buterin and Alex Van de Sande as part of the Ethereum Improvement Proposals (EIPs).
 

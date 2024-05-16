@@ -1,4 +1,4 @@
-## ChatGPT4
+## Summary
 
 The EIP-3 proposal suggests adding a new opcode called CALLDEPTH to the Ethereum Virtual Machine (EVM). This opcode would return the remaining available call stack depth, which is the limit specifying how deep contracts can call other contracts. Currently, the call stack depth limit is 256, and if a contract invokes another contract and the limit has been reached, the operation will fail. This behavior can be exploited in a call stack attack, where an attacker creates a suitable depth of the stack and then invokes the targeted contract. If the targeted contract calls another contract and the call fails, the consequences could be damaging if the return value is not properly checked.
 

@@ -76,7 +76,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h1" textAlign="center" color="#fff">
-            连接 EIP 贡献者，扩展以太坊
+            支持 EIP 贡献者，推进以太坊建设
           </Typography>
           <Box maxWidth="lg" margin="0 auto" width="100%">
             <SearchMain />
@@ -89,7 +89,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h2" textAlign="center">
-            什么是 EIP ?
+            什么是 EIP、ERC？
           </Typography>
           <Typography
             variant="body2"
@@ -98,9 +98,11 @@ export default function Home() {
             margin="16px auto 0 auto"
             width="90%"
           >
-            EIP 是 ”Ethereum Improvement Proposal”
-            的缩写，译成中⽂为“以太坊改进提案”。它们
-            是以太坊平台的标准，包括核⼼协议规范、客户端应⽤程序接⼝（API）以及智能合约标准。
+            EIP（Ethereum Improvement
+            Proposal）是以太坊改进提案，主要针对以太坊核心协议的改进。
+            <br />
+            ERC（Ethereum Request for
+            Comment）是以太坊标准征求意见，主要针对以太坊应用层的规范。
           </Typography>
         </Box>
 
@@ -112,7 +114,7 @@ export default function Home() {
           }}
         >
           <Typography variant="h2" textAlign="center">
-            EIP 如何运作？
+            EIP、ERC 如何运作？
           </Typography>
           <Typography
             variant="body2"
@@ -140,6 +142,65 @@ export default function Home() {
             justifyContent="space-around"
             margin="20px auto 20px auto"
           >
+            <Box flex={0} minWidth="218px" textAlign="center" padding="20px 0">
+              <Box
+                display="inline-flex"
+                width={48}
+                height={48}
+                alignItems="center"
+                justifyContent="center"
+                bgcolor="#F5FAFF"
+                borderRadius="5px"
+                color="#437EF7"
+                fontSize="24px"
+              >
+                1
+              </Box>
+              <Typography variant="h4">写作与提交</Typography>
+              <Typography variant="body2" padding="0" width="100%">
+                克隆{' '}
+                <Link
+                  fontWeight={700}
+                  underline="hover"
+                  fontSize={15}
+                  marginTop={10}
+                  href="https://github.com/ethereum/EIPs"
+                >
+                  EIP
+                </Link>{' '}
+                /{' '}
+                <Link
+                  fontWeight={700}
+                  underline="hover"
+                  fontSize={15}
+                  marginTop={10}
+                  href="https://github.com/ethereum/ERCs"
+                >
+                  ERC
+                </Link>{' '}
+                的 GitHub 仓库，写下你的提案，提交 PR
+              </Typography>
+              <Box>
+                <Link
+                  fontWeight={700}
+                  fontSize={15}
+                  marginTop={10}
+                  href="https://github.com/ethereum/EIPs"
+                >
+                  现在提交 EIP
+                </Link>
+
+                <Link
+                  fontWeight={700}
+                  fontSize={15}
+                  marginTop={10}
+                  marginLeft={1}
+                  href="https://github.com/ethereum/ERCs"
+                >
+                  现在提交 ERC
+                </Link>
+              </Box>
+            </Box>
             {eipsWay.length > 0 &&
               eipsWay.map((item, index) => (
                 <Box
@@ -166,22 +227,6 @@ export default function Home() {
                   <Typography variant="body2" padding="0" width="100%">
                     {item.intro}
                   </Typography>
-
-                  {item.action && item.actionLink && (
-                    <Link
-                      fontWeight={700}
-                      underline="hover"
-                      fontSize={15}
-                      marginTop={10}
-                      href={item.actionLink}
-                    >
-                      {' '}
-                      {item.action}{' '}
-                      <EastIcon
-                        sx={{ fontSize: '14px', verticalAlign: 'middle' }}
-                      />
-                    </Link>
-                  )}
                 </Box>
               ))}
             {/* 此处是自适应宽度flex warp后的最后一个元素左对齐方案 */}
@@ -313,14 +358,6 @@ export default function Home() {
 }
 const introList = [
   {
-    title: '写作与提交',
-    image: '/images/intro_1.jpg',
-    intro: '克隆 EIP Fun 的 Github 仓库，写下你的想法，提交 PR',
-    action: '现在提交',
-    index: 1,
-    actionLink: 'https://github.com/ethereum/EIPs',
-  },
-  {
     title: '评议与反馈',
     image: '/images/intro_2.jpg',
     intro: '评议结束后，EIP编辑会分配编码并合并 PR 至 EIP 主仓库中',
@@ -350,12 +387,12 @@ const introList = [
   },
 ];
 const partnerList = [
-  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
   {
-    name: 'Plancker',
-    logo: '/images/plancker.svg',
+    name: 'ETHPanda',
+    logo: '/images/ethpanda.png',
     link: 'https://plancker.org/',
   },
+  { name: 'LXDAO', logo: '/images/lxdao.svg', link: 'https://lxdao.io' },
 ];
 const advisorList = [
   {
@@ -375,6 +412,3 @@ const advisorList = [
     github: 'https://github.com/xinbenlv',
   },
 ];
-function useLang() {
-  throw new Error('Function not implemented.');
-}

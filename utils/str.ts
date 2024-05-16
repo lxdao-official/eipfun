@@ -54,7 +54,11 @@ export function formatComEIP(str: string): EIPHeader {
 
       let [k, ...v] = item.split('\n\n');
       k = k.trim().toLowerCase();
-      let vStr = v.join(k === 'chatgpt4' ? '<br /><br />' : '').trim();
+      if (k === 'summary' && ['Please enter the summary', '请在下方提交本协议总结'].includes(v[0])) {
+        v.shift();
+      }
+      let vStr = v.join(k === 'summary' ? '<br /><br />' : '').trim();
+
 
       if (vStr.startsWith('- ') && ['further reading', 'projects'].includes(k)) {
         let tmpArr: Project[] = [];

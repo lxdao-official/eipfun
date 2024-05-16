@@ -26,6 +26,7 @@ import { flatten } from '@/utils/index';
 import { EipsContentBlock } from '../../index';
 import useGetLang from '@/hooks/useGetLang';
 import Relationship from '@/components/details/Relationship';
+import { NextSeo } from 'next-seo';
 
 type HIProps = {
   level: number;
@@ -132,46 +133,75 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
     });
   };
 
-  const TITLE = `EIP-${meta.eip}: ${meta.title} | EIP Fun - Serve EIP builders, scale Ethereum`;
   const DESCRIPTION =
     (meta.abstract ? meta.abstract : '') +
     (meta.description ? meta.description : '') +
-    (meta.summary ? meta.summary : '') +
-    (meta.chatgpt4 ? meta.chatgpt4 : '');
+    (meta.summary ? meta.summary : '');
   const ERCorEIP = meta?.category === 'ERC' ? 'ERC' : 'EIP';
-  const updateFileUrl = `https://github.com/lxdao-official/eipfun/blob/main/content/zh/eip-${meta.eip}.md?plain=1`;
+  const TITLE = `${ERCorEIP}-${meta.eip}: ${meta.title} | EIP Fun - Serve Ethereum Builders, Scale the Community`;
+  const branch = process.env.NEXT_PUBLIC_BRANCH || 'main';
+  const updateFileUrl = `https://github.com/lxdao-official/eipfun/blob/${branch}/content/zh/eip-${meta.eip}.md?plain=1`;
 
   return (
     <>
-      <Head>
-        <title>{TITLE}</title>
-        <meta
-          property="twitter:url"
-          content={`https://eip.fun/eips/eip-${meta.eip}`}
-        />
-        <meta name="twitter:title" content={TITLE} />
-        <meta name="twitter:description" content={DESCRIPTION} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@eipfun" />
-        <meta name="twitter:creator" content="@LXDAO" />
-        <meta
-          name="twitter:image"
-          content="https://eip.fun/images/logo_summary.jpg"
-        />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="EIP.Fun - Website" />
-        <meta
-          property="og:url"
-          content={`https://eip.fun/eips/eip-${meta.eip}`}
-        />
-        <meta property="og:title" content={TITLE} />
-        <meta property="og:description" content={DESCRIPTION} />
-        <meta
-          property="og:image"
-          content="https://eip.fun/images/logo_summary.jpg"
-        />
-      </Head>
+      <NextSeo
+        title={TITLE}
+        description={DESCRIPTION}
+        additionalMetaTags={[
+          {
+            name: 'keywords',
+            content:
+              `${ERCorEIP}-${meta.eip},` +
+              'EIPs, eip fun, lxdao, plancker, ethereum, web3, dao, public goods',
+          },
+        ]}
+        openGraph={{
+          url: `https://eip.fun/eips/eip-${meta.eip}`,
+          title: TITLE,
+          description: DESCRIPTION,
+          images: [
+            {
+              url: 'https://eip.fun/images/logo_summary.jpg',
+              width: 800,
+              height: 600,
+              alt: 'eip.fun Alt',
+              type: 'image/jpeg',
+            },
+            {
+              url: 'https://eip.fun/images/lxdao.svg',
+              width: 800,
+              height: 600,
+              alt: 'lxdao',
+              type: 'image/jpeg',
+            },
+            {
+              url: 'https://eip.fun/images/ethpanda.png',
+              width: 800,
+              height: 600,
+              alt: 'ETHPanda',
+              type: 'image/jpeg',
+            },
+          ],
+          type: 'article',
+          article: {
+            tags: [
+              'eip',
+              'fun',
+              'eipfun',
+              'eip fun',
+              'lxdao',
+              'plancker',
+              'ethereum',
+            ],
+          },
+          siteName: 'EIP.Fun - Website',
+        }}
+        twitter={{
+          handle: '@LXDAO',
+          site: '@EIPFun',
+          cardType: 'summary_large_image',
+        }}
+      />
 
       <Box borderTop={1} borderColor="#EAEBF0" />
       <Container maxWidth="lg" sx={{ overflow: 'hidden', px: [3, 3, 2, 2] }}>
@@ -291,7 +321,7 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
               </Typography>
             </Box>
 
-            <ChatGpt chatgpt4={meta.chatgpt4} summary={meta.summary} />
+            <ChatGpt summary={meta.summary} url={updateFileUrl} />
 
             <Typography
               pt={6}

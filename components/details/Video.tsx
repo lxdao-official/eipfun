@@ -155,7 +155,14 @@ export default function Video({
                 '-webkit-box-orient': 'vertical',
               }}
             >
-              {item.title}
+              <Link
+                href={`https://www.youtube.com/embed/${item.url}`}
+                target="_blank"
+                color={'#000'}
+                underline="none"
+              >
+                {item.title}
+              </Link>
             </Typography>
           </Box>
         ))}

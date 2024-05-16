@@ -33,7 +33,7 @@ const ercPaths = './eth-ercs/';
       if (err) {
         throw new Error(err);
       }
-      console.log('clone success');
+      console.log('ERCs clone success');
     }
   );
   download(
@@ -44,7 +44,7 @@ const ercPaths = './eth-ercs/';
       if (err) {
         throw new Error(err);
       }
-      console.log('clone success');
+      console.log('EIPs clone success');
     }
   );
 })();

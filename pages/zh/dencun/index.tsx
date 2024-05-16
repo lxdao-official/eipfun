@@ -74,7 +74,8 @@ function Dencun() {
     <>
       <Head>
         <title>
-          Dencun upgrade - EIP.Fun - Serve EIP builders, scale Ethereum.
+          Dencun upgrade - EIP.Fun - Serve Ethereum Builders, Scale the
+          Community.
         </title>
       </Head>
       <Box borderTop={1} borderColor="#EAEBF0" />
