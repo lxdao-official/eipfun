@@ -19,8 +19,8 @@
 - [Akagi](https://x.com/Akagi201): parallel evm, blockstm 分享
 - [Happy](https://github.com/ret2happy): EPF project [Securing Grandine's Performance](https://github.com/eth-protocol-fellows/cohort-five/blob/main/projects/securing-grandines-performance.md)
 - [jsvisa](https://github.com/jsvisa): EPF project [JSON-RPC Enhancements in Geth](https://github.com/eth-protocol-fellows/cohort-five/blob/main/projects/jsonrpc-enhancements-in-geth.md)
-- Ashely: EPF project [Enhanced DHT Proposal with Rated List and Hierarchical Levels](https://github.com/eth-protocol-fellows/cohort-five/blob/main/projects/enhanced-dht-proposal-with-rated-list-and-hierarchical-levels.md)
-- George Shao: EPF project [Push Based Custom Ceiling Partial Withdrawal for EIP-7251 (MaxEB)](https://github.com/eth-protocol-fellows/cohort-five/blob/main/projects/Push-Based-Custom-Ceiling-Partial-Withdraw-for-EIP7251-MaxEB.md)
+- [Ashely](https://github.com/AshliaYan): EPF project [Enhanced DHT Proposal with Rated List and Hierarchical Levels](https://github.com/eth-protocol-fellows/cohort-five/blob/main/projects/enhanced-dht-proposal-with-rated-list-and-hierarchical-levels.md)
+- [George Shao](https://github.com/eth-protocol-fellows/cohort-five/blob/main/projects/Push-Based-Custom-Ceiling-Partial-Withdraw-for-EIP7251-MaxEB.md): EPF project [Push Based Custom Ceiling Partial Withdrawal for EIP-7251 (MaxEB)](https://github.com/eth-protocol-fellows/cohort-five/blob/main/projects/Push-Based-Custom-Ceiling-Partial-Withdraw-for-EIP7251-MaxEB.md)
 
 
 <br/>
