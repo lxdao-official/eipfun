@@ -102,7 +102,7 @@ const Navigation = (): JSX.Element => {
           </Link>
           <Link
             color="inherit"
-            sx={{ margin: '0 30px 0 5px', padding: '0 20px' }}
+            sx={{ margin: '0 5px', padding: '0 20px' }}
             fontWeight={600}
             underline="hover"
             className={
@@ -113,6 +113,21 @@ const Navigation = (): JSX.Element => {
             href={isEn ? '/eips' : '/zh/eips'}
           >
             EIPs
+          </Link>
+          <Link
+            color="inherit"
+            sx={{ margin: '0 30px 0 5px' }}
+            fontWeight={600}
+            underline="hover"
+            className={
+              router.asPath.includes('/eips')
+                ? 'current mobileHidden'
+                : 'mobileHidden'
+            }
+            href="https://eipfun.substack.com"
+            target="_blank"
+          >
+            {isEn ? 'Newsletter' : '周刊'}
           </Link>
         </Box>
         <Box className="mobileHidden">
@@ -241,6 +256,17 @@ const Navigation = (): JSX.Element => {
                 // href={isEn ? '/eips' : '/zh/eips'}
               >
                 EIPs
+              </Box>
+            </Box>
+            <Box width="100%" height="72px" lineHeight="72px">
+              <Box
+                color="inherit"
+                fontWeight={600}
+                onClick={() => {
+                  location.href = 'https://eipfun.substack.com';
+                }}
+              >
+                {isEn ? 'Newsletter' : '周刊'}
               </Box>
             </Box>
           </Box>
