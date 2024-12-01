@@ -449,25 +449,27 @@ export default function EIPDetails({ meta, mdStrData }: EIProps) {
             width={[1, 1, 0.26, 308]}
             mt={[4, 4, 0, 0]}
           >
-            <Box
-              p={3}
-              mb={3}
-              border={1}
-              borderColor="#fff"
-              borderRadius={'10px'}
-              boxShadow="0px 4px 16px rgba(16, 24, 40, 0.06)"
-            >
-              <Typography
-                fontWeight="bold"
-                variant="h6"
-                lineHeight="28px"
-                fontSize="18px"
+            {ERCorEIP === 'ERC' && (
+              <Box
+                p={3}
+                mb={3}
+                border={1}
+                borderColor="#fff"
+                borderRadius={'10px'}
+                boxShadow="0px 4px 16px rgba(16, 24, 40, 0.06)"
               >
-                相关项目
-              </Typography>
+                <Typography
+                  fontWeight="bold"
+                  variant="h6"
+                  lineHeight="28px"
+                  fontSize="18px"
+                >
+                  相关项目
+                </Typography>
 
-              <Projects data={meta.projects} url={updateFileUrl} T={T} />
-            </Box>
+                <Projects data={meta.projects} url={updateFileUrl} T={T} />
+              </Box>
+            )}
 
             {show && (
               <Box>
