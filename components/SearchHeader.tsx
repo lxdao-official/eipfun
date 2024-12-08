@@ -79,6 +79,7 @@ type EipContentResult = {
 interface ResultList {
   eip_list?: Array<EipResult>;
   title_list?: Array<EipTitleResult>;
+  author_list?: Array<EipTitleResult>;
   content_list?: Array<EipContentResult>;
 }
 interface AxiosResponse {
@@ -99,6 +100,8 @@ function useSearch(searchText: string) {
           optionsList = res.data.data.eip_list;
         } else {
           const title_list: EipTitleResult[] = res.data.data?.title_list || [];
+          const author_list: EipTitleResult[] =
+            res.data.data?.author_list || [];
           const content_list: EipContentResult[] =
             res.data.data?.content_list || [];
 
@@ -120,6 +123,9 @@ function useSearch(searchText: string) {
               optionsList = optionsList.concat(content_list);
             }
           } else {
+            if (author_list.length > 0) {
+              optionsList = optionsList.concat(author_list);
+            }
             if (content_list.length > 0) {
               optionsList = optionsList.concat(content_list);
             }

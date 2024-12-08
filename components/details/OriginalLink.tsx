@@ -30,7 +30,7 @@ export default function OriginalLink({
           href={discussions}
           target="_blank"
         >
-          {T({ en: 'Discussions', zh: '社区讨论' })}
+          {T({ en: 'Discussions Forum', zh: '社区讨论' })}
         </Button>
       )}
 
@@ -50,7 +50,7 @@ export default function OriginalLink({
         href={`https://eips.ethereum.org/EIPS/eip-${eip}`}
         target="_blank"
       >
-        {T({ en: 'Original link', zh: '原文链接' })}
+        {T({ en: 'Original Proposal Link', zh: '原文链接' })}
       </Button>
 
       <Button
