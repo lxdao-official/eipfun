@@ -327,6 +327,7 @@ Eips.getInitialProps = async () => {
   if (res && res.data && res.pagination) {
     return { data: res.data, pagination: res.pagination };
   }
+  return {};
 };
 
 export default Eips;
