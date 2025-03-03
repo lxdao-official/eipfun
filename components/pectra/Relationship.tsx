@@ -77,6 +77,14 @@ function Relationship({
               fontWeight={600}
               fontSize={18}
               lineHeight={'30px'}
+              sx={{
+                height: '60px',
+                display: ' -webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 2,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
               color={'var(--gray-700, #272D37)'}
             >
               {item.title}
@@ -87,6 +95,14 @@ function Relationship({
               px={3}
               mb={2}
               lineHeight={'24px'}
+              sx={{
+                height: '384px',
+                display: ' -webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 16,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
               color={'var(--gray-50, #5F6D7E)'}
             >
               {item.description}

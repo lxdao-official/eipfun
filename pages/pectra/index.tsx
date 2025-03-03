@@ -114,8 +114,6 @@ function Pectra() {
       </Container>
 
       <EIP4844 />
-
-      <FutureOutlook />
     </>
   );
 }
