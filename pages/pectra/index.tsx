@@ -8,7 +8,6 @@ import MintNFT from '@/components/pectra/MintNFT';
 import WhyCalledDencun from '@/components/pectra/WhyCalledDencun';
 import Relationship from '@/components/pectra/Relationship';
 import EIP4844 from '@/components/pectra/EIP4844';
-import FutureOutlook from '@/components/pectra/FutureOutlook';
 import { useT } from '@/hooks/useGetLang';
 
 const RelationshipData = [
