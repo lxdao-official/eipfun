@@ -30,6 +30,7 @@ const footerList2: footerItem[] = [
     href: 'https://twitter.com/EthPanda_org',
   },
   { con: 'LXDAO', conZh: 'LXDAO', href: 'https://lxdao.io' },
+  { con: 'Plancker', conZh: 'Plancker', href: 'https://plancker.org' },
 ];
 
 export default function Footer() {
