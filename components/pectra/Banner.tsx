@@ -40,7 +40,7 @@ function Banner() {
         >
           {T({
             en: "Enhancements to Ethereum's Performance and User Experience",
-            zh: '',
+            zh: '提升以太坊性能与用户体验',
           })}
         </Typography>
 
@@ -54,7 +54,7 @@ function Banner() {
         >
           {T({
             en: 'The Pectra upgrade includes several key EIPs such as EIP-7251, EIP-7702, and EIP-7002. These improvements aim to optimize Ethereum staking management, simplify account interactions, and lay the foundation for more complex operations.',
-            zh: '',
+            zh: 'Pectra 升级包含多个关键 EIP，例如 EIP-7251、EIP-7702 和 EIP-7002。这些改进旨在优化以太坊质押管理、简化账户交互，并为更复杂的操作奠定基础。',
           })}
         </Typography>
 

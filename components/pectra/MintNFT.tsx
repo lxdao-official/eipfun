@@ -62,7 +62,7 @@ export default function MintNFT() {
     abi,
     address: CONTRACT_ADDRESS,
     functionName: 'balanceOf',
-    args: [IAddress, 1],
+    args: [IAddress, 2],
     account: IAddress,
   });
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function MintNFT() {
       abi,
       address: CONTRACT_ADDRESS,
       functionName: 'mint',
-      args: ['Dencun'],
+      args: ['Pectra'],
     });
 
     if (isConfirmed) {
@@ -141,8 +141,8 @@ export default function MintNFT() {
                 <Link
                   href={
                     lang === 'en'
-                      ? 'https://twitter.com/share?text=I just minted my Dencun Mainnet Fork NFT from @EIPFun as a memorable piece of Ethereum history. Blobs are here! To learn more about Dencun upgrade and mint the Dencun NFT, please follow @EIPFun and check the website here&url=https://eip.fun/dencun'
-                      : 'https://twitter.com/share?text=刚刚在 @EIPFun 平台铸造了我的 Dencun 主网分叉纪念 NFT，为这个令人难忘的以太坊历史时刻留念，Blobs 已经来啦！ 想要了解 Dencun 升级的详情及铸造 Dencun 纪念 NFT 的信息，请关注 @EIPFun 推特及官网&url=https://eip.fun/zh/dencun'
+                      ? 'https://twitter.com/share?text=I just minted my Pectra Mainnet Fork NFT from @EIPFun as a memorable piece of Ethereum history. Blobs are here! To learn more about Dencun upgrade and mint the Dencun NFT, please follow @EIPFun and check the website here&url=https://eip.fun/pectra'
+                      : 'https://twitter.com/share?text=刚刚在 @EIPFun 平台铸造了我的 Pectra 主网分叉纪念 NFT，为这个令人难忘的以太坊历史时刻留念，Blobs 已经来啦！ 想要了解 Pectra 升级的详情及铸造 Dencun 纪念 NFT 的信息，请关注 @EIPFun 推特及官网&url=https://eip.fun/zh/pectra'
                   }
                   target="_blank"
                   color={'#fff'}
