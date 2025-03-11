@@ -23,9 +23,9 @@ import {
 
 export const MintButton = styled(Button)<ButtonProps>(() => ({
   color: '#fff',
-  backgroundColor: '#F651B0',
+  backgroundColor: '#D32E12',
   '&:hover': {
-    backgroundColor: '#F651B0',
+    backgroundColor: '#D32E12',
     opacity: 0.8,
   },
 }));
@@ -103,7 +103,7 @@ export default function MintNFT() {
           position: 'relative',
           overflow: 'hidden',
           borderRadius: '10px',
-          background: 'linear-gradient(90deg, #EFD4EE 0%, #EED1EB 69.71%)',
+          background: 'linear-gradient(90deg, #FFDA9F  0%, #F4CC8A 69.71%)',
         }}
         height={[520, 520, 260, 260]}
         py={5}
@@ -141,8 +141,8 @@ export default function MintNFT() {
                 <Link
                   href={
                     lang === 'en'
-                      ? 'https://twitter.com/share?text=I just minted my Pectra Mainnet Fork NFT from @EIPFun as a memorable piece of Ethereum history. Blobs are here! To learn more about Dencun upgrade and mint the Dencun NFT, please follow @EIPFun and check the website here&url=https://eip.fun/pectra'
-                      : 'https://twitter.com/share?text=刚刚在 @EIPFun 平台铸造了我的 Pectra 主网分叉纪念 NFT，为这个令人难忘的以太坊历史时刻留念，Blobs 已经来啦！ 想要了解 Pectra 升级的详情及铸造 Dencun 纪念 NFT 的信息，请关注 @EIPFun 推特及官网&url=https://eip.fun/zh/pectra'
+                      ? 'https://twitter.com/share?text=I just minted my Pectra Fork NFT from @EIPFun as a memorable piece of Ethereum history. To learn more about Pectra upgrade and mint the Pectra NFT, please follow @EIPFun and check the website here&url=https://eip.fun/pectra'
+                      : 'https://twitter.com/share?text=刚刚在 @EIPFun 平台铸造了我的 Pectra 主网分叉纪念 NFT，为这个令人难忘的以太坊历史时刻留念。想要了解 Pectra 升级的详情及铸造 Pectra NFT 的信息，请关注 @EIPFun 推特及官网&url=https://eip.fun/zh/pectra'
                   }
                   target="_blank"
                   color={'#fff'}
@@ -159,7 +159,7 @@ export default function MintNFT() {
             <Typography
               fontWeight="600"
               fontSize={18}
-              color={'#F651B0'}
+              color={'#D32E12'}
               component="h3"
               textTransform={'uppercase'}
             >
@@ -217,7 +217,7 @@ export default function MintNFT() {
           }}
         >
           <img
-            src="/images/dencun/mint_nft_bg.png"
+            src="/images/pectra/mint_nft_bg.png"
             alt="nft"
             width="100%"
             height="100%"
