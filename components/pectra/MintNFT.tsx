@@ -28,6 +28,10 @@ export const MintButton = styled(Button)<ButtonProps>(() => ({
     backgroundColor: '#D32E12',
     opacity: 0.8,
   },
+  '&:disabled': {
+    backgroundColor: '#c9c9c9',
+    opacity: 0.6,
+  },
 }));
 
 type Address = `0x${string}`;
@@ -196,12 +200,26 @@ export default function MintNFT() {
 
             <Box mt={3}>
               <MintButton
-                disabled={isLoading || !isConfirming}
+                disabled={isLoading || !isConfirming || true}
                 onClick={mintOrConnectWallet}
               >
                 {T({ en: 'Mint', zh: '铸造' })}
               </MintButton>
-              <Icons />
+
+              <Typography
+                fontWeight={400}
+                fontSize={14}
+                color={'#666F85'}
+                lineHeight={'24px'}
+                component="span"
+                ml={2}
+              >
+                {T({
+                  en: 'Minting is available within three days after the Pectra upgrade goes live.',
+                  zh: 'Pectra 升级上线之后的三天内可以 mint',
+                })}
+              </Typography>
+              {/* <Icons /> */}
             </Box>
           </>
         )}
