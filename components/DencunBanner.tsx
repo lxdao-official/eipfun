@@ -24,7 +24,7 @@ export default function DencunBanner() {
             mt={5}
             textTransform={'uppercase'}
           >
-            {T({ en: 'Dencun Upgrade', zh: '坎昆升级' })}
+            {T({ en: 'Pectra Upgrade', zh: 'Pectra 升级' })}
           </Typography>
           <Typography
             width={524}
@@ -46,7 +46,7 @@ export default function DencunBanner() {
             variant="contained"
             size="small"
             sx={{ px: 2.25, mt: 6.75, mr: 5.75 }}
-            href={lang === 'en' ? '/dencun' : '/zh/dencun'}
+            href={lang === 'en' ? '/pectra' : '/zh/pectra'}
           >
             {T({ en: 'Learn More', zh: '了解更多' })}
           </Button>

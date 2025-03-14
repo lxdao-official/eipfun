@@ -17,7 +17,6 @@ function getInstance() {
 
   instance.interceptors.response.use(
     (response) => {
-      console.log('response', response);
       return response?.data ? response.data : response;
     },
     (error) => {
@@ -35,7 +34,6 @@ type Params = {
 export async function sendGet(url: string, params?: Params): Promise<any> {
   const axios = getInstance();
   let response;
-  console.log('url', url);
   if (params) {
     response = await axios.get(url, { params });
   } else {
