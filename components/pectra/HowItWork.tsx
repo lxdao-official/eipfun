@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import { useT } from '@/hooks/useGetLang';
 
-function EIP4844() {
+function HowItWork() {
   const T = useT();
 
   return (
@@ -31,7 +31,7 @@ function EIP4844() {
             en: `For the upgrade to go live, validators and non-staking nodes must manually update their software to support the protocol changes being introduced.`,
             zh: `为了使升级生效，验证者和非质押节点必须手动更新其软件以支持引入的协议更改。`,
           })}
-        </Typography>{' '}
+        </Typography>
         <Typography variant="body1" color={'#5F6D7E'} mt={4}>
           {T({
             en: `If they use an Ethereum client that is not updated to the latest version, at the fork block, it will disconnect from upgraded peers, leading to a fork on the network. In this scenario, each subset of the network nodes will only stay connected with those who share their (un)upgraded status.`,
@@ -49,4 +49,4 @@ function EIP4844() {
   );
 }
 
-export default React.memo(EIP4844);
+export default React.memo(HowItWork);

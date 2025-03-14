@@ -5,9 +5,9 @@ import Container from '@mui/material/Container';
 
 import Banner from '@/components/pectra/Banner';
 import MintNFT from '@/components/pectra/MintNFT';
-import WhyCalledDencun from '@/components/pectra/WhyCalledDencun';
+import WhyCalled from '@/components/pectra/WhyCalled';
 import Relationship from '@/components/pectra/Relationship';
-import EIP4844 from '@/components/pectra/EIP4844';
+import HowItWork from '@/components/pectra/HowItWork';
 import { useT } from '@/hooks/useGetLang';
 
 const RelationshipData = [
@@ -92,7 +92,7 @@ function Pectra() {
 
       <MintNFT />
 
-      <WhyCalledDencun />
+      <WhyCalled />
 
       <Container sx={{ py: 6 }}>
         <Typography
@@ -109,7 +109,7 @@ function Pectra() {
         <Relationship data={RelationshipData} />
       </Container>
 
-      <EIP4844 />
+      <HowItWork />
     </>
   );
 }

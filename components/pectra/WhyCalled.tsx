@@ -3,7 +3,7 @@ import { Container, Typography } from '@mui/material';
 // import Image from 'next/image';
 import { useT } from '@/hooks/useGetLang';
 
-function WhyCalledDencun() {
+function WhyCalled() {
   const T = useT();
   return (
     <Container sx={{ py: 8 }}>
@@ -18,7 +18,7 @@ function WhyCalledDencun() {
       >
         {T({
           en: 'What is the Pectra Upgrade?',
-          zh: '',
+          zh: '什么是 Pectra 升级？',
         })}
       </Typography>
 
@@ -40,4 +40,4 @@ function WhyCalledDencun() {
   );
 }
 
-export default React.memo(WhyCalledDencun);
+export default React.memo(WhyCalled);
