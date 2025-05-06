@@ -200,7 +200,7 @@ export default function MintNFT() {
 
             <Box mt={3}>
               <MintButton
-                disabled={isLoading || !isConfirming || true}
+                disabled={isLoading || !isConfirming}
                 onClick={mintOrConnectWallet}
               >
                 {T({ en: 'Mint', zh: '铸造' })}
@@ -215,11 +215,11 @@ export default function MintNFT() {
                 ml={2}
               >
                 {T({
-                  en: 'Minting is available within three days after the Pectra upgrade goes live.',
-                  zh: 'Pectra 升级上线之后的三天内可以 mint',
+                  en: 'Minting is available within seven days after the Pectra upgrade goes live.',
+                  zh: 'Pectra 升级上线之后的七天内可以 mint',
                 })}
               </Typography>
-              {/* <Icons /> */}
+              <Icons />
             </Box>
           </>
         )}
@@ -235,7 +235,7 @@ export default function MintNFT() {
           }}
         >
           <img
-            src="/images/pectra/mint_nft_bg.png"
+            src="/images/pectra/mint_nft_bg.png?q=1"
             alt="nft"
             width="100%"
             height="100%"
