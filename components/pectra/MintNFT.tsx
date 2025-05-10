@@ -17,6 +17,7 @@ import {
   useAccount,
   useReadContract,
   useWriteContract,
+  useSwitchChain,
   useWaitForTransactionReceipt,
   type UseWriteContractReturnType,
 } from 'wagmi';
@@ -37,6 +38,7 @@ export const MintButton = styled(Button)<ButtonProps>(() => ({
 type Address = `0x${string}`;
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as Address;
+const ChainId = 10;
 
 export default function MintNFT() {
   const T = useT();
@@ -54,6 +56,7 @@ export default function MintNFT() {
     });
   const [isMinted, setIsMinted] = useState(false);
   const [IAddress, setIAddress] = useState<Address | undefined>();
+  const { switchChain } = useSwitchChain();
 
   useEffect(() => {
     if (address) {
@@ -70,14 +73,19 @@ export default function MintNFT() {
     account: IAddress,
   });
   useEffect(() => {
-    if (result.isSuccess) {
+    if (IAddress && result.isFetched) {
       if ((result.data as bigint) > 0) {
         setIsMinted(true);
       }
     }
-  }, [result.isSuccess, result.data, IAddress]);
+  }, [result.isFetched, result.data, IAddress]);
 
   const mint = async () => {
+    if (chain?.id !== ChainId) {
+      // if the chain is not the one we want, switch to it
+      switchChain({ chainId: ChainId });
+    }
+
     writeContract({
       abi,
       address: CONTRACT_ADDRESS,
