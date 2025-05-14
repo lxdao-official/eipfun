@@ -211,7 +211,7 @@ export default function MintNFT() {
                 disabled={isLoading || !isConfirming || true}
                 onClick={mintOrConnectWallet}
               >
-                {T({ en: 'Mint', zh: '铸造' })}
+                {T({ en: 'Mint window closed', zh: '铸造已关闭' })}
               </MintButton>
 
               <Typography
@@ -261,7 +261,7 @@ function Icons() {
         sx={{
           height: '46px',
           verticalAlign: 'middle',
-          paddingLeft: 2,
+          paddingLeft: 1,
         }}
         target="_blank"
         href="https://opensea.io/collection/memory-of-ethereum"
