@@ -208,7 +208,7 @@ export default function MintNFT() {
 
             <Box mt={3}>
               <MintButton
-                disabled={isLoading || !isConfirming}
+                disabled={isLoading || !isConfirming || true}
                 onClick={mintOrConnectWallet}
               >
                 {T({ en: 'Mint', zh: '铸造' })}
@@ -223,8 +223,8 @@ export default function MintNFT() {
                 ml={2}
               >
                 {T({
-                  en: 'Minting is available within seven days after the Pectra upgrade goes live.',
-                  zh: 'Pectra 升级上线之后的七天内可以 mint',
+                  en: '395,729 people together witnessed the historic moment of the Pectra upgrade.',
+                  zh: '395,729 位朋友一起见证了 Pectra 以太坊主网升级的历史时刻！',
                 })}
               </Typography>
               <Icons />
@@ -263,6 +263,7 @@ function Icons() {
           verticalAlign: 'middle',
           paddingLeft: 2,
         }}
+        target="_blank"
         href="https://opensea.io/collection/memory-of-ethereum"
       >
         <Image
@@ -278,6 +279,7 @@ function Icons() {
           verticalAlign: 'middle',
           paddingLeft: 1,
         }}
+        target="_blank"
         href={`${process.env.NEXT_PUBLIC_ETHERSCAN_URL}/address/${CONTRACT_ADDRESS}`}
       >
         <Image
