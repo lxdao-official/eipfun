@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Head from 'next/head';
+// import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { Container, Box, Link, Button, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
