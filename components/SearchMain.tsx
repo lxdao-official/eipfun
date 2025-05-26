@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { Box, Button, InputAdornment, Typography, styled } from '@mui/material';
+import { Box, InputAdornment, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReactLoading from 'react-loading';
 
