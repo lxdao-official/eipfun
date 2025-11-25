@@ -7,7 +7,7 @@ import Script from 'next/script';
 import { theme } from '../theme';
 import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
-import { optimism, optimismSepolia } from 'wagmi/chains';
+import { optimism, optimismSepolia, sepolia, mainnet } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
@@ -17,7 +17,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 const config = getDefaultConfig({
   appName: 'eip.fun App',
   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECTID as string,
-  chains: [optimism, optimismSepolia],
+  chains: [optimism, optimismSepolia, sepolia, mainnet],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 

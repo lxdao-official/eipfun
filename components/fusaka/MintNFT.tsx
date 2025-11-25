@@ -21,7 +21,7 @@ import {
   useWaitForTransactionReceipt,
   type UseWriteContractReturnType,
 } from 'wagmi';
-import { createPublicClient, http } from 'viem';
+import { createPublicClient, fallback, http } from 'viem';
 import { sepolia, mainnet } from 'viem/chains';
 import { sendGet } from '@/network/axios-wrapper';
 
@@ -43,42 +43,31 @@ type Address = `0x${string}`;
 const CONTRACT_ADDRESS = process.env
   .NEXT_PUBLIC_FUSAKA_CONTRACT_ADDRESS as Address;
 
-const ChainId = 11155111; // 10;
+const DEFAULT_CHAIN_ID = 11155111; // Sepolia by default
+const ChainId = Number(
+  process.env.NEXT_PUBLIC_FUSAKA_CHAIN_ID || DEFAULT_CHAIN_ID
+);
 
-const RPC = process.env.NEXT_PUBLIC_RPC;
 const wagmiContract = {
   address: CONTRACT_ADDRESS,
   abi: abi,
 } as const;
-const customSepolia = {
-  ...sepolia,
-  rpcUrls: {
-    ...sepolia.rpcUrls,
-    default: {
-      http: [`https://sepolia.infura.io/v3/${RPC}`],
-    },
-    public: {
-      http: [`https://sepolia.infura.io/v3/${RPC}`],
-    },
-  },
-};
-
-// const customMainnet = {
-//   ...mainnet,
-//   rpcUrls: {
-//     ...mainnet.rpcUrls,
-//     default: {
-//       http: [`https://mainnet.infura.io/v3/${RPC}`],
-//     },
-//     public: {
-//       http: [`https://mainnet.infura.io/v3/${RPC}`],
-//     },
-//   },
-// };
+const isMainnet = ChainId === 1;
+const transport = isMainnet
+  ? fallback([
+      http(
+        process.env.NEXT_PUBLIC_MAINNET_RPC ||
+          'https://ethereum-rpc.publicnode.com'
+      ),
+    ])
+  : fallback([
+      http(process.env.NEXT_PUBLIC_SEPOLIA_RPC || 'https://rpc.sepolia.org'),
+      http('https://ethereum-sepolia-rpc.publicnode.com'),
+    ]);
 
 const publicClient = createPublicClient({
-  chain: customSepolia,
-  transport: http(),
+  chain: isMainnet ? mainnet : sepolia,
+  transport,
 });
 
 enum Phase {
