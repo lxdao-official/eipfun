@@ -375,16 +375,17 @@ export default function MintNFT() {
   return (
     <Container id="mint-nft">
       <Box
-        sx={{
-          position: 'relative',
-          overflow: 'hidden',
-          borderRadius: '10px',
-          background: 'linear-gradient(90deg, #FFDA9F  0%, #F4CC8A 69.71%)',
-        }}
-        minHeight={[560, 560, 320, 320]}
-        py={5}
-        pl={6}
-      >
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: '10px',
+        background: 'linear-gradient(90deg, #FFDA9F  0%, #F4CC8A 69.71%)',
+      }}
+      minHeight={['auto', 'auto', 340, 340]}
+      pt={[4, 4, 5, 5]}
+      pb={[12, 10, 6, 6]}
+      px={[3, 4, 6, 6]}
+    >
         <>
           <Typography
             fontWeight="600"
@@ -429,7 +430,7 @@ export default function MintNFT() {
             tokenInfo={tokenInfo}
           />
 
-          <Box mt={3}>
+          <Box mt={3} mb={[6, 6, 4, 3]}>
             {/* 未开始 */}
             {phase === 0 && (
               <>
@@ -569,12 +570,12 @@ export default function MintNFT() {
         <Box
           sx={{
             position: 'absolute',
-            bottom: ['10px'],
-            right: ['50%', '50%', '106px', '106px'],
-            marginRight: ['-108px', '108px', 0, 0],
+            bottom: ['-30px', '-20px', '6px', '10px'],
+            right: ['16px', '24px', '96px', '106px'],
             zIndex: 1,
-            width: 216,
-            height: 216,
+            width: [140, 160, 200, 216],
+            height: [140, 160, 200, 216],
+            pointerEvents: 'none',
           }}
         >
           <img
@@ -622,6 +623,7 @@ function InfoBar({
         borderRadius: '8px',
         border: '1px solid rgba(0,0,0,0.05)',
         maxWidth: ['100%', '100%', '820px', '960px'],
+        boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
       }}
     >
       <Typography fontWeight={600} fontSize={14} color="#272D37" mb={1}>
