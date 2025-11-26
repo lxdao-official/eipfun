@@ -47,6 +47,7 @@ const DEFAULT_CHAIN_ID = 11155111; // Sepolia by default
 const ChainId = Number(
   process.env.NEXT_PUBLIC_FUSAKA_CHAIN_ID || DEFAULT_CHAIN_ID
 );
+const TOKEN_ID = Number(process.env.NEXT_PUBLIC_FUSAKA_TOKEN_ID || 1);
 
 const wagmiContract = {
   address: CONTRACT_ADDRESS,
@@ -81,7 +82,6 @@ enum Phase {
 // Whitelist,
 // Public,
 // Ended,
-const TOKEN_ID = 1;
 
 export default function MintNFT() {
   const T = useT();
@@ -93,6 +93,10 @@ export default function MintNFT() {
   const [total, setTotal] = useState(0);
   const [proof, setProof] = useState<string[]>();
   const [amount, setAmount] = useState<number | string>(1);
+  const [phaseTimes, setPhaseTimes] = useState<{
+    whitelistStartTime?: number;
+    publicStartTime?: number;
+  }>({});
 
   const {
     data: hash,
@@ -116,32 +120,33 @@ export default function MintNFT() {
 
   // 获取什么阶段，以及拥有多少数量
   useEffect(() => {
-    if (!IAddress) return;
     publicClient
-      .multicall({
-        contracts: [
-          {
-            ...wagmiContract,
-            functionName: 'getCurrentPhase',
-            args: [TOKEN_ID],
-          },
-          {
-            ...wagmiContract,
-            functionName: 'balanceOf',
-            args: [IAddress, TOKEN_ID],
-          },
-        ],
+      .readContract({
+        ...wagmiContract,
+        functionName: 'getCurrentPhase',
+        args: [TOKEN_ID],
       })
-      .then((results) => {
-        const [phaseRes, balanceOfRes] = results;
-        if (phaseRes.status === 'success') {
-          setPhase(phaseRes.result as Phase);
-          // setPhase(0);
-        }
-        if (balanceOfRes.status === 'success') {
-          setNum(Number(balanceOfRes.result));
-        }
-      });
+      .then((currentPhase) => {
+        setPhase(Number(currentPhase) as Phase);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!IAddress) {
+      setNum(0);
+      return;
+    }
+    publicClient
+      .readContract({
+        ...wagmiContract,
+        functionName: 'balanceOf',
+        args: [IAddress, TOKEN_ID],
+      })
+      .then((balance) => {
+        setNum(Number(balance));
+      })
+      .catch(() => {});
   }, [IAddress]);
 
   useEffect(() => {
@@ -150,22 +155,62 @@ export default function MintNFT() {
     }
   }, [phase, num]);
 
+  // 阶段时间
+  useEffect(() => {
+    // Prefer dedicated getter; fall back to tokenConfigs if needed
+    publicClient
+      .readContract({
+        ...wagmiContract,
+        functionName: 'getPhaseTimes',
+        args: [TOKEN_ID],
+      })
+      .then((res: any) => {
+        const [wl, pub] = res as [bigint, bigint];
+        setPhaseTimes({
+          whitelistStartTime: Number(wl),
+          publicStartTime: Number(pub),
+        });
+      })
+      .catch(() => {
+        publicClient
+          .readContract({
+            ...wagmiContract,
+            functionName: 'tokenConfigs',
+            args: [TOKEN_ID],
+          })
+          .then((config: any) => {
+            const wl = config?.whitelistStartTime ?? config?.[5];
+            const pub = config?.publicStartTime ?? config?.[6];
+            setPhaseTimes({
+              whitelistStartTime: Number(wl || 0n),
+              publicStartTime: Number(pub || 0n),
+            });
+          })
+          .catch(() => {});
+      });
+  }, []);
+
   // 白名单阶段 判断是否是白名单地址 以及是否获得 proof
   useEffect(() => {
     if (!IAddress || phase !== 1) {
       return;
     }
-    sendGet('/nft/isWhiteAddress', { address: IAddress }).then((res) => {
-      if (res?.data && res.data) {
-        setIsWhiteListed(true);
+    sendGet('/nft/isWhiteAddress', { address: IAddress, tokenId: TOKEN_ID })
+      .then((res) => {
+        if (res?.data && res.data) {
+          setIsWhiteListed(true);
 
-        sendGet('/nft/getAddressProof', { address: IAddress }).then((res) => {
-          if (res.data) {
-            setProof(res.data);
-          }
-        });
-      }
-    });
+          sendGet('/nft/getAddressProof', {
+            address: IAddress,
+            tokenId: TOKEN_ID,
+          }).then((res) => {
+            if (res.data) {
+              setProof(res.data.proof || res.data);
+            }
+          });
+        }
+      })
+      .catch(() => {});
   }, [IAddress, phase]);
 
   // 到结束阶段，获取 totalSupply 数据
@@ -292,10 +337,28 @@ export default function MintNFT() {
                   component="span"
                   ml={2}
                 >
-                  {T({
-                    en: 'Mint has not started yet and is scheduled to open on Dec 2, 15:00 UTC+8.',
-                    zh: 'Mint 尚未开启，预计将于 12 月 2 日 15:00 UTC+8 开始。',
-                  })}
+                  {phaseTimes.whitelistStartTime
+                    ? T({
+                        en: `Whitelist opens at ${formatTs(
+                          phaseTimes.whitelistStartTime
+                        )} (Local)`,
+                        zh: `白名单阶段将于 ${formatTs(
+                          phaseTimes.whitelistStartTime
+                        )} 开启（本地时间）`,
+                      })
+                    : phaseTimes.publicStartTime
+                    ? T({
+                        en: `Public mint opens at ${formatTs(
+                          phaseTimes.publicStartTime
+                        )} (Local)`,
+                        zh: `公开铸造将于 ${formatTs(
+                          phaseTimes.publicStartTime
+                        )} 开启（本地时间）`,
+                      })
+                    : T({
+                        en: 'Mint has not started yet.',
+                        zh: 'Mint 尚未开启。',
+                      })}
                 </Typography>
               </>
             )}
@@ -331,10 +394,19 @@ export default function MintNFT() {
                   component="span"
                   ml={2}
                 >
-                  {T({
-                    en: 'The whitelist-only phase is live. Public mint will open on Dec 3.',
-                    zh: '当前为白名单专属阶段，公开铸造将于 12 月 3 日启动。',
-                  })}
+                  {phaseTimes.publicStartTime
+                    ? T({
+                        en: `Whitelist live. Public mint opens at ${formatTs(
+                          phaseTimes.publicStartTime
+                        )} (Local).`,
+                        zh: `当前为白名单阶段，公开铸造将于 ${formatTs(
+                          phaseTimes.publicStartTime
+                        )} 开启（本地时间）。`,
+                      })
+                    : T({
+                        en: 'Whitelist phase is live.',
+                        zh: '当前为白名单阶段。',
+                      })}
                 </Typography>
               </>
             )}
@@ -354,8 +426,8 @@ export default function MintNFT() {
                   ml={2}
                 >
                   {T({
-                    en: 'Public mint is now open and will end on Dec 8.',
-                    zh: '公开铸造已开放，截止时间为 12 月 8 日。',
+                    en: 'Public mint is now open.',
+                    zh: '公开铸造已开放。',
                   })}
                 </Typography>
               </>
@@ -447,4 +519,10 @@ function Icons() {
       </Link>
     </>
   );
+}
+
+function formatTs(ts?: number) {
+  if (!ts) return '';
+  const d = new Date(ts * 1000);
+  return d.toLocaleString();
 }
