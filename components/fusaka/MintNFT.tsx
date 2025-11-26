@@ -21,7 +21,7 @@ import {
   useWaitForTransactionReceipt,
   type UseWriteContractReturnType,
 } from 'wagmi';
-import { createPublicClient, fallback, http } from 'viem';
+import { createPublicClient, fallback, http, formatEther } from 'viem';
 import { sepolia, mainnet } from 'viem/chains';
 import { sendGet } from '@/network/axios-wrapper';
 
@@ -90,12 +90,24 @@ export default function MintNFT() {
   const [phase, setPhase] = useState<Phase>(Phase.NotStarted);
   const [num, setNum] = useState(0);
   const [isWhiteListed, setIsWhiteListed] = useState(false);
+  const [whiteStatus, setWhiteStatus] = useState<
+    'idle' | 'loading' | 'yes' | 'no'
+  >('idle');
   const [total, setTotal] = useState(0);
   const [proof, setProof] = useState<string[]>();
   const [amount, setAmount] = useState<number | string>(1);
   const [phaseTimes, setPhaseTimes] = useState<{
     whitelistStartTime?: number;
     publicStartTime?: number;
+  }>({});
+  const [tokenInfo, setTokenInfo] = useState<{
+    maxSupply?: number;
+    currentSupply?: number;
+    whitelistMaxPerAddress?: number;
+    publicMaxPerAddress?: number;
+    whitelistPrice?: string;
+    publicPrice?: string;
+    transferable?: boolean;
   }>({});
 
   const {
@@ -117,6 +129,15 @@ export default function MintNFT() {
     }
   }, [address]);
   const { openConnectModal } = useConnectModal();
+  const subtitle = (() => {
+    if (tokenInfo.transferable === false) {
+      return T({ en: 'Non-transferable NFT', zh: '不可转移 NFT' });
+    }
+    if (tokenInfo.transferable === true) {
+      return T({ en: 'Transferable NFT', zh: '可转移 NFT' });
+    }
+    return T({ en: 'NFT', zh: 'NFT' });
+  })();
 
   // 获取什么阶段，以及拥有多少数量
   useEffect(() => {
@@ -190,27 +211,108 @@ export default function MintNFT() {
       });
   }, []);
 
-  // 白名单阶段 判断是否是白名单地址 以及是否获得 proof
+  // Token detail for display
   useEffect(() => {
-    if (!IAddress || phase !== 1) {
+    publicClient
+      .readContract({
+        ...wagmiContract,
+        functionName: 'getTokenInfo',
+        args: [TOKEN_ID],
+      })
+      .then((info: any) => {
+        const [
+          _upgradeName,
+          maxSupply,
+          currentSupply,
+          whitelistMaxPerAddress,
+          publicMaxPerAddress,
+          whitelistPrice,
+          publicPrice,
+          _phase,
+          _ended,
+          _mintEndTime,
+          transferable,
+        ] = info as [
+          string,
+          bigint,
+          bigint,
+          bigint,
+          bigint,
+          bigint,
+          bigint,
+          number,
+          boolean,
+          bigint,
+          boolean
+        ];
+        setTokenInfo({
+          maxSupply: Number(maxSupply),
+          currentSupply: Number(currentSupply),
+          whitelistMaxPerAddress: Number(whitelistMaxPerAddress),
+          publicMaxPerAddress: Number(publicMaxPerAddress),
+          whitelistPrice: formatEth(whitelistPrice),
+          publicPrice: formatEth(publicPrice),
+          transferable: Boolean(transferable),
+        });
+      })
+      .catch(() => {
+        publicClient
+          .readContract({
+            ...wagmiContract,
+            functionName: 'tokenConfigs',
+            args: [TOKEN_ID],
+          })
+          .then((config: any) => {
+            setTokenInfo({
+              maxSupply: Number(config?.maxSupply ?? config?.[0] ?? 0n),
+              whitelistMaxPerAddress: Number(
+                config?.whitelistMaxPerAddress ?? config?.[1] ?? 0n
+              ),
+              publicMaxPerAddress: Number(
+                config?.publicMaxPerAddress ?? config?.[2] ?? 0n
+              ),
+              whitelistPrice: formatEth(config?.whitelistPrice ?? config?.[3]),
+              publicPrice: formatEth(config?.publicPrice ?? config?.[4]),
+              transferable: Boolean(config?.transferable ?? config?.[9]),
+            });
+          })
+          .catch(() => {});
+      });
+  }, []);
+
+  // 白名单状态/证明
+  useEffect(() => {
+    if (!IAddress) {
+      setIsWhiteListed(false);
+      setWhiteStatus('idle');
       return;
     }
+    setWhiteStatus('loading');
     sendGet('/nft/isWhiteAddress', { address: IAddress, tokenId: TOKEN_ID })
       .then((res) => {
         if (res?.data && res.data) {
           setIsWhiteListed(true);
+          setWhiteStatus('yes');
 
+          // 获取 merkle proof，便于之后铸造
           sendGet('/nft/getAddressProof', {
             address: IAddress,
             tokenId: TOKEN_ID,
-          }).then((res) => {
-            if (res.data) {
-              setProof(res.data.proof || res.data);
-            }
-          });
+          })
+            .then((res) => {
+              if (res.data) {
+                setProof(res.data.proof || res.data);
+              }
+            })
+            .catch(() => {});
+          return;
         }
+        setIsWhiteListed(false);
+        setWhiteStatus('no');
       })
-      .catch(() => {});
+      .catch(() => {
+        setWhiteStatus('idle');
+      });
   }, [IAddress, phase]);
 
   // 到结束阶段，获取 totalSupply 数据
@@ -279,7 +381,7 @@ export default function MintNFT() {
           borderRadius: '10px',
           background: 'linear-gradient(90deg, #FFDA9F  0%, #F4CC8A 69.71%)',
         }}
-        height={[520, 520, 260, 260]}
+        minHeight={[560, 560, 320, 320]}
         py={5}
         pl={6}
       >
@@ -316,11 +418,16 @@ export default function MintNFT() {
             component="h4"
             mt={2}
           >
-            {T({
-              en: 'Free Non-transferable NFT',
-              zh: '免费且不可转移，每个地址仅可铸造一枚铸造，共同见证以太坊的历史时刻',
-            })}
+            {subtitle}
           </Typography>
+
+          <InfoBar
+            address={IAddress}
+            isWhiteListed={isWhiteListed}
+            whiteStatus={whiteStatus}
+            phaseTimes={phaseTimes}
+            tokenInfo={tokenInfo}
+          />
 
           <Box mt={3}>
             {/* 未开始 */}
@@ -482,6 +589,126 @@ export default function MintNFT() {
   );
 }
 
+type InfoProps = {
+  address?: Address;
+  isWhiteListed: boolean;
+  whiteStatus: 'idle' | 'loading' | 'yes' | 'no';
+  phaseTimes: { whitelistStartTime?: number; publicStartTime?: number };
+  tokenInfo: {
+    maxSupply?: number;
+    currentSupply?: number;
+    whitelistMaxPerAddress?: number;
+    publicMaxPerAddress?: number;
+    whitelistPrice?: string;
+    publicPrice?: string;
+    transferable?: boolean;
+  };
+};
+
+function InfoBar({
+  address,
+  isWhiteListed,
+  whiteStatus,
+  phaseTimes,
+  tokenInfo,
+}: InfoProps) {
+  const T = useT();
+  return (
+    <Box
+      mt={2}
+      p={2}
+      sx={{
+        background: 'rgba(255,255,255,0.6)',
+        borderRadius: '8px',
+        border: '1px solid rgba(0,0,0,0.05)',
+        maxWidth: ['100%', '100%', '820px', '960px'],
+      }}
+    >
+      <Typography fontWeight={600} fontSize={14} color="#272D37" mb={1}>
+        {T({ en: 'Mint Configuration', zh: '铸造配置' })}
+      </Typography>
+      <Box display="flex" flexWrap="wrap" gap={2} fontSize={13} color="#444">
+        <InfoItem
+          label={T({ en: 'Wallet', zh: '钱包地址' })}
+          value={
+            address
+              ? shortAddress(address)
+              : T({ en: 'Not connected', zh: '未连接' })
+          }
+        />
+        <InfoItem
+          label={T({ en: 'Whitelist', zh: '白名单' })}
+          value={renderWhiteStatus(whiteStatus, isWhiteListed, T)}
+        />
+        <InfoItem
+          label={T({ en: 'Supply', zh: '供应' })}
+          value={
+            tokenInfo.currentSupply !== undefined &&
+            tokenInfo.maxSupply !== undefined
+              ? `${tokenInfo.currentSupply}/${tokenInfo.maxSupply}`
+              : '—'
+          }
+        />
+        <InfoItem
+          label={T({ en: 'Whitelist cap', zh: '白名单限额' })}
+          value={tokenInfo.whitelistMaxPerAddress ?? '—'}
+        />
+        <InfoItem
+          label={T({ en: 'Public cap', zh: '公开限额' })}
+          value={tokenInfo.publicMaxPerAddress ?? '—'}
+        />
+        <InfoItem
+          label={T({ en: 'Whitelist price', zh: '白名单价格' })}
+          value={tokenInfo.whitelistPrice ?? '—'}
+        />
+        <InfoItem
+          label={T({ en: 'Public price', zh: '公开价格' })}
+          value={tokenInfo.publicPrice ?? '—'}
+        />
+        <InfoItem
+          label={T({ en: 'Transferable', zh: '可转移' })}
+          value={
+            tokenInfo.transferable === undefined
+              ? '—'
+              : tokenInfo.transferable
+              ? T({ en: 'Yes', zh: '可转移' })
+              : T({ en: 'No (SBT)', zh: '不可转移' })
+          }
+        />
+        <InfoItem
+          label={T({ en: 'Whitelist start', zh: '白名单开始' })}
+          value={
+            phaseTimes.whitelistStartTime
+              ? `${formatTs(phaseTimes.whitelistStartTime)} (Local)`
+              : '—'
+          }
+        />
+        <InfoItem
+          label={T({ en: 'Public start', zh: '公开开始' })}
+          value={
+            phaseTimes.publicStartTime
+              ? `${formatTs(phaseTimes.publicStartTime)} (Local)`
+              : '—'
+          }
+        />
+      </Box>
+    </Box>
+  );
+}
+
+function InfoItem({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <Box sx={{ minWidth: 140, flex: '1 1 180px' }}>
+      <Typography fontSize={12} color="#666" mb={0.5}>
+        {label}
+      </Typography>
+      <Typography fontSize={13} color="#272D37">
+        {value}
+      </Typography>
+    </Box>
+  );
+}
+
 function Icons() {
   return (
     <>
@@ -525,4 +752,36 @@ function formatTs(ts?: number) {
   if (!ts) return '';
   const d = new Date(ts * 1000);
   return d.toLocaleString();
+}
+
+function shortAddress(addr: string) {
+  return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+}
+
+function formatEth(val?: bigint | number | string) {
+  if (val === undefined || val === null) return undefined;
+  try {
+    const normalized =
+      typeof val === 'bigint'
+        ? val
+        : typeof val === 'number'
+        ? BigInt(val)
+        : BigInt(val);
+    if (normalized === 0n) return 'Free Mint';
+    return `${Number(formatEther(normalized)).toString()} ETH`;
+  } catch (e) {
+    return undefined;
+  }
+}
+
+function renderWhiteStatus(
+  status: 'idle' | 'loading' | 'yes' | 'no',
+  isWhiteListed: boolean,
+  T: ReturnType<typeof useT>
+) {
+  if (status === 'loading') return T({ en: 'Checking…', zh: '检查中…' });
+  if (isWhiteListed || status === 'yes')
+    return T({ en: 'Whitelisted', zh: '白名单' });
+  if (status === 'no') return T({ en: 'Not whitelisted', zh: '非白名单' });
+  return '—';
 }
