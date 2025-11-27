@@ -120,7 +120,7 @@ export default function MintNFT() {
   }>({});
   const [txHash, setTxHash] = useState<string | undefined>();
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<'success' | 'error'>('success');
+  const [modalType, setModalType] = useState<'success' | 'error' | 'pending'>('success');
   const [modalMessage, setModalMessage] = useState('');
   const [isHydrated, setIsHydrated] = useState(false);
   const [tokenInfo, setTokenInfo] = useState<{
@@ -808,7 +808,7 @@ export default function MintNFT() {
           open={modalOpen}
           onClose={() => setModalOpen(false)}
           type={modalType}
-          txHash={txHash || hash}
+          txHash={(txHash as Address | undefined) || (hash as Address | undefined)}
           etherscanBase={process.env.NEXT_PUBLIC_ETHERSCAN_URL}
           openseaTokenUrl={openseaTokenUrl}
           message={modalMessage}
