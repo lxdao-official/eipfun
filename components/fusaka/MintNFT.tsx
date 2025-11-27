@@ -606,7 +606,25 @@ export default function MintNFT() {
             component="h4"
             mt={2}
           >
-            {subtitle}
+            <Box display="flex" alignItems="center" gap={1.5} flexWrap="wrap">
+              <span>{subtitle}</span>
+              <Link
+                href="https://opensea.io/collection/memory-of-ethereum"
+                target="_blank"
+                underline="hover"
+                sx={{ color: '#f9e67a', fontWeight: 600, fontSize: 14 }}
+              >
+                OpenSea
+              </Link>
+              <Link
+                href={`${process.env.NEXT_PUBLIC_ETHERSCAN_URL}/address/${CONTRACT_ADDRESS}`}
+                target="_blank"
+                underline="hover"
+                sx={{ color: '#f9e67a', fontWeight: 600, fontSize: 14 }}
+              >
+                Etherscan
+              </Link>
+            </Box>
           </Typography>
 
           <Box pr={[0, 0, 16, 18]}>
@@ -783,8 +801,6 @@ export default function MintNFT() {
                 </Typography>
               </>
             )}
-
-            <Icons />
           </Box>
         </>
 
@@ -1148,12 +1164,16 @@ function InfoItem({
 
 function Icons() {
   return (
-    <>
+    <Box display="flex" gap={1} alignItems="center" bgcolor="rgba(0,0,0,0.08)" px={1} py={0.5} borderRadius={1}>
       <Link
         sx={{
-          height: '46px',
-          verticalAlign: 'middle',
-          paddingLeft: 1,
+          height: 32,
+          width: 32,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '8px',
+          background: 'rgba(255,255,255,0.08)',
         }}
         target="_blank"
         href="https://opensea.io/collection/memory-of-ethereum"
@@ -1161,15 +1181,19 @@ function Icons() {
         <Image
           src="/images/dencun/opensea.png"
           alt="etherscan"
-          width={20}
-          height={20}
+          width={18}
+          height={18}
         />
       </Link>
       <Link
         sx={{
-          height: '46px',
-          verticalAlign: 'middle',
-          paddingLeft: 1,
+          height: 32,
+          width: 32,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '8px',
+          background: 'rgba(255,255,255,0.08)',
         }}
         target="_blank"
         href={`${process.env.NEXT_PUBLIC_ETHERSCAN_URL}/address/${CONTRACT_ADDRESS}`}
@@ -1177,11 +1201,11 @@ function Icons() {
         <Image
           src="/images/dencun/etherscan.png"
           alt="etherscan"
-          width={20}
-          height={20}
+          width={18}
+          height={18}
         />
       </Link>
-    </>
+    </Box>
   );
 }
 
