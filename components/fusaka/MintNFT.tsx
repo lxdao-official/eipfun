@@ -7,6 +7,11 @@ import {
   Typography,
   Link,
   TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Stack,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -26,6 +31,8 @@ import { sepolia, mainnet } from 'viem/chains';
 import { sendGet } from '@/network/axios-wrapper';
 import { useAccountModal } from '@rainbow-me/rainbowkit';
 import { useDisconnect } from 'wagmi';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 export const MintButton = styled(Button)<ButtonProps>(() => ({
   color: '#fff',
@@ -102,6 +109,10 @@ export default function MintNFT() {
     whitelistStartTime?: number;
     publicStartTime?: number;
   }>({});
+  const [txHash, setTxHash] = useState<string | undefined>();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<'success' | 'error'>('success');
+  const [modalMessage, setModalMessage] = useState('');
   const [tokenInfo, setTokenInfo] = useState<{
     maxSupply?: number;
     currentSupply?: number;
@@ -115,9 +126,14 @@ export default function MintNFT() {
   const {
     data: hash,
     isLoading,
-    writeContract,
+    writeContractAsync,
   }: UseWriteContractReturnType = useWriteContract();
-  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+  const {
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+    isError: isConfirmError,
+    error: confirmError,
+  } =
     useWaitForTransactionReceipt({
       hash,
     });
@@ -125,6 +141,10 @@ export default function MintNFT() {
   const [IAddress, setIAddress] = useState<Address | undefined>();
   const { switchChain } = useSwitchChain();
   const { disconnect } = useDisconnect();
+  const openseaBase = isMainnet
+    ? 'https://opensea.io/assets/ethereum'
+    : 'https://testnets.opensea.io/assets/sepolia';
+  const openseaTokenUrl = `${openseaBase}/${CONTRACT_ADDRESS}/${TOKEN_ID}`;
 
   useEffect(() => {
     if (address) {
@@ -350,27 +370,55 @@ export default function MintNFT() {
 
   const mint = async () => {
     if (chain?.id !== ChainId) {
-      // if the chain is not the one we want, switch to it
-      switchChain({ chainId: ChainId });
-    }
-    if (phase === Phase.Public) {
-      writeContract({
-        ...wagmiContract,
-        functionName: 'publicMint',
-        args: [TOKEN_ID, 1],
-      });
-    } else if (phase === Phase.Whitelist) {
-      if (num + Number(amount) > 5) {
-        setAmount(5 - num);
+      try {
+        await switchChain({ chainId: ChainId });
+      } catch (e: any) {
+        setModalType('error');
+        setModalMessage(
+          e?.shortMessage ||
+            e?.message ||
+            T({
+              en: 'Unable to switch network. Please switch to the required chain and try again.',
+              zh: '无法切换到目标网络，请手动切换后重试。',
+            })
+        );
+        setModalOpen(true);
+        return;
       }
-      writeContract({
-        ...wagmiContract,
-        functionName: 'whitelistMint',
-        args: [TOKEN_ID, amount, proof],
-      });
     }
-    if (isConfirmed) {
-      setIsMinted(true);
+    try {
+      let tx: Address | undefined;
+      if (phase === Phase.Public) {
+        tx = (await writeContractAsync({
+          ...wagmiContract,
+          functionName: 'publicMint',
+          args: [TOKEN_ID, 1],
+        })) as Address;
+      } else if (phase === Phase.Whitelist) {
+        if (!isWhiteListed || !proof || proof.length === 0) {
+          setModalType('error');
+          setModalMessage(
+            T({ en: 'Not whitelisted or missing proof.', zh: '非白名单或缺少验证信息。' })
+          );
+          setModalOpen(true);
+          return;
+        }
+        if (num + Number(amount) > 5) {
+          setAmount(5 - num);
+        }
+        tx = (await writeContractAsync({
+          ...wagmiContract,
+          functionName: 'whitelistMint',
+          args: [TOKEN_ID, amount, proof],
+        })) as Address;
+      }
+      if (tx) {
+        setTxHash(tx as unknown as string);
+      }
+    } catch (e: any) {
+      setModalType('error');
+      setModalMessage(e?.shortMessage || e?.message || 'Transaction failed');
+      setModalOpen(true);
     }
   };
 
@@ -381,6 +429,26 @@ export default function MintNFT() {
       openConnectModal && openConnectModal();
     }
   };
+
+  useEffect(() => {
+    if (isConfirmed) {
+      setIsMinted(true);
+      setModalType('success');
+      setModalOpen(true);
+    }
+  }, [isConfirmed]);
+
+  useEffect(() => {
+    if (isConfirmError && confirmError) {
+      setModalType('error');
+      setModalMessage(
+        (confirmError as any)?.shortMessage ||
+          confirmError?.message ||
+          'Transaction failed'
+      );
+      setModalOpen(true);
+    }
+  }, [isConfirmError, confirmError]);
 
   return (
     <Container id="mint-nft">
@@ -395,7 +463,7 @@ export default function MintNFT() {
       pt={[4, 4, 5, 5]}
       pb={[12, 10, 6, 6]}
       px={[3, 4, 6, 6]}
-    >
+      >
         <>
           <Typography
             fontWeight="600"
@@ -487,7 +555,10 @@ export default function MintNFT() {
             {/* 白名单 mint */}
             {phase === 1 && (
               <>
-                <MintButton disabled={isLoading} onClick={mintOrConnectWallet}>
+                <MintButton
+                  disabled={isLoading || !isWhiteListed || !proof?.length}
+                  onClick={mintOrConnectWallet}
+                >
                   {isWhiteListed
                     ? T({ en: 'Mint', zh: '铸造' })
                     : T({ en: 'Not whitelisted ', zh: '非白名单' })}
@@ -505,6 +576,7 @@ export default function MintNFT() {
                   size="small"
                   value={amount}
                   onChange={handleChangeAmount}
+                  disabled={!isWhiteListed}
                 />
 
                 <Typography
@@ -579,6 +651,16 @@ export default function MintNFT() {
             <Icons />
           </Box>
         </>
+
+        <ResultModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          type={modalType}
+          txHash={txHash || hash}
+          etherscanBase={process.env.NEXT_PUBLIC_ETHERSCAN_URL}
+          openseaTokenUrl={openseaTokenUrl}
+          message={modalMessage}
+        />
 
         <Box
           sx={{
@@ -819,6 +901,79 @@ function Icons() {
         />
       </Link>
     </>
+  );
+}
+
+function ResultModal({
+  open,
+  onClose,
+  type,
+  txHash,
+  etherscanBase,
+  openseaTokenUrl,
+  message,
+}: {
+  open: boolean;
+  onClose: () => void;
+  type: 'success' | 'error';
+  txHash?: Address;
+  etherscanBase?: string;
+  openseaTokenUrl?: string;
+  message?: string;
+}) {
+  const T = useT();
+  const txUrl =
+    txHash && etherscanBase ? `${etherscanBase}/tx/${txHash}` : undefined;
+  return (
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
+      <DialogTitle>
+        <Stack direction="row" spacing={1} alignItems="center">
+          {type === 'success' ? (
+            <CheckCircleOutlineIcon sx={{ color: '#2e7d32' }} />
+          ) : (
+            <ErrorOutlineIcon sx={{ color: '#d32f2f' }} />
+          )}
+          <Typography fontWeight={700} fontSize={18}>
+            {type === 'success'
+              ? T({ en: 'Mint Successful', zh: '铸造成功' })
+              : T({ en: 'Mint Failed', zh: '铸造失败' })}
+          </Typography>
+        </Stack>
+      </DialogTitle>
+      <DialogContent>
+        <Typography fontSize={14} color="#444" mb={2}>
+          {type === 'success'
+            ? T({
+                en: 'You can view your NFT or transaction details below.',
+                zh: '可以在下方查看你的 NFT 或交易详情。',
+              })
+            : message ||
+              T({
+                en: 'Transaction failed. Please try again.',
+                zh: '交易失败，请重试。',
+              })}
+        </Typography>
+        {openseaTokenUrl && (
+          <Box mb={1}>
+            <Link href={openseaTokenUrl} target="_blank" underline="hover">
+              {T({ en: 'View on OpenSea', zh: '在 OpenSea 查看' })}
+            </Link>
+          </Box>
+        )}
+        {txUrl && (
+          <Box mb={1}>
+            <Link href={txUrl} target="_blank" underline="hover">
+              {T({ en: 'View on Etherscan', zh: '在 Etherscan 查看' })}
+            </Link>
+          </Box>
+        )}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>
+          {T({ en: 'Close', zh: '关闭' })}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
