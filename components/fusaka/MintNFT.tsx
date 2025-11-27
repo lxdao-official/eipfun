@@ -13,6 +13,7 @@ import {
   DialogActions,
   Stack,
   CircularProgress,
+  Tooltip,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -35,6 +36,7 @@ import { useDisconnect } from 'wagmi';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 export const MintButton = styled(Button)<ButtonProps>(() => ({
   color: '#f9e67a',
@@ -959,7 +961,64 @@ function InfoBar({
           }
         />
         <InfoItem
-          label={T({ en: 'Whitelist', zh: '白名单' })}
+          label={
+            <Box display="flex" alignItems="center" gap={0.5}>
+              <Typography component="span" fontSize={12} color="#9ba2c9">
+                {T({ en: 'Whitelist', zh: '白名单' })}
+              </Typography>
+              {(() => {
+                const tipItems = [
+                  T({
+                    en: 'Notable Ethereum builder addresses (ENS)',
+                    zh: '知名 Ethereum Builder 地址（ENS）',
+                  }),
+                  T({
+                    en: 'Protocol Guild membership (ENS)',
+                    zh: 'Protocol Guild 成员地址（ENS）',
+                  }),
+                  T({
+                    en: 'Addresses that minted Memory of Ethereum on Optimism',
+                    zh: '曾在 Optimism 铸造过 Memory of Ethereum 的地址',
+                  }),
+                  T({
+                    en: 'LXDAO & ETHPanda Ethereum builders',
+                    zh: 'LXDAO 与 ETHPanda 社区的以太坊建设者',
+                  }),
+                ];
+                return (
+              <Tooltip
+                title={
+                  <Box component="ul" sx={{ m: 0, pl: 2.5, fontSize: 12, lineHeight: 1.6 }}>
+                    <Typography
+                      fontWeight={700}
+                      component="li"
+                      sx={{ listStyle: 'none', mb: 0.5, color: '#f9e67a' }}
+                    >
+                      {T({ en: 'Whitelist range includes:', zh: '白名单范围包括：' })}
+                    </Typography>
+                    {tipItems.map((item, idx) => (
+                      <Box
+                        key={idx}
+                        component="li"
+                        sx={{ listStyle: 'disc', ml: 1, color: '#f2f3ff' }}
+                      >
+                        {item}
+                      </Box>
+                    ))}
+                  </Box>
+                }
+                placement="top"
+                arrow
+              >
+                <InfoOutlinedIcon
+                  fontSize="small"
+                  sx={{ color: '#f9e67a', cursor: 'pointer' }}
+                />
+              </Tooltip>
+                );
+              })()}
+            </Box>
+          }
           value={renderWhiteStatus(whiteStatus, isWhiteListed, T)}
         />
         <InfoItem
