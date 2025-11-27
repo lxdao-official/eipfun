@@ -152,13 +152,18 @@ export default function MintNFT() {
   const [IAddress, setIAddress] = useState<Address | undefined>();
   const { switchChain } = useSwitchChain();
   const { disconnect } = useDisconnect();
-  const openseaBase = isMainnet
-    ? 'https://opensea.io/assets/ethereum'
-    : 'https://testnets.opensea.io/assets/sepolia';
-  const openseaTokenUrl = `${openseaBase}/${CONTRACT_ADDRESS}/${TOKEN_ID}`;
-  const whitelistCap = tokenInfo.whitelistMaxPerAddress ?? 5;
-  const whitelistRemaining = Math.max(whitelistCap - num, 0);
-  const [minting, setMinting] = useState(false);
+const openseaBase = isMainnet
+  ? 'https://opensea.io/assets/ethereum'
+  : 'https://testnets.opensea.io/assets/sepolia';
+const openseaTokenUrl = `${openseaBase}/${CONTRACT_ADDRESS}/${TOKEN_ID}`;
+const etherscanBase = (() => {
+  if (ChainId === 1) return 'https://etherscan.io';
+  if (ChainId === 11155111) return 'https://sepolia.etherscan.io';
+  return process.env.NEXT_PUBLIC_ETHERSCAN_URL || 'https://etherscan.io';
+})();
+const whitelistCap = tokenInfo.whitelistMaxPerAddress ?? 5;
+const whitelistRemaining = Math.max(whitelistCap - num, 0);
+const [minting, setMinting] = useState(false);
 
   useEffect(() => {
     setIsHydrated(true);
@@ -617,7 +622,7 @@ export default function MintNFT() {
                 OpenSea
               </Link>
               <Link
-                href={`${process.env.NEXT_PUBLIC_ETHERSCAN_URL}/address/${CONTRACT_ADDRESS}`}
+                href={`${etherscanBase}/address/${CONTRACT_ADDRESS}`}
                 target="_blank"
                 underline="hover"
                 sx={{ color: '#f9e67a', fontWeight: 600, fontSize: 14 }}
@@ -809,7 +814,7 @@ export default function MintNFT() {
           onClose={() => setModalOpen(false)}
           type={modalType}
           txHash={(txHash as Address | undefined) || (hash as Address | undefined)}
-          etherscanBase={process.env.NEXT_PUBLIC_ETHERSCAN_URL}
+          etherscanBase={etherscanBase}
           openseaTokenUrl={openseaTokenUrl}
           message={modalMessage}
         />
