@@ -1022,7 +1022,45 @@ function InfoBar({
           value={renderWhiteStatus(whiteStatus, isWhiteListed, T)}
         />
         <InfoItem
-          label={T({ en: 'Supply', zh: '供应' })}
+          label={
+            <Box display="flex" alignItems="center" gap={0.5}>
+              <Typography component="span" fontSize={12} color="#9ba2c9">
+                {T({ en: 'Supply', zh: '供应' })}
+              </Typography>
+              <Tooltip
+                title={
+                  <Box component="ul" sx={{ m: 0, pl: 2.5, fontSize: 12, lineHeight: 1.6 }}>
+                    <Typography
+                      fontWeight={700}
+                      component="li"
+                      sx={{ listStyle: 'none', mb: 0.5, color: '#f9e67a' }}
+                    >
+                      {T({ en: 'Max supply & burn logic', zh: '最大供应与销毁逻辑' })}
+                    </Typography>
+                    <Box component="li" sx={{ listStyle: 'disc', ml: 1, color: '#f2f3ff' }}>
+                      {T({
+                        en: 'Max supply is fixed on-chain for this token.',
+                        zh: '该 Token 的最大供应量在链上固定。',
+                      })}
+                    </Box>
+                    <Box component="li" sx={{ listStyle: 'disc', ml: 1, color: '#f2f3ff' }}>
+                      {T({
+                        en: 'Unminted supply will be removed/burned after the mint window closes.',
+                        zh: '铸造窗口结束后，未铸造的剩余供应将被移除/销毁。',
+                      })}
+                    </Box>
+                  </Box>
+                }
+                placement="top"
+                arrow
+              >
+                <InfoOutlinedIcon
+                  fontSize="small"
+                  sx={{ color: '#f9e67a', cursor: 'pointer' }}
+                />
+              </Tooltip>
+            </Box>
+          }
           value={
             tokenInfo.currentSupply !== undefined &&
             tokenInfo.maxSupply !== undefined
@@ -1077,12 +1115,24 @@ function InfoBar({
   );
 }
 
-function InfoItem({ label, value }: { label: string; value: React.ReactNode }) {
+function InfoItem({
+  label,
+  value,
+}: {
+  label: string | React.ReactNode;
+  value: React.ReactNode;
+}) {
   return (
     <Box sx={{ minWidth: 140, flex: '1 1 180px' }}>
-      <Typography fontSize={12} color="#9ba2c9" mb={0.5}>
-        {label}
-      </Typography>
+      {typeof label === 'string' ? (
+        <Typography component="div" fontSize={12} color="#9ba2c9" mb={0.5}>
+          {label}
+        </Typography>
+      ) : (
+        <Box fontSize={12} color="#9ba2c9" mb={0.5} display="flex" alignItems="center" gap={0.5}>
+          {label}
+        </Box>
+      )}
       {typeof value === 'string' || typeof value === 'number' ? (
         <Typography fontSize={13} color="#f7f7ff" fontWeight={600}>
           {value}
