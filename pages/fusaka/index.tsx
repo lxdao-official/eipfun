@@ -97,7 +97,7 @@ function Fusaka() {
     <>
       <Head>
         <title>
-          Fusaka upgrade - EIP.Fun - Serve Ethereum Builders, Scale the
+          Fusaka Upgrade - EIP.Fun - Serve Ethereum Builders, Scale the
           Community.
         </title>
       </Head>
