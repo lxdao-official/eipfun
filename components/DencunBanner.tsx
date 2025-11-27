@@ -43,8 +43,8 @@ export default function DencunBanner() {
             mt={1}
           >
             {T({
-              en: 'PeerDAS & Eth/69: explore Fusaka key EIPs and mint the Fusaka NFT',
-              zh: 'PeerDAS 与 Eth/69：了解 Fusaka 核心 EIP，领取 Fusaka NFT',
+              en: 'PeerDAS & eth/69: explore Fusaka key EIPs and mint the Fusaka NFT',
+              zh: 'PeerDAS 与 eth/69：了解 Fusaka 核心 EIP，领取 Fusaka NFT',
             })}
           </Typography>
           <Typography
@@ -55,8 +55,8 @@ export default function DencunBanner() {
             maxWidth={540}
           >
             {T({
-              en: 'PeerDAS boosts data availability (EIP-7594), eth/69 streamlines EL networking, and Phase times set the cadence. Catch up on the Fusaka fork highlights and join the commemorative mint.',
-              zh: 'PeerDAS（EIP-7594）提升数据可用性，eth/69 优化执行层网络，同步阶段时间让升级更平稳。快速了解 Fusaka 分叉亮点并参与纪念 NFT 铸造。',
+              en: 'PeerDAS (EIP-7594) boosts data availability for rollups, while eth/69 (EIP-7642) streamlines EL networking by dropping pre-merge fields and advertising served history. Catch up on the Fusaka fork highlights and join the commemorative mint.',
+              zh: 'PeerDAS（EIP-7594）提升 Rollup 的数据可用性，eth/69（EIP-7642）通过移除合并前字段并声明可提供的历史范围来精简执行层网络。快速了解 Fusaka 分叉亮点并参与纪念 NFT 铸造。',
             })}
           </Typography>
           <Box mt={3} display="flex" gap={2} flexWrap="wrap">
