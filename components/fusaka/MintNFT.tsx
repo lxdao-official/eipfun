@@ -113,6 +113,7 @@ export default function MintNFT() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'success' | 'error'>('success');
   const [modalMessage, setModalMessage] = useState('');
+  const [isHydrated, setIsHydrated] = useState(false);
   const [tokenInfo, setTokenInfo] = useState<{
     maxSupply?: number;
     currentSupply?: number;
@@ -145,6 +146,10 @@ export default function MintNFT() {
     ? 'https://opensea.io/assets/ethereum'
     : 'https://testnets.opensea.io/assets/sepolia';
   const openseaTokenUrl = `${openseaBase}/${CONTRACT_ADDRESS}/${TOKEN_ID}`;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (address) {
@@ -509,6 +514,7 @@ export default function MintNFT() {
             onConnect={openConnectModal || undefined}
             onManageAccount={openAccountModal || undefined}
             onDisconnect={disconnect}
+            hydrated={isHydrated}
           />
 
           <Box mt={3} mb={[6, 6, 4, 3]}>
@@ -702,6 +708,7 @@ type InfoProps = {
   onConnect?: () => void;
   onManageAccount?: () => void;
   onDisconnect?: () => void;
+  hydrated: boolean;
 };
 
 function InfoBar({
@@ -713,6 +720,7 @@ function InfoBar({
   onConnect,
   onManageAccount,
   onDisconnect,
+  hydrated,
 }: InfoProps) {
   const T = useT();
   return (
@@ -740,49 +748,51 @@ function InfoBar({
                   ? shortAddress(address)
                   : T({ en: 'Not connected', zh: '未连接' })}
               </Typography>
-              <Box display="flex" gap={1} mt={0.5} flexWrap="wrap">
-                {!address && onConnect && (
-                  <MintButton
-                    size="small"
-                    sx={{ height: 28, px: 1.5, fontSize: 12 }}
-                    onClick={onConnect}
-                  >
-                    {T({ en: 'Connect Wallet', zh: '连接钱包' })}
-                  </MintButton>
-                )}
-                {address && (
-                  <>
-                    {onManageAccount && (
-                      <MintButton
-                        size="small"
-                        sx={{
-                          height: 28,
-                          px: 1.5,
-                          fontSize: 12,
-                          background: '#555',
-                        }}
-                        onClick={onManageAccount}
-                      >
-                        {T({ en: 'Manage', zh: '账户' })}
-                      </MintButton>
-                    )}
-                    {onDisconnect && (
-                      <MintButton
-                        size="small"
-                        sx={{
-                          height: 28,
-                          px: 1.5,
-                          fontSize: 12,
-                          background: '#999',
-                        }}
-                        onClick={() => onDisconnect()}
-                      >
-                        {T({ en: 'Disconnect', zh: '断开' })}
-                      </MintButton>
-                    )}
-                  </>
-                )}
-              </Box>
+              {hydrated && (
+                <Box display="flex" gap={1} mt={0.5} flexWrap="wrap">
+                  {!address && onConnect && (
+                    <MintButton
+                      size="small"
+                      sx={{ height: 28, px: 1.5, fontSize: 12 }}
+                      onClick={onConnect}
+                    >
+                      {T({ en: 'Connect Wallet', zh: '连接钱包' })}
+                    </MintButton>
+                  )}
+                  {address && (
+                    <>
+                      {onManageAccount && (
+                        <MintButton
+                          size="small"
+                          sx={{
+                            height: 28,
+                            px: 1.5,
+                            fontSize: 12,
+                            background: '#555',
+                          }}
+                          onClick={onManageAccount}
+                        >
+                          {T({ en: 'Manage', zh: '账户' })}
+                        </MintButton>
+                      )}
+                      {onDisconnect && (
+                        <MintButton
+                          size="small"
+                          sx={{
+                            height: 28,
+                            px: 1.5,
+                            fontSize: 12,
+                            background: '#999',
+                          }}
+                          onClick={() => onDisconnect()}
+                        >
+                          {T({ en: 'Disconnect', zh: '断开' })}
+                        </MintButton>
+                      )}
+                    </>
+                  )}
+                </Box>
+              )}
             </Box>
           }
         />
