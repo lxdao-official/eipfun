@@ -37,15 +37,20 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 
 export const MintButton = styled(Button)<ButtonProps>(() => ({
-  color: '#fff',
-  backgroundColor: '#D32E12',
+  color: '#f9e67a',
+  background: 'linear-gradient(135deg, #ffce6b 0%, #ff6ac9 60%, #8be1ff 100%)',
+  boxShadow:
+    '0 12px 25px rgba(255,106,201,0.35), 0 0 18px rgba(255,206,107,0.55)',
+  fontWeight: 700,
   '&:hover': {
-    backgroundColor: '#D32E12',
-    opacity: 0.8,
+    background: 'linear-gradient(135deg, #ffd98a 0%, #ff7bd3 60%, #9ae7ff 100%)',
+    boxShadow:
+      '0 14px 28px rgba(255,106,201,0.45), 0 0 22px rgba(255,206,107,0.75)',
   },
   '&:disabled': {
-    backgroundColor: '#c9c9c9',
-    opacity: 0.6,
+    background: 'rgba(255,255,255,0.08)',
+    color: '#9aa0b5',
+    boxShadow: 'none',
   },
 }));
 
@@ -551,32 +556,39 @@ export default function MintNFT() {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        borderRadius: '10px',
-        background: 'linear-gradient(90deg, #FFDA9F  0%, #F4CC8A 69.71%)',
+        borderRadius: '18px',
+        background:
+          'radial-gradient(circle at 30% 20%, rgba(255,94,255,0.2), transparent 32%), radial-gradient(circle at 70% 10%, rgba(255,195,113,0.24), transparent 30%), radial-gradient(circle at 50% 80%, rgba(72,186,255,0.25), transparent 38%), linear-gradient(135deg, #090b15 0%, #0f1224 45%, #070910 100%)',
+        color: '#f6f6ff',
+        boxShadow: '0 25px 60px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.03)',
       }}
-      minHeight={['auto', 'auto', 340, 340]}
-      pt={[4, 4, 5, 5]}
-      pb={[12, 10, 6, 6]}
-      px={[3, 4, 6, 6]}
+      minHeight={['auto', 'auto', 380, 420]}
+      pt={[5, 5, 6, 6]}
+      pb={[16, 14, 10, 10]}
+      px={[3, 4, 5, 6]}
       >
         <>
           <Typography
             fontWeight="600"
             fontSize={18}
-            color={'#D32E12'}
+            color={'#ffca66'}
             component="h3"
             textTransform={'uppercase'}
+            letterSpacing={1}
+            sx={{ textShadow: '0 0 14px rgba(255,202,102,0.4)' }}
           >
             {T({ en: 'Fusaka Upgrade', zh: 'Fusaka 升级' })}
           </Typography>
 
           <Typography
             component="h2"
-            fontSize={32}
-            lineHeight={'42px'}
-            fontWeight={600}
-            color={'#272D37'}
+            fontSize={[30, 34, 40, 44]}
+            lineHeight={'1.15'}
+            fontWeight={800}
+            color={'#f4f7ff'}
             mt={1}
+            letterSpacing={0.2}
+            sx={{ textShadow: '0 0 20px rgba(255,96,204,0.35)' }}
           >
             {T({
               en: 'Fusaka Mainnet Fork NFT',
@@ -587,7 +599,7 @@ export default function MintNFT() {
           <Typography
             fontWeight={400}
             fontSize={16}
-            color={'#666F85'}
+            color={'#d5d9ff'}
             lineHeight={'24px'}
             component="h4"
             mt={2}
@@ -595,19 +607,21 @@ export default function MintNFT() {
             {subtitle}
           </Typography>
 
-          <InfoBar
-            address={IAddress}
-            isWhiteListed={isWhiteListed}
-            whiteStatus={whiteStatus}
-            phaseTimes={phaseTimes}
-            tokenInfo={tokenInfo}
-            onConnect={openConnectModal || undefined}
-            onManageAccount={openAccountModal || undefined}
-            onDisconnect={disconnect}
-            hydrated={isHydrated}
-          />
+          <Box pr={[0, 0, 16, 18]}>
+            <InfoBar
+              address={IAddress}
+              isWhiteListed={isWhiteListed}
+              whiteStatus={whiteStatus}
+              phaseTimes={phaseTimes}
+              tokenInfo={tokenInfo}
+              onConnect={openConnectModal || undefined}
+              onManageAccount={openAccountModal || undefined}
+              onDisconnect={disconnect}
+              hydrated={isHydrated}
+            />
+          </Box>
 
-          <Box mt={3} mb={[6, 6, 4, 3]}>
+          <Box mt={3} mb={[6, 6, 4, 3]} pr={[0, 0, 16, 18]}>
             {/* 未开始 */}
             {phase === 0 && (
               <>
@@ -617,7 +631,7 @@ export default function MintNFT() {
                 <Typography
                   fontWeight={400}
                   fontSize={14}
-                  color={'#666F85'}
+                  color={'#c8cff3'}
                   lineHeight={'24px'}
                   component="span"
                   ml={2}
@@ -670,6 +684,20 @@ export default function MintNFT() {
                     width: '90px',
                     ml: 2,
                     mt: 0.5,
+                    '& .MuiInputBase-root': {
+                      background: 'rgba(12,14,24,0.9)',
+                      color: '#f8f9ff',
+                      borderRadius: '10px',
+                      border: '1px solid rgba(255,106,201,0.4)',
+                    },
+                    '& label': { color: '#c1c7ff' },
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgba(255,106,201,0.4)',
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgba(255,106,201,0.7)',
+                    },
+                    '& .MuiInputBase-input': { color: '#f8f9ff' },
                   }}
                   id="outlined-basic"
                   label={T({ en: 'Amount', zh: '数量' })}
@@ -685,11 +713,11 @@ export default function MintNFT() {
                 <Typography
                   fontWeight={400}
                   fontSize={14}
-                  color={'#666F85'}
+                  color={'#c8cff3'}
                   lineHeight={'24px'}
-                  component="span"
-                  ml={2}
-                >
+              component="span"
+              ml={2}
+            >
                   {phaseTimes.publicStartTime
                     ? T({
                         en: `Whitelist live. Public mint opens at ${formatTs(
@@ -703,7 +731,7 @@ export default function MintNFT() {
                         en: 'Whitelist phase is live.',
                         zh: '当前为白名单阶段。',
                       })}
-                </Typography>
+            </Typography>
               </>
             )}
 
@@ -719,7 +747,7 @@ export default function MintNFT() {
                 <Typography
                   fontWeight={400}
                   fontSize={14}
-                  color={'#666F85'}
+                  color={'#c8cff3'}
                   lineHeight={'24px'}
                   component="span"
                   ml={2}
@@ -741,7 +769,7 @@ export default function MintNFT() {
                 <Typography
                   fontWeight={400}
                   fontSize={14}
-                  color={'#666F85'}
+                  color={'#c8cff3'}
                   lineHeight={'24px'}
                   component="span"
                   ml={2}
@@ -771,19 +799,31 @@ export default function MintNFT() {
         <Box
           sx={{
             position: 'absolute',
-            bottom: ['-30px', '-20px', '6px', '10px'],
-            right: ['16px', '24px', '96px', '106px'],
+            top: ['auto', 'auto', '18px', '28px'],
+            right: ['10px', '20px', '40px', '60px'],
+            bottom: ['-8px', '-6px', 'auto', 'auto'],
             zIndex: 1,
-            width: [140, 160, 200, 216],
-            height: [140, 160, 200, 216],
+            width: [200, 220, 280, 320],
+            height: [200, 220, 280, 320],
             pointerEvents: 'none',
+            filter: 'drop-shadow(0 0 24px rgba(255,106,201,0.45)) drop-shadow(0 0 30px rgba(0,255,255,0.2))',
           }}
         >
-          <img
-            src="/images/pectra/mint_nft_bg.png?q=1"
-            alt="nft"
-            width="100%"
-            height="100%"
+          <Image
+            src="/images/fusaka/fusaka.png"
+            alt="Fusaka NFT"
+            width={320}
+            height={320}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              transform: 'translateY(-50%)',
+              position: 'absolute',
+              top: '50%',
+              right: 0,
+            }}
+            priority
           />
         </Box>
       </Box>
@@ -828,22 +868,40 @@ function InfoBar({
       mt={2}
       p={2}
       sx={{
-        background: 'rgba(255,255,255,0.6)',
-        borderRadius: '8px',
-        border: '1px solid rgba(0,0,0,0.05)',
-        maxWidth: ['100%', '100%', '820px', '960px'],
-        boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
+        background:
+          'linear-gradient(145deg, rgba(35,38,61,0.78), rgba(18,21,35,0.78))',
+        borderRadius: '14px',
+        border: '1px solid rgba(255,94,204,0.4)',
+        maxWidth: ['100%', '100%', '720px', '780px'],
+        boxShadow: '0 20px 60px rgba(0,0,0,0.35), 0 0 35px rgba(255,94,204,0.16)',
       }}
     >
-      <Typography fontWeight={600} fontSize={14} color="#272D37" mb={1}>
+      <Typography
+        fontWeight={700}
+        fontSize={15}
+        color="#ffe7a4"
+        mb={1.5}
+        sx={{ textShadow: '0 0 12px rgba(255,231,164,0.35)' }}
+      >
         {T({ en: 'Mint Configuration', zh: '铸造配置' })}
       </Typography>
-      <Box display="flex" flexWrap="wrap" gap={2} fontSize={13} color="#444">
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        gap={2}
+        fontSize={13}
+        color="#dfe4ff"
+      >
         <InfoItem
           label={T({ en: 'Wallet', zh: '钱包地址' })}
           value={
             <Box>
-              <Typography fontSize={13} color="#272D37">
+              <Typography
+                fontSize={13}
+                color="#f9e67a"
+                fontWeight={700}
+                sx={{ textShadow: '0 0 10px rgba(249,230,122,0.35)' }}
+              >
                 {address
                   ? shortAddress(address)
                   : T({ en: 'Not connected', zh: '未连接' })}
@@ -868,7 +926,9 @@ function InfoBar({
                             height: 28,
                             px: 1.5,
                             fontSize: 12,
-                            background: '#555',
+                            background: 'rgba(255,255,255,0.08)',
+                            color: '#f9e67a',
+                            boxShadow: '0 0 14px rgba(249,230,122,0.35)',
                           }}
                           onClick={onManageAccount}
                         >
@@ -882,7 +942,9 @@ function InfoBar({
                             height: 28,
                             px: 1.5,
                             fontSize: 12,
-                            background: '#999',
+                            background: 'rgba(255,255,255,0.12)',
+                            color: '#f9e67a',
+                            boxShadow: '0 0 14px rgba(249,230,122,0.35)',
                           }}
                           onClick={() => onDisconnect()}
                         >
@@ -959,15 +1021,15 @@ function InfoBar({
 function InfoItem({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <Box sx={{ minWidth: 140, flex: '1 1 180px' }}>
-      <Typography fontSize={12} color="#666" mb={0.5}>
+      <Typography fontSize={12} color="#9ba2c9" mb={0.5}>
         {label}
       </Typography>
       {typeof value === 'string' || typeof value === 'number' ? (
-        <Typography fontSize={13} color="#272D37">
+        <Typography fontSize={13} color="#f7f7ff" fontWeight={600}>
           {value}
         </Typography>
       ) : (
-        <Box fontSize={13} color="#272D37">
+        <Box fontSize={13} color="#f7f7ff" fontWeight={600}>
           {value}
         </Box>
       )}
