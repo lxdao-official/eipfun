@@ -24,6 +24,8 @@ import {
 import { createPublicClient, fallback, http, formatEther } from 'viem';
 import { sepolia, mainnet } from 'viem/chains';
 import { sendGet } from '@/network/axios-wrapper';
+import { useAccountModal } from '@rainbow-me/rainbowkit';
+import { useDisconnect } from 'wagmi';
 
 export const MintButton = styled(Button)<ButtonProps>(() => ({
   color: '#fff',
@@ -122,13 +124,21 @@ export default function MintNFT() {
   const [isMinted, setIsMinted] = useState(false);
   const [IAddress, setIAddress] = useState<Address | undefined>();
   const { switchChain } = useSwitchChain();
+  const { disconnect } = useDisconnect();
 
   useEffect(() => {
     if (address) {
       setIAddress(address);
+    } else {
+      setIAddress(undefined);
+      setIsWhiteListed(false);
+      setWhiteStatus('idle');
+      setProof(undefined);
+      setNum(0);
     }
   }, [address]);
   const { openConnectModal } = useConnectModal();
+  const { openAccountModal } = useAccountModal();
   const subtitle = (() => {
     if (tokenInfo.transferable === false) {
       return T({ en: 'Non-transferable NFT', zh: '不可转移 NFT' });
@@ -428,6 +438,9 @@ export default function MintNFT() {
             whiteStatus={whiteStatus}
             phaseTimes={phaseTimes}
             tokenInfo={tokenInfo}
+            onConnect={openConnectModal || undefined}
+            onManageAccount={openAccountModal || undefined}
+            onDisconnect={disconnect}
           />
 
           <Box mt={3} mb={[6, 6, 4, 3]}>
@@ -604,6 +617,9 @@ type InfoProps = {
     publicPrice?: string;
     transferable?: boolean;
   };
+  onConnect?: () => void;
+  onManageAccount?: () => void;
+  onDisconnect?: () => void;
 };
 
 function InfoBar({
@@ -612,6 +628,9 @@ function InfoBar({
   whiteStatus,
   phaseTimes,
   tokenInfo,
+  onConnect,
+  onManageAccount,
+  onDisconnect,
 }: InfoProps) {
   const T = useT();
   return (
@@ -633,9 +652,56 @@ function InfoBar({
         <InfoItem
           label={T({ en: 'Wallet', zh: '钱包地址' })}
           value={
-            address
-              ? shortAddress(address)
-              : T({ en: 'Not connected', zh: '未连接' })
+            <Box>
+              <Typography fontSize={13} color="#272D37">
+                {address
+                  ? shortAddress(address)
+                  : T({ en: 'Not connected', zh: '未连接' })}
+              </Typography>
+              <Box display="flex" gap={1} mt={0.5} flexWrap="wrap">
+                {!address && onConnect && (
+                  <MintButton
+                    size="small"
+                    sx={{ height: 28, px: 1.5, fontSize: 12 }}
+                    onClick={onConnect}
+                  >
+                    {T({ en: 'Connect Wallet', zh: '连接钱包' })}
+                  </MintButton>
+                )}
+                {address && (
+                  <>
+                    {onManageAccount && (
+                      <MintButton
+                        size="small"
+                        sx={{
+                          height: 28,
+                          px: 1.5,
+                          fontSize: 12,
+                          background: '#555',
+                        }}
+                        onClick={onManageAccount}
+                      >
+                        {T({ en: 'Manage', zh: '账户' })}
+                      </MintButton>
+                    )}
+                    {onDisconnect && (
+                      <MintButton
+                        size="small"
+                        sx={{
+                          height: 28,
+                          px: 1.5,
+                          fontSize: 12,
+                          background: '#999',
+                        }}
+                        onClick={() => onDisconnect()}
+                      >
+                        {T({ en: 'Disconnect', zh: '断开' })}
+                      </MintButton>
+                    )}
+                  </>
+                )}
+              </Box>
+            </Box>
           }
         />
         <InfoItem
@@ -704,9 +770,15 @@ function InfoItem({ label, value }: { label: string; value: React.ReactNode }) {
       <Typography fontSize={12} color="#666" mb={0.5}>
         {label}
       </Typography>
-      <Typography fontSize={13} color="#272D37">
-        {value}
-      </Typography>
+      {typeof value === 'string' || typeof value === 'number' ? (
+        <Typography fontSize={13} color="#272D37">
+          {value}
+        </Typography>
+      ) : (
+        <Box fontSize={13} color="#272D37">
+          {value}
+        </Box>
+      )}
     </Box>
   );
 }
