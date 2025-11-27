@@ -473,8 +473,8 @@ export default function MintNFT() {
           setMinting(false);
           return;
         }
-        if (amount > remaining) {
-          setAmount(Math.max(remaining, 1));
+        if (Number(amount || 0) > remaining) {
+          setAmount(String(Math.max(remaining, 1)));
           setModalType('error');
           setModalMessage(exceedMessage);
           setModalOpen(true);
