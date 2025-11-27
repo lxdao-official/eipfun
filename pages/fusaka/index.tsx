@@ -48,6 +48,12 @@ const RelationshipData = [
       'This creates a new lightweight process to adjust blob storage parameters. Instead of waiting for a major upgrade, Ethereum can make smaller, more frequent adjustments to blob capacity to accommodate changing demand from Layer 2s.',
   },
   {
+    eip: 7910,
+    title: 'eth_config JSON-RPC Method',
+    description:
+      'A JSON-RPC method that describes the configuration of the current and next fork',
+  },
+  {
     eip: 7917,
     title: 'Deterministic proposer lookahead',
     description:
