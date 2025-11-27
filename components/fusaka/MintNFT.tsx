@@ -125,6 +125,7 @@ export default function MintNFT() {
     publicPrice?: string;
     transferable?: boolean;
   }>({});
+  const [isTokenInfoLoading, setIsTokenInfoLoading] = useState(true);
 
   const {
     data: hash,
@@ -183,6 +184,12 @@ export default function MintNFT() {
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const subtitle = (() => {
+    if (isTokenInfoLoading) {
+      return T({
+        en: 'Loading information from smart contract…',
+        zh: '正在加载合约信息…',
+      });
+    }
     if (tokenInfo.transferable === false) {
       return T({ en: 'Non-transferable NFT', zh: '不可转移 NFT' });
     }
@@ -311,6 +318,7 @@ export default function MintNFT() {
           publicPrice: formatEth(publicPrice),
           transferable: Boolean(transferable),
         });
+        setIsTokenInfoLoading(false);
       })
       .catch(() => {
         publicClient
@@ -332,8 +340,11 @@ export default function MintNFT() {
               publicPrice: formatEth(config?.publicPrice ?? config?.[4]),
               transferable: Boolean(config?.transferable ?? config?.[9]),
             });
+            setIsTokenInfoLoading(false);
           })
-          .catch(() => {});
+          .catch(() => {
+            setIsTokenInfoLoading(false);
+          });
       });
   }, []);
 
