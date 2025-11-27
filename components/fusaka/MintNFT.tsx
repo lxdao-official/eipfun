@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogActions,
   Stack,
+  CircularProgress,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -33,6 +34,7 @@ import { useAccountModal } from '@rainbow-me/rainbowkit';
 import { useDisconnect } from 'wagmi';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 
 export const MintButton = styled(Button)<ButtonProps>(() => ({
   color: '#fff',
@@ -104,7 +106,7 @@ export default function MintNFT() {
   >('idle');
   const [total, setTotal] = useState(0);
   const [proof, setProof] = useState<string[]>();
-  const [amount, setAmount] = useState<number | string>(1);
+  const [amount, setAmount] = useState<string>('1');
   const [phaseTimes, setPhaseTimes] = useState<{
     whitelistStartTime?: number;
     publicStartTime?: number;
@@ -146,10 +148,26 @@ export default function MintNFT() {
     ? 'https://opensea.io/assets/ethereum'
     : 'https://testnets.opensea.io/assets/sepolia';
   const openseaTokenUrl = `${openseaBase}/${CONTRACT_ADDRESS}/${TOKEN_ID}`;
+  const whitelistCap = tokenInfo.whitelistMaxPerAddress ?? 5;
+  const whitelistRemaining = Math.max(whitelistCap - num, 0);
+  const [minting, setMinting] = useState(false);
 
   useEffect(() => {
     setIsHydrated(true);
   }, []);
+
+  const pendingMessage = T({
+    en: 'Transaction submitted. Waiting for confirmation.',
+    zh: '交易已提交，等待链上确认。',
+  });
+  const exceedMessage = T({
+    en: 'Exceeds whitelist allocation.',
+    zh: '超过白名单限额。',
+  });
+  const successMessage = T({
+    en: 'Transaction confirmed!',
+    zh: '交易已确认！',
+  });
 
   useEffect(() => {
     if (address) {
@@ -207,9 +225,13 @@ export default function MintNFT() {
 
   useEffect(() => {
     if (phase === 1) {
-      setAmount(5 - num);
+      const whitelistCap = tokenInfo.whitelistMaxPerAddress ?? 5;
+      const remaining = Math.max(whitelistCap - num, 0);
+      const nextAmount =
+        remaining <= 0 ? '' : String(Math.min(Math.max(1, remaining), whitelistCap));
+      setAmount(nextAmount);
     }
-  }, [phase, num]);
+  }, [phase, num, tokenInfo.whitelistMaxPerAddress]);
 
   // 阶段时间
   useEffect(() => {
@@ -369,11 +391,14 @@ export default function MintNFT() {
 
   const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     let v = e.target.value;
-    v = v.replace(/[^1-5]/g, '').slice(0, 1);
+    v = v.replace(/[^0-9]/g, '').slice(0, 2);
     setAmount(v);
   };
 
   const mint = async () => {
+    const wagmiPending = hash ? isLoading || isConfirming : false;
+    const isMintingNow = wagmiPending || minting;
+    if (isMintingNow) return;
     if (chain?.id !== ChainId) {
       try {
         await switchChain({ chainId: ChainId });
@@ -393,7 +418,21 @@ export default function MintNFT() {
     }
     try {
       let tx: Address | undefined;
+      const whitelistCap = tokenInfo.whitelistMaxPerAddress ?? 5;
+      const remaining = Math.max(whitelistCap - num, 0);
+      const desired = Number(amount || 0) || 0;
+      if (desired < 1) {
+        setModalType('error');
+        setModalMessage(
+          T({ en: 'Amount must be at least 1.', zh: '数量不能小于 1。' })
+        );
+        setModalOpen(true);
+        setMinting(false);
+        return;
+      }
+      const mintAmount = Math.min(desired, remaining || whitelistCap || 1);
       if (phase === Phase.Public) {
+        setMinting(true);
         tx = (await writeContractAsync({
           ...wagmiContract,
           functionName: 'publicMint',
@@ -406,24 +445,44 @@ export default function MintNFT() {
             T({ en: 'Not whitelisted or missing proof.', zh: '非白名单或缺少验证信息。' })
           );
           setModalOpen(true);
+          setMinting(false);
           return;
         }
-        if (num + Number(amount) > 5) {
-          setAmount(5 - num);
+        if (mintAmount <= 0) {
+          setModalType('error');
+          setModalMessage(exceedMessage);
+          setModalOpen(true);
+          setMinting(false);
+          return;
         }
+        if (amount > remaining) {
+          setAmount(Math.max(remaining, 1));
+          setModalType('error');
+          setModalMessage(exceedMessage);
+          setModalOpen(true);
+          setMinting(false);
+          return;
+        }
+        setMinting(true);
         tx = (await writeContractAsync({
           ...wagmiContract,
           functionName: 'whitelistMint',
-          args: [TOKEN_ID, amount, proof],
+          args: [TOKEN_ID, mintAmount, proof],
         })) as Address;
       }
       if (tx) {
         setTxHash(tx as unknown as string);
+        setModalType('pending');
+        setModalMessage(pendingMessage);
+        setModalOpen(true);
+      } else {
+        setMinting(false);
       }
     } catch (e: any) {
       setModalType('error');
-      setModalMessage(e?.shortMessage || e?.message || 'Transaction failed');
+      setModalMessage(parseErrorMessage(e, 'Transaction failed'));
       setModalOpen(true);
+      setMinting(false);
     }
   };
 
@@ -439,21 +498,41 @@ export default function MintNFT() {
     if (isConfirmed) {
       setIsMinted(true);
       setModalType('success');
+      setModalMessage(successMessage);
       setModalOpen(true);
+      setMinting(false);
     }
-  }, [isConfirmed]);
+  }, [isConfirmed, successMessage]);
 
   useEffect(() => {
     if (isConfirmError && confirmError) {
       setModalType('error');
-      setModalMessage(
-        (confirmError as any)?.shortMessage ||
-          confirmError?.message ||
-          'Transaction failed'
-      );
+      setModalMessage(parseErrorMessage(confirmError, 'Transaction failed'));
       setModalOpen(true);
+      setMinting(false);
     }
   }, [isConfirmError, confirmError]);
+
+  useEffect(() => {
+    if (hash) {
+      setTxHash(hash);
+      setModalType('pending');
+      setModalMessage(pendingMessage);
+      setModalOpen(true);
+    }
+  }, [hash, pendingMessage]);
+
+  const wagmiPending = hash ? isLoading || isConfirming : false;
+  const isMinting = wagmiPending || minting;
+  const renderMintLabel = (label: string) =>
+    isMinting ? (
+      <Stack direction="row" spacing={1} alignItems="center">
+        <CircularProgress size={16} color="inherit" />
+        <span>{T({ en: 'Processing', zh: '处理中' })}</span>
+      </Stack>
+    ) : (
+      label
+    );
 
   return (
     <Container id="mint-nft">
@@ -562,11 +641,16 @@ export default function MintNFT() {
             {phase === 1 && (
               <>
                 <MintButton
-                  disabled={isLoading || !isWhiteListed || !proof?.length}
+                  disabled={
+                    isMinting ||
+                    !isWhiteListed ||
+                    !proof?.length ||
+                    whitelistRemaining <= 0
+                  }
                   onClick={mintOrConnectWallet}
                 >
                   {isWhiteListed
-                    ? T({ en: 'Mint', zh: '铸造' })
+                    ? renderMintLabel(T({ en: 'Mint', zh: '铸造' }))
                     : T({ en: 'Not whitelisted ', zh: '非白名单' })}
                 </MintButton>
 
@@ -580,9 +664,11 @@ export default function MintNFT() {
                   label={T({ en: 'Amount', zh: '数量' })}
                   variant="outlined"
                   size="small"
+                  type="text"
                   value={amount}
                   onChange={handleChangeAmount}
                   disabled={!isWhiteListed}
+                  onBlur={() => setAmount((v) => (v ? v : '1'))}
                 />
 
                 <Typography
@@ -613,8 +699,11 @@ export default function MintNFT() {
             {/* 公共 mint */}
             {phase === 2 && (
               <>
-                <MintButton disabled={isLoading} onClick={mintOrConnectWallet}>
-                  {T({ en: 'Mint', zh: '铸造' })}
+                <MintButton
+                  disabled={isMinting}
+                  onClick={mintOrConnectWallet}
+                >
+                  {renderMintLabel(T({ en: 'Mint', zh: '铸造' }))}
                 </MintButton>
                 <Typography
                   fontWeight={400}
@@ -925,7 +1014,7 @@ function ResultModal({
 }: {
   open: boolean;
   onClose: () => void;
-  type: 'success' | 'error';
+  type: 'success' | 'error' | 'pending';
   txHash?: Address;
   etherscanBase?: string;
   openseaTokenUrl?: string;
@@ -940,12 +1029,16 @@ function ResultModal({
         <Stack direction="row" spacing={1} alignItems="center">
           {type === 'success' ? (
             <CheckCircleOutlineIcon sx={{ color: '#2e7d32' }} />
+          ) : type === 'pending' ? (
+            <HourglassTopIcon sx={{ color: '#ed6c02' }} />
           ) : (
             <ErrorOutlineIcon sx={{ color: '#d32f2f' }} />
           )}
           <Typography fontWeight={700} fontSize={18}>
             {type === 'success'
               ? T({ en: 'Mint Successful', zh: '铸造成功' })
+              : type === 'pending'
+              ? T({ en: 'Mint Pending', zh: '交易确认中' })
               : T({ en: 'Mint Failed', zh: '铸造失败' })}
           </Typography>
         </Stack>
@@ -1023,4 +1116,14 @@ function renderWhiteStatus(
     return T({ en: 'Whitelisted', zh: '白名单' });
   if (status === 'no') return T({ en: 'Not whitelisted', zh: '非白名单' });
   return '—';
+}
+
+function parseErrorMessage(err: any, fallback: string) {
+  return (
+    err?.cause?.shortMessage ||
+    err?.shortMessage ||
+    err?.cause?.message ||
+    err?.message ||
+    fallback
+  );
 }
