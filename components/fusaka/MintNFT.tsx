@@ -18,7 +18,6 @@ import {
 import { styled } from '@mui/material/styles';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import useGetLang, { useT } from '@/hooks/useGetLang';
-import Image from 'next/image';
 import abi from 'abi/fusaka.json';
 
 import {
@@ -832,12 +831,11 @@ const [minting, setMinting] = useState(false);
             filter: 'drop-shadow(0 0 24px rgba(255,106,201,0.45)) drop-shadow(0 0 30px rgba(0,255,255,0.2))',
           }}
         >
-          <Image
+          <Box
+            component="img"
             src="/images/fusaka/fusaka.png"
             alt="Fusaka NFT"
-            width={320}
-            height={320}
-            style={{
+            sx={{
               width: '100%',
               height: '100%',
               objectFit: 'contain',
@@ -846,7 +844,6 @@ const [minting, setMinting] = useState(false);
               top: '50%',
               right: 0,
             }}
-            priority
           />
         </Box>
       </Box>
