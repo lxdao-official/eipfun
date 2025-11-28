@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import useGetLang, { useT } from '@/hooks/useGetLang';
+import { useT } from '@/hooks/useGetLang';
 import abi from 'abi/fusaka.json';
 
 import {
@@ -147,7 +147,6 @@ export default function MintNFT() {
     useWaitForTransactionReceipt({
       hash,
     });
-  const [isMinted, setIsMinted] = useState(false);
   const [IAddress, setIAddress] = useState<Address | undefined>();
   const { switchChain } = useSwitchChain();
   const { disconnect } = useDisconnect();
@@ -518,7 +517,6 @@ const [minting, setMinting] = useState(false);
 
   useEffect(() => {
     if (isConfirmed) {
-      setIsMinted(true);
       setModalType('success');
       setModalMessage(successMessage);
       setModalOpen(true);
@@ -1160,53 +1158,6 @@ function InfoItem({
           {value}
         </Box>
       )}
-    </Box>
-  );
-}
-
-function Icons() {
-  return (
-    <Box display="flex" gap={1} alignItems="center" bgcolor="rgba(0,0,0,0.08)" px={1} py={0.5} borderRadius={1}>
-      <Link
-        sx={{
-          height: 32,
-          width: 32,
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: '8px',
-          background: 'rgba(255,255,255,0.08)',
-        }}
-        target="_blank"
-        href="https://opensea.io/collection/memory-of-ethereum"
-      >
-        <Image
-          src="/images/dencun/opensea.png"
-          alt="etherscan"
-          width={18}
-          height={18}
-        />
-      </Link>
-      <Link
-        sx={{
-          height: 32,
-          width: 32,
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: '8px',
-          background: 'rgba(255,255,255,0.08)',
-        }}
-        target="_blank"
-        href={`${process.env.NEXT_PUBLIC_ETHERSCAN_URL}/address/${CONTRACT_ADDRESS}`}
-      >
-        <Image
-          src="/images/dencun/etherscan.png"
-          alt="etherscan"
-          width={18}
-          height={18}
-        />
-      </Link>
     </Box>
   );
 }
