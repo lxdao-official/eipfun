@@ -18,6 +18,12 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   output: 'standalone',
+  experimental: {
+    // Ensure Next's standalone output keeps the worker used by the image optimizer
+    outputFileTracingIncludes: {
+      '/server.js': ['./node_modules/next/dist/compiled/jest-worker'],
+    },
+  },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>

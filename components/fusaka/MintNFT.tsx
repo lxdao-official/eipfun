@@ -129,6 +129,8 @@ export default function MintNFT() {
     publicMaxPerAddress?: number;
     whitelistPrice?: string;
     publicPrice?: string;
+    whitelistPriceWei?: bigint;
+    publicPriceWei?: bigint;
     transferable?: boolean;
   }>({});
   const [isTokenInfoLoading, setIsTokenInfoLoading] = useState(true);
@@ -326,6 +328,8 @@ const [minting, setMinting] = useState(false);
           publicMaxPerAddress: Number(publicMaxPerAddress),
           whitelistPrice: formatEth(whitelistPrice),
           publicPrice: formatEth(publicPrice),
+          whitelistPriceWei: whitelistPrice,
+          publicPriceWei: publicPrice,
           transferable: Boolean(transferable),
         });
         setIsTokenInfoLoading(false);
@@ -348,6 +352,8 @@ const [minting, setMinting] = useState(false);
               ),
               whitelistPrice: formatEth(config?.whitelistPrice ?? config?.[3]),
               publicPrice: formatEth(config?.publicPrice ?? config?.[4]),
+              whitelistPriceWei: config?.whitelistPrice ?? config?.[3],
+              publicPriceWei: config?.publicPrice ?? config?.[4],
               transferable: Boolean(config?.transferable ?? config?.[9]),
             });
             setIsTokenInfoLoading(false);
@@ -454,10 +460,13 @@ const [minting, setMinting] = useState(false);
       const mintAmount = Math.min(desired, remaining || whitelistCap || 1);
       if (phase === Phase.Public) {
         setMinting(true);
+        const priceWei = tokenInfo.publicPriceWei ?? 0n;
+        const totalPrice = priceWei * BigInt(mintAmount);
         tx = (await writeContractAsync({
           ...wagmiContract,
           functionName: 'publicMint',
-          args: [TOKEN_ID, 1],
+          args: [TOKEN_ID, mintAmount],
+          value: totalPrice,
         })) as Address;
       } else if (phase === Phase.Whitelist) {
         if (!isWhiteListed || !proof || proof.length === 0) {
@@ -485,10 +494,13 @@ const [minting, setMinting] = useState(false);
           return;
         }
         setMinting(true);
+        const priceWei = tokenInfo.whitelistPriceWei ?? 0n;
+        const totalPrice = priceWei * BigInt(mintAmount);
         tx = (await writeContractAsync({
           ...wagmiContract,
           functionName: 'whitelistMint',
           args: [TOKEN_ID, mintAmount, proof],
+          value: totalPrice,
         })) as Address;
       }
       if (tx) {
