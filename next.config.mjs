@@ -21,7 +21,8 @@ const nextConfig = {
   experimental: {
     // Ensure Next's standalone output keeps the worker used by the image optimizer
     outputFileTracingIncludes: {
-      '/server.js': ['./node_modules/next/dist/compiled/jest-worker'],
+      // glob to copy the entire compiled jest-worker bundle into the standalone output
+      '/server.js': ['./node_modules/next/dist/compiled/jest-worker/**'],
     },
   },
   webpack(config) {

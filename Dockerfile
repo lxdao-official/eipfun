@@ -53,6 +53,8 @@ COPY --from=builder /app/public ./public
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# next's standalone output sometimes misses this dependency used by the image optimizer
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/next/dist/compiled/jest-worker ./node_modules/next/dist/compiled/jest-worker
 
 USER nextjs
 
